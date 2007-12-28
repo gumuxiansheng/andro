@@ -3121,14 +3121,20 @@ returns:String
 
 Adds a slash to the end of a directory if not already present.
 */
-function AddSlash($input,$prefix='') {
+function AddSlash($input, $prefix='') {
+	// Justin Dearing 12/26/07, detects windows
 	$input = trim($input);
+	$prefix = trim($prefix);
+	$dir_delimeter = isWindows() ? "\\" : '/';
+
 	if ($prefix!='') {
 		if (substr($input,0,strlen($prefix))!=$prefix) { 
-			$input = $prefix.$input;
+			$input = $prefix . $input;
 		}
 	}
-	if (substr($input,-1,1) <> '/') $input.='/';
+	if (ereg('[\\/]$', $input) === FALSE) {
+		$input.= $dir_delimeter;
+	}
 	return $input;
 }
 
@@ -8405,4 +8411,10 @@ function characterData($parser, $data) {
     endElement($parser,null);
 }
 
+
+function isWindows() {
+	// Justin Dearing 12/26/07, added from AndroBuild.php
+	$x=eregi('WIN',PHP_OS);
+	return $x===false ? false : true;
+}
 ?>
