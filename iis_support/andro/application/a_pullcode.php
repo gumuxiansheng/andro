@@ -95,7 +95,7 @@ class a_pullcode extends x_table2 {
       $URL_req=$URL."latest_filename.php";
       x_EchoFlush(" Complete request string is ".$URL_req);
       $filename=file_get_contents($URL_req);
-      x_EchoFLush("Remote URL reports latest file is: $filename");
+      x_EchoFlush("Remote URL reports latest file is: $filename");
 
 
         
