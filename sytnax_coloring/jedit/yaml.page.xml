@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<MODE>
+    <PROPS>
+    </PROPS>
+
+    <RULES TYPE="KEYWORD1" DEFAULT="LITERAL1">
+      <EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+      <EOL_SPAN TYPE="COMMENT2"> #</EOL_SPAN>
+      <SEQ TYPE="INVALID">$LOGIN</SEQ>
+
+     
+      <!-- Top level elements, must begin on a line -->
+      <SEQ_REGEXP AT_LINE_START="TRUE" HASH_CHAR="t" TYPE="KEYWORD3">table\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="TRUE" HASH_CHAR="u" TYPE="KEYWORD3">uifilter\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="TRUE" HASH_CHAR="o" TYPE="KEYWORD3">options:$</SEQ_REGEXP>
+
+      <!-- NESTED ELEMENTS DO NOT START ON A LINE -->
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> column\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      
+      
+      <!-- Nested Properties are displayed differently -->
+
+      <!-- options -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> title\s*:</SEQ_REGEXP>
+      
+      
+      <!-- table properties -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> left_join\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> table_par\s*:</SEQ_REGEXP>
+
+      <!-- column properties -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> compare\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> uino\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> description\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> caption\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> dispsize\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> group\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> bottom\s*:</SEQ_REGEXP>
+
+      <!-- uifilter properties -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> type_id\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> table\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> column\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> lookup\s*:</SEQ_REGEXP>
+    </RULES>
+</MODE>
+
+
