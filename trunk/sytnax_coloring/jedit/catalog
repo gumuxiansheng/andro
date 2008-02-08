@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE MODES SYSTEM "catalog.dtd">
+
+<MODES>
+
+<!-- Add lines like the following, one for each edit mode you add: -->
+<!-- <MODE NAME="foo" FILE="foo.xml" FILE_NAME_GLOB="*.foo" /> -->
+<MODE NAME="Andromeda" FILE="add.xml"
+   FILE_NAME_GLOB="*.add" />
+<MODE NAME="ADOC-YAML" FILE="adoc-yaml.xml"
+   FILE_NAME_GLOB="*.adoc.yaml" />
+<MODE NAME="YAML-UI" FILE="yaml.ui.xml"
+   FILE_NAME_GLOB="*.ui.yaml" />
+<MODE NAME="YAML-DD" FILE="yaml.dd.xml"
+   FILE_NAME_GLOB="*.dd.yaml" />
+<MODE NAME="YAML-PAGE" FILE="yaml.page.xml"
+   FILE_NAME_GLOB="*.page.yaml" />
+
+</MODES>
