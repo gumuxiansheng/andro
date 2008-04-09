@@ -1,0 +1,21 @@
+options:
+    title: Customer Report
+    
+table customers:
+    column customer:
+    column description:
+    column amt_order:
+        compare: between @amt1 and @amt2
+    column amt_paid:
+    column amt_balance:
+    
+uifilter amt1:
+    type_id: numb
+    colprec: 10
+    colscale: 2
+    description: Minimum Balance
+uifilter amt2:
+    type_id: numb
+    colprec: 10
+    colscale: 2
+    description: Maximum Balance    
