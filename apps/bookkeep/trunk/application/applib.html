@@ -1,70 +1,3 @@
-<style type="text/css"><!--
-.syntax0 {
-color: #666666;
-}
-.syntax1 {
-color: #cc0000;
-}
-.syntax2 {
-color: #ff9900;
-}
-.syntax3 {
-color: #6600cc;
-}
-.syntax4 {
-color: #cc6600;
-}
-.syntax5 {
-color: #ff0000;
-}
-.syntax6 {
-color: #009933;
-}
-.syntax7 {
-background: #ffffcc;
-color: #ff0066;
-}
-.syntax8 {
-color: #006699;
-font-weight: bold;
-}
-.syntax9 {
-color: #009966;
-font-weight: bold;
-}
-.syntax10 {
-color: #0099ff;
-font-weight: bold;
-}
-.syntax11 {
-color: #66ccff;
-font-weight: bold;
-}
-.syntax12 {
-color: #02b902;
-}
-.syntax13 {
-color: #ff00cc;
-}
-.syntax14 {
-color: #cc00cc;
-}
-.syntax15 {
-color: #9900cc;
-}
-.syntax16 {
-color: #6600cc;
-}
-.syntax17 {
-color: #0000ff;
-}
-.syntax18 {
-color: #000000;
-font-weight: bold;
-}
---></style>
-</head>
-<body bgcolor="#f0f0f0">
 <pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
 <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">======================================================================</span>
 <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">(C)</span><span class="syntax4"> </span><span class="syntax4">Copyright</span><span class="syntax4"> </span><span class="syntax4">2005</span><span class="syntax4"> </span><span class="syntax4">by</span><span class="syntax4"> </span><span class="syntax4">Secure</span><span class="syntax4"> </span><span class="syntax4">Data</span><span class="syntax4"> </span><span class="syntax4">Software,</span><span class="syntax4"> </span><span class="syntax4">Inc.</span>
@@ -100,12 +33,48 @@ font-weight: bold;
 <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Example:</span><span class="syntax4"> </span><span class="syntax4">Turn</span><span class="syntax4"> </span><span class="syntax4">on</span><span class="syntax4"> </span><span class="syntax4">jQuery</span><span class="syntax4"> </span><span class="syntax4">tooltips.</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">Notice</span><span class="syntax4"> </span><span class="syntax4">we</span><span class="syntax4"> </span><span class="syntax4">are</span><span class="syntax4"> </span><span class="syntax4">just</span><span class="syntax4"> </span><span class="syntax4">coding</span>
 <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">some</span><span class="syntax4"> </span><span class="syntax4">javascript,</span><span class="syntax4"> </span><span class="syntax4">no</span><span class="syntax4"> </span><span class="syntax4">wrapping</span><span class="syntax4"> </span><span class="syntax4">it</span><span class="syntax4"> </span><span class="syntax4">in</span><span class="syntax4"> </span><span class="syntax4">anything.</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">Also</span><span class="syntax4"> </span><span class="syntax4">turn</span><span class="syntax4"> </span><span class="syntax4">off</span><span class="syntax4"> </span>
 <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">previous</span><span class="syntax4"> </span><span class="syntax4">default</span><span class="syntax4"> </span><span class="syntax4">tooltip</span><span class="syntax4"> </span><span class="syntax4">system.</span>
-<span class="syntax6">vgfSet</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">suppress_goodies_tooltip</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax8">true</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax4">#</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">THIS</span><span class="syntax4"> </span><span class="syntax4">WILL</span><span class="syntax4"> </span><span class="syntax4">NOT</span><span class="syntax4"> </span><span class="syntax4">WORK</span><span class="syntax4"> </span><span class="syntax4">WITH</span><span class="syntax4"> </span><span class="syntax4">X4,</span><span class="syntax4"> </span><span class="syntax4">must</span><span class="syntax4"> </span><span class="syntax4">be</span><span class="syntax4"> </span><span class="syntax4">done</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">different</span><span class="syntax4"> </span><span class="syntax4">way</span>
+<span class="syntax4">#</span>
 <span class="syntax9">ob_start</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
 <span class="syntax17">?&gt;</span>
 $(&quot;a&quot;).tooltip();
 $(&quot;input&quot;).tooltip();
 <span class="syntax17">&lt;?php</span>
 <span class="syntax6">ElementAdd</span><span class="syntax18">(</span><span class="syntax14">&quot;</span><span class="syntax14">jqueryDocumentReady</span><span class="syntax14">&quot;</span><span class="syntax18">,</span><span class="syntax9">ob_get_clean</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">;</span>
+
+<span class="syntax8">function</span> <span class="syntax6">appCountModules</span><span class="syntax18">(</span><span class="syntax10">$module</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+    <span class="syntax8">if</span><span class="syntax18">(</span><span class="syntax6">gp</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">gp_page</span><span class="syntax13">'</span><span class="syntax18">)</span> <span class="syntax18">=</span><span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">androX4</span><span class="syntax13">'</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax8">if</span><span class="syntax18">(</span><span class="syntax10">$module</span><span class="syntax18">=</span><span class="syntax18">=</span><span class="syntax13">'</span><span class="syntax13">top-head</span><span class="syntax13">'</span><span class="syntax18">)</span> 
+            <span class="syntax8">return</span> <span class="syntax8">true</span><span class="syntax18">;</span>
+        <span class="syntax8">else</span>       
+            <span class="syntax8">return</span> <span class="syntax8">false</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+    <span class="syntax8">return</span> <span class="syntax6">tmpCountModules</span><span class="syntax18">(</span><span class="syntax10">$module</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax18">}</span>
+
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">Put</span><span class="syntax4"> </span><span class="syntax4">out</span><span class="syntax4"> </span><span class="syntax4">some</span><span class="syntax4"> </span><span class="syntax4">links</span><span class="syntax4"> </span><span class="syntax4">to</span><span class="syntax4"> </span><span class="syntax4">activate</span><span class="syntax4"> </span><span class="syntax4">or</span><span class="syntax4"> </span><span class="syntax4">de-activate</span><span class="syntax4"> </span><span class="syntax4">x4</span>
+<span class="syntax4">#</span>
+<span class="syntax8">function</span> <span class="syntax6">appModuleLeft</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+    <span class="syntax8">if</span><span class="syntax18">(</span><span class="syntax18">!</span><span class="syntax6">LoggedIn</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span> <span class="syntax8">return</span><span class="syntax18">;</span>
+    <span class="syntax17">?&gt;</span>
+    <span class="syntax17">&lt;div</span><span class="syntax17"> </span><span class="syntax17">class</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">moduletable</span><span class="syntax14">&quot;</span><span class="syntax17">&gt;</span>
+    <span class="syntax17">&lt;h3</span><span class="syntax17">&gt;</span>Experimental Interface<span class="syntax17">&lt;/h3</span><span class="syntax17">&gt;</span>
+    
+    <span class="syntax17">&lt;p</span><span class="syntax17">&gt;</span>If you would like to try out our new &quot;x4&quot;
+       interface, <span class="syntax17">&lt;a</span><span class="syntax17"> </span><span class="syntax17">href</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">?</span><span class="syntax14">gp_page</span><span class="syntax14">=</span><span class="syntax14">androX4</span><span class="syntax14">&quot;</span><span class="syntax17">&gt;</span>Click Here<span class="syntax17">&lt;/a</span><span class="syntax17">&gt;</span>
+       to see the menu.  The screen you see off to the right now is
+       the &quot;classic&quot; Andromeda interface.
+    <span class="syntax17">&lt;/p</span><span class="syntax17">&gt;</span>
+    
+    <span class="syntax17">&lt;p</span><span class="syntax17">&gt;</span>The x4 interface emphasizes complete keyboard functionality,
+       and ajax-based responsiveness.  These give the user the
+       much-coveted &quot;desktop&quot; feel.
+    <span class="syntax17">&lt;/p</span><span class="syntax17">&gt;</span>
+    
+    <span class="syntax17">&lt;/div</span><span class="syntax17">&gt;</span>
+    <span class="syntax17">&lt;?php</span>
+    <span class="syntax8">return</span> <span class="syntax8">false</span><span class="syntax18">;</span>
+<span class="syntax18">}</span>
 <span class="syntax17">?&gt;</span>
 </span></pre>

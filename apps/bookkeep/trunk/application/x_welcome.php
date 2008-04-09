@@ -1,6 +1,9 @@
 <?php
 class x_welcome extends x_table2 {
     function main() {
+        if(gpExists('x4')) {
+            return $this->x4Menu();
+        }
         ?>
         <h1>Andromeda Demo Application</h1>
         
@@ -12,6 +15,16 @@ class x_welcome extends x_table2 {
         
         <p>Our main documentation site is: <a href=
            "http://www.andromeda-project.org">The Andromeda Project</a>.
+           
+        <h2>Extended Desktop Mode</h2>
+        
+        <p>All of Ken's development time is now going into the extended
+           desktop mode, which gives users a highly snappy, keyboard-responsive
+           experience.</p>
+           
+        <p>           
+        <a href="?gp_page=androX4Menu">Click Here For Extended Desktop</a>
+        </p>
            
         <h2>Source Code For This Application</h2>
         

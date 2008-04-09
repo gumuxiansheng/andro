@@ -56,6 +56,12 @@ table customers:
     description: Customers
     fkdisplay: dynamic
     
+    projection dropdown:
+        column customer:
+        column description:
+        column add1:
+        column zip9:
+    
     column customer:
         primary_key: "Y"
         uisearch: "Y"
@@ -87,6 +93,15 @@ table customers:
     column city:
         uisearch: "Y"
     column zip9:
+        automation_id: DEFAULT
+        auto_formula: 12345
+    
+    column notes:
+    
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+    column uid_upd:
                 
                 
 # >>
@@ -324,6 +339,12 @@ table orders:
     module: sales
     description: Orders
     uisort: 100
+    fkdisplay: dynamic
+    
+    projection dropdown:
+        column recnum_ord:
+        column customer:
+        column ts_ins:
     
     column recnum_ord:
         suffix: _ord
@@ -490,6 +511,7 @@ table orderservices:
         automation_id: NONE
         suffix: _ord
         description: Order
+        uisearch: "Y"
     
     column recnum_os:
         suffix: _os
@@ -498,14 +520,19 @@ table orderservices:
         description: Order Service
         
     foreign_key employees:
+        uisearch: "Y"
     column date:
+        uisearch: "Y"
     foreign_key activities:
+        uisearch: "Y"
         
     column notes:        
     
     column qty:
     column price:
+        uisearch: "Y"
     column price_extended:
+        uisearch: "Y"
         suffix: _extended
         chain calc:
             test 00:
@@ -538,6 +565,9 @@ table payments:
     column amt:
         uisearch: "Y"
     foreign_key paytypes:
+    column paytype:
+        automation_id: DEFAULT
+        auto_formula: CASH
     
     
     column ts_ins:
