@@ -47,7 +47,7 @@ module main:
 # >>
 column customer:
     type_id: int
-    automation_id: SEQUENCE
+    automation_id: sequence
     description: Customer
 
 table customers:
@@ -68,15 +68,24 @@ table customers:
     column description:
         uisearch: "Y"
         description: Name
+    column name_ar:
+        uisearch: "Y"
+        suffix: _ar
+        description: AR Contact
+    column phone:
+        uisearch: "Y"
+    column email:
+        
+    foreign_key tax_auths:
 
     column amt_order:
         suffix: _order
-        automation_id: SUM
+        automation_id: sum
         auto_formula: orders.amt_order
         description: Lifetime Orders
     column amt_paid:
         suffix: _paid
-        automation_id: SUM
+        automation_id: sum
         auto_formula: orders.amt_paid
         description: Lifetime Payments
     column amt_balance:
@@ -88,13 +97,10 @@ table customers:
                 return: @amt_order - @amt_paid
         
     column add1:
-        uisearch: "Y"
     column add2:
     column city:
-        uisearch: "Y"
+    foreign_key states:
     column zip9:
-        automation_id: DEFAULT
-        auto_formula: 12345
     
     column notes:
     
@@ -320,7 +326,7 @@ table items:
         suffix: _tax
         uisearch: "Y"
         description: Taxable
-        automation_id: DEFAULT
+        automation_id: default
         auto_formula: "N"
 
         
@@ -353,28 +359,32 @@ table orders:
         description: Order
     foreign_key customers:
         uisearch: "Y"
+    foreign_key opbatches:
+        allow_empty: "Y"
         
     column amt_taxable:
         suffix: _taxable
-        automation_id: SUM
+        automation_id: sum
         auto_formula: orderlines.amt_taxable
         description: Taxable Sale
     column amt_notax:
         suffix: _notax
-        automation_id: SUM
+        automation_id: sum
         auto_formula: orderlines.amt_notax
         description: Non-taxable Sale
 
     column amt_services:
         suffix: _services
-        automation_id: SUM
+        automation_id: sum
         auto_formula: orderservices.price_extended
         description: Services
         
     foreign_key tax_auths:
+    column tax_auth:
+        automation_id: fetch
+        auto_formula: customers.tax_auth
     column pct_tax:
-        suffix: _tax
-        automation_id: FETCH
+        automation_id: fetch
         auto_formula: tax_auths.pct_tax
         
     column amt_tax:
@@ -396,7 +406,7 @@ table orders:
     column amt_paid:
         uisearch: "Y"
         suffix: _paid
-        automation_id: SUM
+        automation_id: sum
         auto_formula: payments.amt
         description: Paid
             
@@ -421,14 +431,28 @@ table orderlines:
     module: sales
     description: Order Lines
     uisort: 101
-    nomenu: "Y"
+    fkdisplay: onscreen
 
     foreign_key orders:
         uisearch: "Y"
+        allow_empty: "Y"
     column recnum_ord:
-        automation_id: NONE
+        automation_id: none
         suffix: _ord
         description: Order
+        chain cons:
+            test 00:
+                compare: @recnum_ord !NULL
+                return: ""
+            test 01:
+                compare: @customer !NULL
+                return: ""
+            test 99:
+                return: Either Order or Customer Must Be Filled
+
+    # Optional foreign key to customers
+    foreign_key customers:
+        allow_empty: "Y"
     
     column recnum_ol:
         suffix: _ol
@@ -442,15 +466,18 @@ table orderlines:
         suffix: _tax
         automation_id: FETCH
         auto_formula: items.flag_tax
+        description: Taxable Item
     column price_fetch:
         suffix: _fetch
         uisearch: "Y" 
         automation_id: FETCH
         auto_formula: items.price
+        description: Item Price
     column price_man:
         suffix: _man
         automation_id: DEFAULT
         auto_formula: 0
+        description: Price Override
     column price:
         chain calc:
             test 00:
@@ -458,10 +485,11 @@ table orderlines:
                 return: @price_fetch
             test 01:
                 return: @price_man
+        description: Final Price
         
     column flag_nocharge:
         suffix: _nocharge
-        description: No Charge
+        description: Waive Charges
         
     column description_man:
         suffix: _man
@@ -495,23 +523,41 @@ table orderlines:
             test 01:
                 compare: @flag_tax = Y
                 return: 0
-            test 01:
+            test 02:
                 return: @price * @qty
     
+column qtydec:
+    type_id: numb
+    colprec: 6
+    colscale: 2
+    description: Hours
                 
 table orderservices:
     module: sales
     description: Order Services
     uisort: 102
-    nomenu: "Y"
     
     foreign_key orders:
         uisearch: "Y"
+        allow_empty: "Y"
     column recnum_ord:
         automation_id: NONE
         suffix: _ord
         description: Order
         uisearch: "Y"
+        chain cons:
+            test 00:
+                compare: @recnum_ord !NULL
+                return: ""
+            test 01:
+                compare: @customer !NULL
+                return: ""
+            test 99:
+                return: Either Order or Customer Must Be Filled
+                
+    # Optional foreign key to customers
+    foreign_key customers:
+        allow_empty: "Y"
     
     column recnum_os:
         suffix: _os
@@ -528,7 +574,7 @@ table orderservices:
         
     column notes:        
     
-    column qty:
+    column qtydec:
     column price:
         uisearch: "Y"
     column price_extended:
@@ -536,7 +582,7 @@ table orderservices:
         suffix: _extended
         chain calc:
             test 00:
-                return: @qty * @price
+                return: @qtydec * @price
     
         
         
@@ -574,8 +620,29 @@ table payments:
     column uid_ins:
     column ts_upd:
     column uid_upd:
+
+menu billproc:
+    uisort: 300
+    description: Billing
+    module: sales
     
     
+table opbatches:
+    module: sales
+    description: Order Batches
+    uisort: 400
+    
+    column recnum_op:
+        suffix: _op
+        primary_key: "Y"
+        uisearch: "Y"
+    column date_print:
+        suffix: _print
+        uisearch: "Y"
+    column ts_ins:
+        uisearch: "Y"
+    column uid_ins:
+        uisearch: "Y"
     
     
 # ======================================================================
@@ -589,6 +656,10 @@ column tax_auth:
     type_id: vchar
     colprec: 15
     description: Tax Authority
+column pct_tax:
+    type_id: numb
+    colprec: 7
+    colsacle: 6
 
 table tax_auths:
     module: appref
@@ -603,7 +674,6 @@ table tax_auths:
         uisearch: "Y"
         
     column pct_tax:
-        suffix: _tax
         description: Tax Percentage
         uisearch: "Y"
         
