@@ -677,6 +677,10 @@ table tax_auths:
         description: Tax Percentage
         uisearch: "Y"
         
+    column cnt:
+        value_min: 17
+        value_max: 23
+        
 column paytype:
     type_id: vchar
     colprec: 5

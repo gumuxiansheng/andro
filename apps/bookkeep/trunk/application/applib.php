@@ -43,8 +43,12 @@ $("input").tooltip();
 <?php
 ElementAdd("jqueryDocumentReady",ob_get_clean());
 
+# This setting says put an x4menu on top when 
+# they pick an x4 page.  
+vgfset('x4menu',true);
+
 function appCountModules($module) {
-    if(gp('gp_page') == 'androX4Menu') {
+    if(gpExists('x4Page')) {
         return false;
         if($module=='top-head') 
             return true;
@@ -76,7 +80,7 @@ function appModuleLeft() {
 
     <p>
     <center>
-    <a href="?gp_page=androX4Menu">Click Here For Extended Desktop</a>
+    <a href="?x4Page=menu">Click Here For Extended Desktop</a>
     </center>
     </p>
     <br/>

@@ -1,9 +1,6 @@
 <?php
 class x_welcome extends x_table2 {
     function main() {
-        if(gpExists('x4')) {
-            return $this->x4Menu();
-        }
         ?>
         <h1>Andromeda Demo Application</h1>
         
@@ -23,7 +20,7 @@ class x_welcome extends x_table2 {
            experience.</p>
            
         <p>           
-        <a href="?gp_page=androX4Menu">Click Here For Extended Desktop</a>
+        <a href="?x4Page=menu">Click Here For Extended Desktop</a>
         </p>
            
         <h2>Source Code For This Application</h2>
