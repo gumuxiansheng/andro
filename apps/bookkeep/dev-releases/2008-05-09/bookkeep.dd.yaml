@@ -1,0 +1,798 @@
+# ======================================================================
+#   (C) Copyright 2005 by Secure Data Software, Inc.
+#   
+#   
+#  "BOOKKEEP" is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#   BOOKKEEP is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with BOOKKEEP; if not, write to the Free Software
+#   Foundation, Inc., 51 Franklin St, Fifth Floor,
+#   Boston, MA  02110-1301  USA 
+#   or visit http://www.gnu.org/licenses/gpl.html
+#
+# ======================================================================
+group admin:
+    description: Superusers
+    permsel: "Y"
+    permins: "Y"
+    permupd: "Y"
+    permdel: "Y"
+    module system:
+        nomenu: "N"
+    
+group users:    
+    description: Regular Users
+    permsel: "Y"
+    permins: "Y"
+    permupd: "Y"
+    permdel: "Y"
+
+# ======================================================================
+# MODULE: MAIN
+# ======================================================================
+module main:
+    uisort: 100
+    description: Main
+    
+# >>
+# >> Table customers
+# >>
+column customer:
+    type_id: int
+    automation_id: sequence
+    description: Customer
+
+table customers:
+    module: main
+    uisort: 100
+    description: Customers
+    fkdisplay: dynamic
+    
+    projection dropdown:
+        column customer:
+        column description:
+        column add1:
+        column zip9:
+    
+    column customer:
+        primary_key: "Y"
+        uisearch: "Y"
+        descshort: Cust
+    column description:
+        uisearch: "Y"
+        description: Name
+    column name_ar:
+        uisearch: "Y"
+        suffix: _ar
+        description: AR Contact
+    column phone:
+        uisearch: "Y"
+    column email:
+        
+    foreign_key tax_auths:
+
+    column amt_order:
+        suffix: _order
+        automation_id: sum
+        auto_formula: orders.amt_order
+        description: Lifetime Orders
+        descshort: Tot Ordrs
+    column amt_paid:
+        suffix: _paid
+        automation_id: sum
+        auto_formula: orders.amt_paid
+        description: Lifetime Payments
+        descshort: Tot Pmts
+    column amt_balance:
+        suffix: _balance
+        description: Current Balance
+        descshort: Balance
+        tooltip: This is Lifetime Orders less Lifetime Payments
+        chain calc:
+            test 00:
+                return: @amt_order - @amt_paid
+        
+    column add1:
+    column add2:
+    column city:
+    foreign_key states:
+    column zip9:
+    
+    column notes:
+    
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+    column uid_upd:
+                
+                
+# >>
+# >> Table activities
+# >>
+column activity:
+    type_id: char
+    colprec: 10
+    description: Activity
+table activities:                
+    module: main
+    uisort: 110
+    description: Activities
+    
+    column activity:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+        
+# >>
+# >> Activity Rates
+# >>
+table actrates:
+    module: main
+    uisort: 111
+    nomenu: "Y"
+    description: Activity Rates
+    group users:
+        permsel: "N"
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    foreign_key activities:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    column date:
+        description: Begin Date
+        primary_key: "Y"
+        range_to: date_end
+        uisearch: "Y"
+    column date_end:
+        description: End Date
+        suffix: _end
+        primary_key: "Y"
+        range_from: date
+        uisearch: "Y"
+        
+    column amt:
+        description: Rate
+        uisearch: "Y"
+            
+        
+# >>
+# >> Table employees
+# >>
+column employee:
+    type_id: char
+    colprec: 10
+    description: Employee
+table employees:                
+    module: main
+    uisort: 120
+    description: Employees
+    
+    column employee:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+        
+# >>
+# >> Exceptions: Customer Activity
+# >>
+table custactrates:
+    module: main
+    uisort: 131
+    nomenu: "Y"
+    description: Customer-Activity Rates
+    group users:
+        permsel: "N"
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    foreign_key customers:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    foreign_key activities:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    column date:
+        description: Begin Date
+        primary_key: "Y"
+        range_to: date_end
+        uisearch: "Y"
+    column date_end:
+        description: End Date
+        suffix: _end
+        primary_key: "Y"
+        range_from: date
+        uisearch: "Y"
+        
+    column amt:
+        description: Rate
+        uisearch: "Y"
+
+# >>
+# >> Exceptions: Activity Employee
+# >>
+table actemprates:
+    module: main
+    uisort: 132
+    nomenu: "Y"
+    description: Activity-Employee Rates
+    group users:
+        permsel: "N"
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    foreign_key activities:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    foreign_key employees:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    column date:
+        description: Begin Date
+        primary_key: "Y"
+        range_to: date_end
+        uisearch: "Y"
+    column date_end:
+        description: End Date
+        suffix: _end
+        primary_key: "Y"
+        range_from: date
+        uisearch: "Y"
+        
+    column amt:
+        description: Rate
+        uisearch: "Y"
+        
+# >>
+# >> Exceptions: Customer Activity Employee
+# >>
+table custactemprates:
+    module: main
+    uisort: 132
+    nomenu: "Y"
+    description: Customer-Activity-Employee Rates
+    group users:
+        permsel: "N"
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    foreign_key customers:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    foreign_key activities:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    foreign_key employees:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    column date:
+        description: Begin Date
+        primary_key: "Y"
+        range_to: date_end
+        uisearch: "Y"
+    column date_end:
+        description: End Date
+        suffix: _end
+        primary_key: "Y"
+        range_from: date
+        uisearch: "Y"
+        
+    column amt:
+        description: Rate
+        uisearch: "Y"
+
+
+# >>
+# >> Items
+# >>
+column sku:
+    type_id: vchar
+    colprec: 25
+    description: SKU
+    
+table items:
+    module: main
+    uisort: 200
+    description: Items
+    fkdisplay: dynamic
+    
+    column sku:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+        
+    column price:
+        uisearch: "Y"
+    column flag_tax:
+        suffix: _tax
+        uisearch: "Y"
+        description: Taxable
+        automation_id: default
+        auto_formula: "N"
+
+        
+# ======================================================================
+# MODULE: ORDERS
+# ======================================================================
+module sales:
+    uisort: 200
+    description: Sales
+
+
+# >>
+# >> Table ORders
+# >>
+table orders:
+    module: sales
+    description: Orders
+    uisort: 100
+    fkdisplay: dynamic
+    
+    projection dropdown:
+        column recnum_ord:
+        column customer:
+        column ts_ins:
+    
+    column recnum_ord:
+        suffix: _ord
+        primary_key: "Y"
+        uisearch: "Y"
+        description: Order
+    foreign_key customers:
+        uisearch: "Y"
+    foreign_key opbatches:
+        allow_empty: "Y"
+        
+    column amt_taxable:
+        suffix: _taxable
+        automation_id: sum
+        auto_formula: orderlines.amt_taxable
+        description: Taxable Sale
+    column amt_notax:
+        suffix: _notax
+        automation_id: sum
+        auto_formula: orderlines.amt_notax
+        description: Non-taxable Sale
+
+    column amt_services:
+        suffix: _services
+        automation_id: sum
+        auto_formula: orderservices.price_extended
+        description: Services
+        
+    foreign_key tax_auths:
+    column tax_auth:
+        automation_id: fetch
+        auto_formula: customers.tax_auth
+    column pct_tax:
+        automation_id: fetch
+        auto_formula: tax_auths.pct_tax
+        
+    column amt_tax:
+        suffix: _tax
+        description: Tax
+        chain calc:
+            test 00:
+                return: @amt_taxable * @pct_tax
+                
+    column amt_order:
+        uisearch: "Y"
+        suffix: _order
+        description: Final Amount
+        chain calc:
+            test 00:
+                return: @amt_taxable + @amt_notax @amt_tax @amt_services
+                
+                
+    column amt_paid:
+        uisearch: "Y"
+        suffix: _paid
+        automation_id: sum
+        auto_formula: payments.amt
+        description: Paid
+            
+    column amt_balance:
+        uisearch: "Y"
+        suffix: _balance
+        description: Balance
+        chain calc:
+            test 00:
+                return: @amt_order - @amt_paid
+        
+    column ts_ins:
+        uisearch: "Y"
+    column uid_ins:
+        uisearch: "Y"
+    column ts_upd:
+    column uid_upd:
+    
+    
+    
+table orderlines:
+    module: sales
+    description: Order Lines
+    uisort: 101
+    fkdisplay: onscreen
+
+    foreign_key orders:
+        uisearch: "Y"
+        allow_empty: "Y"
+    column recnum_ord:
+        automation_id: none
+        suffix: _ord
+        description: Order
+        chain cons:
+            test 00:
+                compare: @recnum_ord !NULL
+                return: ""
+            test 01:
+                compare: @customer !NULL
+                return: ""
+            test 99:
+                return: Either Order or Customer Must Be Filled
+
+    # Optional foreign key to customers
+    foreign_key customers:
+        allow_empty: "Y"
+    
+    column recnum_ol:
+        suffix: _ol
+        primary_key: "Y"
+        uisearch: "Y"
+        description: Order Line
+    
+    foreign_key items:
+        uisearch: "Y"
+    column flag_tax:
+        suffix: _tax
+        automation_id: FETCH
+        auto_formula: items.flag_tax
+        description: Taxable Item
+    column price_fetch:
+        suffix: _fetch
+        uisearch: "Y" 
+        automation_id: FETCH
+        auto_formula: items.price
+        description: Item Price
+    column price_man:
+        suffix: _man
+        automation_id: DEFAULT
+        auto_formula: 0
+        description: Price Override
+    column price:
+        chain calc:
+            test 00:
+                compare: @price_man = 0
+                return: @price_fetch
+            test 01:
+                return: @price_man
+        description: Final Price
+        
+    column flag_nocharge:
+        suffix: _nocharge
+        description: Waive Charges
+        
+    column description_man:
+        suffix: _man
+        description: Additional Description
+        
+    column qty:
+        uisearch: "Y"
+    
+    column amt_taxable:
+        suffix: _taxable
+        description: Taxable
+        uisearch: "Y"
+        chain calc:
+            test 00:
+                compare: @flag_nocharge = Y
+                return: 0
+            test 01:
+                compare: @flag_tax = Y
+                return: @price * @qty
+            test 02:
+                return: 0
+
+    column amt_notax:
+        suffix: _notax
+        description: Non-Taxable
+        uisearch: "Y"
+        chain calc:
+            test 00:
+                compare: @flag_nocharge = Y
+                return: 0
+            test 01:
+                compare: @flag_tax = Y
+                return: 0
+            test 02:
+                return: @price * @qty
+    
+column qtydec:
+    type_id: numb
+    colprec: 6
+    colscale: 2
+    description: Hours
+                
+table orderservices:
+    module: sales
+    description: Order Services
+    uisort: 102
+    
+    foreign_key orders:
+        uisearch: "Y"
+        allow_empty: "Y"
+    column recnum_ord:
+        automation_id: NONE
+        suffix: _ord
+        description: Order
+        uisearch: "Y"
+        chain cons:
+            test 00:
+                compare: @recnum_ord !NULL
+                return: ""
+            test 01:
+                compare: @customer !NULL
+                return: ""
+            test 99:
+                return: Either Order or Customer Must Be Filled
+                
+    # Optional foreign key to customers
+    foreign_key customers:
+        allow_empty: "Y"
+    
+    column recnum_os:
+        suffix: _os
+        primary_key: "Y"
+        uisearch: "Y"
+        description: Order Service
+        
+    foreign_key employees:
+        uisearch: "Y"
+    column date:
+        uisearch: "Y"
+    foreign_key activities:
+        uisearch: "Y"
+        
+    column notes:        
+    
+    column qtydec:
+    column price:
+        uisearch: "Y"
+    column price_extended:
+        uisearch: "Y"
+        suffix: _extended
+        chain calc:
+            test 00:
+                return: @qtydec * @price
+    
+        
+        
+# >>
+# >> Table: Payments
+# >>
+table payments:
+    uisort: 200
+    description: Payments
+    module: sales
+    
+    column recnum_pmt:
+        suffix: _pmt
+        primary_key: "Y"
+        uisearch: "Y"
+        description: Pmt Number
+    
+    foreign_key orders:
+        uisearch: "Y"
+    column recnum_ol:
+        suffix: _ol
+        description: Order
+        
+    column date:
+        uisearch: "Y"
+    column amt:
+        uisearch: "Y"
+    foreign_key paytypes:
+    column paytype:
+        automation_id: DEFAULT
+        auto_formula: CASH
+    
+    
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+    column uid_upd:
+
+menu billproc:
+    uisort: 300
+    description: Billing
+    module: sales
+    
+    
+table opbatches:
+    module: sales
+    description: Order Batches
+    uisort: 400
+    
+    column recnum_op:
+        suffix: _op
+        primary_key: "Y"
+        uisearch: "Y"
+    column date_print:
+        suffix: _print
+        uisearch: "Y"
+    column ts_ins:
+        uisearch: "Y"
+    column uid_ins:
+        uisearch: "Y"
+    
+    
+# ======================================================================
+# MODULE: Reference Tables
+# ======================================================================
+module appref:
+    uisort: 300
+    description: Reference
+    
+column tax_auth:
+    type_id: vchar
+    colprec: 15
+    description: Tax Authority
+column pct_tax:
+    type_id: numb
+    colprec: 7
+    colsacle: 6
+
+table tax_auths:
+    module: appref
+    description: Tax Authorities
+    uisort: 100
+    
+    column tax_auth:
+        primary_key: "Y"
+        uisearch: "Y"
+        
+    column description:
+        uisearch: "Y"
+        
+    column pct_tax:
+        description: Tax Percentage
+        uisearch: "Y"
+        
+    column cnt:
+        value_min: 17
+        value_max: 23
+        
+column paytype:
+    type_id: vchar
+    colprec: 5
+    description: Payment Type
+
+table paytypes:    
+    module: appref
+    description: Payment Types
+    uisort: 110
+    
+    column paytype:
+        uisearch: "Y"
+        primary_key: "Y"
+        
+content paytypes:
+    columns: [ paytype ]
+    values:
+        - [ VISA ]
+        - [ MC ]
+        - [ CHECK ]
+        - [ CASH ]
+
+column vendor:
+    type_id: int
+    description: Vendor
+    automation_id: SEQUENCE
+        
+table vendors:
+    module: main
+    uisort: 105
+    description: Vendors
+    fkdisplay: dynamic
+    
+    projection dropdown:
+        column vendor:
+        column description:
+        column add1:
+        column zip9:
+    
+    column vendor:
+        primary_key: "Y"
+        uisearch: "Y"
+        descshort: Vendor
+    column description:
+        uisearch: "Y"
+        description: Name
+    column name_ap:
+        uisearch: "Y"
+        suffix: _ap
+        description: AP Contact
+    column phone:
+        uisearch: "Y"
+    column email:
+        
+    foreign_key tax_auths:
+
+    column amt_order:
+        suffix: _order
+        #automation_id: sum
+        #auto_formula: orders.amt_order
+        #description: Lifetime Orders
+        descshort: Tot Ordrs
+    column amt_paid:
+        suffix: _paid
+        #automation_id: sum
+        #auto_formula: orders.amt_paid
+        #description: Lifetime Payments
+        descshort: Tot Pmts
+    column amt_balance:
+        suffix: _balance
+        description: Current Balance
+        descshort: Balance
+        #tooltip: This is Lifetime Orders less Lifetime Payments
+        #chain calc:
+        #    test 00:
+        #        return: @amt_order - @amt_paid
+        
+    column add1:
+    column add2:
+    column city:
+    foreign_key states:
+    column zip9:
+    
+    column notes:
+    
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+    column uid_upd:
+        
+# ======================================================================
+# REPORTS
+# ======================================================================
+module appreps:
+    uisort: 400
+    description: Reports
+    
+menu ex_customers:
+    module: appreps
+    uisort: 100   
+    description: Customers
+menu ex_custvend:
+    module: appreps
+    uisort: 105 
+    description: Customers and Vendors
+
+menu ex_salestax:
+    module: appreps
+    uisort: 200
+    description: Tax Report
+    
