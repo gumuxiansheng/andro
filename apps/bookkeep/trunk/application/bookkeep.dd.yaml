@@ -65,6 +65,7 @@ table customers:
     column customer:
         primary_key: "Y"
         uisearch: "Y"
+        descshort: Cust
     column description:
         uisearch: "Y"
         description: Name
@@ -83,14 +84,17 @@ table customers:
         automation_id: sum
         auto_formula: orders.amt_order
         description: Lifetime Orders
+        descshort: Tot Ordrs
     column amt_paid:
         suffix: _paid
         automation_id: sum
         auto_formula: orders.amt_paid
         description: Lifetime Payments
+        descshort: Tot Pmts
     column amt_balance:
         suffix: _balance
         description: Current Balance
+        descshort: Balance
         tooltip: This is Lifetime Orders less Lifetime Payments
         chain calc:
             test 00:
@@ -703,6 +707,74 @@ content paytypes:
         - [ CHECK ]
         - [ CASH ]
 
+column vendor:
+    type_id: int
+    description: Vendor
+    automation_id: SEQUENCE
+        
+table vendors:
+    module: main
+    uisort: 105
+    description: Vendors
+    fkdisplay: dynamic
+    
+    projection dropdown:
+        column vendor:
+        column description:
+        column add1:
+        column zip9:
+    
+    column vendor:
+        primary_key: "Y"
+        uisearch: "Y"
+        descshort: Vendor
+    column description:
+        uisearch: "Y"
+        description: Name
+    column name_ap:
+        uisearch: "Y"
+        suffix: _ap
+        description: AP Contact
+    column phone:
+        uisearch: "Y"
+    column email:
+        
+    foreign_key tax_auths:
+
+    column amt_order:
+        suffix: _order
+        #automation_id: sum
+        #auto_formula: orders.amt_order
+        #description: Lifetime Orders
+        descshort: Tot Ordrs
+    column amt_paid:
+        suffix: _paid
+        #automation_id: sum
+        #auto_formula: orders.amt_paid
+        #description: Lifetime Payments
+        descshort: Tot Pmts
+    column amt_balance:
+        suffix: _balance
+        description: Current Balance
+        descshort: Balance
+        #tooltip: This is Lifetime Orders less Lifetime Payments
+        #chain calc:
+        #    test 00:
+        #        return: @amt_order - @amt_paid
+        
+    column add1:
+    column add2:
+    column city:
+    foreign_key states:
+    column zip9:
+    
+    column notes:
+    
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+    column uid_upd:
+        
 # ======================================================================
 # REPORTS
 # ======================================================================
@@ -714,6 +786,10 @@ menu ex_customers:
     module: appreps
     uisort: 100   
     description: Customers
+menu ex_custvend:
+    module: appreps
+    uisort: 105 
+    description: Customers and Vendors
 
 menu ex_salestax:
     module: appreps

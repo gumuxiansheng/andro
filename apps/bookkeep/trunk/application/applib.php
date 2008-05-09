@@ -29,34 +29,13 @@
 # is a database connection.  Any functions or classes placed here are
 # availably to your entire application.
 # ======================================================================
-
-# Example: Turn on jQuery tooltips.  Notice we are just coding
-# some javascript, no wrapping it in anything.  Also turn off 
-# the previous default tooltip system.
+# This says go to x4menu after login, don't go to x_welcome
 #
-# THIS WILL NOT WORK WITH X4, must be done a different way
+#vgfset('x4Welcome',true);
 #
-ob_start();
-?>
-$("a").tooltip();
-$("input").tooltip();
-<?php
-ElementAdd("jqueryDocumentReady",ob_get_clean());
-
-# This setting says put an x4menu on top when 
-# they pick an x4 page.  
+# Put an x4 menu on top if you are on an x4 page 
+# 
 vgfset('x4menu',true);
-
-function appCountModules($module) {
-    if(gpExists('x4Page')) {
-        return false;
-        if($module=='top-head') 
-            return true;
-        else       
-            return false;
-    }
-    return tmpCountModules($module);
-}
 
 #  Put out some links to activate or de-activate x4
 #
