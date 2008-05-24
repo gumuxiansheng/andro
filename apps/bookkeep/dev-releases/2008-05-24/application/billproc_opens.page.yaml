@@ -1,0 +1,18 @@
+options:
+    title: Open Order Services
+    nofilter: "Y"
+    
+table orderservices:
+    column recnum_ord:
+        compare: is null
+        uino: "Y"
+    column employee:
+    column date:
+    column activity:
+    column customer:
+    column qtydec:
+    column price:
+        type_id: money
+    column price_extended:
+        type_id: money
+    

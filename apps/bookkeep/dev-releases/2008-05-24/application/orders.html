@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>orders.php</title>
+<style type="text/css"><!--
+.syntax0 {
+color: #666666;
+}
+.syntax1 {
+color: #cc0000;
+}
+.syntax2 {
+color: #ff9900;
+}
+.syntax3 {
+color: #6600cc;
+}
+.syntax4 {
+color: #cc6600;
+}
+.syntax5 {
+color: #ff0000;
+}
+.syntax6 {
+color: #009933;
+}
+.syntax7 {
+background: #ffffcc;
+color: #ff0066;
+}
+.syntax8 {
+color: #006699;
+font-weight: bold;
+}
+.syntax9 {
+color: #009966;
+font-weight: bold;
+}
+.syntax10 {
+color: #0099ff;
+font-weight: bold;
+}
+.syntax11 {
+color: #66ccff;
+font-weight: bold;
+}
+.syntax12 {
+color: #02b902;
+}
+.syntax13 {
+color: #ff00cc;
+}
+.syntax14 {
+color: #cc00cc;
+}
+.syntax15 {
+color: #9900cc;
+}
+.syntax16 {
+color: #6600cc;
+}
+.syntax17 {
+color: #0000ff;
+}
+.syntax18 {
+color: #000000;
+font-weight: bold;
+}
+--></style>
+</head>
+<body bgcolor="#f0f0f0">
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">This</span><span class="syntax4"> </span><span class="syntax4">custom</span><span class="syntax4"> </span><span class="syntax4">file</span><span class="syntax4"> </span><span class="syntax4">exists</span><span class="syntax4"> </span><span class="syntax4">so</span><span class="syntax4"> </span><span class="syntax4">that</span><span class="syntax4"> </span><span class="syntax4">we</span><span class="syntax4"> </span><span class="syntax4">can</span><span class="syntax4"> </span><span class="syntax4">put</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">link</span><span class="syntax4"> </span><span class="syntax4">onto</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">orders</span><span class="syntax4"> </span><span class="syntax4">page</span>
+<span class="syntax4">#</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">orders</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">x_table2</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">aLinks_extra</span><span class="syntax18">(</span><span class="syntax10">$mode</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax8">if</span><span class="syntax18">(</span><span class="syntax10">$mode</span><span class="syntax18">&lt;</span><span class="syntax18">&gt;</span><span class="syntax13">'</span><span class="syntax13">upd</span><span class="syntax13">'</span><span class="syntax18">)</span> <span class="syntax8">return</span><span class="syntax18">;</span>
+            
+        <span class="syntax10">$a</span> <span class="syntax18">=</span> <span class="syntax6">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">a</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$a</span><span class="syntax6">-&gt;setHTML</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">Print</span><span class="syntax13"> </span><span class="syntax13">Order</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$a</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">href</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">?</span><span class="syntax14">gp_page</span><span class="syntax14">=</span><span class="syntax14">p_orders</span><span class="syntax14">&amp;</span><span class="syntax14">order</span><span class="syntax14">=</span><span class="syntax14">&quot;</span><span class="syntax18">.</span><span class="syntax11">$this</span><span class="syntax11">-&gt;row</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">recnum_ord</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">;</span>
+        <span class="syntax10">$retval</span><span class="syntax18">[</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax11">$a</span><span class="syntax6">-&gt;bufferedRender</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax8">return</span> <span class="syntax10">$retval</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+</body>
+</html>
