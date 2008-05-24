@@ -25,13 +25,19 @@ class x_welcome extends x_table2 {
            
         <h2>Source Code For This Application</h2>
         
-        <p>This program has 5 files in it.  They are:</p>
+        <p>This program has 10 files in it.  They are:</p>
         
         <ul>
-            <li><a href="?gp_page=x_welcome&source=x_welcome">x_welcome.php</a>
-            <li><a href="?gp_page=x_welcome&source=applib">applib.php</a>
-            <li><a href="?gp_page=x_welcome&source=bookkeep">bookkeep.dd.yaml</a>
+            <li><a href="?gp_page=x_welcome&source=bookkeep">bookkeep.dd.yaml (The Data Definition)</a>
+            <li><a href="?gp_page=x_welcome&source=x_welcome">x_welcome.php (This program)</a>
+            <li><a href="?gp_page=x_welcome&source=applib">applib.php (Application library)</a>
+            <li><a href="?gp_page=x_welcome&source=billproc">billproc.php (Generate Invoices)</a>
+            <li><a href="?gp_page=x_welcome&source=orders">orders.php (Overrides default)</a>
+            <li><a href="?gp_page=x_welcome&source=p_orders">p_orders.php (Prints Orders)</a>
+            <li><a href="?gp_page=x_welcome&source=billproc_openl">billproc_openl.page.yaml</a>
+            <li><a href="?gp_page=x_welcome&source=billproc_opens">billproc_opens.page.yaml</a>
             <li><a href="?gp_page=x_welcome&source=ex_customers">ex_customers.page.yaml</a>
+            <li><a href="?gp_page=x_welcome&source=ex_custvend">ex_custvend.page.yaml</a>
             <li><a href="?gp_page=x_welcome&source=ex_salestax">ex_salestax.page.yaml</a>
         </ul>
             
@@ -42,11 +48,18 @@ class x_welcome extends x_table2 {
             $alist = explode(".",gp('source'));
             if(count($alist)>1) return;
             $file = fsDirTop()."/application/".$alist[0].".html";
+            if(!file_exists($file)) return;
             $files=array(
-                'x_welcome'=>'x_welcome.php'
+                'bookkeep'=>'bookeep.dd.yaml'
+                ,'x_welcome'=>'x_welcome.php'
                 ,'applib'=>'applib.php'
-                ,'bookkeep'=>'bookeep.dd.yaml'
+                ,'billproc'=>'applib.php'
+                ,'orders'=>'applib.php'
+                ,'p_orders'=>'p_orders.php'
+                ,'billproc_openl'=>'billproc_openl.page.yaml'
+                ,'billproc_opens'=>'billproc_opens.page.yaml'
                 ,'ex_customers'=>'ex_customers.page.yaml'
+                ,'ex_custvend'=>'ex_custvend.page.yaml'
                 ,'ex_salestax'=>'ex_salestax.page.yaml'
             );
             ?>

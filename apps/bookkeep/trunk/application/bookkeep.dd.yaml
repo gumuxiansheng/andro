@@ -673,6 +673,7 @@ table tax_auths:
     column tax_auth:
         primary_key: "Y"
         uisearch: "Y"
+        uisearch_ignore_dash: "Y"
         
     column description:
         uisearch: "Y"
