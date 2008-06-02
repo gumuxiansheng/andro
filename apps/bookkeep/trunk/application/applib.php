@@ -37,6 +37,15 @@
 # 
 vgfset('x4menu',true);
 
+function appCountModules($module) {
+    $x4 = gp('x4Page')=='' ? false : true;
+    if($x4 && $module=='top') return false;
+    if($x4 && $module=='left') return false;
+    if($module=='command') return false;
+    return tmpCountModules($module);
+    
+}
+
 #  Put out some links to activate or de-activate x4
 #
 function appModuleLeft() {
