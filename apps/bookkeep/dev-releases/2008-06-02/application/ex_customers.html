@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>ex_customers.page.yaml</title>
+<style type="text/css"><!--
+.syntax0 {
+color: #666666;
+}
+.syntax1 {
+color: #cc0000;
+}
+.syntax2 {
+color: #ff9900;
+}
+.syntax3 {
+color: #6600cc;
+}
+.syntax4 {
+color: #cc6600;
+}
+.syntax5 {
+color: #ff0000;
+}
+.syntax6 {
+color: #009933;
+}
+.syntax7 {
+background: #ffffcc;
+color: #ff0066;
+}
+.syntax8 {
+color: #006699;
+font-weight: bold;
+}
+.syntax9 {
+color: #009966;
+font-weight: bold;
+}
+.syntax10 {
+color: #0099ff;
+font-weight: bold;
+}
+.syntax11 {
+color: #66ccff;
+font-weight: bold;
+}
+.syntax12 {
+color: #02b902;
+}
+.syntax13 {
+color: #ff00cc;
+}
+.syntax14 {
+color: #cc00cc;
+}
+.syntax15 {
+color: #9900cc;
+}
+.syntax16 {
+color: #6600cc;
+}
+.syntax17 {
+color: #0000ff;
+}
+.syntax18 {
+color: #000000;
+font-weight: bold;
+}
+--></style>
+</head>
+<body bgcolor="#f0f0f0">
+<pre><span class="syntax0"><span class="syntax10">options:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">title:</span><span class="syntax13"> </span><span class="syntax13">Customers</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">default</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">onscreen</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">customer:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">description:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">compare:</span><span class="syntax13"> </span><span class="syntax13">*</span><span class="syntax13">@</span><span class="syntax13">name</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_order:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">compare:</span><span class="syntax13"> </span><span class="syntax13">*</span><span class="syntax13">@</span><span class="syntax13">amt1</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_paid:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_balance:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">uifilter</span><span class="syntax10"> </span><span class="syntax10">name:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">char</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colprec</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">20</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Company</span><span class="syntax13"> </span><span class="syntax13">Name</span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">uifilter</span><span class="syntax10"> </span><span class="syntax10">amt1:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">numb</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colprec</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colscale</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Balance</span>
+
+</span></pre>
+</body>
+</html>
+
