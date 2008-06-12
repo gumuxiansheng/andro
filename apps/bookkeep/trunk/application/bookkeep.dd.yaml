@@ -30,10 +30,12 @@ group admin:
     
 group users:    
     description: Regular Users
-    permsel: "Y"
-    permins: "Y"
-    permupd: "Y"
-    permdel: "Y"
+    permsel: "N"
+    permins: "N"
+    permupd: "N"
+    permdel: "N"
+    module sales:
+        nomenu: "N"
 
 # ======================================================================
 # MODULE: SALES
@@ -41,6 +43,8 @@ group users:
 module sales:
     uisort: 100
     description: Sales
+    group users:
+        nomenu: "Y"
     
 # >>
 # >> Table customers
@@ -55,6 +59,8 @@ table customers:
     uisort: 100
     description: Customers
     fkdisplay: dynamic
+    group $LOGIN:
+        permsel: "Y"
     
     projection dropdown:
         column customer:
@@ -85,17 +91,23 @@ table customers:
         auto_formula: orders.amt_order
         description: Lifetime Orders
         descshort: Tot Ordrs
+        group admin:
+            permcol: "N"
     column amt_paid:
         suffix: _paid
         automation_id: sum
         auto_formula: orders.amt_paid
         description: Lifetime Payments
         descshort: Tot Pmts
+        group admin:
+            permcol: "N"
     column amt_balance:
         suffix: _balance
         description: Current Balance
         descshort: Balance
         tooltip: This is Lifetime Orders less Lifetime Payments
+        group admin:
+            permcol: "N"
         chain calc:
             test 00:
                 return: @amt_order - @amt_paid
@@ -125,6 +137,9 @@ table activities:
     module: sales
     uisort: 810
     description: Activities
+    group users:
+        permsel: "Y"
+        nomenu: "N"
     
     column activity:
         primary_key: "Y"
@@ -301,6 +316,8 @@ table items:
     uisort: 200
     description: Items
     fkdisplay: dynamic
+    group users:
+        permsel: "Y"
     
     column sku:
         primary_key: "Y"
@@ -452,6 +469,12 @@ table orderlines:
     description: Order Lines
     uisort: 111
     fkdisplay: onscreen
+    group users:
+        permsel: "Y"
+        permupd: "Y"
+        permins: "Y"
+        permdel: "Y"
+        nomenu: "N"
 
     foreign_key orders:
         uisearch: "Y"
@@ -556,6 +579,12 @@ table orderservices:
     module: sales
     description: Order Services
     uisort: 112
+    group users:
+        permsel: "Y"
+        permupd: "Y"
+        permins: "Y"
+        permdel: "Y"
+        nomenu: "N"
     
     foreign_key orders:
         uisearch: "Y"
@@ -565,6 +594,8 @@ table orderservices:
         suffix: _ord
         description: Order
         uisearch: "Y"
+        group admin:
+            permsel: "N"
         chain cons:
             test 00:
                 compare: @recnum_ord !NULL
@@ -589,6 +620,7 @@ table orderservices:
         uisearch: "Y"
     column date:
         uisearch: "Y"
+        uisearchsort: "D"
     foreign_key activities:
         uisearch: "Y"
         
@@ -597,13 +629,22 @@ table orderservices:
     column qtydec:
     column price:
         uisearch: "Y"
+        group admin:
+            permsel: "Y"
     column price_extended:
         uisearch: "Y"
         suffix: _extended
+        group admin:
+            permsel: "Y"
         chain calc:
             test 00:
                 return: @qtydec * @price
         
+    column flag_ok:
+        suffix: _ok
+        group admin:
+            permsel: "Y"
+            permupd: "Y"
 # >>
 # >> Table: Payments
 # >>
@@ -731,6 +772,10 @@ menu ex_salestax:
     module: sales
     uisort: 802
     description: Tax Report
+menu ex_hours:
+    module: sales
+    uisort: 805
+    description: Hours Report
     
 
 
@@ -740,7 +785,8 @@ menu ex_salestax:
 module payables:
     description: Payables
     uisort: 200
-    
+    group users:
+        nomenu: "Y"
 
 column vendor:
     type_id: int
@@ -879,6 +925,8 @@ table expenses:
 module gl:
     uisort: 300
     description: Ledger
+    group users:
+        nomenu: "Y"
     
 group gl:
     description: Ledger Users
@@ -1293,6 +1341,9 @@ table employees:
     module: usermaint
     uisort: 120
     description: Employees
+    group users:
+        permsel: "Y"
+        nomenu: "N"
     
     column employee:
         primary_key: "Y"

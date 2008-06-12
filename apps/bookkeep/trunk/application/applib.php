@@ -27,14 +27,12 @@
 # scope near the top of every web request.  Any code placed here will
 # be executed after the GP variables are processed but before there
 # is a database connection.  Any functions or classes placed here are
-# availably to your entire application.
+# available to your entire application.
 # ======================================================================
 # This says go to x4menu after login, don't go to x_welcome
 #
-#vgfset('x4Welcome',true);
-#
-# Put an x4 menu on top if you are on an x4 page 
-# 
+#  Go into x4 mode by default, and also make the menu x4 by default 
+vgfSet('x4Welcome',true);
 vgfset('x4menu',true);
 
 function appCountModules($module) {
