@@ -1,0 +1,23 @@
+options:
+    title: General Ledger Trial Balance
+    
+table gltypes:
+    column gltype:
+        order: "Y"
+        description: T
+table glaccounts:
+    column glaccount:
+        order: "Y"
+        dispsize: 12
+    column description:
+        dispsize: 20
+table gltrx:
+    column amt:
+        group: sum
+    column date:
+        compare: <= @date
+        uino: "Y"
+        
+uifilter date:
+    description: As-Of Date
+    type_id: date
