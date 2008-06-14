@@ -24,7 +24,7 @@
 # calls to the underlying fpdf library
 # ======================================================================
 include('fpdf153/fpdf.php');
-class p_orders extends x_table2 {
+class x4p_orders extends androX4 {
     function main() {
         # First retrieve all orders 
         if(gpExists('order')) {
@@ -33,6 +33,7 @@ class p_orders extends x_table2 {
         else {
             $sWhere = ' WHERE o.recnum_op = '.SQLFN(gp('batch'));
         }
+        SQL("update orders set _agg='C' $sWhere");
         $orders = SQL_AllRows(
             "SELECT o.*,c.description,c.add1,c.city,c.state,c.zip9
                from orders o
@@ -115,7 +116,10 @@ class p_orders extends x_table2 {
     
         # Send the output to the browser
         header('Pragma:',true);
-        $rep->Output('orders.pdf','I');
+        $fileout = 'order-'.$orders[0]['recnum_ord']
+            .'-'.$orders[0]['customer'].'.pdf';
+        $dispo   = gpExists('d') ? 'D' : 'I';
+        $rep->Output($fileout,$dispo);
         exit;
     }
 }

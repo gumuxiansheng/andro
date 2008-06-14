@@ -50,8 +50,8 @@ module sales:
 # >> Table customers
 # >>
 column customer:
-    type_id: int
-    automation_id: sequence
+    type_id: vchar
+    colprec: 10
     description: Customer
 
 table customers:
@@ -85,6 +85,15 @@ table customers:
         
     foreign_key tax_auths:
 
+    column add1:
+    column add2:
+    column city:
+    foreign_key states:
+    column zip9:
+        breakafter: "Y"
+        
+    column notes:
+    
     column amt_order:
         suffix: _order
         automation_id: sum
@@ -111,15 +120,8 @@ table customers:
         chain calc:
             test 00:
                 return: @amt_order - @amt_paid
-        
-    column add1:
-    column add2:
-    column city:
-    foreign_key states:
-    column zip9:
-    
-    column notes:
-    
+
+
     column ts_ins:
     column uid_ins:
     column ts_upd:
@@ -343,6 +345,14 @@ table orders:
     description: Orders
     uisort: 110
     fkdisplay: dynamic
+    chain update_pre:
+        test 00:
+            compare: @flag_close = Y
+            return: Order is closed, cannot change
+    chain delete_pre:
+        test 00:
+            compare: @flag_close = Y
+            return: Order is closed, cannot change
     
     projection dropdown:
         column recnum_ord:
@@ -356,8 +366,13 @@ table orders:
         description: Order
     foreign_key customers:
         uisearch: "Y"
-    foreign_key opbatches:
-        allow_empty: "Y"
+    column date:
+        description: Order Date
+        uisearch: "Y"
+        uisearchsort: "D"
+            
+    #foreign_key opbatches:
+    #    allow_empty: "Y"
         
     column amt_taxable:
         suffix: _taxable
@@ -421,13 +436,30 @@ table orders:
         chain calc:
             test 00:
                 return: @amt_order - @amt_paid
-        
+        breakafter: "Y"
+                
     column ts_ins:
         uisearch: "Y"
     column uid_ins:
         uisearch: "Y"
     column ts_upd:
     column uid_upd:
+    column flag_printed:
+        suffix: _printed
+        description: Printed
+        auto: default,N
+    column flag_close:
+        suffix: _close
+        description: Closed
+        auto: default,N
+        chain cons:
+            test 00:
+                compare: @flag_close = N
+                return: ""
+            test 01:
+                compare: @flag_printed = Y
+                return: Cannot close unless printed
+        
     
     # History 1, debit ar, credit sales
     history order_sales:
@@ -530,10 +562,6 @@ table orderlines:
                 return: @price_man
         description: Final Price
         
-    column flag_nocharge:
-        suffix: _nocharge
-        description: Waive Charges
-        
     column description_man:
         suffix: _man
         description: Additional Description
@@ -546,9 +574,6 @@ table orderlines:
         description: Taxable
         uisearch: "Y"
         chain calc:
-            test 00:
-                compare: @flag_nocharge = Y
-                return: 0
             test 01:
                 compare: @flag_tax = Y
                 return: @price * @qty
@@ -560,9 +585,6 @@ table orderlines:
         description: Non-Taxable
         uisearch: "Y"
         chain calc:
-            test 00:
-                compare: @flag_nocharge = Y
-                return: 0
             test 01:
                 compare: @flag_tax = Y
                 return: 0
@@ -585,6 +607,14 @@ table orderservices:
         permins: "Y"
         permdel: "Y"
         nomenu: "N"
+    chain update_pre:
+        test 00:
+            compare: @flag_close = Y
+            return: Line is closed, cannot change
+    chain delete_pre:
+        test 00:
+            compare: @flag_close = Y
+            return: Line is closed, cannot change
     
     foreign_key orders:
         uisearch: "Y"
@@ -627,6 +657,7 @@ table orderservices:
     column notes:        
     
     column qtydec:
+        description: Hours
     column price:
         uisearch: "Y"
         group admin:
@@ -640,14 +671,31 @@ table orderservices:
             test 00:
                 return: @qtydec * @price
         
-    column flag_ok:
-        suffix: _ok
+    column flag_close:
+        suffix: _close
+        description: Closed
+        auto: default,N
         group admin:
             permsel: "Y"
             permupd: "Y"
+        chain cons:
+            test 00:
+                compare: @flag_close = N
+                return: ""
+            test 03:
+                compare: @recnum_ord NULL
+                return: Cannot close line without Order Number
+            test 04:
+                compare: @qtydec = 0
+                return: Cannot close line without hours
+
 # >>
 # >> Table: Payments
 # >>
+column checknum:
+    type_id: char
+    colprec: 12
+    description: Check Number
 table payments:
     uisort: 200
     description: Payments
@@ -672,39 +720,34 @@ table payments:
         uisearch: "Y"
     foreign_key paytypes:
     column paytype:
-        automation_id: DEFAULT
-        auto_formula: CASH
-    
+        auto: default,CHECK
+    column checknum:
     
     column ts_ins:
     column uid_ins:
     column ts_upd:
     column uid_upd:
 
-menu billproc:
+menu timereview:
+    module: sales
     uisort: 300
+    description: Time Review
+    group admin:
+        permsel: "Y"
+    group users:
+        permsel: "N"
+
+menu billproc:
+    uisort: 301
     description: Billing
     module: sales
+    group admin:
+        permsel: "Y"
+    group users:
+        permsel: "N"
     
-    
-table opbatches:
-    module: sales
-    description: Order Batches
-    uisort: 400
-    nomenu: "Y"
-                                            
-    column recnum_op:
-        suffix: _op
-        primary_key: "Y"
-        uisearch: "Y"
-    column date_print:
-        suffix: _print
-        uisearch: "Y"
-    column ts_ins:
-        uisearch: "Y"
-    column uid_ins:
-        uisearch: "Y"
-    
+        
+        
     
 column paytype:
     type_id: vchar
