@@ -1,0 +1,21 @@
+options:
+    title: Hours Report
+    
+table orderservices:
+    column date:
+        compare: between @date1 and @date2
+        break: "Y"
+        order: "Y"
+    column customer:
+    column employee:
+    column activity:
+    column qtydec:
+        break: SUM 
+        bottom: SUM
+        
+uifilter date1:
+    type_id: date
+    description: Begin Date
+uifilter date2:
+    type_id: date
+    description: End Date    
