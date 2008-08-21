@@ -29,51 +29,16 @@
 # is a database connection.  Any functions or classes placed here are
 # available to your entire application.
 # ======================================================================
-# This says go to x4menu after login, don't go to x_welcome
-#
-#  Go into x4 mode by default, and also make the menu x4 by default 
-vgfSet('x4Welcome',true);
-vgfset('x4menu',true);
 
 function appCountModules($module) {
+    if($module=='left') return false;
+    /*
     $x4 = gp('x4Page')=='' ? false : true;
     if($x4 && $module=='top') return false;
     if($x4 && $module=='left') return false;
     if($module=='command') return false;
+    */
     return tmpCountModules($module);
     
-}
-
-#  Put out some links to activate or de-activate x4
-#
-function appModuleLeft() {
-    if(!LoggedIn()) return;
-    ?>
-    <div class="moduletable">
-    <h3>Extended Desktop</h3>
-    <br/>
-    <p>You are currently in "classic" Andromeda mode.  This mode is suitable
-       for low-volume administration interfaces, it expects regular use of
-       the mouse and many actions require a round trip to the server.
-    </p>
-    
-    <p>The Extended Desktop interface is for high-volume data entry and
-       administration.  It emphasizes complete
-       keyboard functionality,
-       and ajax-based responsiveness.  These give the user the
-       much-coveted "desktop" feel.
-    </p>
-
-    <p>
-    <center>
-    <a href="?x4Page=menu">Click Here For Extended Desktop</a>
-    </center>
-    </p>
-    <br/>
-    
-    
-    </div>
-    <?php
-    return false;
 }
 ?>

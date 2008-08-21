@@ -36,7 +36,28 @@ group users:
     permdel: "N"
     module sales:
         nomenu: "N"
-
+        
+# ======================================================================
+# DUMMY TABLE FOR APPLICATION OPTIONS.  THEY WILL
+# ACTUALLY APPEAR IN TABLE CONFIGAPP
+# ======================================================================
+table configapp_extra:
+    module: system
+    uisort: 999
+    nomenu: "Y"
+    
+    column flag_test:
+        suffix: _test
+        description: Test Config Option
+        primary_key: "Y"
+        uisearch: "Y"
+        
+content configapp:
+    columns: [ cf_template, x4menu, x4padmenu ]
+    update: 
+        - [ pixel2, "Y", "Y" ]
+        
+        
 # ======================================================================
 # MODULE: SALES
 # ======================================================================
@@ -607,14 +628,14 @@ table orderservices:
         permins: "Y"
         permdel: "Y"
         nomenu: "N"
-    chain update_pre:
-        test 00:
-            compare: @flag_close = Y
-            return: Line is closed, cannot change
-    chain delete_pre:
-        test 00:
-            compare: @flag_close = Y
-            return: Line is closed, cannot change
+    #chain update_pre:
+    #    test 00:
+    #        compare: @flag_close = Y
+    #        return: Line is closed, cannot change
+    #chain delete_pre:
+    #    test 00:
+    #        compare: @flag_close = Y
+    #        return: Line is closed, cannot change
     
     foreign_key orders:
         uisearch: "Y"
