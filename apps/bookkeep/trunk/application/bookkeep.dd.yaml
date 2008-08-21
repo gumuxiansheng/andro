@@ -53,9 +53,9 @@ table configapp_extra:
         uisearch: "Y"
         
 content configapp:
-    columns: [ cf_template, x4menu, x4padmenu ]
+    columns: [ cf_template, x4menu, x4padmenu, flag_test ]
     update: 
-        - [ pixel2, "Y", "Y" ]
+        - [ pixel2, "Y", "Y" ,'N' ]
         
         
 # ======================================================================
