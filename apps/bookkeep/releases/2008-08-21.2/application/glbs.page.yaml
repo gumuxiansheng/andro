@@ -1,0 +1,32 @@
+options:
+    title: Balance Sheet
+    
+
+table gltypes:
+    column sequence:
+        order: "Y"
+        uino: "Y"
+    column gltype:
+        description: Type
+        dispsize: 4
+        compare: in ('A','L', 'Q')
+        break: "Y"
+table glaccounts:
+    column glaccount:
+        order: "Y"
+        dispsize: 12
+    column description:
+        dispsize: 23
+        bottom: Assets less Liabilities
+table gltrx:
+    column amt:
+        group: sum
+        break: sum
+        bottom: sum
+    column date:
+        compare: <= @date
+        uino: "Y"
+        
+uifilter date:
+    description: As-Of Date
+    type_id: date
