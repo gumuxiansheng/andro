@@ -1,0 +1,24 @@
+options:
+    title: Sales Tax Report
+    
+table orders:
+    column ts_ins:
+        compare: between @date1 and @date2
+        uino: "Y"
+    column tax_auth:
+    column amt_order:
+        description: Total Orders
+        group: sum
+    column amt_taxable:
+        description: Taxable Sales
+        group: sum
+    column amt_tax:
+        compare: > 0
+        group: sum
+        
+uifilter date1:
+    type_id: date
+    description: Begin Date
+uifilter date2:
+    type_id: date
+    description: End Date    

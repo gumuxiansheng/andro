@@ -1,0 +1,1420 @@
+# ======================================================================
+#   (C) Copyright 2005 by Secure Data Software, Inc.
+#   
+#   
+#  "BOOKKEEP" is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#   BOOKKEEP is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with BOOKKEEP; if not, write to the Free Software
+#   Foundation, Inc., 51 Franklin St, Fifth Floor,
+#   Boston, MA  02110-1301  USA 
+#   or visit http://www.gnu.org/licenses/gpl.html
+#
+# ======================================================================
+group admin:
+    description: Superusers
+    permsel: "Y"
+    permins: "Y"
+    permupd: "Y"
+    permdel: "Y"
+    module system:
+        nomenu: "N"
+    
+group users:    
+    description: Regular Users
+    permsel: "N"
+    permins: "N"
+    permupd: "N"
+    permdel: "N"
+    module sales:
+        nomenu: "N"
+        
+# ======================================================================
+# DUMMY TABLE FOR APPLICATION OPTIONS.  THEY WILL
+# ACTUALLY APPEAR IN TABLE CONFIGAPP
+# ======================================================================
+table configapp_extra:
+    module: system
+    uisort: 999
+    nomenu: "Y"
+    
+    column flag_test:
+        suffix: _test
+        description: Test Config Option
+        primary_key: "Y"
+        uisearch: "Y"
+        
+content configapp:
+    columns: [ cf_template, x4menu, x4padmenu ]
+    update: 
+        - [ pixel2, "Y", "Y" ]
+        
+        
+# ======================================================================
+# MODULE: SALES
+# ======================================================================
+module sales:
+    uisort: 100
+    description: Sales
+    group users:
+        nomenu: "Y"
+    
+# >>
+# >> Table customers
+# >>
+column customer:
+    type_id: vchar
+    colprec: 10
+    description: Customer
+
+table customers:
+    module: sales
+    uisort: 100
+    description: Customers
+    fkdisplay: dynamic
+    group $LOGIN:
+        permsel: "Y"
+    
+    projection dropdown:
+        column customer:
+        column description:
+        column add1:
+        column zip9:
+    
+    column customer:
+        primary_key: "Y"
+        uisearch: "Y"
+        descshort: Cust
+    column description:
+        uisearch: "Y"
+        description: Name
+    column name_ar:
+        uisearch: "Y"
+        suffix: _ar
+        description: AR Contact
+    column phone:
+        uisearch: "Y"
+    column email:
+        
+    foreign_key tax_auths:
+
+    column add1:
+    column add2:
+    column city:
+    foreign_key states:
+    column zip9:
+        breakafter: "Y"
+        
+    column notes:
+    
+    column amt_order:
+        suffix: _order
+        automation_id: sum
+        auto_formula: orders.amt_order
+        description: Lifetime Orders
+        descshort: Tot Ordrs
+        group admin:
+            permcol: "N"
+    column amt_paid:
+        suffix: _paid
+        automation_id: sum
+        auto_formula: orders.amt_paid
+        description: Lifetime Payments
+        descshort: Tot Pmts
+        group admin:
+            permcol: "N"
+    column amt_balance:
+        suffix: _balance
+        description: Current Balance
+        descshort: Balance
+        tooltip: This is Lifetime Orders less Lifetime Payments
+        group admin:
+            permcol: "N"
+        chain calc:
+            test 00:
+                return: @amt_order - @amt_paid
+
+
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+    column uid_upd:
+                
+                
+# >>
+# >> Table activities
+# >>
+column activity:
+    type_id: char
+    colprec: 10
+    description: Activity
+table activities:                
+    module: sales
+    uisort: 810
+    description: Activities
+    group users:
+        permsel: "Y"
+        nomenu: "N"
+    
+    column activity:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+        
+# >>
+# >> Activity Rates
+# >>
+table actrates:
+    module: sales
+    uisort: 811
+    nomenu: "Y"
+    description: Activity Rates
+    group users:
+        permsel: "N"
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    foreign_key activities:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    column date:
+        description: Begin Date
+        primary_key: "Y"
+        range_to: date_end
+        uisearch: "Y"
+    column date_end:
+        description: End Date
+        suffix: _end
+        primary_key: "Y"
+        range_from: date
+        uisearch: "Y"
+        
+    column amt:
+        description: Rate
+        uisearch: "Y"
+            
+        
+        
+        
+# >>
+# >> Exceptions: Customer Activity
+# >>
+table custactrates:
+    module: sales
+    uisort: 131
+    nomenu: "Y"
+    description: Customer-Activity Rates
+    group users:
+        permsel: "N"
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    foreign_key customers:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    foreign_key activities:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    column date:
+        description: Begin Date
+        primary_key: "Y"
+        range_to: date_end
+        uisearch: "Y"
+    column date_end:
+        description: End Date
+        suffix: _end
+        primary_key: "Y"
+        range_from: date
+        uisearch: "Y"
+        
+    column amt:
+        description: Rate
+        uisearch: "Y"
+
+# >>
+# >> Exceptions: Activity Employee
+# >>
+table actemprates:
+    module: sales
+    uisort: 132
+    nomenu: "Y"
+    description: Activity-Employee Rates
+    group users:
+        permsel: "N"
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    foreign_key activities:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    foreign_key employees:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    column date:
+        description: Begin Date
+        primary_key: "Y"
+        range_to: date_end
+        uisearch: "Y"
+    column date_end:
+        description: End Date
+        suffix: _end
+        primary_key: "Y"
+        range_from: date
+        uisearch: "Y"
+        
+    column amt:
+        description: Rate
+        uisearch: "Y"
+        
+# >>
+# >> Exceptions: Customer Activity Employee
+# >>
+table custactemprates:
+    module: sales
+    uisort: 132
+    nomenu: "Y"
+    description: Customer-Activity-Employee Rates
+    group users:
+        permsel: "N"
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    foreign_key customers:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    foreign_key activities:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    foreign_key employees:
+        primary_key: "Y"
+        uisearch: "Y"
+        uidisplay: onscreen
+    column date:
+        description: Begin Date
+        primary_key: "Y"
+        range_to: date_end
+        uisearch: "Y"
+    column date_end:
+        description: End Date
+        suffix: _end
+        primary_key: "Y"
+        range_from: date
+        uisearch: "Y"
+        
+    column amt:
+        description: Rate
+        uisearch: "Y"
+
+
+# >>
+# >> Items
+# >>
+column sku:
+    type_id: vchar
+    colprec: 25
+    description: SKU
+    
+table items:
+    module: sales
+    uisort: 200
+    description: Items
+    fkdisplay: dynamic
+    group users:
+        permsel: "Y"
+    
+    column sku:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+        
+    column price:
+        uisearch: "Y"
+    column flag_tax:
+        suffix: _tax
+        uisearch: "Y"
+        description: Taxable
+        automation_id: default
+        auto_formula: "N"
+
+        
+# >>
+# >> Table Orders
+# >>
+table orders:
+    module: sales
+    description: Orders
+    uisort: 110
+    fkdisplay: dynamic
+    chain update_pre:
+        test 00:
+            compare: @flag_close = Y
+            return: Order is closed, cannot change
+    chain delete_pre:
+        test 00:
+            compare: @flag_close = Y
+            return: Order is closed, cannot change
+    
+    projection dropdown:
+        column recnum_ord:
+        column customer:
+        column ts_ins:
+    
+    column recnum_ord:
+        suffix: _ord
+        primary_key: "Y"
+        uisearch: "Y"
+        description: Order
+    foreign_key customers:
+        uisearch: "Y"
+    column date:
+        description: Order Date
+        uisearch: "Y"
+        uisearchsort: "D"
+            
+    #foreign_key opbatches:
+    #    allow_empty: "Y"
+        
+    column amt_taxable:
+        suffix: _taxable
+        automation_id: sum
+        auto_formula: orderlines.amt_taxable
+        description: Taxable Sale
+    column amt_notax:
+        suffix: _notax
+        automation_id: sum
+        auto_formula: orderlines.amt_notax
+        description: Non-taxable Sale
+
+    column amt_services:
+        suffix: _services
+        automation_id: sum
+        auto_formula: orderservices.price_extended
+        description: Services
+    column amt_sales:
+        suffix: _sales
+        description: Total Sale
+        chain calc:
+            test 00:
+                return: @amt_taxable + @amt_notax @amt_services
+        
+        
+    foreign_key tax_auths:
+    column tax_auth:
+        automation_id: fetch
+        auto_formula: customers.tax_auth
+    column pct_tax:
+        automation_id: fetch
+        auto_formula: tax_auths.pct_tax
+        
+    column amt_tax:
+        suffix: _tax
+        description: Tax
+        chain calc:
+            test 00:
+                return: @amt_taxable * @pct_tax
+                
+    column amt_order:
+        uisearch: "Y"
+        suffix: _order
+        description: Final Amount
+        chain calc:
+            test 00:
+                return: @amt_taxable + @amt_notax @amt_tax @amt_services
+                
+                
+    column amt_paid:
+        uisearch: "Y"
+        suffix: _paid
+        automation_id: sum
+        auto_formula: payments.amt
+        description: Paid
+            
+    column amt_balance:
+        uisearch: "Y"
+        suffix: _balance
+        description: Balance
+        chain calc:
+            test 00:
+                return: @amt_order - @amt_paid
+        breakafter: "Y"
+                
+    column ts_ins:
+        uisearch: "Y"
+    column uid_ins:
+        uisearch: "Y"
+    column ts_upd:
+    column uid_upd:
+    column flag_printed:
+        suffix: _printed
+        description: Printed
+        auto: default,N
+    column flag_close:
+        suffix: _close
+        description: Closed
+        auto: default,N
+        chain cons:
+            test 00:
+                compare: @flag_close = N
+                return: ""
+            test 01:
+                compare: @flag_printed = Y
+                return: Cannot close unless printed
+        
+    
+    # History 1, debit ar, credit sales
+    history order_sales:
+        table_id_dest: glinbox
+        column date:
+            retcol: ts_upd
+        column glpointer_debit:
+            retval: ar
+        column glpointer_credit:
+            retval: sales
+        column amt_debit:
+            retdiff: amt_sales
+    # History 2, debit ar, credit sales tax
+    history order_salestax:
+        table_id_dest: glinbox
+        column date:
+            retcol: ts_upd
+        column glpointer_debit:
+            retval: ar
+        column glpointer_credit:
+            retval: salestax
+        column amt_debit:
+            retdiff: amt_taxable
+    # History 3, debit cash, credit ar
+    history order_payment:
+        table_id_dest: glinbox
+        column date:
+            retcol: ts_upd
+        column glpointer_debit:
+            retval: cash
+        column glpointer_credit:
+            retval: ar
+        column amt_debit:
+            retdiff: amt_paid
+    
+    
+table orderlines:
+    module: sales
+    description: Order Lines
+    uisort: 111
+    fkdisplay: onscreen
+    group users:
+        permsel: "Y"
+        permupd: "Y"
+        permins: "Y"
+        permdel: "Y"
+        nomenu: "N"
+
+    foreign_key orders:
+        uisearch: "Y"
+        allow_empty: "Y"
+    column recnum_ord:
+        automation_id: none
+        suffix: _ord
+        description: Order
+        chain cons:
+            test 00:
+                compare: @recnum_ord !NULL
+                return: ""
+            test 01:
+                compare: @customer !NULL
+                return: ""
+            test 99:
+                return: Either Order or Customer Must Be Filled
+
+    # Optional foreign key to customers
+    foreign_key customers:
+        allow_empty: "Y"
+    
+    column recnum_ol:
+        suffix: _ol
+        primary_key: "Y"
+        uisearch: "Y"
+        description: Order Line
+    
+    foreign_key items:
+        uisearch: "Y"
+    column flag_tax:
+        suffix: _tax
+        automation_id: FETCH
+        auto_formula: items.flag_tax
+        description: Taxable Item
+    column price_fetch:
+        suffix: _fetch
+        uisearch: "Y" 
+        automation_id: FETCH
+        auto_formula: items.price
+        description: Item Price
+    column price_man:
+        suffix: _man
+        automation_id: DEFAULT
+        auto_formula: 0
+        description: Price Override
+    column price:
+        chain calc:
+            test 00:
+                compare: @price_man = 0
+                return: @price_fetch
+            test 01:
+                return: @price_man
+        description: Final Price
+        
+    column description_man:
+        suffix: _man
+        description: Additional Description
+        
+    column qty:
+        uisearch: "Y"
+    
+    column amt_taxable:
+        suffix: _taxable
+        description: Taxable
+        uisearch: "Y"
+        chain calc:
+            test 01:
+                compare: @flag_tax = Y
+                return: @price * @qty
+            test 02:
+                return: 0
+
+    column amt_notax:
+        suffix: _notax
+        description: Non-Taxable
+        uisearch: "Y"
+        chain calc:
+            test 01:
+                compare: @flag_tax = Y
+                return: 0
+            test 02:
+                return: @price * @qty
+    
+column qtydec:
+    type_id: numb
+    colprec: 6
+    colscale: 2
+    description: Hours
+                
+table orderservices:
+    module: sales
+    description: Order Services
+    uisort: 112
+    group users:
+        permsel: "Y"
+        permupd: "Y"
+        permins: "Y"
+        permdel: "Y"
+        nomenu: "N"
+    #chain update_pre:
+    #    test 00:
+    #        compare: @flag_close = Y
+    #        return: Line is closed, cannot change
+    #chain delete_pre:
+    #    test 00:
+    #        compare: @flag_close = Y
+    #        return: Line is closed, cannot change
+    
+    foreign_key orders:
+        uisearch: "Y"
+        allow_empty: "Y"
+    column recnum_ord:
+        automation_id: NONE
+        suffix: _ord
+        description: Order
+        uisearch: "Y"
+        group admin:
+            permsel: "N"
+        chain cons:
+            test 00:
+                compare: @recnum_ord !NULL
+                return: ""
+            test 01:
+                compare: @customer !NULL
+                return: ""
+            test 99:
+                return: Either Order or Customer Must Be Filled
+                
+    # Optional foreign key to customers
+    foreign_key customers:
+        allow_empty: "Y"
+    
+    column recnum_os:
+        suffix: _os
+        primary_key: "Y"
+        uisearch: "Y"
+        description: Order Service
+        
+    foreign_key employees:
+        uisearch: "Y"
+    column date:
+        uisearch: "Y"
+        uisearchsort: "D"
+    foreign_key activities:
+        uisearch: "Y"
+        
+    column notes:        
+    
+    column qtydec:
+        description: Hours
+    column price:
+        uisearch: "Y"
+        group admin:
+            permsel: "Y"
+    column price_extended:
+        uisearch: "Y"
+        suffix: _extended
+        group admin:
+            permsel: "Y"
+        chain calc:
+            test 00:
+                return: @qtydec * @price
+        
+    column flag_close:
+        suffix: _close
+        description: Closed
+        auto: default,N
+        group admin:
+            permsel: "Y"
+            permupd: "Y"
+        chain cons:
+            test 00:
+                compare: @flag_close = N
+                return: ""
+            test 03:
+                compare: @recnum_ord NULL
+                return: Cannot close line without Order Number
+            test 04:
+                compare: @qtydec = 0
+                return: Cannot close line without hours
+
+# >>
+# >> Table: Payments
+# >>
+column checknum:
+    type_id: char
+    colprec: 12
+    description: Check Number
+table payments:
+    uisort: 200
+    description: Payments
+    module: sales
+    nomenu: "Y"
+    
+    column recnum_pmt:
+        suffix: _pmt
+        primary_key: "Y"
+        uisearch: "Y"
+        description: Pmt Number
+    
+    foreign_key orders:
+        uisearch: "Y"
+    column recnum_ol:
+        suffix: _ol
+        description: Order
+        
+    column date:
+        uisearch: "Y"
+    column amt:
+        uisearch: "Y"
+    foreign_key paytypes:
+    column paytype:
+        auto: default,CHECK
+    column checknum:
+    
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+    column uid_upd:
+
+menu timereview:
+    module: sales
+    uisort: 300
+    description: Time Review
+    group admin:
+        permsel: "Y"
+    group users:
+        permsel: "N"
+
+menu billproc:
+    uisort: 301
+    description: Billing
+    module: sales
+    group admin:
+        permsel: "Y"
+    group users:
+        permsel: "N"
+    
+        
+        
+    
+column paytype:
+    type_id: vchar
+    colprec: 5
+    description: Payment Type
+
+table paytypes:    
+    module: sales
+    description: Payment Types
+    uisort: 110
+    
+    column paytype:
+        uisearch: "Y"
+        primary_key: "Y"
+        
+content paytypes:
+    columns: [ paytype ]
+    values:
+        - [ VISA ]
+        - [ MC ]
+        - [ CHECK ]
+        - [ CASH ]
+
+column tax_auth:
+    type_id: vchar
+    colprec: 15
+    description: Tax Authority
+column pct_tax:
+    type_id: numb
+    colprec: 7
+    colsacle: 6
+        
+table tax_auths:
+    module: sales
+    description: Tax Authorities
+    uisort: 900
+    
+    column tax_auth:
+        primary_key: "Y"
+        uisearch: "Y"
+        uisearch_ignore_dash: "Y"
+        
+    column description:
+        uisearch: "Y"
+        
+    column pct_tax:
+        description: Tax Percentage
+        uisearch: "Y"
+        
+    column cnt:
+        value_min: 17
+        value_max: 23
+        
+        
+menu ex_customers:
+    module: sales
+    uisort: 800 
+    description: Customers
+menu ex_custvend:
+    module: sales
+    uisort: 801 
+    description: Customers and Vendors
+
+menu ex_salestax:
+    module: sales
+    uisort: 802
+    description: Tax Report
+menu ex_hours:
+    module: sales
+    uisort: 805
+    description: Hours Report
+    
+
+
+# ======================================================================
+# MODULE: PAYABLES
+# ======================================================================
+module payables:
+    description: Payables
+    uisort: 200
+    group users:
+        nomenu: "Y"
+
+column vendor:
+    type_id: int
+    description: Vendor
+    automation_id: SEQUENCE
+
+table vendors:
+    module: payables
+    uisort: 100
+    description: Vendors
+    fkdisplay: dynamic
+    
+    projection dropdown:
+        column vendor:
+        column description:
+        column add1:
+        column zip9:
+    
+    column vendor:
+        primary_key: "Y"
+        uisearch: "Y"
+        descshort: Vendor
+    column description:
+        uisearch: "Y"
+        description: Name
+    column name_ap:
+        uisearch: "Y"
+        suffix: _ap
+        description: AP Contact
+    column phone:
+        uisearch: "Y"
+    column email:
+        
+    foreign_key glaccounts:
+    column glaccount:
+        description: Expense Account
+    
+    column amt_order:
+        suffix: _order
+        #automation_id: sum
+        #auto_formula: orders.amt_order
+        #description: Lifetime Orders
+        descshort: Tot Ordrs
+    column amt_paid:
+        suffix: _paid
+        #automation_id: sum
+        #auto_formula: orders.amt_paid
+        #description: Lifetime Payments
+        descshort: Tot Pmts
+    column amt_balance:
+        suffix: _balance
+        description: Current Balance
+        descshort: Balance
+        #tooltip: This is Lifetime Orders less Lifetime Payments
+        #chain calc:
+        #    test 00:
+        #        return: @amt_order - @amt_paid
+        
+    column add1:
+    column add2:
+    column city:
+    foreign_key states:
+    column zip9:
+    
+    column notes:
+    
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+    column uid_upd:
+        
+
+# >>
+# >> Table: Expenses.  Simple recording of expenses
+# >>
+column expense:
+    type_id: int
+    automation_id: sequence
+    description: Record Number
+table expenses:
+    module: payables
+    uisort: 200
+    description: Simple Expenses
+    
+    column expense:
+        primary_key: "Y"
+    
+    # The vendor and their expense, which is the debit
+    foreign_key vendors:
+        uisearch: "Y"
+    column glaccount:
+        uisearch: "Y"
+        auto: fetch,vendors.glaccount
+
+    # Pointer to the cash account and pull that guy in
+    foreign_key glpointers:
+    column glpointer:
+        uisearch: "Y"
+        chain calc:
+            test 00:
+                return: cash
+    column glaccount_credit:
+        uisearch: "Y"
+        suffix: _credit
+        auto: fetch,glpointers.glaccount
+
+    column date:
+        uisearch: "Y"
+    column amt:
+        uisearch: "Y"
+    
+    column ts_ins:
+    column uid_ins:    
+    
+    # Now shoot this over to the gljournal table
+    history expenses:
+        table_id_dest: gljournal
+        column glaccount_debit:
+            retcol: glaccount
+        column glaccount_credit:
+            retcol: glaccount_credit
+        column date:
+            retcol: date
+        column amt_debit:
+            retdiff: amt
+
+    
+# << 
+# << Table: Expenses
+# <<
+    
+    
+# ======================================================================
+# MODULE: GENERAL LEDGER
+# ======================================================================
+module gl:
+    uisort: 300
+    description: Ledger
+    group users:
+        nomenu: "Y"
+    
+group gl:
+    description: Ledger Users
+    module gl:
+        nomenu: "N"
+group glrollup:
+    description: Can Do GL Roll Ups
+    module gl:
+        nomenu: "N"
+    
+# >>
+# >> GL Account Types
+# >>
+column gltype:
+    type_id: char
+    colprec: 1
+    description: Account Type
+table gltypes:
+    module: gl
+    description: Account Types
+    uisort: 900
+    group gl:
+        permsel: "Y" 
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    projection dropdown:
+        column gltype:
+        column description:
+        
+    column gltype:
+        primary_key: "Y"
+        uisearch: "Y"
+    column sequence:
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+        
+content gltypes:
+    columns: [ gltype, sequence, description ]
+    values: 
+        - [ A, 0, Asset ]
+        - [ L, 1, Liability ]
+        - [ Q, 2, Equity ]
+        - [ I, 3, Income ]
+        - [ E, 4, Expense ]
+# <<
+# << GL Account Types (END)
+# <<
+
+
+# >>
+# >> GL Chart of Accounts
+# >>
+column glaccount:
+    type_id: char
+    colprec: 5
+    description: Account
+    
+table glaccounts:
+    module: gl
+    description: Chart of Accounts
+    uisort: 100
+    singular: Account
+    fkdisplay: dynamic
+    group gl:
+        permsel: "Y" 
+        permins: "Y"
+        permupd: "Y"
+        permdel: "Y"
+    
+    projection dropdown:
+        column glaccount:
+        column description:
+        column gltype:
+    
+    column glaccount:
+        primary_key: "Y"
+        uisearch: "Y"
+        
+    foreign_key gltypes:
+        uisearch: "Y"
+    
+    column description:
+        uisearch: "Y"
+    
+    column amt:
+        description: Balance
+        uisearch: "Y"
+        auto: sum,gltrx.amt
+# <<
+# << GL Chart of Accounts (END)
+# <<
+
+# >>
+# >> GL Pointers
+# >>
+column glpointer:
+    type_id: char
+    colprec: 10
+    description: Pointer
+table glpointers:
+    module: gl
+    uisort: 200
+    description: GL Pointers
+    singular: Pointer
+    group gl:
+        permsel: "Y"
+        permins: "N"
+        permupd: "Y"
+        permdel: "N"
+        
+    column glpointer:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    foreign_key glaccounts:
+        uisearch: "Y"
+        allow_empty: "Y"
+    column description_ac:
+        suffix: _ac
+        uisearch: "Y"
+        auto: distribute,glaccounts.description
+        description: GL A/C Description
+
+content glpointers:
+    columns: [ glpointer, description ]
+    values: 
+        - [ ar, Accounts Receivable ]
+        - [ ap, Accounts Payable    ]
+        - [ salestax, Sales Tax Collected ]
+        - [ sales, Sales ]
+        - [ cash, Cash Account ]
+        - [ equity, Accumulated Equity ]
+        - [ stock, Investors Paid in ]
+# <<
+# << GL Pointers (END)
+# <<
+
+        
+# >>
+# >> GL Inbox.  For receiving info from other modules
+# >>
+column glinbox:
+    type_id: int
+    auto: sequence
+    description: Record Number
+table glinbox:
+    module: gl
+    uisort: 800
+    description: Inbox Table
+    group gl:
+        permsel: "Y" 
+        permins: "Y"
+        permupd: "N"
+        permdel: "N"
+    group glrollup:
+        permsel: "Y"
+        permins: "N"
+        permupd: "N"
+        permdel: "Y"
+    
+    column glinbox:
+        primary_key: "Y"
+        
+    # The debit pointer and credit pointer
+    foreign_key glpointers_debit:
+        suffix: _debit
+        description: Debit Pointer
+        allow_empty: "Y"
+        uisearch: "Y"
+    foreign_key glpointers_credit:
+        suffix: _credit
+        description: Credit Pointer
+        allow_empty: "Y"
+        uisearch: "Y"
+        
+    # The debit amount is what users insert,
+    # the credit is calculated as the opposite
+    column amt_debit:
+        suffix: _debit
+        description: Debit Amount
+        uisearch: "Y"
+    column amt_credit:
+        suffix: _credit
+        description: Credit Amount
+        chain calc:
+            test 00:
+                return: 0 - @amt_debit
+        uisearch: "Y"
+                
+    # this date is what the user enters
+    column date:
+        uisearch: "Y"
+        
+    # Very important in a financial app
+    column ts_ins:
+    column uid_ins:
+    
+    # Split the line into debit and credit lines
+    history gldebit:
+        table_id_dest: gltrx
+        column trxtype:
+            retval: INBOX
+        column glpointer:
+            retcol: glpointer_debit
+        column amt:
+            retcol: amt_debit
+        column glinbox:
+            retcol: glinbox
+        column date:
+            retcol: date
+    history glcredit:
+        table_id_dest: gltrx
+        column trxtype:
+            retval: INBOX
+        column glpointer:
+            retcol: glpointer_credit
+        column amt:
+            retcol: amt_credit
+        column glinbox:
+            retcol: glinbox
+        column date:
+            retcol: date
+
+# <<
+# << GL Inbox (END) 
+# <<
+
+
+# >>
+# >> GL Journal.  For manual entries
+# >>
+column gljournal:
+    type_id: int
+    auto: sequence
+    description: Record Number
+table gljournal:
+    module: gl
+    uisort: 250
+    description: Journal Entries
+    singular: Entry
+    
+    group gl:
+        permsel: "Y" 
+        permins: "Y"
+        permupd: "N"
+        permdel: "N"
+    group glrollup:
+        permsel: "Y"
+        permins: "N"
+        permupd: "N"
+        permdel: "Y"
+    
+    column gljournal:
+        primary_key: "Y"
+        
+    # The debit and credit account
+    foreign_key glaccounts_debit:
+        suffix: _debit
+    column glaccount_debit:
+        suffix: _debit
+        description: Debit Account
+        uisearch: "Y"
+    foreign_key glaccounts_credit:
+        suffix: _credit
+    column glaccount_credit:
+        suffix: _credit
+        uisearch: "Y"
+        description: Credit Account
+        
+    # The debit amount is what users insert,
+    # the credit is calculated as the opposite
+    column amt_debit:
+        suffix: _debit
+        description: Debit Amount
+        uisearch: "Y"
+    column amt_credit:
+        suffix: _credit
+        description: Credit Amount
+        chain calc:
+            test 00:
+                return: 0 - @amt_debit
+        uisearch: "Y"
+                
+    # this date is what the user enters
+    column date:
+        uisearch: "Y"
+        
+    # Very important in a financial app
+    column ts_ins:
+    column uid_ins:
+    
+    # Split the line into debit and credit lines
+    history gltrxdebit:
+        table_id_dest: gltrx
+        column trxtype:
+            retval: JOURNAL
+        column glaccount:
+            retcol: glaccount_debit
+        column amt:
+            retcol: amt_debit
+        column glinbox:
+            retcol: gljournal
+        column date:
+            retcol: date
+    history gltrxcredit:
+        table_id_dest: gltrx
+        column trxtype:
+            retval: JOURNAL
+        column glaccount:
+            retcol: glaccount_credit
+        column amt:
+            retcol: amt_credit
+        column glinbox:
+            retcol: gljournal
+        column date:
+            retcol: date
+
+# <<
+# << GL Inbox (END) 
+# <<
+
+
+# >>
+# >> GL Transactions
+# >>
+column gltrx:
+    type_id: int
+    description: Record Number
+    auto: sequence
+column trxtype:
+    type_id: char
+    colprec: 10
+    description: Trx Type
+table gltrx:
+    module: gl
+    uisort: 300
+    description: Transaction Detail
+    nomenu: "Y"
+    
+    group gl:
+        permsel: "Y" 
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    group glrollup:
+        permsel: "Y"
+        permins: "Y"
+        permupd: "N"
+        permdel: "Y"
+        
+    column gltrx:
+        primary_key: "Y"
+        uisearch: "Y"
+    column trxtype:
+    column date:
+        uisearch: "Y"
+    foreign_key glpointers:
+        allow_empty: "Y"
+        uisearch: "Y"
+    foreign_key glaccounts:
+    column glaccount:
+        description: Account
+        auto: fetchdef,glpointers.glaccount
+        uisearch: "Y"
+        
+    column amt:
+        uisearch: "Y"
+    column glinbox:
+        auto: none
+        description: Inbox Record Number
+# <<
+# << GL Transactions (END)
+# <<
+
+
+# <<
+# << Programs and Reports
+# <<
+menu glbs:
+    module: gl
+    uisort: 410
+    description: Balance Sheet
+
+menu glis:
+    module: gl
+    uisort: 420
+    description: Income Statement
+        
+menu gltb:
+    module: gl
+    uisort: 430
+    description: Trial Balance
+# >>
+# >> Programs and Reports (END)
+# >>
+
+# ======================================================================
+# MODULE: Users
+# ======================================================================
+# >>
+# >> Table employees
+# >>
+column employee:
+    type_id: char
+    colprec: 10
+    description: Employee
+table employees:                
+    module: usermaint
+    uisort: 120
+    description: Employees
+    group users:
+        permsel: "Y"
+        nomenu: "N"
+    
+    column employee:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    
+    
+        
+
