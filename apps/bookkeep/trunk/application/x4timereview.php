@@ -47,22 +47,46 @@ class x4timereview extends androX4 {
             $tr = html('tr',$table);
             $tr->addClass('available');
 
-            # do the stuff
+            # Generate Inputs
             $arr = array('date','customer','employee','activity'
                 ,'qtydec','price','notes','flag_close'
             );
+            $i = array();
             foreach($arr as $column_id) {
-                $input = input( $dd['flat'][$column_id] );
-                $input->hp['onchange'] = 'instaSave(this)';
-                $input->ap['skey'] = $row['skey'];
+                $i[$column_id] = input( $dd['flat'][$column_id] );
+                $i[$column_id]->hp['onchange'] = 'instaSave(this)';
+                $i[$column_id]->ap['skey'] = $row['skey'];
                 if($column_id=='notes') {
-                    $input->setHTML($row[$column_id]);
+                    $i[$column_id]->setHTML($row[$column_id]);
                 }
                 else {
-                    $input->hp['value'] = $row[$column_id];
+                    $i[$column_id]->hp['value'] = $row[$column_id];
                 }
-                $td = html('td',$tr, $input->bufferedRender());
+                #$td = html('td',$tr, $input->bufferedRender());
             }
+            
+            # Now display them stacked a bit
+            $td = $tr->h('td',$i['date']->bufferedRender());
+            
+            # Next three go together
+            $td = $tr->h('td');
+            $td->addChild($i['customer']);
+            $td->br();
+            $td->addChild($i['employee']);
+            $td->br();
+            $td->addChild($i['activity']);
+            $td->br();
+
+            # Next three go together
+            $td = $tr->h('td');
+            $td->addChild($i['qtydec']);
+            $td->br();
+            $td->addChild($i['price']);
+            $td->br();
+
+            # Now display them stacked a bit
+            $td = $tr->h('td',$i['notes']->bufferedRender());
+            $td = $tr->h('td',$i['flag_close']->bufferedRender());
         }
     }
     
