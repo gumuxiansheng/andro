@@ -1,0 +1,45 @@
+options:
+    title: Customers and Vendors
+
+union:    
+    table customers:
+        column customer:
+            description: Code
+            linkpage: doodad
+            linkskey: "Y"
+        column constant:
+            constant: x
+            dispsize: 7
+            description: ST Num 
+        column description:
+            description: Company
+            compare: like @name
+        column amt_order:
+            compare: between @amt1 and @amt2
+        column amt_paid:
+        column amt_balance:
+    table vendors:
+        column vendor:
+        column constant:
+            constant: goodbye
+        column description:
+            compare: like @name
+        column amt_order:
+            compare: between @amt1 and @amt2
+        column amt_paid:
+        column amt_balance:
+    
+uifilter name:
+    type_id: char
+    colprec: 20
+    description: Company Name        
+uifilter amt1:
+    type_id: numb
+    colprec: 10
+    colscale: 2
+    description: Minimum Balance
+uifilter amt2:
+    type_id: numb
+    colprec: 10
+    colscale: 2
+    description: Maximum Balance    
