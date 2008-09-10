@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<MODE>
+    <PROPS>
+    </PROPS>
+
+    <RULES TYPE="KEYWORD1" DEFAULT="LITERAL1">
+      <EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+      <EOL_SPAN TYPE="COMMENT2"> #</EOL_SPAN>
+      <SEQ TYPE="INVALID">$LOGIN</SEQ>
+
+     
+      <!-- Top level elements, must begin on a line -->
+      <SEQ_REGEXP AT_LINE_START="TRUE"
+                  HASH_CHAR="g" 
+                  TYPE="KEYWORD3">group\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="TRUE"
+                  HASH_CHAR="m" 
+                  TYPE="KEYWORD3">module\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="TRUE" HASH_CHAR="t" TYPE="KEYWORD3">table\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="TRUE" HASH_CHAR="c" TYPE="KEYWORD3">column\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="TRUE" HASH_CHAR="m" TYPE="KEYWORD3">menu\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="TRUE" HASH_CHAR="c" TYPE="KEYWORD3">content\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+
+      <!-- NESTED ELEMENTS DO NOT START ON A LINE -->
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> group\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> projection\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> foreign_key\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> column\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> chain\s+[a-z][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> test\s+[a-z|0-9][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> cascade\s+[a-z|0-9][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> projection\s+[a-z|0-9][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> index\s+[a-z|0-9][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      <SEQ_REGEXP AT_LINE_START="FALSE"
+                  HASH_CHAR=" " 
+                  TYPE="KEYWORD2"> module\s+[a-z|0-9][a-z|_|0-9]*:\s*$</SEQ_REGEXP>
+      
+      
+      <!-- Nested Properties are displayed differently -->
+
+      <!-- table properties -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> module\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> fkdisplay\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> capspk\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> uisort\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> linknew\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> linksearch\s*:</SEQ_REGEXP>
+
+      <!-- Security definitions -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> permsel\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> permins\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> permupd\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> permdel\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> nomenu\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> solo\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> freejoin\s*:</SEQ_REGEXP>
+
+      <!-- Column properties -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> description\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> type_id\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> value_min\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> value_max\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> colprec\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> colscale\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> automation_id\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> auto_formula\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> primary_key\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> pk_change\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> uisearch\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> uino\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> uiro\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> suffix\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> prefix\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> tooltip\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> range_from\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> range_to\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> permrow\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> table_id_row\s*:</SEQ_REGEXP>
+
+      <!-- Foreign-key properties -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> allow_empty\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> allow_orphans\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> nocolumns\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> auto_insert\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> delete_cascade\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> uidisplay\s*:</SEQ_REGEXP>
+      
+      <!-- chain properties -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> compare\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> return\s*:</SEQ_REGEXP>
+
+      <!-- cascade properties -->
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> copysamecols\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> cascade_action\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> table_id_dest\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> afterins\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> afterupd\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> retcol\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> retval\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> column_id_flag\s*:</SEQ_REGEXP>
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> flag_reset\s*:</SEQ_REGEXP>
+
+      <!-- Index properties -->         
+      <SEQ_REGEXP HASH_CHAR=" " TYPE="KEYWORD1"> idx_unique\s*:</SEQ_REGEXP>
+         
+    </RULES>
+</MODE>
+
+
