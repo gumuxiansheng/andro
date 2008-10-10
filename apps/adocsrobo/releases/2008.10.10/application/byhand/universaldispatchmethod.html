@@ -1,0 +1,26 @@
+            <h1>Universal Dispatch Method</h1>
+                            
+                            <p><br/><br/>This is the most purely dynamic way to build a web site.
+In this system, there is only one
+publicly visible file.  All requests from the browser go to this one
+file, and the parameters of the request determine what code is called
+to return HTML to the browser.
+</p>
+<p>Andromeda uses the Universal Dispatch Method by default (though  you
+can also use the [[Header-Footer Method]]).  By convention a value is
+always passed for 'gp_page' which corresponds to what page
+the user has requested.  Under most circumstances the value for 'gp_page'
+determines what class is instantiated and invoked.
+</p>
+<p>In Andromeda, the root file is <span class="nolink">index.php</span>, all requests from the
+browser always go through this file.
+</p>
+<p>The only responsibility of <span class="nolink">index.php</span> is to save the values of the
+directory it is in, and then pass control to [[index_hidden.php]].  All of
+the main processing goes on in that file.  This program processes the
+[[GET-POST Variables]], then it loads <span class="nolink">raxlib.php</span> and, if present,
+[[applib.php]].
+</p>
+<p> 
+</p>                                                    
+                            

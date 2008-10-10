@@ -1,0 +1,152 @@
+            <h1>Tutorial Review: 1-10</h1>
+                            
+                            <p>We will now review what has been accomplished in our first 10 tutorials.  We have the skeleton of an application with some security and automations.
+</p>
+<p>The application contains a customers table, an items table, an order headers table and an orders detail table.  Each table has a few basic columns that illustrate Andromeda's approach to development.
+</p>
+<h2>One File So Far</h2>
+<p>So far our application has a single file in it, the [[Database Specification File]], which is in
+the [[Application Directory]] and specifies everything of important to the system, including:
+</p>
+<p><ul><li>Column Definitions (caption, type, size)
+<li>Table Definitions
+<li>Child table relationships (foreign keys)
+<li>Automatic Calculations like price and order total
+<li>Organization into modules, for menus and security
+<li>Security Assignments
+</ul>
+</p>
+<div class="box-add" style="overflow:scroll; height: 15em"><pre>
+<span class="syntax0"><span class="syntax1">#</span><span class="syntax1"> </span><span class="syntax1">Remember!</span><span class="syntax1"> </span><span class="syntax1">Indent</span><span class="syntax1"> </span><span class="syntax1">with</span><span class="syntax1"> </span><span class="syntax1">spaces,</span><span class="syntax1"> </span><span class="syntax1">not</span><span class="syntax1"> </span><span class="syntax1">tabs!</span>
+<span class="syntax10">module</span><span class="syntax10"> </span><span class="syntax10">orders:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisort:</span><span class="syntax13"> </span><span class="syntax13">100</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">group</span><span class="syntax10"> </span><span class="syntax10">orders_staff:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span><span class="syntax13"> </span><span class="syntax13">-</span><span class="syntax13"> </span><span class="syntax13">Regular</span><span class="syntax13"> </span><span class="syntax13">Staff</span><span class="syntax13">;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">module</span><span class="syntax9"> </span><span class="syntax9">orders:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permsel:</span><span class="syntax13"> </span><span class="syntax13">Y</span>
+
+<span class="syntax10">group</span><span class="syntax10"> </span><span class="syntax10">orders_admin:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span><span class="syntax13"> </span><span class="syntax13">-</span><span class="syntax13"> </span><span class="syntax13">Administrator</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">module</span><span class="syntax9"> </span><span class="syntax9">orders:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permsel:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permins:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permupd:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permdel:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+
+<span class="syntax10">column</span><span class="syntax10"> </span><span class="syntax10">customer:</span><span class="syntax10"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">char</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">colprec:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Customer</span><span class="syntax13"> </span><span class="syntax13">Code</span>
+
+<span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Customers</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">customer:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">description:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+
+<span class="syntax10">column</span><span class="syntax10"> </span><span class="syntax10">item:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">char</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">colprec:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Item</span><span class="syntax13"> </span><span class="syntax13">Code</span>
+
+<span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">items:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Items</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">item:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">description:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+
+<span class="syntax10">column</span><span class="syntax10"> </span><span class="syntax10">order_num:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">int</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Order</span><span class="syntax13"> </span><span class="syntax13">Number</span>
+<span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">orders_h:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">order_num:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">SEQUENCE</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_lines:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_lines</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">SUM</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">auto_formula:</span><span class="syntax13"> </span><span class="syntax13">orders_d</span><span class="syntax13">.</span><span class="syntax13">price_extended</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">orders_d:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Order</span><span class="syntax13"> </span><span class="syntax13">Lines</span>
+<span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">orders_h:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">items:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price:</span><span class="syntax9"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">FETCH</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">auto_formula:</span><span class="syntax13"> </span><span class="syntax13">items</span><span class="syntax13">.</span><span class="syntax13">price</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">qty:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_extended:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_extended</span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">chain</span><span class="syntax9"> </span><span class="syntax9">calc:</span><span class="syntax9"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">test</span><span class="syntax9"> </span><span class="syntax9">00:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">return:</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">qty</span><span class="syntax13"> </span><span class="syntax13">*</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price</span>
+</span>
+</pre>
+<p></div>
+</p>
+<h2>Editing Screens</h2>
+<p>The database specification above has provided us with a complete menu and four editing screens, illustrated here:
+</p>
+[[image:tut1-10-ui1.png]]
+<p>and here:
+</p>
+[[image:tut1-10-ui2.png]]
+<h2>Basic Navigation</h2>
+<p>The user interface automatically includes links for basic editing, such as this link to order lines from the order header screen (there are also other ways to provide the same functionality).
+</p>
+[[image:tut1-10-ui3.png]]
+<p>...and our data entry screens know when to provide drop-down lists (HTML SELECT elements):
+</p>
+[[image:tut1-10-ui3b.png]]
+<h2>Calculations</h2>
+<p>Our 'free' editing screens do automatic calculations of the order line details:
+</p>
+[[image:tut1-10-ui4.png]]
+<h2>Imports and Security</h2>
+<p>We have also imported customers and items directly into the database through
+the user interface and have established security that will prevent regular staff
+from modifying the items table.
+</p>
+<h2>Worth Repeating: No Code</h2>
+<p>At this point it is worth repeating that everything we see in the application has been
+created with only the [[Database Specification File]], and no application code at
+all.  While so far our application is very modest and only contains skeleton elements,
+the rest of the tutorials will demonstrate that we can do far more than this still
+without employing at any code.
+</p>
+<p>This is where Andromeda departs company with the MVC frameworks.  All MVC
+frameworks would have required so far not only that we create the database, but
+that we create at least one program class for each table.  No matter how "easy" it
+would be to do so, the labor amount is still non-zero.  This begins to really count when
+the application expands to 30 tables, then 75, then 300.
+</p>                                                    
+                            

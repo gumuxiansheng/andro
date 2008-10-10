@@ -1,0 +1,136 @@
+# =======================================================
+# ADOCSROBO - Andromeda Documentation - robo style
+#
+# (C) Copyright 2008 by Kenneth Downs
+# Distributed under the GPL Version 2.0 or later
+#
+# =======================================================
+group admin:
+    description: Administrators
+    permsel: "Y"
+    permins: "Y"
+    permupd: "Y"
+    permdel: "Y"
+
+group artadd:
+    description: For Adding Articles
+    permsel: "N"
+    permins: "N"
+    permupd: "N"
+    permdel: "N"
+    
+
+# =======================================================
+# 
+# Module: main
+#
+# =======================================================
+module main:
+    uisort: 0
+    description: Main Module
+
+    group $LOGIN:
+        permsel: "Y"    
+
+# >> ----------------------------------------------------------------
+# >> Articles
+# >>
+column headline:
+    type_id: vchar
+    colprec: 100
+    description: Headline
+table articles:
+    module: main
+    uisort: 100
+    description: Articles
+    
+    column headline:
+        primary_key: "Y"
+        uisearch: "Y"
+    column date:
+        description: Dateline
+        uisearch: "Y"
+    column desclong:
+        uisearch: "Y"
+    column notes:
+        description: Text
+    column ts_ins:
+    column uid_ins:
+    
+# <<
+# << Articles
+# << ----------------------------------------------------------------
+
+# >> ----------------------------------------------------------------
+# >> Pages (only for ri, no copy in here)
+# >>
+column page:
+    type_id: vchar
+    colprec: 150
+    description: Page
+table pages:
+    module: main
+    uisort: 150
+    description: Pages
+    
+    column page:
+        uisearch: "Y"
+        primary_key: "Y"
+    column recnum:
+        automation_id: blank
+    column ts_ins:
+    column uid_ins:
+    column ts_upd:
+        uisearch: "Y"
+    column uid_upd:
+        uisearch: "Y"
+
+# <<
+# << Pages
+# << ----------------------------------------------------------------
+
+
+# >> ----------------------------------------------------------------
+# >> Comments 
+# >>
+column comment:
+    type_id: int
+    description: Comment Number
+table comments:
+    module: main
+    uisort: 200
+    description: Comments
+
+    column comment:
+        automation_id: sequence
+        primary_key: "Y"
+        uisearch: "Y"
+    foreign_key pages:
+        uisearch: "Y"
+    column email:
+        uisearch: "Y"
+    column name:
+        uisearch: "Y"
+    column notes:
+    
+# <<
+# << Comments
+# << ----------------------------------------------------------------
+
+
+# >> MENU
+menu robophp:
+    module: main
+    uisort: 300
+    description: Build Docs
+
+# >> ----------------------------------------------------------------
+# >> 
+# >>
+
+# <<
+# <<
+# << ----------------------------------------------------------------
+
+
+

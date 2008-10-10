@@ -1,0 +1,21 @@
+            <h1>hTagParm</h1>
+                            
+                            <p>string parmname<br/>string parmval<br/>string HTML_fragment<br/><br/><br/>This handy routine returns either an HTML property assignment or
+an empty string.  It is a useful helper routine for building HTML
+element definitions when you don't know if the parameters being passed
+in are going to be empty.
+</p>
+<p>So for instance, if you have been passed a value of $CSS_class which
+may be empty, you can call:
+</p>
+<p>$class=hTagParm('class',$CSS_Class)
+</p>
+<p>if the value passed to $CSS_Class is empty it will give you back an
+empty string, otherwise it will give you the string 'class="-CSS_Class-"'.
+</p>
+<p>This allows for safe unconditional placement of $class into an HTML
+element definition.
+</p>
+<p> 
+</p>                                                    
+                            

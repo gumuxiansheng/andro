@@ -1,0 +1,38 @@
+<h1>Create a non-Table Page</h1>
+                            
+<p>
+Besides modifying Table pages, you can also provide pages that are not
+directly associated with a table.
+</p>
+
+<p>
+First, create a file in your [[application directory]] that has the same
+name as the page.  Have it contain a class that has the same name as your
+page that extends x_table2, like so:
+</p>
+
+<div class="box-php">class not_a_table_page extends x_table2 {
+   function main() {
+      // this is where it all happens
+   }
+}
+</div>
+
+<p>
+However, users will not be able to see this by default because
+Andromeda is meant to be secure by default.  Unless users are given
+permission to see something, it is assumed they are not allowed.
+</p>
+
+<p>
+To make the new page "public" so that anybody can see it, make sure
+that your [[applib.php]] file populates an array named $MPPages, and
+make an entry in that array where the key is the name of the table
+and the value is a description:
+</p>
+
+<div class="box-php">$MPPAGES=array(
+   'not_a_table_page'=>'Page Description'
+);
+</div>
+

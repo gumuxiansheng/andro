@@ -1,0 +1,77 @@
+<h1>cms_docgen</h1>
+                            
+<p>
+NOTE: The information on this page is subject to change.  We are currently
+perfecting the documentation system in a separate project called 'cms', and
+when that is finished it will be moved into Andromeda as a library.
+</p>
+
+<p>
+You can embed documentation into your code that will be read and processed
+by the [[x_docgen]] program.
+</p>
+
+<p>
+A comment should begin with "/**" and end with "*\/".  Every line before
+the first blank line has parameters, everything after the first blank line
+is taken to be the content.
+</p>
+
+<p>
+Parameter lines go as "name:value", followed by a newline.  The parsing
+program is very particular, it does not like whitespace in front of the
+name, and it wants the entire name:value pair on a single line.  If it
+cannot find a colon on a line it quietly ignores the line.
+</p>
+
+<p>
+'name', will be the name of the entry.  This should be description, including
+spaces and punctuation where necessary.  Do not use this for methods or
+functions, use it for everything else.  There can be only one 'name' or
+'function' in each entry.  If there are more than one the last one wins
+and overwrites earlier ones.
+</p>
+
+<p>
+'function', is the name of an entry when the entry is a function or
+method.  There can be only one 'name' or
+'function' in each entry.  If there are more than one the last one wins
+and overwrites earlier ones.
+</p>
+
+<p>
+'parm' names a parameter.  You can put any number of these.  They are
+ignored unless 'function' was used.
+</p>
+
+<p>
+'returns' should list the return type.  You can only have one, if there is
+more than one the last one will overwrite previous ones.  They are ignored
+unless 'function' is used.
+</p>
+
+<p>
+'parent' names the parent value.
+</p>
+
+<p>
+If 'parent' is not specified the entry is quietly ignored.  If neither
+'name' nor 'function' is specified the entry is quietly ignored.
+</p>
+
+<p>
+You can also specify 'flag:framework' and a special note will be inserted
+that says basically, "this is a framework function!"
+</p>
+
+<p>
+You can make an entry with the name "_default_", and any parameters you
+specify for that entry will apply to all entries that follow within the
+same program file.  This is most useful for specifying the "parent" property
+for several functions or doc blocks.
+</p>
+
+<p>
+Each time you create a "name:_default_" block the previous defaults are
+discarded.
+</p>

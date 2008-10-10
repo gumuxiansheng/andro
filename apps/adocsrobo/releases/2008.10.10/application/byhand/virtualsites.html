@@ -1,0 +1,47 @@
+            <h1>Virtual Sites</h1>
+                            
+                            <p><br/><br/>Andromeda allows you to have two or more virtual sites pointing to the
+same application.  If your apache server has two virtual sites for
+"www.example.com" and "www.nowhere.com", you can have both of these
+go to the same Andromeda application, and you can distinguish in code
+which one is being called.
+</p>
+<p>This is commonly done to provide [[An Admin Interface for a Public Site]]
+or to use a complex database to drive multiple sites that are similar but
+not identical to each other.
+</p>
+<p>The first step in this process is to create a conventional Andromeda
+application.  We will assume your application is named "example", so that
+the <span class="nolink">Root Directory</span> is also named "example".
+</p>
+<p>Next, create another document directory called "example_alternate".  In
+this directory put a single file called "index.php" that looks like this:
+</p>
+<div class="box-php">// route over to the main directory
+include("../example/index.php");
+</div>
+<p>Now you need to be able to distinguish at run-time which site the user
+came in on.  There are many ways to do this, but one method that is
+guaranteed to work is to examine the directory name of the file that was
+called.  You can put the code into your [[applib.php]] file that will
+do this:
+</p>
+<div class="box-php">$sf=$_SERVER['SCRIPT_FILENAME'];
+$sf=substr($sf,0,strlen($sf)-10); // assumes page was index.php
+$basesite=basename($sf);
+if($basesite=='example') {
+   echo "Came in on normal directory";
+}
+else {
+   echo "Came in on the alternate directory";
+   vgaSet('html_main','html_alternate');
+}
+</div>
+<p>This method has the advantage that it works both in live situations and
+test or development systems.  On a live system like "www.example.com"
+or on your own local laptop the code will behave the same way.  No
+changes to the apache config file are needed either.
+</p>
+<p> 
+</p>                                                    
+                            
