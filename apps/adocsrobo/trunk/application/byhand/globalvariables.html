@@ -1,0 +1,23 @@
+            <h1>Global Variables</h1>
+                            
+                            <p><br/><br/>Andromeda provides some wrapper functions for getting and setting
+framework variables.  The main purpose of these is to allow your
+application to create variables without worrying about name collisions
+with framework global variables.
+</p>
+<p>A global variable is one that exists from the beginning to the end of
+a server request.  Once the HTML has been delivered to the browser, the
+globals are all gone.  If you need to store variables that are
+persistent from request to request, consider using [[Context Variables]].
+</p>
+<p>You can set a Global Variable with [[vgaSet]] and
+retrieve it with [[vgaGet]].
+</p>
+<p>These values can be any valid PHP type.
+</p>
+<p>The framework uses the corresponding functions [[vgfSet]] and
+[[vgfGet]].
+</p>
+<p> 
+</p>                         
+                            

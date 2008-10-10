@@ -1,0 +1,40 @@
+<h1>SVN Downloads Drafted</h1>
+
+<p>The Andromeda Team is proud to announce the addition of code that allows
+   downloading of new software versions from SVN repositories.  This allows
+   an enterprise develpment effort to handle all source control with SVN
+   up to the time of generating a release, and then Andromeda can
+   pull the release from the SVN repository.
+</p>
+
+<P>One of the earliest elements of the original Andromeda vision was
+   Enterprise-level code management.  This means Andromeda must 
+   elegantly and easily find the latest versions of applications,
+   download them to servers, and be able to build multiple instances
+   of an application on a server, even multiple instances at different
+   versions.
+</p>
+
+<p>Very early on it was decided to meet this goal by building source
+   control into Andromeda itself, but we have since "seen the light"
+   and realized that the faster route to Enterprise readiness lies
+   in using SVN for source control, and then letting Andromeda pull
+   releases and store them for upgrading end-user instances.
+</p>
+
+<p>Andromeda programmers will note the new value "SVN URL" that is
+   on the detail page of an application.  This supersedes the now
+   deprecated table of Nodes.  The concept of the "authoritative node"
+   is now discarded and there is no more table of Nodes and no entry
+   for an application's authoritative node.
+</p>
+
+<p>For Andromeda itself, use the value 
+   "https://andro.svn.sourceforge.net/svnroot/andro/releases/" and 
+   don't forget to include the trailing slash!
+</p>
+
+<p>For your own applications, put in a URL that points directly to
+   the releases (or sometimes called "tags") folder in your
+   SVN tree.
+</p>
