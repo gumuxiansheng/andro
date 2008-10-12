@@ -1,0 +1,56 @@
+<h1>Web Architecture Overview</h1>
+
+<p>When you write a small desktop application that opens up
+   local files you have a <i>single-tier</i> application.  That
+   is to say that your application does not have to connect
+   to any servers to obtain anything, it just opens up its local
+   files and does its thing.  These applications are also
+   called monolithic.  Once upon a time this was the only
+   kind of application there was.
+</p>
+
+<p>A browser that is reading static pages from a web server
+   is a two-tier system, also known as a client/server system.
+   In order for the browser to perform a useful function
+   it must connect to a server and obtain something to work
+   with.  Other two-tier systems include desktop applications
+   that connect to database servers, of which a great many
+   were written in the 90s. 
+</p>
+
+<p>Finally, a browser connecting to a web server that then
+   connects to a database server is a 3-tier system.  These
+   are all of the rage since the turn of the century.
+</p>
+
+<h2>Andromeda and The Web Application</h2>
+
+<p>The complete Andromeda framework is a 3-tier system,  
+   which means it is used to write web applications.
+   The Andromeda framework is very different from most
+   other frameworks because of its unique treatment of
+   business rules.
+</p>
+
+<p>Andromeda implements all business rules in the database
+   server, relieving the programmer of the need to fashion
+   application code in the web layer.  Without this web layer
+   code, Andromeda suddenly has few comparison points with
+   other frameworks.
+</p>
+
+<p>In fact, the Andromeda view of the web layer is that it is
+   a "traffic cop" or "waiter".  The "waiter" analogy is
+   as follows.  The web server (waiter), gets a request
+   from the user and converts it to one or more SQL
+   commands, just as a waiter brings orders to the
+   kitchen.  Then the web server converts the results to HTML
+   and returns it to the browser, just as a waiter brings the
+   food to the table.  This is depicted here:
+</p>
+
+[[image:webdiagram.png]]
+
+
+   
+   

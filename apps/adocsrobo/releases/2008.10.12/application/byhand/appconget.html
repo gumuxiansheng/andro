@@ -1,0 +1,32 @@
+<h1>appConGet</h1>
+                            
+<p><i>
+string Category<br/>
+string Name<br/>
+string Key<br/>
+any Default<br/>
+any<br/>
+</i><br/>
+</p>
+
+<p>
+Returns a context variable.  A context variable is completely
+specified by three levels, a Category, a Name, and a Key.
+</p>
+
+<p>
+Context variables are specific to each window the user has open,
+and remain alive as long as the user navigates with form POSTs.  When
+the user navigates with an HTML hyperlink the context is lost.
+</p>
+
+<p>
+Use this routine instead of [[ConGet]] to ensure your variables do not
+collide with framework context variables.
+</p>
+
+<p>
+The fourth parameter is a [[Standard Default Value]], which is returned
+if the variable cannot be found.
+</p>
+

@@ -1,0 +1,19 @@
+            <h1>objPageMain</h1>
+                            
+                            <p>string PHP_Class<br/>echos HTML<br/><br/><br/>This routine will accept the name of a class, instantiates an object,
+and call's the object's "main" method.  In Andromeda, the "main"
+method always outputs HTML.
+</p>
+<p>This is a handy way to "redirect" from one page to another.  If
+execution has passed to Page1.main, and the code determines that
+execution must go to Page2.main, then you can issue
+</p>
+<div class="PHP">objPageMain('Page2');
+</div>
+<p>This routine will <b>not</b> wipe out HTML that has been output before it
+is called.  To avoid the HTML from one page appearing on the next,
+be sure to call this routine before HTML has been generated.
+</p>
+<p> 
+</p>                                                    
+                            
