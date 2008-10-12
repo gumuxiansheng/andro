@@ -6,6 +6,20 @@ div.dateline { opacity: .8; font-size: 110%; }
 span.nolink { color: red; }
 
 div.androQueryLog { display: none; }
+
+a.toc1 {
+    display: block;
+    font-size: 120%;
+    font-weight: bolder;
+    margin-top: 8px;
+}
+a.toc2 {
+    display: block;
+    padding-left: 10px;
+    font-size: 110%;
+    margin-top: 4px;
+}
+
 /* KFD additions end */
 
 

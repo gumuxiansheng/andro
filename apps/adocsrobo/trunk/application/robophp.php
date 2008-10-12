@@ -499,6 +499,7 @@ class robophp extends x_table2 {
             
             # If there are children, list them
             $kids = '';
+            $left = '';
             if(isset($this->rpToc[$topic])) {
                 $kids = '<h3>Child Topics:</h3>';
                 $akids = array();
@@ -506,6 +507,9 @@ class robophp extends x_table2 {
                     $akids[] = $this->makeLink($kid,$topic,false);
                 }
                 $kids.=implode(', ',$akids)."<hr/>";
+                
+                $left = '<h3>Child Topics</h3>';
+                $left.= implode("<br/>",$akids);
             }
             
             # If the entry has no text, and there is a file by the
@@ -566,6 +570,8 @@ class robophp extends x_table2 {
             $filename=strtolower($filename);
             $filename=str_replace(' ','',$filename);
             file_put_contents($dirout.$filename,$final);
+            $fileleft = $filename.'.left.html';
+            file_put_contents($dirout.$fileleft,$left);
             
             # Make a disambiguation page if required
             if(count($this->rpTopics[$topic])>1) {
@@ -596,13 +602,14 @@ class robophp extends x_table2 {
         x_echoFlush("<br/><br/>Writing Table of Contents");
         x_EchoFlush($fileout);
         $toc = '<h1>Table of Contents</h1>';
-        $toc.="<a href='index-robophp.html'>Index</a><br/><br/>";
-        $toc.="<a href='files-robophp.html'>Files</a><br/><br/>";
+        $toc.="<h4><a href='index-robophp.html'>Index</a>&nbsp;&nbsp&nbsp;";
+        $toc.="<a href='files-robophp.html'>Files</a></h4>";
+        $toc.="<hr/>";
         foreach($this->rpTop as $topic) {
             $toc.="<a name='/$topic'>";
-            $toc.=$this->makeLink($topic)."<br/>";
+            $toc.=$this->makeLink($topic,'','','toc1');
             $toc.="</a>";
-            $toc.=$this->recurseToc($topic,3);
+            $toc.=$this->recurseToc($topic,2);
         }
         file_put_contents($fileout,$toc);
         
@@ -613,11 +620,18 @@ class robophp extends x_table2 {
         # - - - - - - - - - - - - - - - - - - - - - -
         x_echoFlush("<br/><br/>Writing Index");
         $index = '<h1>Index</h1>';
-        $index.="<a href='toc-robophp.html'>Contents</a><br/><br/>";
-        $index.="<a href='files-robophp.html'>Files</a><br/><br/>";
+        $index.="<h4><a href='toc-robophp.html'>Contents</a>&nbsp;&nbsp;";
+        $index.="<a href='files-robophp.html'>Files</a></h4>";
+        $index.="<hr/>";
         $keys  = array_keys($this->rpTopics);
         asort($keys);
+        $firstletter = '';
         foreach($keys as $key) {
+            if(strtoupper(substr($key,0,1))<>$firstletter) {
+                $firstletter=strtoupper(substr($key,0,1));
+                $index.="<br/><h3>$firstletter</h3>";
+            }
+            
             if(count($this->rpTopics[$key])==1) {
                 $index.="<a name='{$this->rpTopics[$key][0]}/$key'>";
                 $index.=$this->makeLink($key)."<br/>";
@@ -786,16 +800,15 @@ class robophp extends x_table2 {
     # MAJOR FUNCTION -1: Recurse Table of Contents
     #
     # ----------------------------------------------------------
-    function recurseToc($topic,$indent) {
+    function recurseToc($topic,$level) {
         if(!isset($this->rpToc[$topic])) return;
         
         $retval = '';
         foreach($this->rpToc[$topic] as $subtopic) {
             $retval.="<a name='$topic/$subtopic'>";
-            $retval.=str_repeat('&nbsp;',$indent).$this->makeLink($subtopic,$topic);
+            $retval.=$this->makeLink($subtopic,$topic,'',"toc$level");
             $retval.="</a>";
-            $retval.="<br/>";
-            $retval.=$this->recurseToc($subtopic,$indent+3);
+            #$retval.=$this->recurseToc($subtopic,$level+1);
         }
         return $retval;
     }
@@ -852,6 +865,7 @@ class robophp extends x_table2 {
         $entries = scandir($dir);
         foreach($entries as $entry) {
             if(!in_array($this->extension($entry),$extensions)) continue;
+            if(substr($entry,0,6)=='js-min') continue;
             
             if(is_dir($dir.$entry)) {
                 #recurseDir($dir.$entry.'/',$stem,$level+1);
@@ -1177,27 +1191,27 @@ class robophp extends x_table2 {
     # HELPER C: Make a Link
     #
     # ----------------------------------------------------------
-    function makeLink($topic,$parent='',$parinLink=true) {
+    function makeLink($topic,$parent='',$parinLink='',$class='') {
         $base=baseUrl().'pages/cms/';
 
-        $url = $base.$topic.'.html';
+        $url = $base.urlencode($topic).'.html';
         $url = strtolower($url);
-        $url = str_replace(' ','',$url);
+        
+        if($class<>'') $class="class='$class'";
         
         # Simple case, no multiples, just send it back
         if(count($this->rpTopics[$topic])==1) {
-            return "<a href='$url'>$topic</a>";
+            return "<a $class href='$url'>$topic</a>";
         }
         else {
             if($parent<>'') {
-                $url = $base.$parent.'--'.$topic.'.html';
+                $url = $base.urlencode($parent.'--'.$topic).'.html';
                 $url = strtolower($url);
-                $url = str_replace(' ','',$url);
                 $link = $parinLink ? "$parent/$topic" : $topic;
-                return "<a href='$url'>$link</a>";
+                return "<a $class href='$url'>$link</a>";
             }
             else {
-                return "<a href='$url'>$topic</a>";
+                return "<a $class href='$url'>$topic</a>";
             }
         }
     }        

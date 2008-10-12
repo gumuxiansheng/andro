@@ -12,14 +12,6 @@ group admin:
     permupd: "Y"
     permdel: "Y"
 
-group artadd:
-    description: For Adding Articles
-    permsel: "N"
-    permins: "N"
-    permupd: "N"
-    permdel: "N"
-    
-
 # =======================================================
 # 
 # Module: main
@@ -100,6 +92,8 @@ table comments:
     module: main
     uisort: 200
     description: Comments
+    group $LOGIN:
+        permins: "Y"
 
     column comment:
         automation_id: sequence
@@ -107,12 +101,19 @@ table comments:
         uisearch: "Y"
     foreign_key pages:
         uisearch: "Y"
+    column flag_moderated:
+        suffix: _moderated
+        description: OK To Display
+        auto: default, N
+        group admin:
+            permupd: "Y"
+            permsel: "Y"
     column email:
         uisearch: "Y"
     column name:
         uisearch: "Y"
     column notes:
-    
+    column ts_ins:
 # <<
 # << Comments
 # << ----------------------------------------------------------------
