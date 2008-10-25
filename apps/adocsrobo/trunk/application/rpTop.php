@@ -4,7 +4,8 @@ $this->rpTop = array(
     ,'Introduction'
     ,'Countdown To Release 1'
     ,'Application Configuration'
-    ,'Programming With Andromeda'
+    ,'Getting Started'
+    ,'Web Programming'
     ,'androPage'
     ,'Database-Definitions'
     ,'Javascript-API'
@@ -13,6 +14,7 @@ $this->rpTop = array(
     ,'Andromeda HTML Templates'
     ,'System Architecture'
     ,'Essays'
+    ,'Andromeda Hackers Guide'
 );
 ?>
     

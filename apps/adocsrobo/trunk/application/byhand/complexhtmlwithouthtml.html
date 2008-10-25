@@ -1,0 +1,290 @@
+<h1>Complex HTML Without HTML</h1>
+
+<p>So now we know how to make a simple page, and how to make it 
+   public or make it a private menu entry.  From this point forward
+   many examples will involve more complex HTML.  Because so 
+   many programmers
+   intensely dislike mixing PHP and HTML, Andromeda has classes
+   and routines that allow very complex HTML constructions without
+   ever actually coding any HTML.  We will see those now.
+</p>
+
+<span class="info">Andromeda does not require you to use the
+  Andromeda HTML generation classes.  You can write 
+  any mix of PHP, HTML, and even CSS and Javascript that meets
+  your own style.
+</span>
+
+<h2>The Basic Example</h2>
+
+<p>Andromeda's HTML generation routine allow you to create
+   PHP objects that represent HTML nodes.  You can set their
+   innerHTML, set properties (including event code), and nest
+   nodes inside of other nodes to any depth that system
+   resources allow.  Then at the end you "render" the top node
+   and it spits out a huge string of formatted html.
+</p>
+
+<pre class="code">
+<?php
+class x6helloworld extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->h('h1','Hello World 2.0');
+        $top->h('p','The new version of Hello World now has text!');
+        
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<p>This bit of code will send the following HTML to the browser:
+</p>
+
+<pre class="code">
+<div>
+<h1>Hello World 2.0
+<p>The new version of Hello World now has text!</p>
+</div>
+</pre>
+
+<p>Most HTML involves nesting of nodes, so convention is to
+   always start out by creating an element called $top, which is
+   usually a DIV but can really be anything.  The first line
+   creates a new empty HTML DIV element:
+</p>
+
+<pre class="code">$top = html('div');</pre>
+
+<p>The next line puts an H1 element inside the DIV.  It does this
+   by calling the "h" method.  The "h" method says, "give me a new
+   HTML node and make it a child of this one."  The first
+   parameter names the HTML element, and the second (optional)
+   parameter specifies the innerHTML.
+</p>
+
+<p>The final line recurses the object tree and generates HTML
+   as it goes, echoing it directly to output.  Remember that you
+   do not have to worry about output buffering, Andromeda takes
+   care of that for you.
+</p>
+
+<span class="info">Andromeda's documentation conventions are to
+   represent (x)html elements in UPPER CASE (like DIV, TABLE) in
+   the documentation.  This is only for readability, in actual
+   code the examples use XHTML lower-case names (like div, table).
+</span>
+
+<h2>Capturing (Buffering) The Rendered HTML</h2>
+
+<p>If you need for any reason to capture the generated HTML,
+   you can use the "bufferedRender()" routine instead of
+   "render()".  The "bufferedRender()" routine returns the
+   generated HTML instead of echoing it to the screen.
+</p>
+
+<pre class="code">
+<?php
+class x6helloworld extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->h('h1','Hello World, Buffered');
+        $top->h('p','Capturing the output, now on a page near you');
+        
+        $html = $top->bufferedRender();
+        echo $html;    
+    }
+}
+</pre>
+
+<h2>Some Variations</h2>
+
+<p>The h() method returns a reference to the created child node,
+   so that you can further manipulate the node.  The setHtml() 
+   method allows you set the HTML on the object if for any reason
+   you do not do so when it is created.  The code below shows 
+   several examples of how to create child nodes and set HTML.
+</p>
+
+<pre class="code">
+<?php
+class x6h1example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        
+        # here is the simplest way to make an h1 inside a div.
+        $top->h('h1','This is the H1 program');
+        
+        # Grab the returned object and set its HTML
+        $h1 = $top->h('h1');
+        $h1->setHTML('Two lines, but more powerful');
+        
+        # Sometimes you need to create a child element
+        # as a free-floating object and add it to its
+        # parent later
+        $h1 = html('h1');
+        $h1->setHTML('Three lines, more powerful still');
+        $top->addChild($h1);
+    }
+}
+?>
+</pre>
+
+<h2>Do Not Mix innerHTML and Child Nodes</h2>
+
+<p>Andromeda's HTML generation objects do not intentionally
+   support a node that has both innerHTML and child nodes,
+   something that might look like this in HTML:
+</p>
+
+<pre class="code">
+<div>I am text that is innerHTML of the div.
+  <p>But I am in a paragraph?</p>
+</div>
+</pre>
+
+<p>The Andromeda HTML generation objects will produce reliable
+   consistent and predictable output if each object has either
+   child nodes or innerHTML, but not both.
+</p>
+
+<h2>Deeper Nesting</h2>
+
+<p>When you create something like an HTML TABLE, you need
+   to nest objects rather deeply.  This is how it is done:
+</p>
+
+<pre class="code">
+<?php
+function x6report extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->h('h1','Financial Table');
+        
+        $table = $top->h('table');
+        $thead = $table->h('thead');
+        $tr    = $thead->h('tr');
+        $tr->h('th','Quarter');
+        $tr->h('th','Product Line');
+        $tr->h('th','Receipts');
+        $tr->h('th','Costs');
+        $tr->h('th','Gross Profit');
+        
+        # 
+        # ... and so on for tbody, rows, and td's.
+        
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<h2>Classes, Attributes and Events</h2>
+
+<p>You can add any number of CSS Classes to an element.
+   To do so, you must capture the result of the h() call
+   and then use the addClass() method.  You can set any
+   HTML attribute by making direct assignments to a
+   node's hp[] array.  By assigning to the hp['onclick']
+   array index, you create an onclick event, which is 
+   also possible for any other event.
+</p>
+
+<p>You can also make up non-standard attributes and send
+   them out to the browser, then use jQuery or other tools
+   to find nodes that have certain properties.  Andromeda
+   makes use of this to assign vital stats to INPUT nodes
+   so that browser-side code will know what to do with any
+   particular INPUT node.
+</p>
+   
+<pre class="code">
+<?php
+function x6report extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->h('h1','Financial Table');
+        
+        # create a div and give it some class
+        $div = $top->h('div');
+        $div->addClass('fatborder');
+        $div->addClass('selected');   // can add more than one
+        
+        # this would have done the same thing as 
+        # the above two lines
+        $div->hp['class'] = 'fatborder selected';
+        
+        # create a div in a div and set some attributes
+        $divleft = $div->h('div');
+        $divleft->hp['style'] = 'float:left';
+        $divleft->hp['onclick'] = "alert('You clicked me!')";
+        $divleft->setHtml( foo() );
+        
+        # create another div
+        $divright = $div->h('div');
+        $divright->hp['style'] = 'float: right';
+        $divright->sethtml( foobar() );
+        ...and so on.
+    }
+}
+?>
+</pre>
+
+<span class="warning">When you make code assignments to events
+   like onclick or onmouseover, you may not use double-quotes inside
+   of the value.  If you need to have quoted values inside, as in
+   the example above "alert('you clicked me!')" then use single
+   quotes inside of the string, and enclose it with double quotes.
+</span>
+
+<h2>Sending Signals to jQuery</h2>
+
+<p>jQuery has the very handy ability to not only find nodes that
+   have attributes of a certain value, but to find objects that
+   have that attribute at all.  This can be very useful if you
+   want to generate HTML that contains attributes meant to be
+   interpreted by browser-side code.
+</p>
+
+<pre class="code">
+<?php
+function x6report extends androX6 {
+    function x6main() {
+        $top = html('div');
+        
+        $div = $top->h('div','An apparently innocent div');
+        $div->hp['CustomAttribute'] = 5;
+        
+        $div = $top->h('div','Another apparently innocent div');
+        $div->hp['CustomAttribute'] = 6;
+
+        // this one does not have the custom attribute
+        $div = $top->h('div','Third apparently innocent div');
+        
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<p>You might now provide some javascript routine that can find
+   nodes that have any value of "CustomAttribute" or find nodes
+   that have a specific value.
+</p>
+
+<pre class="code">
+<script>
+function example {
+    // jQuery selector that finds a specific value
+    // This will return one node from the example above
+    $('[CustomAttribute=6]');
+    
+    // Another jQuery that finds all nodes that have
+    // any value of customattribute.  This will return
+    // two nodes from the example above.
+    $('[CustomAttribute']);
+    
+}
+</script>
+

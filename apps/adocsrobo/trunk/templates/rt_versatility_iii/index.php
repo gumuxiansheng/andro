@@ -300,5 +300,29 @@ endif; ?>
 	</div>
 <?php mosLoadModules( 'debug', -1 );?>
 <?php include 'androHTMLFoot.php' ?>
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=4149040; 
+var sc_invisible=1; 
+var sc_partition=51; 
+var sc_click_stat=1; 
+var sc_security="1156951b"; 
+</script>
+
+<script type="text/javascript"
+         src="http://www.statcounter.com/counter/counter.js">
+</script>
+<noscript>
+   <div class="statcounter">
+     <a title="site stats"
+         href="http://www.statcounter.com/"
+       target="_blank">
+     <img class="statcounter" 
+            src="http://c.statcounter.com/4149040/0/1156951b/1/"
+            alt="site stats" >
+     </a>
+   </div>
+</noscript>
+<!-- End of StatCounter Code -->
 </body>
 </html>

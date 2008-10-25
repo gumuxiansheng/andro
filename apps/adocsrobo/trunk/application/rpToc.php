@@ -42,13 +42,20 @@ $this->rpToc["Tutorials"]=array(
     ,"Tutorial Review: 1-10"
 );
 
-$this->rpToc['Programming With Andromeda'] = array(
+$this->rpToc['Create An Application'] = array(
     'Starting a New Application'
     ,'Syntax Coloring'
     ,'Defining a Database'
     ,'Upgrade Scripts'
-    ,'Web Programming'
 );
+
+$this->rpToc['Web Programming'] = array(
+    'Hello World'
+   ,'Making Hello World a Public Page'
+   ,'Making Hello World a Menu Entry'
+   ,'Forms, Links, and Request Parameters'
+);
+
 
 $this->rpToc['Defining a Database']=array(
      "YAML Syntax Primer"
@@ -70,17 +77,17 @@ $this->rpToc['Defining a Database']=array(
     ,"Row-Level Security"
     ,"Database Conclusion"
 );
-$this->rpToc['Web Programming']=array(
-     "Where to Put Application Files"
-    ,"Pages, Classes and Tables"
-    ,"Public Pages"
-    ,"Modifying A Default Page"
-    ,"Making Hyperlinks"
-    ,"Forms, Get and Post"
-    ,"Database Access"
-    ,"Templates"
-    ,"The Upcoming x4 User Interface"
-);
+#$this->rpToc['Web Programming']=array(
+#     "Where to Put Application Files"
+#    ,"Pages, Classes and Tables"
+#    ,"Public Pages"
+#    ,"Modifying A Default Page"
+#    ,"Making Hyperlinks"
+#    ,"Forms, Get and Post"
+#    ,"Database Access"
+#    ,"Templates"
+#    ,"The Upcoming x4 User Interface"
+#);
 
 $this->rpToc['androPage'] = array(
     'androPage YAML Specifics'
@@ -100,5 +107,10 @@ $this->rpToc['Essays']=array(
     ,"The Business of Andromeda"
     ,"Data is More Valuable Than Code"
     ,"Normalization and Automation"
+);
+
+$this->rpToc['Andromeda Hackers Guide'] = array(
+     'Andromeda Documentation'
+    
 );
 ?>
