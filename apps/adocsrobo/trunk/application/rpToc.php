@@ -53,7 +53,7 @@ $this->rpToc['Web Programming'] = array(
     'Hello World'
    ,'Making Hello World a Public Page'
    ,'Making Hello World a Menu Entry'
-   ,'Forms, Links, and Request Parameters'
+   ,'Complex HTML Without HTML'
 );
 
 

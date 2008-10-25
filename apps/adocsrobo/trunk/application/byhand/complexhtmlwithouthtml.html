@@ -25,29 +25,27 @@
    and it spits out a huge string of formatted html.
 </p>
 
-<pre class="code">
-<?php
-class x6helloworld extends androX6 {
-    function x6main() {
-        $top = html('div');
-        $top->h('h1','Hello World 2.0');
-        $top->h('p','The new version of Hello World now has text!');
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6helloworld</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Hello</span><span class="syntax13"> </span><span class="syntax13">World</span><span class="syntax13"> </span><span class="syntax13">2.0</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">p</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">The</span><span class="syntax13"> </span><span class="syntax13">new</span><span class="syntax13"> </span><span class="syntax13">version</span><span class="syntax13"> </span><span class="syntax13">of</span><span class="syntax13"> </span><span class="syntax13">Hello</span><span class="syntax13"> </span><span class="syntax13">World</span><span class="syntax13"> </span><span class="syntax13">now</span><span class="syntax13"> </span><span class="syntax13">has</span><span class="syntax13"> </span><span class="syntax13">text!</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        $top->render();
-    }
-}
-?>
-</pre>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
 
 <p>This bit of code will send the following HTML to the browser:
 </p>
 
-<pre class="code">
-<div>
-<h1>Hello World 2.0
-<p>The new version of Hello World now has text!</p>
-</div>
-</pre>
+<pre><span class="syntax0"><span class="syntax17">&lt;div</span><span class="syntax17">&gt;</span>
+<span class="syntax17">&lt;h1</span><span class="syntax17">&gt;</span>Hello World 2.0
+<span class="syntax17">&lt;p</span><span class="syntax17">&gt;</span>The new version of Hello World now has text!<span class="syntax17">&lt;/p</span><span class="syntax17">&gt;</span>
+<span class="syntax17">&lt;/div</span><span class="syntax17">&gt;</span>
+</span></pre>
 
 <p>Most HTML involves nesting of nodes, so convention is to
    always start out by creating an element called $top, which is
@@ -55,7 +53,7 @@ class x6helloworld extends androX6 {
    creates a new empty HTML DIV element:
 </p>
 
-<pre class="code">$top = html('div');</pre>
+<pre>$top = html('div');</pre>
 
 <p>The next line puts an H1 element inside the DIV.  It does this
    by calling the "h" method.  The "h" method says, "give me a new
@@ -84,19 +82,19 @@ class x6helloworld extends androX6 {
    generated HTML instead of echoing it to the screen.
 </p>
 
-<pre class="code">
-<?php
-class x6helloworld extends androX6 {
-    function x6main() {
-        $top = html('div');
-        $top->h('h1','Hello World, Buffered');
-        $top->h('p','Capturing the output, now on a page near you');
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6helloworld</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Hello</span><span class="syntax13"> </span><span class="syntax13">World,</span><span class="syntax13"> </span><span class="syntax13">Buffered</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">p</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Capturing</span><span class="syntax13"> </span><span class="syntax13">the</span><span class="syntax13"> </span><span class="syntax13">output,</span><span class="syntax13"> </span><span class="syntax13">now</span><span class="syntax13"> </span><span class="syntax13">on</span><span class="syntax13"> </span><span class="syntax13">a</span><span class="syntax13"> </span><span class="syntax13">page</span><span class="syntax13"> </span><span class="syntax13">near</span><span class="syntax13"> </span><span class="syntax13">you</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        $html = $top->bufferedRender();
-        echo $html;    
-    }
-}
-</pre>
+        <span class="syntax10">$html</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;bufferedRender</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax8">echo</span> <span class="syntax10">$html</span><span class="syntax18">;</span>    
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
 
 <h2>Some Variations</h2>
 
@@ -107,29 +105,28 @@ class x6helloworld extends androX6 {
    several examples of how to create child nodes and set HTML.
 </p>
 
-<pre class="code">
-<?php
-class x6h1example extends androX6 {
-    function x6main() {
-        $top = html('div');
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6h1example</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        # here is the simplest way to make an h1 inside a div.
-        $top->h('h1','This is the H1 program');
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">here</span><span class="syntax4"> </span><span class="syntax4">is</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">simplest</span><span class="syntax4"> </span><span class="syntax4">way</span><span class="syntax4"> </span><span class="syntax4">to</span><span class="syntax4"> </span><span class="syntax4">make</span><span class="syntax4"> </span><span class="syntax4">an</span><span class="syntax4"> </span><span class="syntax4">h1</span><span class="syntax4"> </span><span class="syntax4">inside</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">div.</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">This</span><span class="syntax13"> </span><span class="syntax13">is</span><span class="syntax13"> </span><span class="syntax13">the</span><span class="syntax13"> </span><span class="syntax13">H1</span><span class="syntax13"> </span><span class="syntax13">program</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        # Grab the returned object and set its HTML
-        $h1 = $top->h('h1');
-        $h1->setHTML('Two lines, but more powerful');
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Grab</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">returned</span><span class="syntax4"> </span><span class="syntax4">object</span><span class="syntax4"> </span><span class="syntax4">and</span><span class="syntax4"> </span><span class="syntax4">set</span><span class="syntax4"> </span><span class="syntax4">its</span><span class="syntax4"> </span><span class="syntax4">HTML</span>
+        <span class="syntax10">$h1</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$h1</span><span class="syntax6">-&gt;setHTML</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">Two</span><span class="syntax13"> </span><span class="syntax13">lines,</span><span class="syntax13"> </span><span class="syntax13">but</span><span class="syntax13"> </span><span class="syntax13">more</span><span class="syntax13"> </span><span class="syntax13">powerful</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        # Sometimes you need to create a child element
-        # as a free-floating object and add it to its
-        # parent later
-        $h1 = html('h1');
-        $h1->setHTML('Three lines, more powerful still');
-        $top->addChild($h1);
-    }
-}
-?>
-</pre>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Sometimes</span><span class="syntax4"> </span><span class="syntax4">you</span><span class="syntax4"> </span><span class="syntax4">need</span><span class="syntax4"> </span><span class="syntax4">to</span><span class="syntax4"> </span><span class="syntax4">create</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">child</span><span class="syntax4"> </span><span class="syntax4">element</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">as</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">free-floating</span><span class="syntax4"> </span><span class="syntax4">object</span><span class="syntax4"> </span><span class="syntax4">and</span><span class="syntax4"> </span><span class="syntax4">add</span><span class="syntax4"> </span><span class="syntax4">it</span><span class="syntax4"> </span><span class="syntax4">to</span><span class="syntax4"> </span><span class="syntax4">its</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">parent</span><span class="syntax4"> </span><span class="syntax4">later</span>
+        <span class="syntax10">$h1</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$h1</span><span class="syntax6">-&gt;setHTML</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">Three</span><span class="syntax13"> </span><span class="syntax13">lines,</span><span class="syntax13"> </span><span class="syntax13">more</span><span class="syntax13"> </span><span class="syntax13">powerful</span><span class="syntax13"> </span><span class="syntax13">still</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;addChild</span><span class="syntax18">(</span><span class="syntax10">$h1</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
 
 <h2>Do Not Mix innerHTML and Child Nodes</h2>
 
@@ -138,11 +135,10 @@ class x6h1example extends androX6 {
    something that might look like this in HTML:
 </p>
 
-<pre class="code">
-<div>I am text that is innerHTML of the div.
-  <p>But I am in a paragraph?</p>
-</div>
-</pre>
+<pre><span class="syntax0"><span class="syntax17">&lt;div</span><span class="syntax17">&gt;</span>I am text that is innerHTML of the div.
+  <span class="syntax17">&lt;p</span><span class="syntax17">&gt;</span>But I am in a paragraph?<span class="syntax17">&lt;/p</span><span class="syntax17">&gt;</span>
+<span class="syntax17">&lt;/div</span><span class="syntax17">&gt;</span>
+</span></pre>
 
 <p>The Andromeda HTML generation objects will produce reliable
    consistent and predictable output if each object has either
@@ -155,30 +151,29 @@ class x6h1example extends androX6 {
    to nest objects rather deeply.  This is how it is done:
 </p>
 
-<pre class="code">
-<?php
-function x6report extends androX6 {
-    function x6main() {
-        $top = html('div');
-        $top->h('h1','Financial Table');
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6report</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Financial</span><span class="syntax13"> </span><span class="syntax13">Table</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        $table = $top->h('table');
-        $thead = $table->h('thead');
-        $tr    = $thead->h('tr');
-        $tr->h('th','Quarter');
-        $tr->h('th','Product Line');
-        $tr->h('th','Receipts');
-        $tr->h('th','Costs');
-        $tr->h('th','Gross Profit');
+        <span class="syntax10">$table</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">table</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax10">$thead</span> <span class="syntax18">=</span> <span class="syntax11">$table</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">thead</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax10">$tr</span>    <span class="syntax18">=</span> <span class="syntax11">$thead</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">tr</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$tr</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">th</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Quarter</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$tr</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">th</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Product</span><span class="syntax13"> </span><span class="syntax13">Line</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$tr</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">th</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Receipts</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$tr</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">th</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Costs</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$tr</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">th</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Gross</span><span class="syntax13"> </span><span class="syntax13">Profit</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        # 
-        # ... and so on for tbody, rows, and td's.
+        <span class="syntax4">#</span><span class="syntax4"> </span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">...</span><span class="syntax4"> </span><span class="syntax4">and</span><span class="syntax4"> </span><span class="syntax4">so</span><span class="syntax4"> </span><span class="syntax4">on</span><span class="syntax4"> </span><span class="syntax4">for</span><span class="syntax4"> </span><span class="syntax4">tbody,</span><span class="syntax4"> </span><span class="syntax4">rows,</span><span class="syntax4"> </span><span class="syntax4">and</span><span class="syntax4"> </span><span class="syntax4">td's.</span>
         
-        $top->render();
-    }
-}
-?>
-</pre>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
 
 <h2>Classes, Attributes and Events</h2>
 
@@ -199,39 +194,38 @@ function x6report extends androX6 {
    particular INPUT node.
 </p>
    
-<pre class="code">
-<?php
-function x6report extends androX6 {
-    function x6main() {
-        $top = html('div');
-        $top->h('h1','Financial Table');
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6report</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Financial</span><span class="syntax13"> </span><span class="syntax13">Table</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        # create a div and give it some class
-        $div = $top->h('div');
-        $div->addClass('fatborder');
-        $div->addClass('selected');   // can add more than one
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">create</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">div</span><span class="syntax4"> </span><span class="syntax4">and</span><span class="syntax4"> </span><span class="syntax4">give</span><span class="syntax4"> </span><span class="syntax4">it</span><span class="syntax4"> </span><span class="syntax4">some</span><span class="syntax4"> </span><span class="syntax4">class</span>
+        <span class="syntax10">$div</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$div</span><span class="syntax6">-&gt;addClass</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">fatborder</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$div</span><span class="syntax6">-&gt;addClass</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">selected</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>   <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">can</span><span class="syntax2"> </span><span class="syntax2">add</span><span class="syntax2"> </span><span class="syntax2">more</span><span class="syntax2"> </span><span class="syntax2">than</span><span class="syntax2"> </span><span class="syntax2">one</span>
         
-        # this would have done the same thing as 
-        # the above two lines
-        $div->hp['class'] = 'fatborder selected';
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">this</span><span class="syntax4"> </span><span class="syntax4">would</span><span class="syntax4"> </span><span class="syntax4">have</span><span class="syntax4"> </span><span class="syntax4">done</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">same</span><span class="syntax4"> </span><span class="syntax4">thing</span><span class="syntax4"> </span><span class="syntax4">as</span><span class="syntax4"> </span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">above</span><span class="syntax4"> </span><span class="syntax4">two</span><span class="syntax4"> </span><span class="syntax4">lines</span>
+        <span class="syntax11">$div</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">class</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">fatborder</span><span class="syntax13"> </span><span class="syntax13">selected</span><span class="syntax13">'</span><span class="syntax18">;</span>
         
-        # create a div in a div and set some attributes
-        $divleft = $div->h('div');
-        $divleft->hp['style'] = 'float:left';
-        $divleft->hp['onclick'] = "alert('You clicked me!')";
-        $divleft->setHtml( foo() );
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">create</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">div</span><span class="syntax4"> </span><span class="syntax4">in</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">div</span><span class="syntax4"> </span><span class="syntax4">and</span><span class="syntax4"> </span><span class="syntax4">set</span><span class="syntax4"> </span><span class="syntax4">some</span><span class="syntax4"> </span><span class="syntax4">attributes</span>
+        <span class="syntax10">$divleft</span> <span class="syntax18">=</span> <span class="syntax11">$div</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$divleft</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">style</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">float:left</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        <span class="syntax11">$divleft</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">onclick</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax14">&quot;</span><span class="syntax14">alert</span><span class="syntax14">(</span><span class="syntax14">'</span><span class="syntax14">You</span><span class="syntax14"> </span><span class="syntax14">clicked</span><span class="syntax14"> </span><span class="syntax14">me</span><span class="syntax14">!</span><span class="syntax14">'</span><span class="syntax14">)</span><span class="syntax14">&quot;</span><span class="syntax18">;</span>
+        <span class="syntax11">$divleft</span><span class="syntax6">-&gt;setHtml</span><span class="syntax18">(</span> <span class="syntax6">foo</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">)</span><span class="syntax18">;</span>  <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">get</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">HTML</span><span class="syntax2"> </span><span class="syntax2">from</span><span class="syntax2"> </span><span class="syntax2">some</span><span class="syntax2"> </span><span class="syntax2">function</span>
         
-        # create another div
-        $divright = $div->h('div');
-        $divright->hp['style'] = 'float: right';
-        $divright->sethtml( foobar() );
-        ...and so on.
-    }
-}
-?>
-</pre>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">create</span><span class="syntax4"> </span><span class="syntax4">another</span><span class="syntax4"> </span><span class="syntax4">div</span>
+        <span class="syntax10">$divright</span> <span class="syntax18">=</span> <span class="syntax11">$div</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$divright</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">style</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">float:</span><span class="syntax13"> </span><span class="syntax13">right</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        <span class="syntax11">$divright</span><span class="syntax6">-&gt;sethtml</span><span class="syntax18">(</span> <span class="syntax6">foobar</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">)</span><span class="syntax18">;</span>  <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">get</span><span class="syntax2"> </span><span class="syntax2">HTML</span><span class="syntax2"> </span><span class="syntax2">from</span><span class="syntax2"> </span><span class="syntax2">a</span><span class="syntax2"> </span><span class="syntax2">function</span>
+        <span class="syntax4">#</span><span class="syntax4">...and</span><span class="syntax4"> </span><span class="syntax4">so</span><span class="syntax4"> </span><span class="syntax4">on.</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
 
-<span class="warning">When you make code assignments to events
+<span class="alert">When you make code assignments to events
    like onclick or onmouseover, you may not use double-quotes inside
    of the value.  If you need to have quoted values inside, as in
    the example above "alert('you clicked me!')" then use single
@@ -247,44 +241,47 @@ function x6report extends androX6 {
    interpreted by browser-side code.
 </p>
 
-<pre class="code">
-<?php
-function x6report extends androX6 {
-    function x6main() {
-        $top = html('div');
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6report</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        $div = $top->h('div','An apparently innocent div');
-        $div->hp['CustomAttribute'] = 5;
+        <span class="syntax10">$div</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">An</span><span class="syntax13"> </span><span class="syntax13">apparently</span><span class="syntax13"> </span><span class="syntax13">innocent</span><span class="syntax13"> </span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$div</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">CustomAttribute</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax5">5</span><span class="syntax18">;</span>
         
-        $div = $top->h('div','Another apparently innocent div');
-        $div->hp['CustomAttribute'] = 6;
+        <span class="syntax10">$div</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Another</span><span class="syntax13"> </span><span class="syntax13">apparently</span><span class="syntax13"> </span><span class="syntax13">innocent</span><span class="syntax13"> </span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$div</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">CustomAttribute</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax5">6</span><span class="syntax18">;</span>
 
-        // this one does not have the custom attribute
-        $div = $top->h('div','Third apparently innocent div');
+        <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">this</span><span class="syntax2"> </span><span class="syntax2">one</span><span class="syntax2"> </span><span class="syntax2">does</span><span class="syntax2"> </span><span class="syntax2">not</span><span class="syntax2"> </span><span class="syntax2">have</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">custom</span><span class="syntax2"> </span><span class="syntax2">attribute</span>
+        <span class="syntax10">$div</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Third</span><span class="syntax13"> </span><span class="syntax13">apparently</span><span class="syntax13"> </span><span class="syntax13">innocent</span><span class="syntax13"> </span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
         
-        $top->render();
-    }
-}
-?>
-</pre>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
 
 <p>You might now provide some javascript routine that can find
    nodes that have any value of "CustomAttribute" or find nodes
    that have a specific value.
 </p>
 
-<pre class="code">
-<script>
-function example {
-    // jQuery selector that finds a specific value
-    // This will return one node from the example above
-    $('[CustomAttribute=6]');
-    
-    // Another jQuery that finds all nodes that have
-    // any value of customattribute.  This will return
-    // two nodes from the example above.
-    $('[CustomAttribute']);
-    
-}
-</script>
+<pre><span class="syntax0"><span class="syntax17">&lt;script</span><span class="syntax17">&gt;</span>
+<span class="syntax8">function</span><span class="syntax17"> </span><span class="syntax17">example</span><span class="syntax17"> </span><span class="syntax18">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">jQuery</span><span class="syntax2"> </span><span class="syntax2">selector</span><span class="syntax2"> </span><span class="syntax2">that</span><span class="syntax2"> </span><span class="syntax2">finds</span><span class="syntax2"> </span><span class="syntax2">a</span><span class="syntax2"> </span><span class="syntax2">specific</span><span class="syntax2"> </span><span class="syntax2">value</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">This</span><span class="syntax2"> </span><span class="syntax2">will</span><span class="syntax2"> </span><span class="syntax2">return</span><span class="syntax2"> </span><span class="syntax2">one</span><span class="syntax2"> </span><span class="syntax2">node</span><span class="syntax2"> </span><span class="syntax2">from</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">example</span><span class="syntax2"> </span><span class="syntax2">above</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">$</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">[</span><span class="syntax13">CustomAttribute</span><span class="syntax13">=</span><span class="syntax13">6</span><span class="syntax13">]</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">Another</span><span class="syntax2"> </span><span class="syntax2">jQuery</span><span class="syntax2"> </span><span class="syntax2">that</span><span class="syntax2"> </span><span class="syntax2">finds</span><span class="syntax2"> </span><span class="syntax2">all</span><span class="syntax2"> </span><span class="syntax2">nodes</span><span class="syntax2"> </span><span class="syntax2">that</span><span class="syntax2"> </span><span class="syntax2">have</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">any</span><span class="syntax2"> </span><span class="syntax2">value</span><span class="syntax2"> </span><span class="syntax2">of</span><span class="syntax2"> </span><span class="syntax2">customattribute.</span><span class="syntax2"> </span><span class="syntax2"> </span><span class="syntax2">This</span><span class="syntax2"> </span><span class="syntax2">will</span><span class="syntax2"> </span><span class="syntax2">return</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">two</span><span class="syntax2"> </span><span class="syntax2">nodes</span><span class="syntax2"> </span><span class="syntax2">from</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">example</span><span class="syntax2"> </span><span class="syntax2">above.</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">$</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">[</span><span class="syntax13">CustomAttribute</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span>
+<span class="syntax18">}</span>
+<span class="syntax17">&lt;/script&gt;</span>
+</span></pre>
+
+<h2>Further Reading</h2>
+
+<p>For more information, see the reference on the androHTML class.</p>
 

@@ -1,4 +1,4 @@
-<h1>Making Hello World a Public Page</p>
+<h1>Making Hello World a Public Page</h1>
 
 <p>In the previous lesson we saw how to make a simple "Hello World!"
    page and then we saw how to manually type in a link to see it.
@@ -14,15 +14,15 @@
    in your application directory and put the following code at the top:
 </p>
 
-<pre class="code">
-<?php
-# File: applib.php
-#
-# Put this at the top, outside of any function
-$MPPages = array(
-   "helloworld"=>1
-);
-</pre>
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">File:</span><span class="syntax4"> </span><span class="syntax4">applib.php</span>
+<span class="syntax4">#</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Put</span><span class="syntax4"> </span><span class="syntax4">this</span><span class="syntax4"> </span><span class="syntax4">at</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">top,</span><span class="syntax4"> </span><span class="syntax4">outside</span><span class="syntax4"> </span><span class="syntax4">of</span><span class="syntax4"> </span><span class="syntax4">any</span><span class="syntax4"> </span><span class="syntax4">function</span>
+<span class="syntax10">$MPPages</span> <span class="syntax18">=</span> <span class="syntax8">array</span><span class="syntax18">(</span>
+   <span class="syntax14">&quot;</span><span class="syntax14">helloworld</span><span class="syntax14">&quot;</span><span class="syntax18">=</span><span class="syntax18">&gt;</span><span class="syntax5">1</span>
+<span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
 
 <p>Note the spelling of the array, the first three letters are upper-case
    and the rest is lower case.
