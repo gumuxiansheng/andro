@@ -94,6 +94,7 @@ table comments:
     description: Comments
     group $LOGIN:
         permins: "Y"
+        permsel: "Y"
 
     column comment:
         automation_id: sequence
@@ -107,6 +108,8 @@ table comments:
         auto: default, N
         group admin:
             permupd: "Y"
+            permsel: "Y"
+        group $LOGIN:
             permsel: "Y"
     column email:
         uisearch: "Y"
