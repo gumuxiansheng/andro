@@ -1,0 +1,31 @@
+            <h1>Session Variables</h1>
+                            
+                            <p><br/><br/>Andromeda provides wrappers for accessing session variables.  The
+PHP superglobal $_SESSION should not be directly accessed, instead
+an Andromeda program should use [[SessionGet]] and [[SessionSet]].
+</p>
+<p>Do not use session variables for storing information across different
+requests, such as storing user replies going page-to-page through
+a wizard.  Use <span class="nolink">Context Functions</span> or [[Hidden Variables]]
+for these instead, they are much more flexible and robust.
+</p>
+<p>It may happen that you have multiple Andromeda applications on a server,
+and that a browser is connected to more than one of them in multiple
+tabls.  This would result in a collision if you were access $_SESSION
+directly, because each app would overwrite the variables of the others.
+Andromeda prevents these collisions automatically whenever
+[[SessionGet]] and [[SessionSet]] are used.
+</p>
+<p>Andromeda also prevents collissions between session variables used by
+the framework and those you may put into your application.  All of the
+Session variables accept an optional last parameter (not documented in
+the individual functions)  The default value of this parameter is
+'app', but some framework functions call it with a value of 'fw' to keep
+these variables separate from application variables.  It should be noted
+that sometimes the framework uses application session variables, so that
+the application can find them if necessary.  Examples of this are session
+variables UID (current user_id) and PWD (password of current user).
+</p>
+<p> 
+</p>                                                    
+                            

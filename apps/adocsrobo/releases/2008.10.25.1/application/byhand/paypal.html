@@ -1,0 +1,79 @@
+            <h1>Paypal</h1>
+                            
+                            <p><br/><br/>=Introduction=
+</p>
+<p>The Andromeda Paypal framework includes code taken directly from Paypal's toolkit for php, which can be found at http://www.paypal.com/pdn.
+</p>
+<h1>Preview of Requirements</h1>
+<p>Using Paypal inside of Andromeda requires the following steps, which are explained in more detail below.
+</p>
+<p><ol>
+<li>Create any database tables appropriate to your business
+<li>Write non-UI code that handles a successful transaction.  This is where the database work goes.
+<li>Provide a page that the user sees after the transaction has been handled successfully.
+<li>Make configuration settings in paypal_config.inc.php
+</ol>
+</p>
+<h1>Preview of how IPN Works</h1>
+<p>Assume a database that has an invoices table.  Your application writes to the database all information about the invoice, then makes this setting:
+</p>
+<pre class="php">vgaSet('html_main','html_main_paypal_process');
+</pre>
+<p>After that setting your code should terminate.  The framework will end processing by invoking html_main_paypall_process.php, which passes control to Paypal.
+</p>
+<p>Once the user hits 'PAY' on the Paypal site, Paypal will do two things simultaneously.  It will notify your non-UI code while also showing the user a screen where they can hit [CONTINUE].  There are two important things to note here:
+</p>
+<p><ul>
+<li>If your Non-UI processing code fails, the customer will still be charged!
+<li>Your customer may hit [CONTINUE] and get back to your site before your non-UI code has finished, so you may have to sit there and check the status until the non-ui code has finished.
+</ul>
+</p>
+<h1>Making it Work</h1>
+<h2>Database Prerequisites</h2>
+<p>The Andromeda framework does not require any particular kind of database tables for your paypal system, use whatever is appropriate to your business.
+</p>
+<p>One recommendation is that certain timestamps be put into the main invoice table, at very least a timestamp when the transaction was initiated, when it was sent off to paypal, and when paypal sent a success or cancellation method.
+</p>
+<h2>Non-UI Process</h2>
+<p>Your system should have a file "applib.php" in the application directory.  If it does not already use this file, create the file for use by paypal.
+</p>
+<p>Create a function in the "applib.php" file called "Paypal_IPN_Success($log)".  In this routine put any code you wish to have called when a transaction is successful.  This routine is invoked invisibly, so if you want to debug what is going on, use the paramter $log to make calls to [[SysLogEntry]].  Then review the tables [[syslogs]] and [[syslogs_e]] to see the log of your process.
+</p>
+<h2>Visible Page</h2>
+<p>The visible page for success can be any normal Andromeda page, there is nothing special required for it.  Keep in mind only that it should not do any database processing, it is an information-only page.  It might contain a simple "thank you" or a review of the order, or anything along those lines.
+</p>
+<p>The page should be written as you would write any other page in Andromeda.
+</p>
+<h2>Configurations</h2>
+<p>To configure Paypal, you must copy the file "paypal_config.inc.php" from the lib directory to the application directory.  Once you have done this, the copy in the application directory overrides the lib directory.  The lib directory copy will be ignored at runtime, only the application directory will be accessed.
+</p>
+<p>The following settings must be made:
+</p>
+<p><ul>
+<li>Set  the email address of the business that receives the payment, which is $paypal['business']
+<li>Set the base URL of your own system, which is $paypal['site_url'].
+<li>Set the URL of the visible success page, which is $paypal['success_url'].  Watch out!  This is not supposed to be a complete URL, this value will be appended to the base URL $paypal['site_url'], so it might be something like '?gp_page=paypal_thanks'.
+<li>Do not make any changes to url_notify!
+</ul>
+</p>
+<h2>Test and Live</h2>
+<p>Inside of the application/paypal_config.inc.php are two lines that set the $paypal['url'].  One  points to the 'sandbox', which is Paypal's testing setup, and one points to their live server.  One of these should always be rem'd out, and the other should be active.  Switching one for the other is all that is required to switch between test and live mode.
+</p>
+<h1>Reference: Andromeda Changes to Paypal Files</h1>
+<p>The Andromeda Paypal framework is composed of paypal-provided files that have been moved and renamed to follow our conventions.
+</p>
+<p>The paypal file "process.php" was moved to the lib directory and renamed "html_main_paypal_process.php".
+</p>
+<p>The paypal file "paypal_global_config.inc.php" is in the lib directory.
+</p>
+<p>The paypal file "paypal_config.inc.php" is in the lib directory.  When you use paypal, you copy this file to the application directory and make changes to the copy.  The lib copy is kept for reference.
+</p>
+<p>The payapl file "ipn.php" was moved to the lib directory and renamed x_paypalipn.php.  The functional code was moved into function main of class x_paypalipn.
+</p>
+<p>The files ipn_success.php and ipn_error.php were discarded.  They were only placeholder files, and were replaced with methods in x_paypalipn.
+</p>
+<p>The paypal files used unquoted array index names throughout, those were all changed to quoted index names.
+</p>
+<p> 
+</p>                                                    
+                            

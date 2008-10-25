@@ -1,0 +1,24 @@
+<h1>Introducing Upgrade Scripts</h1>
+
+<p>Upgrade scripts are a new feature now available in Andromeda 
+   that allow you to run snippets of code at the end of  
+   upgrades.  
+</p>
+
+<p>Building databases is central to what Andromeda is all about.
+   The build process was the first Andromeda program written, and
+   is still the most important.  It creates tables, columns, indexes
+   and triggers.  What the build program does not do is execute
+   any kind of special actions you may need to move data around
+   to populate new tables or columns.  That is where the scripts
+   come in.
+</p>
+
+<p>Upgrade Scripts perform actions on the database after a build.
+   Upgrade scripts are PHP programs
+   that execute at superuser privelege and are especially useful for
+   populating new columns with default values or populating a new
+   table from data in old tables.
+</p>
+
+<p>There is a new documentation page for [[Upgrade Scripts]].

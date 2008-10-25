@@ -1,0 +1,45 @@
+<h1>Making Hello World a Public Page</h1>
+
+<p>In the previous lesson we saw how to make a simple "Hello World!"
+   page and then we saw how to manually type in a link to see it.
+</p>
+
+<p>However, the default for Andromeda is not to allow this page 
+   to be seen by anybody unless they are logged in.  So we have to
+   make the page public.
+</p>
+
+<p>To make the page public, you must create an array called $MPPages
+   and add an entry for "helloworld".  Create a file called "applib.php"
+   in your application directory and put the following code at the top:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">File:</span><span class="syntax4"> </span><span class="syntax4">applib.php</span>
+<span class="syntax4">#</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Put</span><span class="syntax4"> </span><span class="syntax4">this</span><span class="syntax4"> </span><span class="syntax4">at</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">top,</span><span class="syntax4"> </span><span class="syntax4">outside</span><span class="syntax4"> </span><span class="syntax4">of</span><span class="syntax4"> </span><span class="syntax4">any</span><span class="syntax4"> </span><span class="syntax4">function</span>
+<span class="syntax10">$MPPages</span> <span class="syntax18">=</span> <span class="syntax8">array</span><span class="syntax18">(</span>
+   <span class="syntax14">&quot;</span><span class="syntax14">helloworld</span><span class="syntax14">&quot;</span><span class="syntax18">=</span><span class="syntax18">&gt;</span><span class="syntax5">1</span>
+<span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<p>Note the spelling of the array, the first three letters are upper-case
+   and the rest is lower case.
+</p>
+
+<p>Note also that the page name is the <i>index</i> of the array.  The
+   actual value of the entry can be anything, it is ignored.
+</p>
+
+<span class="info">If your database application handles any sensitive
+  information at all, it is always best to use a <i>deny-by-default</i>
+  system, one that denies all access to all tables and pages unless
+  a user has been explicitly granted access to the page or table.
+  If you are unsure of this, ask yourself, in the event you make
+  a mistake, would you rather find you had denied users access to
+  something they should see, or would you rather find out that your
+  website had been exposing sensitive data to the world?
+</span>
+
+
