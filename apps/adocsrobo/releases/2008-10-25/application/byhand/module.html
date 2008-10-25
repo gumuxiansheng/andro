@@ -1,0 +1,44 @@
+            <h1>module</h1>
+                            
+                            <p><br/><br/>Andromeda organizes tables into modules.  All tables must belong to a
+module and therefore all databases must define at least one module.
+</p>
+<p>The default menu system is built on modules and tables.  Each module
+becomes a menu pad at the top of the page, and the tables within it
+become the "dropdown" menu items.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>module module_id:
+   # Required
+   description: string
+   # Optional
+   uisort: number
+   nomenu: Y/N
+   # Optional group security definitions:
+   group group_id:
+      #...module.group property/value assignments</pre>
+</div></div>
+<h2>Properties</h2>
+<p> 
+<b>module module_id</b>.  The first line of a module definition begins with
+the keyword 'module', a space, and then the unique module name (module_id)
+followed by a colon.
+</p>
+<p> 
+<b>description</b>.  The friendly name. Will be used on the menu system.
+</p>
+<p> 
+<b>uisort</b>.  Determines the sequence of this module on the menu.
+</p>
+<p> 
+<b>nomenu</b>.  A Y/N flag to suppress this entire module from the menu.
+</p>
+<p>A module definition can contain a nested <span class="nolink">module.grup</span> definition
+which will assign security priveleges to a group for this module.
+</p>
+<p> 
+</p>                                                    
+                            

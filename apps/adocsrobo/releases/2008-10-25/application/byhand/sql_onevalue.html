@@ -1,0 +1,16 @@
+            <h1>SQL_OneValue</h1>
+                            
+                            <p>string Column_ID<br/>string SQL_Command<br/><br/><br/>Accepts and executes a SQL command on the current default connection.
+It then fetches the first row of the result, and if it can find the
+named column, returns its value.
+</p>
+<p>Any failure at any stage returns false.
+</p>
+<p>Be careful that the SQL_Command actually return one or at most a few
+rows, if a command is issued to the server that would return 1 million
+rows, the server will execute the entire command, even though it only
+returns the first row to PHP.
+</p>
+<p> 
+</p>                                                    
+                            

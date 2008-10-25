@@ -1,0 +1,90 @@
+            <h1>table.upsave</h1>
+                            
+                            <p><br/><br/>A table.upsave is a very flexible way to write values from a child table
+to a parent table.  Unlike automations such as [[SUM]] and [[COUNT]], an
+upsave writes to columns that users can overwrite, and an upsave can
+be made conditional.
+</p>
+<p>A table.upsave is one of the most flexible ways that Andromeda has to
+write values from one table to another, with lots of options for
+specifying when and how the operation occurs.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>table table_id:
+   # An upsave will determine 
+   upsave upsave_id:
+      # These two properties are required
+      table_id_dest: table_id  # a foreign key to this table must
+                               # be defined in the table definition
+      cascade_action: UPDATE    # required for historical purposes
+      # At least one of these two must be present
+      afterins: Y/N
+      afterupd: Y/N
+      # These are optional
+      copysamecols: Y/N
+      column_id_flag: column_id
+      flag_reset: Y/N
+      onlychanged: Y/N
+      # These are explicit column assingments
+      column column_id:      # the column in the parent table
+         retcol:  column_id  # ...gets the value of a child column
+      column column_id:      # this time the column in the parent table
+         retval:  hello!     # ...gets a literal value, "hello!"</pre>
+</div></div>
+<h2>Properties</h2>
+<p> 
+<b>upsave upsave_id</b>.  The first line of a table.upsave definition
+begins with the keyword 'upsave', a space, and then an upsave name
+that is unique within this table, (upsave_id) followed by a colon.
+</p>
+<p> 
+<b>table_id_dest</b>.  Names the parent table.  An upsave definition is
+always made in a child table, and the child table definition must always
+contain a foreign key to the parent table being targetted by the upsave.
+</p>
+<p> 
+<b>cascade_action</b>.  This is required and always takes the value of
+UPDATE.  In future revisions this requirement will be removed.
+</p>
+<p> 
+<b>afterins</b>.  If Y, the upsave will fire after inserts to the child table.
+The <b>afterins</b> and <b>afterupd</b> properties can both be set, and at
+least one of them must be set.
+</p>
+<p> 
+<b>afterupd</b>.  If Y, the upsave will fire after updates to the child table.
+The <b>afterins</b> and <b>afterupd</b> properties can both be set, and at
+least one of them must be set.
+</p>
+<p> 
+<b>copysamecols</b>.  If Y, the upsave willc opy values from parent to
+child for all columns that have the same name in both tables.
+</p>
+<p> 
+<b>column_id_flag</b>.  This is an optional setting.  It names a column
+in the child table.  The column must be of type cbool.  If such a column
+is named, the upsave will only fire if the named column is 'Y'.
+</p>
+<p> 
+<b>flag_reset</b>.  Only relevant if <b>column_id_flag</b> is set.  If the
+<b>flag_reset</b> property is Y, then the <b>column_id_flag</b> is reset to
+N after the upsave fires.
+</p>
+<p> 
+<b>onlychanged</b>.  Only changed values will be written to the parent table,
+unchanged values will not be written.  Has no effect on inserts.
+</p>
+<p> 
+<b>column.retcol</b>.  Allows you to explicitly name a column in the parent
+table and have it get the value from a column in the child table.
+</p>
+<p> 
+<b>column.retval</b>.  Allows you to explicitly write a literal value
+to a column in the parent table.
+</p>
+<p> 
+</p>                                                    
+                            

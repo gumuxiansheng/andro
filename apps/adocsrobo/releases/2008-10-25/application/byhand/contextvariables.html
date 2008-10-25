@@ -1,0 +1,32 @@
+<h1>Context Variables</h1>
+                            
+<p>
+Andromeda provides Context Functions as a more robust and flexible
+alternative to [[Session Variables]].
+</p>
+
+<p>
+A "context" is all of the state that is specific to a particular
+browser tab.  If a user opens three browser windows
+to your app, and three tabs in each browser, each of the nine tabs will
+have its own context.
+</p>
+
+<p>
+The context is returned to the server only when the user navigates by
+POST.  If you need to use context, make sure you are using SUBMITs and
+not hyperlinks.
+</p>
+
+<p>
+[[Session Variables]] are stored on the server, but Context Variables
+are sent out to the browser and then returned with each round trip.
+This means that care must be taken only to add the most essential
+information to context.
+</p>
+
+<p>
+The Andromeda framework sometimes writes its own context variables.  You
+can avoid collisions with these variables by always using the functions
+whose names begin with "app".
+</p>

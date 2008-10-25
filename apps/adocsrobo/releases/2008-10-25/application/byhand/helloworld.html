@@ -1,0 +1,54 @@
+<h1>Hello World</h1>
+
+<p>Andromeda aims to keep simple things simple and to make
+   complicated things manageable.
+   With that in mind, a basic Hello World! program is a very simple
+   thing to do.  The following code snippet demonstrates this:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span> 
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6helloworld</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax17">?&gt;</span>
+        Hello World!
+        <span class="syntax17">&lt;?php</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<p>As we can see, every Andromeda page exists as a PHP file that has
+   a class in it.  The class always extends the built-in class "androX6"
+   (note the case, the "X" is uppercase the rest is lowercase).  The
+   class itself is always named "x6" plus the name of the page:
+</p>
+
+
+<h4>x6 + {pageName} = x6helloworld</h4>
+
+<p>This program should be saved in a file named "x6helloworld.php" in
+   your application directory.  
+</p>
+
+<p>To see this page, go to your application, log in, and then type into
+   the address bar "/path/to/app/index.php?x6page=helloworld".
+</p>
+
+<span class="warning">Linux file names are case-sensitive.  You must name
+your file using the exact case that you provide to the x6page parameter.
+</span>
+
+<p>The x6main should send its HTML directly to output.  There is no
+   need to worry about buffering, Andromeda takes care of that.
+</p>
+
+
+
+
+
+
+
+
+
+
+

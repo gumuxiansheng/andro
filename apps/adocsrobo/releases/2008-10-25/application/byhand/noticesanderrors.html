@@ -1,0 +1,24 @@
+            <h1>Notices and Errors</h1>
+                            
+                            <p><br/><br/>Andromeda supports (and in fact requires) delayed error reporting.
+</p>
+<p>When an error occurs in code, the error is saved temporarily using
+[[ErrorAdd]], and execution then always continues to the end.  The
+errors are then reported when the HTML is sent to the browser.
+</p>
+<p>There can be multiple errors in one request.  Any framework function
+that sends commands to the database server will also take database
+server errors and run them through [[ErrorAdd]] so that they can be
+reported.
+</p>
+<p>An error is anything at all that causes the user's expected action
+not to occur.  A notice is information that the user may need that is
+not an error.
+</p>
+<p>The Andromeda default screens report all errors and notices.
+When you make a completely custom screen or template, you must make
+provision to report errors and notices.
+</p>
+<p> 
+</p>                         
+                            
