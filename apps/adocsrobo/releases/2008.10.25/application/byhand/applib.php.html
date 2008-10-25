@@ -1,0 +1,40 @@
+<h1>applib.php</h1>
+                            
+<p>
+This file does not exist unless you create it and put it into the
+[[application directory]].
+</p>
+
+<p>
+This file is invoked on every trip to the server, so anything that you
+need on every trip should be put here, but care should be taken to avoid
+unnecessary processing in this file.
+</p>
+
+<p>
+This file serves two purposes.  First, the code at the top of the file
+is executed on every request to the server.  Therefore the top of the file
+is a good place to put settings and tests.  Second, the file can contain
+library functions that you wish to be globally available to any other
+file in your application.
+</p>
+
+<p>
+Here is an example of an applib file that makes some settings and
+has a function available:
+</p>
+
+<div class="box-php">
+vgaSet('setting1','This setting always happens for every page');
+// set a page if none was requested
+if(gp('gp_page')=='') { 
+   gpSet('gp_page','p_home');
+}
+
+// This function is available to every page in the system, it
+// provides a date format that we use everywhere
+function PreferredDateFormat($unix_ts) {
+   return date('...',$unix_ts);
+}
+</div>
+
