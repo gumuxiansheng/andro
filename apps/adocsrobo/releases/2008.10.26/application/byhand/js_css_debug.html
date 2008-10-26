@@ -1,0 +1,40 @@
+<h1>JS_CSS_DEBUG</h1>
+
+<p>This system variable controls whether or not CSS and JS files are
+   combined and minified.  It applies to all CSS and JS files that are
+   registered with [[cssInclude]] and [[jsInclude]].
+</p>
+
+<p>If your application makes use of CSS and JS files that are not part
+   of Andromeda, it is best to "register" them by use of the [[cssInclude]]
+   and [[jsInclude]] functions.  These functions can be put anywhere in
+   your code.  They take a <i>relative</i> path to the files and should
+   never include anything like "http://" or "~/kfd/" or the domain name.
+   A typical example would be:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax6">jsInclude</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">appclib/jquery.example.js</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax6">cssInclude</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">appclib/jquery.example.css</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<p>In order to provide the best performance and user experience, Andromeda
+   outputs the necessary LINK and SCRIPT tags in the HEAD for CSS files
+   and at the bottom of the page for SCRIPT files.
+</p>
+
+<p>If the JS_CSS_DEBUG system variable is missing or set to N, which is the
+   default for a server, all CSS files are combined into a single file and
+   delivered to the browser as such, which reduces the number of HTTP 
+   calls to the server.  Likewise, the JS files are combined and are also
+   minified.  This process occurs only once for each particular combination
+   of files, and the resulting file is saved and used for all subsequent
+   requests until it is cleared by a build.
+</p>
+
+<p>I the JS_CSS_DEBUG system variable is set to Y, neither CSS nor JS
+   files are combined, nor is the JS minified.  This is the preferred setting
+   when you are debugging, and is more common on development workstations.
+</p>
+   

@@ -1,0 +1,121 @@
+            <h1>Running On Windows</h1>
+                            
+                            <p>As of April 2007 we established the task of getting Andromeda running on Windows.
+</p>
+<h2>Perl is Now Required</h2>
+<p>As of July 25, 2007, Andromeda now requires Perl to be installed.
+</p>
+<div style="padding:10px; margin:10px;border:1px solid gray;background-color:#C0c0c0;">
+If you have already installed Andromeda, and you need to add perl,
+follow these quick instructions:
+
+<ul>
+<li>Download perl from this site:
+   <a href="http://www.activestate.com/store/productdetail.aspx?prdGuid=81fbce82-6bd5-49bc-a915-08d58c2648ca">ActiveState Download Site</a>, follow the prompts.  After downloading, unzip and run the install batch program.  Answer YES to all questions.
+<li>On the Windows START menu, find "PostgreSQL" and click "Stop Service"
+<li>On the Windows START menu, find "PostgreSQL" and click "Start Service"
+</ul>
+
+</div>
+<h1>Current Status</h1>
+<p>As of April 12, 2007, Features that are known to work are:
+</p>
+<ul><li> Basic install and use
+<li> Node Manager self-upgrade
+</ul>
+<p>Version control does not work yet, as we need to make changes to:
+</p>
+<ul><li> <b>application/a_codexfer.php</b> handles version control server-side.  It uses GNU tools <b>diff</b> and <b>patch</b>.
+<li> <b>application/a_scontrol.php</b> handles version control on the client side.  It uses GNU tools <b>diff</b> and <b>patch</b>.
+<li> These two programs also both use the *nix CLI programs <b>tar</b> and the command <b>rm</b>.
+</ul>
+<p>What this means is that you can install and use Andromeda, but if you finish an app and want to move it to a production server you have to copy the files yourself.
+</p>
+<p>A final issue is that Windows will flash a "cmd.exe" box on the screen whenever Andromeda executes a <a href="http://www.php.net/manual/en/function.exec.php" target="_blank">PHP exec</a> <a href="http://www.php.net/manual/en/function.exec.php" target="_blank"><img style="border:0px" src="/apppub/external.png" border=0></a> command on some installations but not
+on others.  This has yet to be explained or resolved.
+</p>
+<h1>Installation</h1>
+<p>To run on Windows, you need a webserver, PHP,  Postgres and perl. These directions have been refined over time by several people and should work in most situations. You might be prompted to reboot your machine, especially if you are upgrading components. Hold off until you install the prerequesists.
+</p>
+<h3>Installing Postgres and Perl</h3>
+<ul>
+<li> Install Postgres right from the <a href="http://www.postgresql.org/">postgres</a> site. There is a zip file that contains the msi installer for postgres. This included language bindings for several languages including plperl which andromeda requires. Right now the latest stable version is 8.2. The plperl.dll in the MSI package requires activeperl 5.8.x to run. Versions 5.6 and 5.10 will not work. Future releases of postgresql might require different versions of perl.
+<li> Install perl version 5.8.x (or the version required by your copy of plperl.dll) from the <a href="http://www.activestate.com/store/productdetail.aspx?prdGuid=81fbce82-6bd5-49bc-a915-08d58c2648ca">ActiveState Download Site</a>. The windows perl distribution comes in either an MSI or ActiveState (.as) package. It is recommended that you use the MSI unless you would like to have the Active State package management system installed.
+</ul>
+<p>You should reboot your machine at this point if you were prompted to at any of the proveious steps and elected not to.
+</p>
+<h3>Install php and a web server</h3>
+<p>For this step please see [[running with XAMP]] or [[running with IIS]] depending on your webserver of choice. Then return to this page.</p>
+<h1>Configuration</h1>
+<p>Once the packages are installed, make these configuration changes.
+</p>
+<h3>PHP</h3>
+<p><b>PHP Step 1 of 3</b>
+</p>
+<p>There are a couple of php.ini settings that should be changed.  If you installed with XAMPP this file will be at
+X:\program files\xampp\apache\bin\php.ini
+</p>
+<ul><li> max_execution_time must be expanded.  Building a database will often exceed 30 seconds, and can run as much as 3-4 minutes.
+<li> memory_limit must be expanded beyond 8M, otherwise a database build will simply stop with a maddening lack of any kind of error or notice.
+<li> Uncomment the line "extension = php_pgsql.dll".
+<li> Make sure the line "short_open_tag=on" says "on" and is not commented.
+<li> Look for the line 'variables_order=...' and make sure it says 'variables_order="EGPCS"', if it only says "GPCS", then Andromeda won't be able to figure out that it is on Windows.
+</ul>
+<p><b>PHP Step 2 of 3</b>
+</p>
+<p>Install PEAR package Net_SMTP with any dependencies.
+</p>
+<p><b>PHP Step 3 of 3</b>
+</p>
+<p>Install PEAR package Archive_Tar, along with dependencies.
+</p>
+<h3>Apache</h3>
+<p><b>Apache Step 1 of 1</b>
+</p>
+<p>Apache mod_rewrite must be on to make use of friendly URLs.
+</p>
+<h3>Postgres</h3>
+<p><b>Postgres Step 1 of 3</b>
+</p>
+<p>Make the following changes to postgresql.conf to make sure that it is listening on TCP/IP.  Each of the lines
+below should already be in the config file, make sure
+they are uncommented and set as shown:
+</p>
+<pre class="box-config">listen_addresses='localhost'
+port = 5432
+max_connections = 100
+</pre>
+<p><b>Postgres Step 2 of 3</b>
+</p>
+<p>Your pg_hba.conf file should look like the file below.
+It is important to keep the lines in the same order.
+</p>
+<pre class="box-config">#  DEV SERVER ONLY, do not put this line in on a
+#  production server.
+host  all         postgres    127.0.0.1/32     trust 
+
+# Users in pg group "root" can connect to anything
+host   all         +root      127.0.0.1/32     password
+
+# Members of the anonymous role can login
+host   samename    all        127.0.0.1/32     password
+host   samegroup   all        127.0.0.1/32     password
+</pre>
+<p>After changing these files, restart the PostgreSQL service. The Windows START
+menu should have an entry for "PostgreSQL", and entries for "Stop Service" and
+"Start Service".
+</p>
+<p><b>Postgres Step 3 of 3</b>
+</p>
+<p>Enter the following commands in a pgadmin3 command
+window.  Do this by launching pgadmin3, making a connection to localhost, and then:
+</p>
+<pre class="box-config">create role root nologin;
+create user USER_NAME superuser password 'PASSWORD';
+grant root to USER_NAME;
+create database andro;
+</pre>
+<h3>Run Andromeda Install</h3>
+<p>You are now ready to download and install Andromeda.
+</p>                                                    
+                            

@@ -1,0 +1,25 @@
+<h1>gp</h1>
+
+<p>Returns [[GET-POST Variable]], or a default value if the 
+   variable does not exist.
+</p>
+
+<pre>
+string gp(  string varname
+           [,string default_value]
+         )
+</pre>
+
+<p>If <b>varname</b> was received as a GET or POST variable, 
+   the value is returned.  If <b>varname</b> was not passed,
+   the function returns either an empty string or the
+   second parameter.
+</p>
+
+<p>The following example returns the value of gp_page,
+   or the value 'home' if gp_page was not passed.
+</p>
+
+<pre>
+$gp_page = gp('gp_page','home');
+</pre>

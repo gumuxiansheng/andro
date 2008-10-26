@@ -1,0 +1,96 @@
+            <h1>Run-Time Error Handling</h1>
+                            
+                            <p>April 11, 2007<br/><br/><br/>Andromeda implements all business rules in the database server, therefore
+all run-time errors come from the database server.  The web framework
+parses the errors and presents them to the user.
+</p>
+<p>Andromeda triggers do not fail on the first error.  Processing continues
+and the trigger attempts to determine all of the errors on the input, then it
+reports them all at once.
+</p>
+<p>Errors are returned in a semicolon-delimited list.  Each error is itself
+a comma-seperated list of 3 items.  The first is the affected column, or
+'*' if it is a table-level error.  The second is an error number, and the
+third is the error text.
+</p>
+<p>Here is an example of what happens if you attempt to insert a duplicate
+row into the APPLICATIONS table of the node manager:
+</p>
+
+
+<div id='example'><div id='extitle'>Errors Returned From Server</div>
+<div id='exampleinner'><div id='ex2title'>This SQL Command on a typical node manager</div>
+<pre id='ex2inner'>
+insert into applications (application) values ('andro')</pre><div id='ex2title'>Will result in this error string</div>
+<pre id='ex2inner'>
+ERROR:  application,1002,Duplicate Value;webpath,1005,Required Value;</pre>
+</div></div>
+<p>The framework parses the errors and handles them as follows:
+</p>
+<ul><li> The user is returned to the screen that they tried to save.
+<li> Table-level errors are displayed at the top of the screen.
+<li> Column-level errors are displayed next to the particular column.
+<li> If the user is a superuser, the offending SQL command is printed
+at the top of the screen.
+</ul>
+<p>If you wish to retrieve the errors yourself in special code, you can use
+the use the [[vgfGet]] function:
+</p>
+
+
+<div id='example'><div id='extitle'>Obtaining Error Information</div>
+<div id='exampleinner'><div id='ex2title'>PHP Code:</div>
+<code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />vgfGet</span><span style="color: #007700">(</span><span style="color: #DD0000">'errorSQL'</span><span style="color: #007700">,</span><span style="color: #DD0000">''</span><span style="color: #007700">);&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;will&nbsp;return&nbsp;the&nbsp;offending&nbsp;SQL&nbsp;Statement<br /></span><span style="color: #0000BB">vgfGet</span><span style="color: #007700">(</span><span style="color: #DD0000">'errorsRAW'</span><span style="color: #007700">,array());&nbsp;</span><span style="color: #FF8000">//&nbsp;array&nbsp;of&nbsp;unparsed&nbsp;errors<br /></span><span style="color: #0000BB">vgfGet</span><span style="color: #007700">(</span><span style="color: #DD0000">'errorsCOL'</span><span style="color: #007700">,array());&nbsp;</span><span style="color: #FF8000">//&nbsp;array&nbsp;of&nbsp;parsed&nbsp;errors<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code>
+</div></div>
+<p>In cases where there is a multi-column primary key or foreign key, the
+server repeats some messages for each applicable column.  An attempt to
+insert a duplicate into a table with a two-column key will result in two
+semicolon-delimited errors, one for each column in the PK.
+</p>
+
+
+<div id='example'><div id='extitle'>Multiple-Column Primary Keys</div>
+<div id='exampleinner'><div id='ex2title'>This SQL Command on a typical node manager</div>
+<pre id='ex2inner'>
+insert into instances (application,instance) values ('cms','live');</pre><div id='ex2title'>Will result in this error string</div>
+<pre id='ex2inner'>
+ERROR:  application,1002,Duplicate Value;instance,1002,Duplicate Value;</pre>
+</div></div>
+<p>The error numbers are:
+</p>
+<ul><li> <b>1001</b> Null value of primary key column.
+<li> <b>1002</b> Duplicate primary key value.
+<li> <b>1003</b> Attempt to change primary key columns.
+<li> <b>1004</b> Attempt to change foreign key columns (if applicable).
+<li> <b>1005</b> Null values in foreign key columns.
+<li> <b>1006</b> RI child insert failure.
+<li> <b>1007</b> RI parent delete failure (<b>Table level</b> error).
+<li> <b>3001</b>,<b>3002</b> Assignment of sequenced columns on insert or update.
+<li> <b>3303</b>,<b>3004</b> Assignment of value to type "ts_ins" column on insert
+or update (ts_ins is an insert timestamp).
+<li> <b>3305</b>,<b>3006</b> Assignment of value to type "ts_upd" column on insert
+or update (ts_upd is an update timestamp).
+<li> <b>3307</b>,<b>3008</b> Assignment of value to type "uid_ins" column on insert
+or update (uid_ins tags the user who made an insert).
+<li> <b>3309</b>,<b>3010</b> Assignment of value to type "uid_upd" column on insert
+or update (uid_upd tags the user who made an update).
+<li> <b>5001</b> Assignment of value to a FETCH/DISTRIBUTE column.
+<li> <b>5002</b> Assignment of value to a CHAIN calculated column.
+<li> <b>5003</b> Failure of a column-level constraint chain.
+<li> <b>4001</b> Column may not be empty.
+<li> <b>6001</b> Invalid value in [[cbool]] column.
+<li> <b>6002</b> Invalid value in a [[gender]] column.
+<li> <b>6003</b> Invalid value in a [[time]] column.
+<li> <b>6010</b> Value is less than allowed [[value_min]].
+<li> <b>6011</b> Value is greater than allowed [[value_max]].
+<li> <b>7001</b> Update not allowed (<b>Table level</b> error).
+<li> <b>7002</b> Delete not allowed (<b>Table level</b> error).
+<li> <b>8001</b> Attempt to create a duplicate user.
+<li> <b>9001</b> Attempt to create a duplicate user in Node Manager.
+</ul>
+<p> 
+</p>                                                    
+                            
