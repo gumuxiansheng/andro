@@ -5,6 +5,7 @@ class cms extends x_table2 {
         $page=urldecode(gp('gp0'));
         $pagex=substr($page,0,strlen($page)-5);
         $file=str_replace(' ','',$page);
+        $file=strtolower($file);
         
         # Before anything, see if a comment was posted.
         if(gp('x4inp_comments_notes')<>'') {
