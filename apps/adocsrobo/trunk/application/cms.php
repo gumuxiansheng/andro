@@ -73,6 +73,9 @@ class cms extends x_table2 {
             $dc->hp['style'] = 'border: 1px solid #606060;
                 padding: 5px;
                 background-color: #E0E0E0';
+            $comment['notes'] = str_replace("\r","\n",$comment['notes']);
+            $comment['notes'] = str_replace("\n\n\n\n","\n\n",$comment['notes']);
+            $comment['notes'] = str_replace("\n","<br/>",$comment['notes']);
             $dc->setHtml($comment['notes']);
             $div->br(2);
         }

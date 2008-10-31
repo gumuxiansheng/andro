@@ -54,6 +54,11 @@ $this->rpToc['Web Programming'] = array(
    ,'Making Hello World a Public Page'
    ,'Making Hello World a Menu Entry'
    ,'Complex HTML Without HTML'
+   ,'Making an HTML Form'
+   ,'Reading GET and POST Variables'
+   ,'Linking To Pages'
+   ,'Using The Data Dictionary'
+   ,'HTML Inputs and The Data Dictionary'
 );
 
 

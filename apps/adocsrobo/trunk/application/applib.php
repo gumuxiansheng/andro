@@ -3,9 +3,12 @@ $MPPages = array(
     'artview'=>0
     ,'cms'=>0
     ,'search'=>0
+    ,'example'=>1
 );
 
 $html = array();
+
+
 
 # ========================================================================
 # Conventional Andromeda Routines
