@@ -1,0 +1,20 @@
+            <h1>FindAccessKey</h1>
+                            
+                            <p>string HTML_Caption<br/>array (HTML_Caption,HTML_Parm_Accesskey)<br/><br/><br/>Allows you to specify HMTL "Accesskey" for a hyperlink by putting a
+backslash into the caption, so that "\Example" returns "<u>E</u>xample"
+and 'accesskey="E"'.
+</p>
+<p>Accepts a string, examines the string for a backslash character.  If
+one is found, it removes the backslash and underlines the character
+immediately after.
+</p>
+<p>Returns the an array of two elements, first is the modified caption and
+the next is an HTML fragment 'accesskey="X"' where 'X' is whatever character
+was right after the backslash.
+</p>
+<p>If there is no backslash in the caption, then the caption is returned
+unchanged and the accesskey is empty.
+</p>
+<p> 
+</p>                                                    
+                            

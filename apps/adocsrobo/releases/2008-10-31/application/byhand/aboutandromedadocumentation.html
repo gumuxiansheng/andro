@@ -1,0 +1,123 @@
+<h1>About Andromeda Documentation</h1>
+
+<P>
+Good documentation is second only to masterful design in making a good program. 
+The best system in the world is only as useful as its documentation, and so the 
+Andromeda philosophy is to strive for the best possible documentation.
+</P>
+
+<P>
+Our gold standard for documentation is the online PHP docs. Every nook and cranny 
+of Andromeda should be documented with the same thoroughness that we see in the 
+PHP docs.
+</P>
+
+<H2><A NAME="The_Source_and_The_Destination"></A>The Source and The Destination</H2>
+
+<P>
+I am most comfortable using a Word Processor to generate technical documentation, 
+and OpenOffice.org has provided a Word Processor that is Good Enough in all respects. 
+So I use OpenOffice.org for the tutorials and explanations, and embedded docs in 
+the source code for reference:
+</P>
+
+<P>
+The final product for page-by-page viewing is HTML with CSS styling. The final 
+product for a complete set of docs is PDF.
+</P>
+
+<H2><A NAME="What_We_Mean_By__E2_80_9CPage_E2_80_9D"></A>What We Mean By <q>Page</q></H2>
+
+<P>
+The term <q>page</q> refers to the distinct content the user sees on the screen when 
+they click a link. If they click on the <q>Widgets</q> link we say they will go to the 
+widgets page.
+</P>
+
+<H2><A NAME="How_To_Write_Docs_in_OO.org"></A>How To Write Docs in OO.org</H2>
+
+<H3><A NAME="What_To_Put_In_It"></A>What To Put In It</H3>
+
+<P>
+Use <q>Heading 1</q> to denote a distinct page. Everything before the first is discarded 
+<q>Heading 1</q>, and each subsequent <q>Heading 1</q> will break to a new page. 
+</P>
+
+<P>
+Use <q>Heading 2</q> and <q>Heading 3</q> within a document. No further nesting of 
+header-level styles is defined in the style sheet.
+</P>
+
+<P>
+Modify the styles in OO.org to your own liking, it will not affect the display 
+on the site.
+</P>
+
+<P>
+Make a style called <q>code</q> and use it for code snippets.
+</P>
+
+<P>
+Make a style called <q>parms</q>. At some point each page needs a <q>parms</q> section that 
+defines the parent page of that page. 
+</P>
+
+<P>
+Empty elements and page breaks are not sent to the final output, so feel free to 
+use page breaks and blank lines as needed.
+</P>
+
+<H3><A NAME="Where_to_Save"></A>Where to Save</H3>
+
+<P>
+Application documents are stored in the 'docsapp' directory of the application.
+</P>
+
+<H3><A NAME="The_Last_Step"></A>The Last Step</H3>
+
+<P>
+When you have a document ready to be published, export it to xhtml using OO.org's 
+built-in exporter. The Andromeda documentation generator only looks for the xhtml 
+files, it ignores everything else. 
+</P>
+
+<H2><A NAME="Pending_Jobs_To_Improve_Documentation"></A>Pending Jobs To Improve Documentation</H2>
+
+<P>
+The following jobs are waiting for somebody to come up and improve this system.
+</P>
+
+<H3><A NAME="Need_to_Define_CSS_Classes"></A>Need to Define CSS Classes</H3>
+
+<P>
+We need to completely define the list of classes that are needed for Andromeda 
+docs. These would include source code from PHP, HTML, JS, CSS, and YAML.
+</P>
+
+<P>
+In a related matter, we need an easy way to paste in syntax-colored examples.
+</P>
+
+<H3><A NAME="The_Docs_Generator"></A>The Docs Generator</H3>
+
+<P>
+The docs generator needs to be improved to scan documents for references to other 
+pages and convert them to hyperlinks.
+</P>
+
+<H3><A NAME="Docs_in_Source_Code"></A>Docs in Source Code</H3>
+
+<P>
+We need to consider if we can simplify the docs-in-comments. Right now they've 
+got some pretty nifty stuff that happens to be very different from the newer OO.org 
+stuff. I am seriously considering dropping the embedded comments and moving those 
+docs into OO.org text files.
+</P>
+
+<H3><A NAME="Put_In_User_Comments"></A>Put In User Comments</H3>
+
+<P>
+We need somebody to put in user comments on all pages. 
+</P>            
+ 
+                                    

@@ -1,0 +1,15 @@
+            <h1>SQL_ConnPush</h1>
+                            
+                            <p>string User_id<br/>string Database_Name<br/><br/><br/>This routine attempts to make a new database connection.  If
+successfull, the currently open default connection, if there is one,
+is pushed onto a stack, and this connection becomes the new default.
+</p>
+<p>The connection is closed with [[SQL_ConnPop]].
+</p>
+<p>If the first parameter is 'ADMIN', then the connection is made as the
+superuser, otherwise the connection is always made as the username
+retrieved by the [[SessionGet]] function for the variable "UID".
+</p>
+<p> 
+</p>                                                    
+                            

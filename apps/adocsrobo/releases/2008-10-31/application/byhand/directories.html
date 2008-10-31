@@ -1,0 +1,40 @@
+<h1>Directories</h1>
+                            
+<p>
+Every Andromeda application has a standard set of directories, with one
+root and its collection of subdirectories.  All of the code for every 
+application, including public files, script libraries, CSS files, and 
+server code, is contained in this directory tree.
+</p>
+
+<p>
+The top level directory normally holds <span class="nolink">index.php</span> and [[pages]], plus
+an .htaccess file.
+</p>
+
+<p>
+The standard sub-directories are:
+</p>
+
+<ul>
+<li> <b>application</b>.  Holds all application-specific server-side code.
+During a build, the builder writes an .htaccess file to this directory
+containing only the line "Deny From All", so that the directory is not
+publicly visible.
+<li> <b>appclib</b>.  Holds all application-specific client-side code.
+<li> <b>apppub</b>.  Holds all application-specific client-side images and other publicly available files.
+<li> <b>instpub</b>.  Instance-level publicly-visible files.
+<li> <b>lib</b>.  Andromeda server-side library files.
+<li> <b>clib</b>.  Andromeda client-side library files.
+<li> <b>dynamic</b>.  A cache directory, used by the framework to store anything
+that needs rapid retrieval.  Wiped out during a build.
+<li> <b>generated</b>.  Contains the data dictionary, converted into PHP include
+files which themselves hold associative array definitions.  Allows the
+data dictionary to be loaded in a pre-packaged format perfect for use by
+PHP code.  Wiped out during a build.
+<li> <b>files</b>.  A catch-all directory where files can be put during development.
+Nothing in here is handled during builds, and the source control and version
+control systems ignore it, so it is a good place to put files on dev systems.
+<li> <b>tmp</b>.  Used during a build to put log files and such.  Ignored by the
+version and source control systems.
+</ul>

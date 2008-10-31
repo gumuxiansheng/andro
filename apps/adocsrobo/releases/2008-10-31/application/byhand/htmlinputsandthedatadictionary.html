@@ -1,0 +1,67 @@
+<h1>HTML Inputs and The Data Dictionary</h1>
+
+<p>The Data Dictionary is very useful for producing specialized
+   HTML.  One of the more tiresome tasks of database development
+   is the need to make up specialized inputs for many  
+   different fields, with different rules for different types,
+   different alignment, different sizes, and so on.
+</p>
+
+<p>Andromeda provides the input() function which can be used
+   to generate consistent standardized inputs based on the
+   information in the data dictionary.
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6example</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Load</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">dictionary</span>
+        <span class="syntax10">$dd</span> <span class="syntax18">=</span> <span class="syntax6">ddTable</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">configfw</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Now</span><span class="syntax4"> </span><span class="syntax4">dump</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">simple</span><span class="syntax4"> </span><span class="syntax4">input</span><span class="syntax4"> </span><span class="syntax4">for</span><span class="syntax4"> </span><span class="syntax4">each</span><span class="syntax4"> </span><span class="syntax4">column</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">in</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">table</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax8">foreach</span><span class="syntax18">(</span><span class="syntax10">$dd</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">flat</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax8">as</span> <span class="syntax10">$colname</span><span class="syntax18">=</span><span class="syntax18">&gt;</span><span class="syntax10">$colinfo</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+            <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax10">$colinfo</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">description</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">.</span><span class="syntax13">'</span><span class="syntax13">:</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+            <span class="syntax10">$input</span> <span class="syntax18">=</span> <span class="syntax17">input</span><span class="syntax18">(</span><span class="syntax10">$colinfo</span><span class="syntax18">)</span><span class="syntax18">;</span>
+            <span class="syntax11">$top</span><span class="syntax6">-&gt;addChild</span><span class="syntax18">(</span><span class="syntax10">$input</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax18">}</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<p>Each input has special attributes that can be used by browser-side
+   code for whatever purpose you may need.  These custom attributes
+   always have the letter 'x' as a prefix to their name.  They
+   generally have the same name as data dictionary properties except
+   they lack underscores:
+</p>
+
+<ul><li>xtableid: the table id
+    <li>xcolumnid: the column id
+    <li>xroupd: If "Y", the column should be read-only when updating
+    <li>xroins: If "Y", the column should be read-only for inserts
+    <li>xtypeid: Same as "type_id" in the data dictionary
+    <li>xcolprec: Same as "colprec" in the data dictionary
+    <li>xcolscale: Same as "colscale" in the data dictionary.
+</ul>
+
+<h2>Using jQuery to Find Controls</h2>
+
+<p>You can make use of the special attributes that Andromeda adds
+   to its inputs to easily find controls that correspond to 
+   certain database columns.
+</p>
+
+<p>If you want to find the input that is bound to the column
+   "group_id" in table "groups", the following jQuery selector
+   will do that:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;script</span><span class="syntax17">&gt;</span>
+<span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">Set</span><span class="syntax2"> </span><span class="syntax2">focus</span><span class="syntax2"> </span><span class="syntax2">on</span><span class="syntax2"> </span><span class="syntax2">a</span><span class="syntax2"> </span><span class="syntax2">particular</span><span class="syntax2"> </span><span class="syntax2">control</span>
+<span class="syntax17">$</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">:</span><span class="syntax13">input</span><span class="syntax13">[</span><span class="syntax13">xcolumnid</span><span class="syntax13">=</span><span class="syntax13">group_id</span><span class="syntax13">]</span><span class="syntax13">[</span><span class="syntax13">xtableid</span><span class="syntax13">=</span><span class="syntax13">groups</span><span class="syntax13">]</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">.</span><span class="syntax6">focus</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17">&lt;/script&gt;</span>
+</span></pre>

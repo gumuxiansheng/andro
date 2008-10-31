@@ -1,0 +1,73 @@
+<h1>JQuery Integration</h1>
+
+<p>Andromeda is a complete application framework.  However, there is no
+   reason for any framework author(s)
+   to reinvent every software development tasks.  Those tasks 
+   relating to the database are where Andromeda focuses its innovations,
+   for the rest of the picture we seek to use the best of what others
+   have done.  This lets the Andromeda contributors focus on our 
+   specialties, and still gain the advantage of cutting edge packages
+   made by others.
+</p>
+
+<p>On the browser side we feel that JQuery is the best combination of
+   power and elegance.  JQuery is extremely easy to get started with,
+   is supported by loads and loads of plugins, and is well documented.
+</p>
+
+<p><a href="http://jquery.com">JQuery homepage</a>.
+</p>
+
+<h2>Default Features</h2>
+
+<p>Andromeda by default includes these libraries:
+</p>
+
+<ul><li><a href="http://jquery.com">jquery-1.2.3.js</a>
+    <li><a href="http://docs.jquery.com/Plugins/dimensions"
+        >jquery.dimensions.js</a>
+    <li><a href="http://docs.jquery.com/Plugins/Tooltip"
+        >jquery.tooltip.js (and jquery.tooltip.css)</a>
+</ul>
+
+<p>Andromeda activates the tooltip feature for all A elements and 
+   INPUT elements.  Please see the tooltip documentation (link above)
+   for more options.  This feature can be modified by
+   the [[TOOLTIPS]] system variable.
+</p>
+
+<h2>Adding Your Own Libraries or Calls</h2>
+
+<p>If you want to make use of libraries that Andromeda has not included,
+   you can do so quite easily.  Use the [[cssInclude]] and [[jqPlugin]]
+   functions to include your libraries.  These can occur anywhere in your
+   code.  Andromeda will load the CSS in the document head and the JS
+   at the bottom of the document.  Here is a simple example:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax6">jqPlugin</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">appclib/jquery.example.js</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax6">cssInclude</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">appclib/jquery.example.css</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+   
+<p>It is pretty common to need to run code when the document finishes
+   loading.  JQuery uses a call to "$(document).ready()" to do this.
+   Andromeda provides a wrapper to this definition so that 
+   your application functions will not
+   collide with framework functions.  Any code that you need to run when the
+   document is ready should be submitted with the [[elementAdd]] function,
+   as in:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax6">elementAdd</span><span class="syntax18">(</span><span class="syntax14">&quot;</span><span class="syntax14">jqueryDocumentReady</span><span class="syntax14">&quot;</span><span class="syntax18">,</span><span class="syntax14">&quot;</span><span class="syntax14">$</span><span class="syntax14">(</span><span class="syntax14">'</span><span class="syntax14">a</span><span class="syntax14">'</span><span class="syntax14">)</span><span class="syntax14">.</span><span class="syntax14">tooltip</span><span class="syntax14">(</span><span class="syntax14">{</span><span class="syntax14">showUrl</span><span class="syntax14">:</span><span class="syntax14"> </span><span class="syntax14">false</span><span class="syntax14">}</span><span class="syntax14">)</span><span class="syntax14">&quot;</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<h2>Minification and YSlow!</h2>
+
+<p>Andromeda provides automatic combination and minification of Javascript
+   and CSS files.  More information is found on our pages on
+   [[Andromeda HTML Templates]] and the [[JS_CSS_DEBUG]] system variable.
+   
