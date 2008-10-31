@@ -1,0 +1,31 @@
+<h1>Basic Security</h1>
+                            
+<P>
+Andromeda follows the basic database security model of defining groups and then granting 
+the ability to groups to select, insert, update, or delete from tables. 
+</P>
+
+<P>
+Since it can be tedious to grant many combinations of privileges to many tables, Andromeda 
+allows you do define a "module". A module has no meaning inside of the database, it does 
+not correlate to a schema or namespace or anything like that. It is simply a logical 
+grouping of tables, and one of the things you can do is assign a group privileges on 
+an entire module.
+</P>
+
+<P>
+Andromeda is strictly DENY BY DEFAULT. When you first create a database, nobody can 
+access any of the tables in the database. You must at the very least assign SELECT privileges 
+on at least one table to at least one group, or you haven't got an application. Andromeda's 
+privileges are also cumulative. Each time a user is assigned to a group, they gain all of 
+the privileges of the group. There is no concept of denying access to any table for a user, 
+if you don't want them in a table then take them out of the group that has access.
+</P>
+
+<P>
+There is more information on basic security in the reference pages on [[module]], [[group]], 
+[[module.group]], [[group.module]], and [[table.group]]. 
+</P>            
+ 
+                                        
+                            

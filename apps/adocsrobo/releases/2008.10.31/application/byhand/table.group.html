@@ -1,0 +1,46 @@
+            <h1>table.group</h1>
+                            
+                            <p><br/><br/>A table.group definition assigns security priveleges to a group for
+a table.  This definition is nested inside of the [[table]] definition.
+Assignments made in this way are final,
+they override assignments made by [[group]]
+defaults and [[group.module]] and [[module.group]] defaults.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>table table_id:
+   # ... table properties assigned here...
+   # Define security for a particular group on this table
+   group group_id:
+      permsel: Y/N
+      permins: Y/N
+      permupd: Y/N
+      permdel: Y/N 
+      nomenu:  Y/N</pre>
+</div></div>
+<h2>Properties</h2>
+<p> 
+<b>group group_id</b>.  The first line of a table.group definition
+begins with the keyword 'table', a space, and then the
+unique group name (group_id) followed by a colon.
+</p>
+<p> 
+<b>permsel</b>.  The group's SELECT permission for this table.
+</p>
+<p> 
+<b>permins</b>.  The group's INSERT permission for this table.
+</p>
+<p> 
+<b>permupd</b>.  The group's UPDATE permission for this table.
+</p>
+<p> 
+<b>permdel</b>.  The group's DELETE permission for this table.
+</p>
+<p> 
+<b>nomenu</b>.  This table should not appear on the menu for this group.
+</p>
+<p> 
+</p>                                                    
+                            

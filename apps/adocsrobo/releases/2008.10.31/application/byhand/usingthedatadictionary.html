@@ -1,0 +1,223 @@
+<h1>Using The Data Dictionary</h1>
+
+<p>Your Andromeda Web programming will really begin to take
+   off once you begin using the data dictionary.  All Andromeda
+   applications begin with a very thorough and powerful data
+   dictionary.  This dictionary is not just for the
+   database, it is also good for generating HTML.
+</p>
+
+<p>When we are defining a database for an application, we edit
+   a plaintext file in YAML format.  This format would be 
+   of little use while coding PHP, so Andromeda packages it
+   up into associative arrays that you can load and use
+   in your PHP code.
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6example</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Andromeda</span><span class="syntax4"> </span><span class="syntax4">contains</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">built-in</span><span class="syntax4"> </span><span class="syntax4">table</span><span class="syntax4"> </span><span class="syntax4">called</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">'configfw'.</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">We</span><span class="syntax4"> </span><span class="syntax4">can</span><span class="syntax4"> </span><span class="syntax4">load</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">data</span><span class="syntax4"> </span><span class="syntax4">dictionary</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">for</span><span class="syntax4"> </span><span class="syntax4">this</span><span class="syntax4"> </span><span class="syntax4">table</span><span class="syntax4"> </span><span class="syntax4">with</span><span class="syntax4"> </span><span class="syntax4">this</span><span class="syntax4"> </span><span class="syntax4">command:</span>
+        <span class="syntax10">$dd</span> <span class="syntax18">=</span> <span class="syntax6">ddTable</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">configfw</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Now</span><span class="syntax4"> </span><span class="syntax4">lets</span><span class="syntax4"> </span><span class="syntax4">dump</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">array</span><span class="syntax4"> </span><span class="syntax4">out.</span>
+        <span class="syntax8">echo</span> <span class="syntax14">&quot;</span><span class="syntax14">&lt;</span><span class="syntax14">div</span><span class="syntax14"> </span><span class="syntax14">style</span><span class="syntax14">=</span><span class="syntax14">'</span><span class="syntax14">width</span><span class="syntax14">:</span><span class="syntax14"> </span><span class="syntax14">500px</span><span class="syntax14">;</span><span class="syntax14"> </span><span class="syntax14">height</span><span class="syntax14">:</span><span class="syntax14"> </span><span class="syntax14">500px</span><span class="syntax14">;</span><span class="syntax14"> </span><span class="syntax14">overflow</span><span class="syntax14">:</span><span class="syntax14">scroll</span><span class="syntax14">'</span><span class="syntax14">&gt;</span><span class="syntax14">&quot;</span><span class="syntax18">;</span>
+        <span class="syntax6">hprint_r</span><span class="syntax18">(</span><span class="syntax10">$dd</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax8">echo</span> <span class="syntax14">&quot;</span><span class="syntax14">&lt;</span><span class="syntax14">/</span><span class="syntax14">div</span><span class="syntax14">&gt;</span><span class="syntax14">&quot;</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<p>When you need to know about a table, you call the 
+   ddTable({tablename}) function, and it returns an associative
+   array that completely describes the table, including all columns,
+   primary keys, and many other features.
+</p>
+
+<p>Repeated calls to ddTable() for the same table are harmless,
+   except for the negligible performance penalty that is required
+   for Andromeda to reload the dictionary.
+</p>
+
+<h2>Simple Dictionary Uses</h2>
+
+<p>This example shows how to load the dictionary and then run out
+   a list of the columns in the table.
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6example</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Another</span><span class="syntax4"> </span><span class="syntax4">built-in</span><span class="syntax4"> </span><span class="syntax4">table</span><span class="syntax4"> </span><span class="syntax4">is</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">'groups'</span><span class="syntax4"> </span><span class="syntax4">table,</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">which</span><span class="syntax4"> </span><span class="syntax4">describes</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">application</span><span class="syntax4"> </span><span class="syntax4">group</span><span class="syntax4"> </span><span class="syntax4">definitions.</span>
+        <span class="syntax10">$dd</span> <span class="syntax18">=</span> <span class="syntax6">ddTable</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">groups</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">For</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">HTML</span><span class="syntax4"> </span><span class="syntax4">we</span><span class="syntax4"> </span><span class="syntax4">will</span><span class="syntax4"> </span><span class="syntax4">now</span><span class="syntax4"> </span><span class="syntax4">loop</span><span class="syntax4"> </span><span class="syntax4">through</span><span class="syntax4"> </span><span class="syntax4">the</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">&quot;flat&quot;</span><span class="syntax4"> </span><span class="syntax4">array</span><span class="syntax4"> </span><span class="syntax4">of</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">dictionary,</span><span class="syntax4"> </span><span class="syntax4">which</span><span class="syntax4"> </span><span class="syntax4">holds</span><span class="syntax4"> </span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">column</span><span class="syntax4"> </span><span class="syntax4">definitions.</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Make</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">Title</span><span class="syntax4"> </span><span class="syntax4">from</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">table</span><span class="syntax4"> </span><span class="syntax4">description</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">All</span><span class="syntax13"> </span><span class="syntax13">about</span><span class="syntax13"> </span><span class="syntax13">'</span><span class="syntax18">.</span><span class="syntax10">$dd</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">description</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Now</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">loop</span>
+        <span class="syntax10">$ul</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">ul</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax8">foreach</span><span class="syntax18">(</span><span class="syntax10">$dd</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">flat</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax8">as</span> <span class="syntax10">$colname</span><span class="syntax18">=</span><span class="syntax18">&gt;</span><span class="syntax10">$colinfo</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+            <span class="syntax11">$ul</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">li</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax14">&quot;</span><span class="syntax10">$colname</span><span class="syntax14">:</span><span class="syntax14"> </span><span class="syntax14">{</span><span class="syntax10">$colinfo</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">description</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax14">}</span><span class="syntax14">&quot;</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax18">}</span>
+        
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<span class="info">Why is the list of columns called "flat" instead
+   of "columns"?  It's a long story, it made sense back in August of
+   2004, and that's what it has been ever since...
+</span>
+
+<h2>Basic Table Properties</h2>
+
+<p>Using the data dictionary, you can find out the following
+   facts about a table:
+</p>
+
+<ul><li><b>description</b>: Standard description of table
+    <li><b>singular</b>: the singular form of the description.  If no value
+        is provided in the dd.yaml file, the Andromeda looks for an 's'
+        at the end of the description and removes it.  Usually you
+        assign this value when that does not work, so if you have a table
+        named "STORIES", you would want to specify "STORY" in the
+        data dictionary.
+    <li><b>module</b>: The module the table is in.
+    <li><b>nomenu</b>: If "Y", this table does not usually appear on the menu
+    <li><b>viewname</b>: If there is no row or column level security on the
+        table, this will be the table name.  If there is row or column
+        level security, this will hold the view name that the currently
+        logged in user must go through instead.        
+    <li><b>permrow</b>: Will be "Y" if there is row-level security on
+        this table.
+        <b>permcol</b>: Will be "Y" if there is column-level security
+        on this table.
+    <li><b>pks</b>: A comma-separated list of the primary key columns
+        of the table, in the order they were defined.
+</ul>
+
+
+<h2>Table Projections</h2>
+
+<p>There are three more bits of information you can get about a 
+   table.  You can find out about the table's parents, children,
+   and projections.
+</p>
+
+
+<p>The array $dd['projections'] is an associative array.  The
+   index key names the projection, and the values are comma-separated
+   lists of columns in each projection.  Every table has these 
+   projections:
+</p>
+
+<ul><li class="arrows"><b>_primary_key</b>: The list of primary key
+    columns, holds the same values as $dd['pks'].
+    <li class="arrows"><b>_uisearch</b>: The list of columns for 
+    which uisearch is set to "Y".
+    <li class="arrows"><b>_uino</b>:  Columns the user should not
+    see.  These include some Andromeda-created columns and any columns
+    that have uino equal to "Y" in the dd.yaml file.
+</ul>
+
+<span class="warn">Setting a column's uino to "Y" is not a security
+   measure.  It is only a convenience to prevent Andromeda from 
+   displaying the value.  To find out how to securely protect
+   columns, see more at Column-Level Security.
+</span>
+   
+<h2>Parent And Child Tables</h2>
+
+<p>The data dictionary for a table has two more arrays,
+    named $dd['fk_children'] and $dd['fk_parents'].  Each of these
+    is an associative array where the key is the name of the
+    parent/child table and the value is another associative array.
+    The nested array contains all of the basic properties of the
+    parent/child table listed in the above section such as 
+    description, singular, pks, etc.  The array also has these
+    additional entries:
+</p>
+
+<ul><li class="arrows"><b>cols_chd</b>: Comma-separated list of
+    columns in the child table that make up the foreign key.
+    <li class="arrows"><b>cols_par</b>: Comma-separated list of
+    columns in the parent table that make up the primary key.
+    <li class="arrows"><b>cols_both</b>: Comma-separated list of
+    column pairs that match the parent to child table.  The
+    pairs themselves are colon-separated, and always list the
+    child table column first followed by the parent table column.
+</ul>
+
+<h2>Basic Column Properties</h2>
+
+<p>Column properties are stored in $dd['flat'], where each 
+   entry's key names the column and each entry's value is
+   a child array of column properties.  The properties of
+   a column are listed below.  For more information on these
+   properties, please refer to documentation on the Data 
+   Dictionary.
+</p>
+
+<ul><li>table_id
+    <li>column_id 
+    <li>type_id char
+    <li>colprec
+    <li>colscale
+    <li>description 
+    <li>descshort 
+    <li>tooltip
+    <li>primary_key
+    <li>range_from 
+    <li>range_to 
+    <li>pk_change
+    <li>suffix 
+    <li>prefix  
+    <li>automation_id
+    <li>auto_formula 
+    <li>sqloffset 
+    <li>sqllimit 
+    <li>value_min 
+    <li>value_max 
+    <li>uirows 
+    <li>uicols 
+    <li>uisearch  
+    <li>ins 
+    <li>uiro  
+    <li>uino  
+    <li>dispsize (calculated display size)
+</ul>  
+
+<h2>Modifying The Dictionary At Run Time</h2>
+
+<p>Sometimes you may want to make small changes to the data 
+   dictionary, such as setting a column's description, but you
+   do not want to run a build.  You can create a function that will
+   modify the data dictionary after it is loaded and before it is
+   given to the original requesting program.
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">This</span><span class="syntax4"> </span><span class="syntax4">is</span><span class="syntax4"> </span><span class="syntax4">file</span><span class="syntax4"> </span><span class="syntax4">application/applib.php</span>
+
+<span class="syntax8">function</span> <span class="syntax6">ddtable_groups</span><span class="syntax18">(</span><span class="syntax18">&amp;</span><span class="syntax10">$dd</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+    <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">for</span><span class="syntax4"> </span><span class="syntax4">some</span><span class="syntax4"> </span><span class="syntax4">reason</span><span class="syntax4"> </span><span class="syntax4">we</span><span class="syntax4"> </span><span class="syntax4">want</span><span class="syntax4"> </span><span class="syntax4">to</span><span class="syntax4"> </span><span class="syntax4">pretend</span><span class="syntax4"> </span><span class="syntax4">this</span>
+    <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">column</span><span class="syntax4"> </span><span class="syntax4">does</span><span class="syntax4"> </span><span class="syntax4">not</span><span class="syntax4"> </span><span class="syntax4">exist</span>
+    <span class="syntax8">unset</span><span class="syntax18">(</span><span class="syntax10">$dd</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">flat</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">group_id</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax18">}</span>
+
+<span class="syntax8">function</span> <span class="syntax6">ddtable_orders</span><span class="syntax18">(</span><span class="syntax18">&amp;</span><span class="syntax10">$dd</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+    <span class="syntax10">$dd</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">singular</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax14">&quot;</span><span class="syntax14">Order</span><span class="syntax14">&quot;</span><span class="syntax18">;</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>

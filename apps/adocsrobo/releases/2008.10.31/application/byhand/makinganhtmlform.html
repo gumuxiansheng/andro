@@ -1,0 +1,97 @@
+<h1>Making An HTML Form</h1>
+
+<p>HTML Forms can be made by the same process that we use to
+   generate all other HTML elements.  We start out with a top-level
+   HTML node and then at some point at the FORM node in.
+</p>
+
+<p>The example below creates a very basic form:</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6example</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Please</span><span class="syntax13"> </span><span class="syntax13">Fill</span><span class="syntax13"> </span><span class="syntax13">Out</span><span class="syntax13"> </span><span class="syntax13">the</span><span class="syntax13"> </span><span class="syntax13">Form</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">The</span><span class="syntax4"> </span><span class="syntax4">form()</span><span class="syntax4"> </span><span class="syntax4">method</span><span class="syntax4"> </span><span class="syntax4">hands</span><span class="syntax4"> </span><span class="syntax4">you</span><span class="syntax4"> </span><span class="syntax4">back</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">form</span><span class="syntax4"> </span><span class="syntax4">that</span><span class="syntax4"> </span><span class="syntax4">is</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">is</span><span class="syntax4"> </span><span class="syntax4">named</span><span class="syntax4"> </span><span class="syntax4">&quot;Form1&quot;,</span><span class="syntax4"> </span><span class="syntax4">has</span><span class="syntax4"> </span><span class="syntax4">method</span><span class="syntax4"> </span><span class="syntax4">&quot;POST&quot;</span><span class="syntax4"> </span><span class="syntax4">and</span><span class="syntax4"> </span><span class="syntax4">action</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">&quot;index.php&quot;.</span>
+        <span class="syntax10">$form</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;form</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">This</span><span class="syntax4"> </span><span class="syntax4">is</span><span class="syntax4"> </span><span class="syntax4">very</span><span class="syntax4"> </span><span class="syntax4">important!</span><span class="syntax4"> </span><span class="syntax4">Without</span><span class="syntax4"> </span><span class="syntax4">this</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">form</span><span class="syntax4"> </span><span class="syntax4">will</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">not</span><span class="syntax4"> </span><span class="syntax4">post</span><span class="syntax4"> </span><span class="syntax4">back</span><span class="syntax4"> </span><span class="syntax4">to</span><span class="syntax4"> </span><span class="syntax4">this</span><span class="syntax4"> </span><span class="syntax4">page!</span>
+        <span class="syntax11">$form</span><span class="syntax6">-&gt;hidden</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">x6page</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">example</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax10">$input</span> <span class="syntax18">=</span> <span class="syntax11">$form</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">input</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$input</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">name</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">anyvalue</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        
+        <span class="syntax10">$input</span> <span class="syntax18">=</span> <span class="syntax11">$form</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">input</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$input</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">type</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">Submit</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        <span class="syntax11">$input</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">value</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">Submit</span><span class="syntax13"> </span><span class="syntax13">Now</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+
+</span></pre>
+
+<p>The first two lines should be very familiar by now, they 
+   simply create a top-level node and add a title H1 to it.
+</p>
+
+<p>The third line is a shortcut for creating a FORM element and setting
+   its three required properties.  Because we passed in no parameters,
+   the form will be named "Form1", it will have method of "POST", and
+   it will submit to the page "index.php".
+</p>
+
+<p>Line four completes the picture.  It creates a hidden variable that
+   names the x6page that Andromeda's index.php should hand execution
+   to.  When an x6page value is not provided, execution always falls
+   back to the x_welcome.php or x_login.php page.
+</p>
+
+<h2>Setting Different Parameters</h2>
+
+<p>We can of course choose different value for any of the parameters.
+   The parameters of the form() method are:
+</p>
+<ul><li class="arrows"><b>Name</b> - the name of the form (default Form1).
+    <li class="arrows"><b>Method</b> - HTTP method, default POST.
+    <li class="arrows"><b>Action</b> - PHP page, this should almost always
+       be left null so the default index.php will be called.
+    <li class="arrows"><b>x6page</b> - the x6page to call, defaults to none.
+</ul>
+
+<p>If you supply the fourth parameter, then you do not need a hidden
+   variable to specify the value of x6page.  This code:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax10">$div</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">This</span><span class="syntax4"> </span><span class="syntax4">creates</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">form</span><span class="syntax4"> </span><span class="syntax4">named</span><span class="syntax4"> </span><span class="syntax4">&quot;myForm&quot;,</span><span class="syntax4"> </span><span class="syntax4">using</span><span class="syntax4"> </span><span class="syntax4">HTTP</span><span class="syntax4"> </span><span class="syntax4">method</span><span class="syntax4"> </span><span class="syntax4">GET,</span>
+<span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4"> </span><span class="syntax4">and</span><span class="syntax4"> </span><span class="syntax4">specifying</span><span class="syntax4"> </span><span class="syntax4">x6page</span><span class="syntax4"> </span><span class="syntax4">of</span><span class="syntax4"> </span><span class="syntax4">&quot;example&quot;</span>
+<span class="syntax10">$form</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;form</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">myForm</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">GET</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax8">null</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">example</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+
+<span class="syntax11">$div</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17">?&gt;</span>
+
+</span></pre>
+<p>Will render the following HTML:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;div</span><span class="syntax17"> </span><span class="syntax17">&gt;</span>
+<span class="syntax17">&lt;form</span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">id</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">myForm</span><span class="syntax14">&quot;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">name</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">myForm</span><span class="syntax14">&quot;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">method</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">GET</span><span class="syntax14">&quot;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">action</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">?</span><span class="syntax14">x6page</span><span class="syntax14">=</span><span class="syntax14">example</span><span class="syntax14">&quot;</span><span class="syntax17">&gt;</span>
+<span class="syntax17">&lt;/form</span><span class="syntax17">&gt;</span>
+<span class="syntax17">&lt;/div</span><span class="syntax17">&gt;</span>
+
+</span></pre>
+
+
+

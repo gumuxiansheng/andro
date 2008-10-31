@@ -1,0 +1,206 @@
+<h1>column</h1>
+                            
+<p>
+In Andromeda a column is <b>defined</b> outside of a table and then
+<b>placed</b> into one or more tables.   The top-level column definition
+establishes a name and (at minimum) a type_id for a column.  Once a column is
+defined, it can go into any number of tables.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>column column_id:
+   # required
+   descripton: string
+   type_id: ( char, vchar, int...)
+   # optional
+   colprec: numeric 
+   colscale: numeric 
+   automation_id: ( FETCH, DISTRIBUTE, SUM ... )
+   auto_formula: table.column
+   value_min:  
+   value_max:
+   uiro: Y/N
+   uino: Y/N
+   uicols: numeric
+   uirows: numeric
+   required: Y/N
+   dispsize: numeric
+   uiwithnext: Y/N
+   alltables: Y/N</pre>
+</div></div>
+
+<p>
+A column name is unique in a database.  You cannot have
+two columns with the same name in different tables that have different
+type, precision or scale.  (Technically this can be subverted using
+the <span class="nolink">table.column#prefix</span> and <span class="nolink">table.column#suffix</span> properties, but
+sound naming conventions generally avoid that).
+</p>
+
+<p>
+Columns are placed into tables using the [[table.column]] or
+[[table.foreign_key]] definitions.
+</p>
+
+<h2>Properties</h2>
+
+<p> 
+<b>column column_id:</b>.  The first line of a column definition begins
+with the keyword 'column', a space, and then the unique column name
+(column_id)  followed by a colon.
+</p>
+
+<p>
+The first line of the definition should not be indented.
+</p>
+
+<p>
+Each line that follows the definition contains exactly one property/value
+assignment.  All of the property/value assignments must be indented,
+and they must all be indented at the same level.
+The bare minimum of properties are <b>type_id</b> and
+<b>description</b>.
+</p>
+
+<p> 
+<b>description</b>.  The description of the column that will be used in the UI
+for labels, captions, documentation, errors, and so forth.
+</p>
+
+<p> 
+<b>type_id</b>.  The column type.  Column types are:
+</p>
+
+<ul>
+<li> char, same as standard SQL char.  Requires <b>colprec</b>.
+<li> vchar, same as standard SQL varchar.  Requires <b>colprec</b>.
+<li> numb, a SQL numeric, requires <b>colprec</b> and <b>colscale</b>.
+<li> int, same as standard SQL int
+<li> cbool, a char(1) that only accepts Y,y,N, or n as values.
+<li> dtime, a datetime (called a timestamp on some platforms)
+<li> date, a standard SQL date
+<li> time, minutes since midnight, stores an int restricted to values 0-1439.
+<li> text, unlimited length text (aka clob).
+<li> money, shortcut for numeric(14,2).
+<li> gender, a char(1) that only accepts M,m,F or f as values.
+</ul>
+
+<p> 
+<b>colprec</b>.  Column Precision.  Length of column in characters. Required
+for types <b>char</b>, <b>vchar</b>, and <b>numb</b>.
+</p>
+
+<p> 
+<b>colscale</b>.  Column Scale, used only for type <b>numb</b>, the number of
+digits to the right of the decimal.  If a table has colprec 6 and colscale
+3, then its highest positive value is 999.999.
+</p>
+
+<p> 
+<b>automation_id</b>.  (See also [[Automations]], [[table.column.chain]]
+and [[table.upsave]]).  Specifies one of the simple automated or default
+formulas for a column.
+</p>
+
+<ul>
+<li> DEFAULT.  The column will get a default value specifed in <b>auto_formula</b>.
+<li> SEQUENCE.  The column will get a auto-incremented integer value.  Note
+that there may be gaps in the sequence.  Uniqueness is guaranteed but
+strict no-gaps sequencing is not.
+<li> SEQDEFAULT.  The column will get a SEQUENCE at insert unless the user
+provides a value.
+<li> BLANK.  The column will by default get a type-specific blank value, which
+is an empty string for character/text, the number 0 for any numeric type,
+and NULL for date or datetime.  Undefined for <b>cbool</b> and <b>gender</b>.
+<li> FETCH.  Retrieves a value from a parent table.  The table and column
+are specified in <b>auto_formula</b>.  The column's value is FETCHed whenever
+the value of the foreign key (in the child row)
+changes on either INSERT or UPDATE.  Requires a foreign key be declared
+to the parent table.
+<li> DISTRIBUTE.  Also retrieves a value from a parent table.  Like a FETCH,
+the value is retrieved whenever the foreign key changes on the child row.
+But unlike a FETCH, this automation causes the parent value to be re-copied
+to <b>all child rows</b> if the vaue in the parent table changes.  Requires
+a foreign key to be declared to the parent table.
+<li> SUM.  Calculates a value as the sum of values in a child table.  The
+value of <b>auto_formula</b> specifies the child table and column.  Requires
+a foreign key be placed in the child table referring to the parent.
+<li> COUNT.  Same as SUM, but counts rows.
+<li> MIN.  Same as SUM but calculates a minimum.
+<li> MAX.  Same as SUM but calculates a maximum.
+<li> TS_INS.  Timestamp of insert.  Column must be of type dtime.
+<li> UID_INS.  User_id of insert.  Column should be vchar 20.
+<li> TS_UPD.  Timestampe of update.  Column must be of type dtime.
+<li> UID_UP.  User_id of update.  Column should be vchar 20.
+</ul>
+
+<p> 
+<b>auto_formula</b>.  See also [[Automations]].  Reqired by some values
+of <b>automation_id</b>.
+</p>
+
+<ul>
+<li> If <b>automation_id</b> is DEFAULT, the literal value of the default.
+Strings and dates do not require any quotes.
+<li> If <b>automation_id</b> is FETCH, DISTRIBUTE, SUM, COUNT, MIN, or MAX,
+names the table and column for the operation, separated by a period,
+as in a FETCH of items.price or a SUM of orders.order_total.
+</ul>
+
+<p> 
+<b>value_min</b>.  The minimum allowed value for the column.
+</p>
+
+<p> 
+<b>value_max</b>.  The maximum allowed value for the column.
+</p>
+
+<p> 
+<b>uiro</b>.  A Y/N flag to make this column read-only on the UI.  This is NOT a
+security measure, it should be used only for convenience and should be
+considered subvertible by an attacker.
+</p>
+
+<p> 
+<b>uino</b>. A Y/N flag to suppress the column completely from the UI.  This is NOT a
+security measure, it should be used only for convenience and should be
+considered subvertible by an attacker.
+</p>
+
+<p> 
+<b>uicols</b>.  A column of type_id 'text' will be displayed onscreen using
+an HTML TEXTAREA element.  The properties uicols and uirows control the
+row and column sizing of that element.  The defaults are 4 and 30.
+</p>
+
+<p> 
+<b>uirows</b>.  See uicols above.
+</p>
+
+<p> 
+<b>required</b>. A Y/N flag indicating that a non-empty value is required.
+</p>
+
+<p> 
+<b>dispsize</b>.  An explicit setting of display size in characters, which overrides the
+framework's calculation of a suitable display size.  For instance, a
+char column of colprec: 10 will display as 11.  You can override that to
+5 to make it smaller.
+</p>
+
+<p> 
+<b>uiwithnext</b>.  An experimental UI flag that applies to default input
+screens.  On a normal default screen the input fields are displayed
+one to a line, one after another.  If this flag is set, the next input
+field will actuall occur on the same line.  Given two columns named
+"state" and "zip" you might set 'uiwithnext: "Y"' on "state".
+</p>
+
+<p> 
+<b>alltables</b>.  A flag which causes the column to automatically be placed
+into all tables in the database.  Obviously should be used with caution!
+The framework defines three columns that have this flag set, being
+[[skey]], [[_agg]], and [[skey_quiet]].
+</p>

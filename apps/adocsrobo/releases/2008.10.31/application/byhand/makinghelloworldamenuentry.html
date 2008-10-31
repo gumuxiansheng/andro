@@ -1,0 +1,35 @@
+<h1>Making Hello World a Menu Entry</h1>
+
+<p>Andromeda can be used to create systems that present two complete
+   interfaces to the world.   The public face is a website much like
+   any other database-driven website,  and the private face is a basic
+   desktop-in-browser application, complete with menus, "CRUD" screens,
+   and custom screens you may code for your users.
+</p>
+   
+<p>If we want our internal users to be able to see the Hello World
+   program, we must put it on the menu.  The YAML snippet below 
+   will put this program onto the menu for admins only:
+</p>
+
+<pre class="code">
+# Assume we have a group of super-users who by default
+# can read and write to any table
+group admin:
+    description: Super Users
+    permsel: "Y"
+    permins: "Y"
+    permupd: "Y"
+    permdel: "Y"
+    
+# This module will appear as a menu tab with the
+# "Hello World" program appearing as the first entry
+module adminspecial:
+    description: Special Admin Programs
+
+# Now the menu entry
+menu helloworld:
+    module: admin
+</pre>
+
+
