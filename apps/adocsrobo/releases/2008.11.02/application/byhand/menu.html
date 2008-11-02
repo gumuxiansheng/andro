@@ -1,0 +1,33 @@
+            <h1>menu</h1>
+                            
+                            <p><br/><br/>Creates a security assignment to a menu entry for a specific group.
+Overrides any module-level security for the group.
+Overrides the group's default database-wide security.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>menu menu_id:
+   # ...menu property/value assignments go here 
+   # Here is the menu.group security assignment
+   group group_id:
+      nomenu: "N"   # put it on the menu!</pre>
+</div></div>
+<h2>Properties</h2>
+<p> 
+<b>group group_id</b>.  The first line of a menu.group definition begins with
+the keyword 'group', a space, and then the unique group name (group_id)
+followed by a colon.
+</p>
+<p> 
+<b>nomenu</b>. A Y/N option to suppress this menu entry for this group.
+</p>
+<p>Use of the group menu.group definition is <b>not a security setting</b>,
+because it makes no changes to a user's ability to read or write
+tables.  It is merely a <b>user-interface setting</b>, because it affects
+what people see.
+</p>
+<p> 
+</p>                                                    
+                            

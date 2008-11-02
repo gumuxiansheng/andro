@@ -1,0 +1,31 @@
+<h1>An Admin Interface for a Public Site</h1>
+
+<p>
+Sometimes you may create a public site, in which case you need to override
+the default template with the design for your site.  However, you still
+wish to have the default template available so that you can have an
+"admin area" that provides direct manipulation of the database.  This
+can be done in many ways, but the simplest and
+conventional way is to use [[Virtual Sites]].
+</p>
+
+<p>
+To do this, create two sites as described in the instructions for
+[[Virtual Sites]].  Then, by convention, we make the alternate site
+the public site and the original site is the admin site.  This bit
+of code at the top of [[applib.php]] will accomplish this, with
+the advantage that it is not hardcoded for the application name:
+</p>
+
+<div class="box-php">
+$sf=$_SERVER['SCRIPT_FILENAME'];
+$sf=substr($sf,0,strlen($sf)-10); // assumes page was index.php
+$basesite=basename($sf);
+if($basesite==$GLOBALS['AG']['application']) {
+   vgaSet('admin',true); // handy flag to access later on
+}
+else {
+   vgaSet('admin',false); // handy flag to access later on
+   vgaSet('html_main','html_public');
+}
+</div>

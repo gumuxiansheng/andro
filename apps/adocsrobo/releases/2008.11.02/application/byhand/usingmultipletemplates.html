@@ -1,0 +1,43 @@
+            <h1>Using Multiple Templates</h1>
+                            
+                            <p><br/><br/>Besides simply <span class="nolink">Replacing the Default Template</span>, you may wish to use
+multiple templates on one site.  This can be done very easily.
+</p>
+<p>Each template should be saved in the [[application directory]].  By
+convention
+</p>
+<p>You can choose a template at any time in code by setting the 'html_main'
+global variable, using this command:
+</p>
+<div class="box-php">// Notice no trailing PHP extension
+vgaSet('html_main','html_my_template');
+</div>
+<p>If you wish to use different templates for different pages, you can
+make a routine in [[applib.php]] that does it:
+</p>
+<div class="box-php">switch(gp('gp_page')) {
+   case 'page1': 
+   case 'page2': vgaSet('html_main','html_template1'); break;
+   case 'page3': 
+   case 'page4': vgaSet('html_main','html_template2'); break;
+   default:      vgaSet('html_main','html_default'); break;
+}
+</div>
+<p>...or you can store the template names in a database table so that
+they can be altered without changing code (though this does have
+performance implications and would not be used in production on a
+high-traffic server):
+</p>
+<div class="box-php">$SPage=SQL_Format('char',gp('gp_page'));
+$template=SQL_OneValue(
+   'template'
+   ,"Select template from templates where page=$SPage"
+);
+vgaSet('html_main',$template);
+</div>
+<p>These two examples assume the code is being put into [[applib.php]], but
+it really can be anywhere.
+</p>
+<p> 
+</p>                                                    
+                            

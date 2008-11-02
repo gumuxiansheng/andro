@@ -1,0 +1,85 @@
+<h1>Database Access</h1>
+                            
+<P>
+It is not necessary in Andromeda to make a connection to the database, Andromeda makes a connection on every trip to the server. When the user supplies their use_id and password, these are used to make the connection for you. The simplest way to access the database is with direct SQL commands:
+</P>
+
+<P>
+<pre class="php"><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax1">#</span><span class="syntax1"> </span><span class="syntax1">This</span><span class="syntax1"> </span><span class="syntax1">is</span><span class="syntax1"> </span><span class="syntax1">file</span><span class="syntax1"> </span><span class="syntax1">public_items</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">public_items</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">x_table2</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax9">main</span>() <span class="syntax18">{</span>
+        <span class="syntax10">$</span><span class="syntax10">items</span><span class="syntax18">=</span><span class="syntax6">SQL</span>(<span class="syntax13">&quot;</span><span class="syntax13">Select</span><span class="syntax13"> </span><span class="syntax13">sku</span><span class="syntax13">,</span><span class="syntax13">description</span><span class="syntax13"> </span><span class="syntax13">from</span><span class="syntax13"> </span><span class="syntax13">items</span><span class="syntax13"> </span><span class="syntax13">order</span><span class="syntax13"> </span><span class="syntax13">by</span><span class="syntax13"> </span><span class="syntax13">sku</span><span class="syntax13">&quot;</span>)<span class="syntax18">;</span>
+        <span class="syntax8">foreach</span>(<span class="syntax10">$</span><span class="syntax10">items</span> <span class="syntax8">as</span> <span class="syntax10">$</span><span class="syntax10">item</span>) <span class="syntax18">{</span>
+            <span class="syntax8">echo</span> <span class="syntax13">&quot;</span><span class="syntax13">The</span><span class="syntax13"> </span><span class="syntax13">item</span><span class="syntax13"> </span><span class="syntax13">is</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax18">.</span><span class="syntax10">$</span><span class="syntax10">item</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">sku</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">.</span><span class="syntax13">'</span><span class="syntax13">,</span><span class="syntax13"> </span><span class="syntax13">'</span><span class="syntax18">.</span><span class="syntax10">$</span><span class="syntax10">item</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">description</span><span class="syntax13">'</span><span class="syntax18">]</span><span class="syntax18">.</span><span class="syntax13">'</span><span class="syntax13">br/&gt;</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        <span class="syntax18">}</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+</P>
+
+<H2><A NAME="Special_Insert_and_Update_Commands"></A>Special Insert and Update Commands</H2>
+
+<P>
+Andromeda provides a handful of very useful commands that are detailed in our reference section. The command [[SQLX_Insert]] accepts a table name and an associative array. When combined with commands to process [[GET-POST Variables]] you can have some very simple code:
+</P>
+
+<P>
+<pre class="php"><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax1">#</span><span class="syntax1"> </span><span class="syntax1">This</span><span class="syntax1"> </span><span class="syntax1">is</span><span class="syntax1"> </span><span class="syntax1">file</span><span class="syntax1"> </span><span class="syntax1">public_items</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">public_items</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">x_table2</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax9">main</span>() <span class="syntax18">{</span>
+        <span class="syntax8">if</span>(<span class="syntax6">gp</span>(<span class="syntax13">'</span><span class="syntax13">postflag</span><span class="syntax13">'</span>)<span class="syntax18">=</span><span class="syntax18">=</span><span class="syntax5">1</span>) <span class="syntax18">{</span>
+            <span class="syntax8">if</span> (<span class="syntax11">$this</span><span class="syntax6">-&gt;ProcesPost</span>()) <span class="syntax8">return</span><span class="syntax18">;</span>
+        <span class="syntax18">}</span>
+        <span class="syntax6">hidden</span>(<span class="syntax13">'</span><span class="syntax13">gp_page</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">public_items</span><span class="syntax13">'</span>)<span class="syntax18">;</span>
+        <span class="syntax6">hidden</span>(<span class="syntax13">'</span><span class="syntax13">postflag</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">1</span><span class="syntax13">'</span>)<span class="syntax18">;</span>
+        <span class="syntax17">?&gt;</span>
+        Column 1: <span class="syntax17">&lt;</span><span class="syntax17">input</span><span class="syntax17"> </span><span class="syntax17">name</span><span class="syntax18">=</span><span class="syntax13">&quot;</span><span class="syntax13">inp_column1</span><span class="syntax13">&quot;</span><span class="syntax17">&gt;</span>
+        <span class="syntax17">&lt;</span><span class="syntax17">br</span><span class="syntax17">/</span><span class="syntax17">&gt;</span>
+        Column 2: <span class="syntax17">&lt;</span><span class="syntax17">input</span><span class="syntax17"> </span><span class="syntax17">name</span><span class="syntax18">=</span><span class="syntax13">&quot;</span><span class="syntax13">inp_column2</span><span class="syntax13">&quot;</span><span class="syntax17">&gt;</span>
+        <span class="syntax17">&lt;</span><span class="syntax17">br</span><span class="syntax17">/</span><span class="syntax17">&gt;</span>
+        Column 3: <span class="syntax17">&lt;</span><span class="syntax17">input</span><span class="syntax17"> </span><span class="syntax17">name</span><span class="syntax18">=</span><span class="syntax13">&quot;</span><span class="syntax13">inp_column3</span><span class="syntax13">&quot;</span><span class="syntax17">&gt;</span>
+        <span class="syntax17">&lt;</span><span class="syntax17">br</span><span class="syntax17">/</span><span class="syntax17">&gt;</span>
+        <span class="syntax17">&lt;?php</span>
+    <span class="syntax18">}</span>
+    
+    <span class="syntax8">function</span> <span class="syntax6">processPost</span>() <span class="syntax18">{</span>
+        <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">The</span><span class="syntax2"> </span><span class="syntax2">database</span><span class="syntax2"> </span><span class="syntax2">enforces</span><span class="syntax2"> </span><span class="syntax2">all</span><span class="syntax2"> </span><span class="syntax2">rules,</span><span class="syntax2"> </span><span class="syntax2">so</span><span class="syntax2"> </span><span class="syntax2">we</span><span class="syntax2"> </span><span class="syntax2">just</span>
+        <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">grab</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">vars</span><span class="syntax2"> </span><span class="syntax2">and</span><span class="syntax2"> </span><span class="syntax2">do</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">insert.</span>
+        <span class="syntax10">$</span><span class="syntax10">row</span><span class="syntax18">=</span><span class="syntax6">aFromgp</span>(<span class="syntax13">'</span><span class="syntax13">inp_</span><span class="syntax13">'</span>)<span class="syntax18">;</span>
+        <span class="syntax6">SQLX_Insert</span>(<span class="syntax13">'</span><span class="syntax13">sometable</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax10">$</span><span class="syntax10">row</span>)<span class="syntax18">;</span>
+        
+        <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">False</span><span class="syntax2"> </span><span class="syntax2">tells</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">main()</span><span class="syntax2"> </span><span class="syntax2">routine</span><span class="syntax2"> </span><span class="syntax2">not</span><span class="syntax2"> </span><span class="syntax2">to</span><span class="syntax2"> </span><span class="syntax2">stop,</span><span class="syntax2"> </span><span class="syntax2">but</span>
+        <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">to</span><span class="syntax2"> </span><span class="syntax2">display</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">form</span><span class="syntax2"> </span><span class="syntax2">again.</span><span class="syntax2"> </span><span class="syntax2"> </span><span class="syntax2">Errors</span><span class="syntax2"> </span><span class="syntax2">will</span><span class="syntax2"> </span><span class="syntax2">be</span><span class="syntax2"> </span><span class="syntax2">displayed</span>
+        <span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">automatically.</span>
+        <span class="syntax8">if</span>(<span class="syntax6">Errors</span>()) <span class="syntax8">return</span> <span class="syntax8">false</span><span class="syntax18">;</span>
+        <span class="syntax17">?&gt;</span>
+        Values have been saved!
+        <span class="syntax17">&lt;?php</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+</P>
+
+<P>
+There are also the commands [[SQLX_Update]], and the very handy [[SQLX_UpdateorInsert]], which "knows what you mean" when handling data that may need to be inserted or updated. These and other commands are detailed in [[Specialized SQL Commands]].
+</P>
+
+<H2><A NAME="When_Coding_Straight_SQL"></A>When Coding Straight SQL</H2>
+
+<P>
+When coding straight SQL, which is often the simplest way to code queries, there is a special step you must take if you are using either row-level or column-level security. When row or column security is used, the base tables are off limits and users must access views instead. The particular view a person uses depends upon who they are, so you cannot hardcode the view name. The way to deal with this is to use the framework function [[ddTable_idResolve]] to find out which view you need. So a straight pull would use:
+</P>
+
+<P>
+<pre class="php"><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">function</span> <span class="syntax9">main</span>() <span class="syntax18">{</span>
+    <span class="syntax10">$</span><span class="syntax10">viewid</span> <span class="syntax18">=</span> <span class="syntax6">DDTable_idResolve</span>(<span class="syntax13">'</span><span class="syntax13">employees</span><span class="syntax13">'</span>)<span class="syntax18">;</span>
+    <span class="syntax10">$</span><span class="syntax10">employees</span><span class="syntax18">=</span><span class="syntax6">SQL_AllRows</span>(<span class="syntax13">&quot;</span><span class="syntax13">SELECT</span><span class="syntax13"> </span><span class="syntax13">*</span><span class="syntax13"> </span><span class="syntax13">FROM</span><span class="syntax13"> </span><span class="syntax10">$</span><span class="syntax10">viewid</span><span class="syntax13">&quot;</span>)<span class="syntax18">;</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+</P>
