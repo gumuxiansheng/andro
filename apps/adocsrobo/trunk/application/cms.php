@@ -20,11 +20,26 @@ class cms extends x_table2 {
             $row['notes'] = str_replace('[pre]','<pre>',$row['notes']);
             $row['notes'] = str_replace('[/pre]','</pre>',$row['notes']);
             
-            SQLX_Insert('comments',$row);
-            if(!Errors()) {
-                emailSend('andromeda@secdat.com','New User Comment'
-                    ,'A new user comment awaits moderation'
+            if(gp('first_name')<>'') {
+                emailSend('andromeda@secdat.com','Comment Discarded'
+                    ,"This comment was discarded:\n"
+                    ."\nnickname: ".$row['name']
+                    ."\nemail:    ".$row['email']
+                    ."\n\n"
+                    .$row['notes']
                 );
+            }
+            else {
+                SQLX_Insert('comments',$row);
+                if(!Errors()) {
+                    emailSend('andromeda@secdat.com','New User Comment'
+                        ,'A new user comment awaits moderation'
+                        ."\n\nnickname: ".$row['name']
+                        ."\nemail:    ".$row['email']
+                        ."\n\n"
+                        .$row['notes']
+                    );
+                }
             }
         }
         
@@ -97,6 +112,12 @@ class cms extends x_table2 {
         $input = input($dd['flat']['name']);
         $div->addChild($input);
         $div->br(2);
+        
+        $input = input($dd['flat']['name']);
+        $input->hp['name'] = $input->hp['id'] = 'first_name';
+        $input->hp['value'] = '';
+        $input->hp['style'] = 'display: none;';
+        $div->addChild($input);
         
         $div->h('div','Email (this will never be displayed)');
         $input = input($dd['flat']['email']);
