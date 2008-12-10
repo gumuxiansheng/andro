@@ -1,0 +1,24 @@
+   column price:
+      suffix: _lines
+      description: Detail Total
+      automation_id: SUM
+      auto_formula: quotelines.price_final
+   column pct_manual:
+      suffix: _manual
+      description: Discount Pct;
+   column price_disc:
+      suffix: _disc
+      description: Discount Amount
+      chain calc:
+         test 00:
+            compare: @pct_manual = 0
+            return: @price_lines
+         test 01:
+            return: @price_lines * @pct_manual
+   column price_final:
+      suffix: _final
+      description: Final Price
+      chain calc:
+         test 00:
+            return: @price_lines - @price_disc
+
