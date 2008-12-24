@@ -139,6 +139,9 @@ endif; ?>
 				<div class="padding">
 					<?php mosLoadModules('banner', -1); ?>
 				</div>
+                <div style="float: right; margin-top: -10px">
+                <h3><i>The Fastest Easiest Way <u>to get it Right</u></i></h3>
+                </div>
 			</div>
 		</div>
 		<div id="horiz-menu" class="<?php echo $mtype; ?>">
@@ -300,6 +303,7 @@ endif; ?>
 	</div>
 <?php mosLoadModules( 'debug', -1 );?>
 <?php include 'androHTMLFoot.php' ?>
+<?php if(baseUrl()=='http://www.andromeda-project.org/') { ?>
 <!-- Start of StatCounter Code -->
 <script type="text/javascript">
 var sc_project=4149040; 
@@ -324,5 +328,6 @@ var sc_security="1156951b";
    </div>
 </noscript>
 <!-- End of StatCounter Code -->
+<?php } ?>
 </body>
 </html>

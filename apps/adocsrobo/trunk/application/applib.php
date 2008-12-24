@@ -71,14 +71,16 @@ function getUser1() {
     <h3>Andromeda</h3>
 
     <p>
-    Andromeda is a completely new way to do database application programming.
-    Andromeda is radically data oriented, allow you to specify all of your business logic in 
-    a single text file, which Andromeda uses to build most of what you need for a working
-    system.  
+    Andromeda is a <i>programmer productivity tool</i> that offers two
+    major families of features you will not find elsewhere.  The first is
+    our extremely powerful data dictionary, which lets you put formulas 
+    directly into your database definition, avoiding huge amounts of code.
+    The second is our "free" admin screens, which provide very powerful
+    data maintenance screens for all of your database tables.
     </p>
-    
     <p>
-    Andromeda dramatically reduces the labor involved in any database project that has
+    Andromeda dramatically reduces the labor involved in any
+    database project that has
     non-trivial business rules.
     </p>
 
@@ -93,14 +95,10 @@ function getUser2() {
     ?>
     <div class="moduletable">
     <h3>Countdown to Release 1</h3>
-
-    <p>As of late summer 2007 Andromeda had all of its major elements
-        coded at least in alpha form. Some are in beta, and others are 
-        production ready.
-    </p><p>When all of the main feature areas are production ready we
-        can say that we have Release one.  The details are at
-        <a href="http://www.andromeda-project.org/pages/cms/Countdown+to+Release+1.html">Countdown to Release 1</a>.
-    </p></div>
+    
+    <p>As of December 2008 Andromeda's core feature set is now complete.
+       All attention is now focused on the demo, the documentation, and
+       making easy installation files for Windows, Mac, and Linux.
     					    <?php				    
     return ob_get_clean();
 }
@@ -110,14 +108,23 @@ function getUser7() {
     ob_start();
     ?>
     <div class="moduletable">
-    <h3>Countdown to Release 1</h3>
+    <h3>Meet The Developers</h3>
     
-    <p>As of late summer 2007 Andromeda had all of its major elements
-       coded at least in alpha form. Some are in beta, and others are 
-       production ready.
-    <p>When all of the main feature areas are production ready we
-       can say that we have Release one.  The details are at
-       <?=MakeLink("Countdown to Release 1")?>.
+    <p>Andromeda was created and written by <a href="mailto:ken@secdat.com"
+       >Kenneth Downs</a>, his blog is 
+       <a target="_blank" href="http://database-programmer.blogspot.com"
+       >The Database Programmer.</a>
+    </p>
+    <p><a href="mailto:dorgan@donaldorgan.com">Donald J. Organ IV</a>
+       became our first code contributor in mid 2007 and has a growing
+       list of contributions over the entire code base.  His blog
+       is <a target="_blank" href="http://blog.donaldorgan.com">The PHP Guy</a>.
+    </p>
+    <p><a href="mailto:zippy1981@gmail.com">Justin Dearing</a> and 
+       <a href="mailto:aames@centralsemi.com">Alex Ames</a>
+       are working on Windows IE compatibility and release packages
+       respectively.
+    </p>
     </div>
     <?php
     return ob_get_clean();

@@ -59,6 +59,20 @@ $this->rpToc['Web Programming'] = array(
    ,'Linking To Pages'
    ,'Using The Data Dictionary'
    ,'HTML Inputs and The Data Dictionary'
+   ,'Loading CSS and Javascript'
+   ,'Adding JSON Calls (aka AJAX)'
+   ,'Posting Inputs With JSON'
+   ,'Returning Script with JSON'
+   ,'Returning Data With JSON'
+   ,'Returning Errors With JSON'
+   ,'Session Variables and Public Variables'
+   # ,'Basic DB Access'  deny-by-default, no conenect, loggedIN()
+   # ,'Determining User Priveleges'
+   # ,'Manual SQL'
+   # ,'Various Retrieval Functions'
+   # ,'Updating, Insert, Upsert'
+   # ,'Deleting'
+   
 );
 
 
