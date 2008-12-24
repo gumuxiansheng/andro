@@ -1,0 +1,81 @@
+            <h1>table</h1>
+                            
+                            <p><br/><br/>The table is of course the heart of the database.  In Andromeda you
+define your [[column]]s, then define a table and <b>place</b> the columns
+into the table.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>table table_id:
+   # Required
+   module: module_id
+   description: string
+   # Optional
+   uisort: Y/N
+   nomenu: Y/N
+   capspk: Y/N
+   # This flag is optional
+   fkdisplay: dynamic
+   # Comments are optional
+   comments: > 
+   # At least one column placement is required
+   column column_id:
+      #...possible property assignmnents to the column
+   # Other optional nested definitions
+   foreign_key table_id:
+      #...possible property assignments to the foreign key
+   group group_id:
+      #...possible property assignments to the group
+   projection projection_id:
+      #...possible property assignmnents to the index
+   index index_id:
+      #...possible property assignmnents to the index
+   upsave upsave_id:
+      #...possible property assignments to the upsave
+   history history_id:
+      #...possible property assignments to the history 
+      </pre>
+</div></div>
+<h2>Properties</h2>
+<p> 
+<b>table table_id</b>.  The first line of a table definition begins with
+the keyword 'table', a space, and then the unique table name (table_id)
+followed by a colon.
+</p>
+<p> 
+<b>description</b>.  The friendly name of the table as used on the menu, as
+page titles, and the like.
+</p>
+<p> 
+<b>nomenu</b>.  A Y/N flag to keep this table off the menu.  This can be
+overridden by a [[table.group]] definition.
+</p>
+<p> 
+<b>capspk</b>.  Causes the primary key columns to be converted to uppercase
+when a new row is inserted.
+</p>
+<p> 
+<b>uisort</b>.  A numerical value that determines this table's placement on
+the menu with respect to other [[menu]] entries and tables in the
+same [[module]].
+</p>
+<p> 
+<b>fkdisplay</b>.  Set this to 'dynamic' to make use of the Ajax Dynamic List
+(possibly one of the coolest Andromeda features), or leave it off to have
+lookups occur with conventional HTML SELECT widgets.
+</p>
+<h2>Nested Objects</h2>
+<p>The following objects can be placed within a table:
+</p>
+<ul><li> [[table.column]]
+<li> [[table.foreign_key]]
+<li> [[table.projection]]
+<li> [[table.index]]
+<li> [[table.upsave]]
+<li> [[table.history]]
+</ul>
+<p> 
+</p>                                                    
+                            

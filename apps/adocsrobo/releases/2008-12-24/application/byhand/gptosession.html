@@ -1,0 +1,20 @@
+            <h1>gpToSession</h1>
+                            
+                            <p>framework<br/><br/><br/>This function saves all [[GET-POST Variables]] to the session for
+later retrieval.  It saves them to the session variable "clean".
+They can be retrieved by calling SessionGet('clean').
+</p>
+<p>This function is used by the framework when a user calls for a page
+that requires a login.  This function caches the request until after
+the user has logged in.
+</p>
+<p>There is no stack of user requests.  If this function is called twice
+without retrieving the values, then the second call overwrites the
+first.
+</p>
+<p>There is no function to retrieve the variables.  The framework
+pulls them directly by calling SessionGet('clean').
+</p>
+<p> 
+</p>                                                    
+                            
