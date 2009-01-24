@@ -1,0 +1,228 @@
+<h1>Installing Andromeda on Ubuntu 6.06 LTS</h1>
+
+<p>
+These are the complete instructions for installing Andromeda onto
+   Ubuntu 6.06 LTS (Long Term Support).  These instructions are meant to 
+   require minimal knowledge of Linux.
+</p>
+
+<h2>Preliminary Steps</h2>
+
+<p>
+Go to the command line and add yourself to the www-data group:
+</p>
+
+<pre class="cli">sudo usermod -a -G www-data <b>your_ubuntu_login_id</b>
+</pre>
+
+<p>Then add the line "umask 007" to your /etc/profile file (change the existing
+setting if it is there):</p>
+
+<pre class="cli">sudo gedit /etc/profile
+</pre>
+
+<p>Finally, add the same line "umask 007" to your /etc/apache2/envvars file 
+(change the existing setting if it is already there):
+
+<pre class="cli">sudo gedit /etc/apache2/envvars
+</pre>
+
+
+
+<p>Then log out and log back in.</p>
+
+<h2>Step 1: Install Packages and Make Directories</h2>
+
+<p><b>Step 1.1 Install Packages</b>.  Enter the following command to
+install all required packages from Ubuntu:</p>
+
+<pre class="cli">sudo apt-get install php php5-pgsql php-pear postgresql-8.1 pgadmin3 perl postgresql-plperl-8.1 subversion libnet-smtp-server-perl
+</pre>
+
+<p><b>Step 1.2 Install Pear Packages</b>.  This command installs a 
+package we need from the PEAR repository:</p>
+
+<pre class="cli">sudo pear install Net_SMTP
+</pre>
+
+<p><b>Step 1.2-2 Install JSON Extension</b>.  Ubuntu 6.06 has only version 5.1 of PHP, and so
+  we must install the PECL JSON extension:</p>
+
+<pre class="cli">sudo pear install php5-dev
+pecl install json
+</pre>
+
+
+<!-- Rem'd KFD 6/10/08, use libnet package, much easier -->
+<!--
+<p><b>Step 1.3 Install Perl Packages</b>.  This command installs a 
+nifty Email sender used by the password reset programs.
+</p>
+
+<span class="alert">
+  Warning! When you
+run this program for the first time it will make you hit ENTER a bajillion
+times while it does its manual configuration.
+</span>
+
+<pre class="cli">sudo cpan -i Net::SMTP
+</pre>
+-->
+
+
+<p><b>Step 1.3 Enable Apache Modules</b>.  Now we must enable the Rewrite
+Apache module.  Note carefully that the command below must end
+with a trailing backslash.
+
+</p><pre class="cli">a2enmod rewrite
+</pre>
+
+<p><b>Step 1.4 Prepare Andromeda Directory</b>.  These commands get
+the directory ready for Andromeda:</p>
+
+<pre class="cli">cd ~
+mkdir public_html
+chgrp www-data public_html
+chmod 0750 public_html
+cd public_html
+mkdir andro_root
+chgrp www-data andro_root
+chmod 6770 andro_root
+</pre>
+
+<h2>Step 2: Edit Configuration Files</h2>
+
+<p><b>Step 2.1 Change PHP Configuration</b>.  PHP by default only allows
+a script to run for thirty seconds.  A database build can sometimes take
+up to 5 minutes on very complex databases, so we need to expand the time
+allowed.  Also, since Andromeda makes some very complex databases, we will 
+also need to increase the memory limit to 128 megabytes.
+</p>
+
+<pre class="cli">sudo gedit /etc/php5/apache2/php.ini
+</pre>
+
+<p>Search for the setting "max_execution_time" (on my system it was line 267)
+and change it to 300.</p>
+
+<p>Search for the settings "magic_quotes_gpc" and "magic_quotes_runtime" and set
+them to "Off".</p>
+
+<p> Search for the setting "memory_limit" (on my system it was 2 lines beneath 
+the above edit in the same section) and change it to 128M
+</p>
+
+<p><b>Step 2.2 Change Postgres Configuration file pg_hba.conf</b>.  Open the
+file /etc/postgresql/8.1/main/pg_hba.conf:</p>
+
+<pre class="cli">sudo gedit /etc/postgresql/8.1/main/pg_hba.conf
+</pre>
+
+<p>...and replace it with this:</p>
+
+<pre>local       all       postgres                 ident andromeda
+host        all       +root     127.0.0.1/32   password
+local       all       +root                    password
+local       samename  all                      password
+local       samegroup all                      password
+</pre>
+
+<p><b>Step 2.3 Change Postgres Configuraton file pg_ident.conf</b>.  Open
+the file /etc/postgresql/8.1/main/pg_ident.conf:</p>
+
+<pre class="cli">sudo gedit /etc/postgresql/8.1/main/pg_ident.conf
+</pre>
+
+<p>...and replace it with this:</p>
+
+<pre>andromeda     postgres          postgres
+andromeda     root              postgres
+</pre>
+
+<p><b>Step 2.4 Change Postgres Configuraton file posgresql.conf</b>.  Open
+the file /etc/postgresql/8.1/main/postgresql.conf:</p>
+
+<pre class="cli">sudo gedit /etc/postgresql/8.1/main/postgresql.conf
+</pre>
+
+<p>...and uncomment the line that sets "listen_addresses='localhost'".
+
+</p>
+
+<p><b>Step 2.5 Change An Apache Setting</b>.  Open apache's userdir
+configuration file and allow anything to be overridden by .htaccess:</p>
+
+<pre class="cli">sudo gedit /etc/apache2/mods-enabled/userdir.conf
+</pre>
+
+<p>...and change the line that says "AllowOverride" to read 
+"AllowOverride All".
+</p>
+
+<h2>Step 3: Restarts and Final Commands</h2>
+
+<p><b>Step 3.1 Restart Postgres and Apache</b>.  Type in the following
+two commands to restart Apache and Postgres:</p>
+
+<pre class="cli">sudo /etc/init.d/apache2 restart
+sudo /etc/init.d/postgresql-8.1 restart
+</pre>
+
+<p><b>Step 3.2 Create Andromeda Superuser</b>.  Now it is time to enter
+the Postgres command line utility and create your superuser account
+and create an empty database for Andromeda.  Remember the username and
+password you pick here, you will need it for many Andromeda activities.</p>
+
+<pre class="cli">sudo psql -U postgres
+
+# create role root nologin;
+# create user USER_NAME superuser password 'PASSWORD';
+# grant root to USER_NAME;
+# create database andro;
+# create language plperlu;
+# create language plperl;
+# \q
+</pre>
+
+<h2>Step 4: Two Program Settings</h2>
+
+<p><b>Step 4.1 Firefox Hotkey Setting</b>.  Open Firefox.  In the address
+bar type in "about:config".  In the "filter" box type "ui.key.contentAccess"
+and change the value from 5 to 4.  This allows the HTML ACCESSKEY attribute
+to work with the ALT key instead of the brain-damaged CTRL+ALT that they
+recently changed it to.
+</p>
+
+<p><b>Step 4.2 Setup pgAdmin3.</b>  On the Ubuntu menu to go "Applications: 
+System Tools: pgadmin3".  On the menu chooose "File: Add Server".
+</p>
+
+<p>Fill out "localhost" for Address, and "Local Machine" for description.
+Fill in the superuser name and password you selected in Step 3.2.  Click
+on "OK".  You now have the graphical tool pgAdmin3 available to work 
+with your databases.</p>
+
+<h2>Step 5: Install Andromeda</h2>
+
+<p>Go to the Andromeda sourceforge download site:
+</p>
+
+<p><a href="http://sourceforge.net/projects/andro">http://sourceforge.net/projects/andro</a>
+
+</p>
+
+<p>...and download Andromeda to your directory public_html/andro_root, and 
+then extract it there with this command (be sure to use the 'p' option in the tar command):</p>
+
+<pre class="cli">
+cd ~/public_html/andro_root
+tar xzvpf ---andromeda-file-name---
+</pre>
+
+<p>Point your browser to:</p>
+
+<p><a href="http://localhost/%7EUBUNTU_LOGIN/andro_root/andro">http://localhost/~UBUNTU_LOGIN/andro_root/andro</a>
+</p>
+
+<p>...and follow the instructions on-screen to initialize and begin using
+Andromeda!</p>

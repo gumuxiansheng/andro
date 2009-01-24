@@ -1,0 +1,17 @@
+<h1>Returning Errors with JSON</h1>
+
+<p>If you wish to raise errors to send back to the browser,
+   use the x6error() function.  The function takes a single
+   argument, a string, which describes the error.
+</p>
+
+<p>You can call this function any number of times.  Calling
+   this function does not effect your PHP execution at all.
+</p>
+
+<p>When you return an error to the browser, all errors
+   together will be shown to the user in a popup.  The
+   ua.json.process() method will also return false.
+</p>
+
+

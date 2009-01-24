@@ -1,0 +1,108 @@
+<h1>Loading CSS and Javascript</h1>
+
+<p>Andromeda supports a variety methods for loading styles
+   and script to the browser for your pages.  Both styles and
+   script can be embedded in the page or put into external
+   libraries and loaded without having to dig around in the
+   main HTML of the site.
+</p>
+
+<span class="warn">This page explains how to load CSS or JS
+   that may be required on one or more pages of an site or
+   application.  For CSS and JS that are required on all pages,
+   you may wish to consult the section on HTML Templates.
+</span>
+
+<h2>Script to Run on Document.ready</h2>
+                     
+<p>Andromeda makes extensive use of jQuery, and comes with jQuery
+   built in and automatically loaded on all pages.
+</p>
+
+<p>jQuery contains a facility for executing code after the document
+   is fully loaded and ready for action.  You can Javascript code to
+   run in the browser for this event by making a call to
+   jqDocReady().  You
+   can use this command more than once, repeated calls will just
+   add more code.
+</p>
+
+<pre>
+<pre><span class="syntax0"><span class="syntax17">&lt;</span><span class="syntax17">?</span><span class="syntax17">php</span>
+<span class="syntax17">class</span><span class="syntax17"> </span><span class="syntax17">x6example</span><span class="syntax17"> </span><span class="syntax17">extends</span><span class="syntax17"> </span><span class="syntax17">androX6</span><span class="syntax17"> </span><span class="syntax17">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">function</span><span class="syntax17"> </span><span class="syntax17">x6main</span><span class="syntax17">(</span><span class="syntax17">)</span><span class="syntax17"> </span><span class="syntax17">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">echo</span><span class="syntax17"> </span><span class="syntax13">&quot;</span><span class="syntax13">Hello</span><span class="syntax13"> </span><span class="syntax13">World!</span><span class="syntax13">&quot;</span><span class="syntax17">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">jqDocReady</span><span class="syntax17">(</span><span class="syntax13">'</span><span class="syntax13">alert(&quot;The</span><span class="syntax13"> </span><span class="syntax13">document</span><span class="syntax13"> </span><span class="syntax13">has</span><span class="syntax13"> </span><span class="syntax13">loaded!&quot;)</span><span class="syntax13">'</span><span class="syntax17">)</span><span class="syntax17">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">jqDocReady</span><span class="syntax17">(</span><span class="syntax13">'</span><span class="syntax13">alert(&quot;Two</span><span class="syntax13"> </span><span class="syntax13">calls</span><span class="syntax13"> </span><span class="syntax13">to</span><span class="syntax13"> </span><span class="syntax13">jqDocReady()!&quot;)</span><span class="syntax13">'</span><span class="syntax17">)</span><span class="syntax17">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">}</span>
+<span class="syntax17">}</span>
+<span class="syntax17">?</span><span class="syntax17">&gt;</span>
+</span></pre>
+</pre>
+
+<h2>Loading CSS and JS Files</h2>
+
+<p>You can put any CSS rules or Javascript into files and load
+   them to any page.  The conventional location for the files
+   is the "appclib" directory.  The functions cssInclude() and
+   jsInclude() are used to do this.
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;</span><span class="syntax17">?</span><span class="syntax17">php</span>
+<span class="syntax17">class</span><span class="syntax17"> </span><span class="syntax17">x6example</span><span class="syntax17"> </span><span class="syntax17">extends</span><span class="syntax17"> </span><span class="syntax17">androX6</span><span class="syntax17"> </span><span class="syntax17">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">function</span><span class="syntax17"> </span><span class="syntax17">x6main</span><span class="syntax17">(</span><span class="syntax17">)</span><span class="syntax17"> </span><span class="syntax17">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">#</span><span class="syntax17"> </span><span class="syntax17">We</span><span class="syntax17"> </span><span class="syntax17">need</span><span class="syntax17"> </span><span class="syntax17">this</span><span class="syntax17"> </span><span class="syntax17">special</span><span class="syntax17"> </span><span class="syntax17">CSS</span><span class="syntax17"> </span><span class="syntax17">file</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">cssInclude</span><span class="syntax17">(</span><span class="syntax13">&quot;</span><span class="syntax13">appclib/super-glitzy.css</span><span class="syntax13">&quot;</span><span class="syntax17">)</span><span class="syntax17">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">#</span><span class="syntax17"> </span><span class="syntax17">And</span><span class="syntax17"> </span><span class="syntax17">we</span><span class="syntax17"> </span><span class="syntax17">also</span><span class="syntax17"> </span><span class="syntax17">need</span><span class="syntax17"> </span><span class="syntax17">this</span><span class="syntax17"> </span><span class="syntax17">javascript</span><span class="syntax17"> </span><span class="syntax17">library</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">jsInclude</span><span class="syntax17">(</span><span class="syntax13">&quot;</span><span class="syntax13">appclib/lots-of-effects.js</span><span class="syntax13">&quot;</span><span class="syntax17">)</span><span class="syntax17">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">#</span><span class="syntax17">.</span><span class="syntax17">.</span><span class="syntax17">.</span><span class="syntax17"> </span><span class="syntax17">regular</span><span class="syntax17"> </span><span class="syntax17">coding</span><span class="syntax17"> </span><span class="syntax17">continues</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">$</span><span class="syntax17">top</span><span class="syntax17"> </span><span class="syntax18">=</span><span class="syntax17"> </span><span class="syntax17">html</span><span class="syntax17">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax17">)</span><span class="syntax17">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">$</span><span class="syntax17">top</span><span class="syntax17">-</span><span class="syntax17">&gt;</span>setHTML(&quot;hello world!&quot;);
+        $top-&gt;render();
+    }
+}
+?&gt;
+</span></pre>
+
+<h2>Putting CSS and JSS Inline</h2>
+
+<p>You may want to embed CSS rules directly onto a page.  While
+   this is not usually the best practice in production, it is
+   very useful for testing and development.  Both CSS and Javascript
+   can be put onto your page at any point the same way that you
+   put any other HTML onto a page:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;</span><span class="syntax17">?</span><span class="syntax17">php</span>
+<span class="syntax17">class</span><span class="syntax17"> </span><span class="syntax17">x6example</span><span class="syntax17"> </span><span class="syntax17">extends</span><span class="syntax17"> </span><span class="syntax17">androX6</span><span class="syntax17"> </span><span class="syntax17">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">function</span><span class="syntax17"> </span><span class="syntax17">x6main</span><span class="syntax17">(</span><span class="syntax17">)</span><span class="syntax17"> </span><span class="syntax17">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">#</span><span class="syntax17"> </span><span class="syntax17">The</span><span class="syntax17"> </span><span class="syntax17">top</span><span class="syntax17">-</span><span class="syntax17">level</span><span class="syntax17"> </span><span class="syntax17">HTML</span><span class="syntax17"> </span><span class="syntax17">container</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">$</span><span class="syntax17">top</span><span class="syntax17"> </span><span class="syntax18">=</span><span class="syntax17"> </span><span class="syntax17">html</span><span class="syntax17">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax17">)</span><span class="syntax17">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">$</span><span class="syntax17">top</span><span class="syntax17">-</span><span class="syntax17">&gt;</span>h('h1',&quot;Hello World&quot;);
+        $top-&gt;h('p','This is text on the hello world program.');
+        
+        # Using HTML generation for CSS or script
+        $top-&gt;h('style','div { background-color: blue }');
+        $top-&gt;h('script','alert(&quot;You will see me as the page loads&quot;)');
+        $top-&gt;render();
+        
+        # Or just put it out manually
+        ?&gt;
+        <span class="syntax17">&lt;style</span><span class="syntax17">&gt;</span>
+        div<span class="syntax13">.</span><span class="syntax13">experimental</span> <span class="syntax18">{</span>
+            <span class="syntax9">color</span><span class="syntax18">:</span> <span class="syntax11">black</span><span class="syntax18">;</span>
+            <span class="syntax9">background-color</span><span class="syntax18">:</span> <span class="syntax11">black</span><span class="syntax18">;</span>
+        <span class="syntax18">}</span>
+        <span class="syntax17">&lt;/style&gt;</span>
+        <span class="syntax17">&lt;script</span><span class="syntax17">&gt;</span>
+        <span class="syntax8">function</span> <span class="syntax6">buriedOnPage</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+            <span class="syntax6">alert</span><span class="syntax18">(</span><span class="syntax5">2</span> <span class="syntax18">*</span> <span class="syntax5">2</span><span class="syntax18">)</span><span class="syntax18">;</span>   
+        <span class="syntax18">}</span>
+        <span class="syntax17">&lt;/script&gt;</span>
+        <span class="syntax17">&lt;</span><span class="syntax17">?</span><span class="syntax17">php</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">}</span>
+<span class="syntax17">}</span>
+<span class="syntax17">?</span><span class="syntax17">&gt;</span>
+</span></pre>
