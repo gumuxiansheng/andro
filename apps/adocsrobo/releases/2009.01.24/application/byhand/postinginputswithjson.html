@@ -1,0 +1,35 @@
+<h1>Posting Inputs with JSON</h1>
+
+<p>One of the most basic operations in a web database application
+   is to send a bunch of inputs back to the server.  Andromeda
+   provides a simple command to use for sending INPUT values
+   back on a JSON call.
+</p>
+
+<p>The Javascript method ua.json.inputs() adds a collection of
+   inputs to a previously initialized JSON call.  The method
+   takes a single argument, which can be either a DOM object
+   or a jQuery selector.  All of the HTML INPUT elements inside
+   of that object (or that match the selector) are added
+   to the JSON call.
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;script</span><span class="syntax17">&gt;</span>
+<span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">Initialize</span><span class="syntax2"> </span><span class="syntax2">a</span><span class="syntax2"> </span><span class="syntax2">JSON</span><span class="syntax2"> </span><span class="syntax2">call</span>
+ua<span class="syntax18">.</span>json<span class="syntax18">.</span><span class="syntax6">init</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">x6page</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">example</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+ua<span class="syntax18">.</span>json<span class="syntax18">.</span><span class="syntax6">addParm</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">x6action</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">doSomething</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+
+<span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">Method</span><span class="syntax2"> </span><span class="syntax2">1,</span><span class="syntax2"> </span><span class="syntax2">Given</span><span class="syntax2"> </span><span class="syntax2">an</span><span class="syntax2"> </span><span class="syntax2">input</span><span class="syntax2"> </span><span class="syntax2">with</span><span class="syntax2"> </span><span class="syntax2">ID</span><span class="syntax2"> </span><span class="syntax2">'first_name',</span>
+<span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">send</span><span class="syntax2"> </span><span class="syntax2">it</span><span class="syntax2"> </span><span class="syntax2">back</span><span class="syntax2"> </span><span class="syntax2">manually</span>
+ua<span class="syntax18">.</span>json<span class="syntax18">.</span><span class="syntax6">addParm</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">first_name</span><span class="syntax13">'</span><span class="syntax18">,</span>u<span class="syntax18">.</span><span class="syntax6">byId</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">first_name</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">.</span>value<span class="syntax18">)</span><span class="syntax18">;</span>
+
+<span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">Method</span><span class="syntax2"> </span><span class="syntax2">2,</span><span class="syntax2"> </span><span class="syntax2">Given</span><span class="syntax2"> </span><span class="syntax2">some</span><span class="syntax2"> </span><span class="syntax2">form</span><span class="syntax2"> </span><span class="syntax2">&quot;Form1&quot;,</span><span class="syntax2"> </span><span class="syntax2">send</span><span class="syntax2"> </span><span class="syntax2">all</span><span class="syntax2"> </span><span class="syntax2">inputs</span>
+<span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">by</span><span class="syntax2"> </span><span class="syntax2">passing</span><span class="syntax2"> </span><span class="syntax2">Form1</span><span class="syntax2"> </span><span class="syntax2">in</span><span class="syntax2"> </span><span class="syntax2">as</span><span class="syntax2"> </span><span class="syntax2">an</span><span class="syntax2"> </span><span class="syntax2">object</span>
+ua<span class="syntax18">.</span>json<span class="syntax18">.</span><span class="syntax6">inputs</span><span class="syntax18">(</span> u<span class="syntax18">.</span><span class="syntax6">byId</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">Form1</span><span class="syntax13">'</span><span class="syntax18">)</span> <span class="syntax18">)</span><span class="syntax18">;</span>
+
+<span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">Method</span><span class="syntax2"> </span><span class="syntax2">3,</span><span class="syntax2"> </span><span class="syntax2">Given</span><span class="syntax2"> </span><span class="syntax2">the</span><span class="syntax2"> </span><span class="syntax2">same</span><span class="syntax2"> </span><span class="syntax2">form,</span><span class="syntax2"> </span><span class="syntax2">pass</span><span class="syntax2"> </span><span class="syntax2">in</span><span class="syntax2"> </span><span class="syntax2">a</span><span class="syntax2"> </span><span class="syntax2">jQuery</span><span class="syntax2"> </span>
+<span class="syntax2">//</span><span class="syntax2"> </span><span class="syntax2">selector</span>
+ua<span class="syntax18">.</span>json<span class="syntax18">.</span><span class="syntax6">input</span><span class="syntax18">(</span> <span class="syntax13">'</span><span class="syntax13">#Form1</span><span class="syntax13">'</span> <span class="syntax18">)</span><span class="syntax18">;</span>
+
+<span class="syntax17">&lt;/script&gt;</span>
+</span></pre>

@@ -1,0 +1,86 @@
+            <h1>group</h1>
+                            
+                            <p><br/><br/>An Andromeda database specification will contain security assignments.
+The security system is based on the idea of assigning rights to groups.
+Any particular security assignment allows a group of users to access
+a table (or rows and columns within a table).
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>group group_id:
+   # Required
+   description: string
+   # Optional application-wide assignments
+   permsel: Y/N
+   permins: Y/N
+   permupd: Y/N
+   permdel: Y/N
+   permrole:Y/N
+   nomenu:  Y/N
+   solo:    Y/N
+   # Any
+   module module_id:
+   </pre>
+</div></div>
+<p>The database specification contains the group definitions, and the granting
+of priveleges to those groups.  Priveleges are granted to tables  with the
+definitions [[module.group]], [[group.module]], and [[table.group]].
+Column-level security can be granted with <span class="nolink">table.column#permsel</span> and
+<span class="nolink">table.column#permupd</span>.  Row-level security can be granted with
+<span class="nolink">table.column#permrow</span>.
+</p>
+<p>Any privelege granted within a group definition will apply to all tables
+in the database.  These defaults are overridden by assignments made in
+[[module.group]], [[group.module]], and [[table.group]].
+</p>
+<p>For an actual user to gain priveleges, a <span class="nolink">user administrator</span> must
+add them to one or more groups at runtime.
+</p>
+<h2>Properties</h2>
+<p> 
+<b>group group_id</b>.  The first line of a group definition begins with
+the keyword 'group', a space, and then the unique group name (group_id)
+followed by a colon.
+</p>
+<p> 
+<b>description</b>.  The friendly description of the group.
+</p>
+<p> 
+<b>permsel</b>.  The group's default SELECT permission database-wide.
+</p>
+<p> 
+<b>permins</b>.  The group's default INSERT permission database-wide.
+</p>
+<p> 
+<b>permupd</b>.  The group's default UPDATE permission database-wide.
+</p>
+<p> 
+<b>permdel</b>.  The group's default DELETE permission database-wide.
+</p>
+<p> 
+<b>permrole</b>.  If Y, members of this group may create new users and
+assign privileges.  Any user who is put into this group has effective
+total control of the application, as they can assign any kind of
+security to themselves or others.
+</p>
+<p> 
+<b>solo</b>.  If Y, members of this group may not belong to any other
+group (except the login group).  Note that this feature is <i>subvertible</i>
+under very specific circumstances.  Users with <b>permrole</b> authority
+who have direct access to a database console can assign other users into
+any group or combination of groups without regard for this setting.
+</p>
+<p>Within a group definition you can further define the group's permissions
+for specific modules by including [[group.module]] defintions.
+</p>
+<p>There is a hard-coded group known as the $LOGIN group.  The group is
+not actually named '$LOGIN', it always takes the name of the database,
+such as 'andro' or 'finance'.  If you wish to make assignments to this
+default group, such as allowing that group SELECT access to some tables,
+you can make assignments to the $LOGIN group.
+</p>
+<p> 
+</p>                                                    
+                            

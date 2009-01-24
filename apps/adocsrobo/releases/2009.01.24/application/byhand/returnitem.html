@@ -1,0 +1,37 @@
+            <h1>returnItem</h1>
+                            
+                            <p>string rettype<br/>string retname<br/>any value<br/><br/><br/>ANTICIPATORY DOCUMENTATION.  This entry documents features not
+yet fully implemented.  I am currently working only on the
+'data' portion for ajax returns.
+</p>
+<p>Use this function to store values that must be returned to the
+browser.  This includes data, messages, and HTML snippets.
+</p>
+<p>The main purpose of this function is to have something you can
+use for both regular page requests and for ajax requests.  The
+idea is you keep registering the items to return, then they are
+either fetched during HTML generation or sent back as JSON to
+the browser, depending on how the request came in.  As programmers
+all we have to know is that the data/message/snippet will get
+where it belongs.
+</p>
+<p>The first parameter is the type.  We expect to be supporting
+'data', 'message', and 'html'.  The second parameter is a name,
+which varies according to the first parameter.
+</p>
+<p>If the first parameter is 'data', the second parameter is the name
+of a table and the third paramter is a [[row]] array.  You can
+call this function as often as needed for any number of tables,
+it will accumulate the results.
+</p>
+<p>If the first parameter is 'message', the second parameter can
+be either 'error' or 'info', and the third parameter should be
+a string.
+</p>
+<p>If the first parameter is 'html', the second parameter should be
+the ID of the html element, and the third parameter is the
+innerHTML of that element.
+</p>
+<p> 
+</p>                                                    
+                            

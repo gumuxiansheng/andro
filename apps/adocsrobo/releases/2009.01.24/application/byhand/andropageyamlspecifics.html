@@ -1,0 +1,121 @@
+<h1>androPage YAML Specifics</h1>
+
+<p>The androPage system reduces the amount of code that you need to
+   write (and maintain) by replacing code with a simple data file.  
+   A single data file can be used to produce output in several
+   useful forms.
+</p>
+
+<p>The data file describes three fundamental things:
+</p>
+
+<ul><li>Which values you want from the datbase, i.e, which table columns.
+    <li>What filters you need supplied from the user
+    <li>Various Options
+</ul>
+
+<p>We will now see what you can provide for these.  Here is the example
+we will work with:
+</p>
+
+<pre><span class="syntax0"><span class="syntax10">options:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">title:</span><span class="syntax13"> </span><span class="syntax13">Customer</span><span class="syntax13"> </span><span class="syntax13">Report</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">customer:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">description:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_order:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">compare:</span><span class="syntax13"> </span><span class="syntax13">between</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">amt1</span><span class="syntax13"> </span><span class="syntax13">and</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">amt2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_paid:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_balance:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">uifilter</span><span class="syntax10"> </span><span class="syntax10">amt1:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">numb</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colprec</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colscale</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Minimum</span><span class="syntax13"> </span><span class="syntax13">Balance</span>
+<span class="syntax10">uifilter</span><span class="syntax10"> </span><span class="syntax10">amt2:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">numb</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colprec</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colscale</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Maximum</span><span class="syntax13"> </span><span class="syntax13">Balance</span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+</span></pre>
+
+<h2>File Name and Format</h2>
+
+<p>The file should be named --name--.page.yaml, and should be in
+   your application directory.  Links can reach the page by
+   specifying the parameter "gp_page", as in "index.php?gp_page=myexample".
+   The link should not specify the ".page.yaml" part.
+</p>
+
+<h2>The One Option: Title</h2>
+
+<p>As of this writing, March 2008, there is only one option, which is
+   the page's title. 
+</p>
+
+<pre><span class="syntax0"><span class="syntax10">options:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">title:</span><span class="syntax13"> </span><span class="syntax13">Customer</span><span class="syntax13"> </span><span class="syntax13">Report</span>
+</span></pre>
+
+<h2>Filters</h2>
+
+<p>androPage requires at least one filter.  Each filter is specified
+   as "uifilter --name--:".  You must supply a type_id at least, and for
+   numerics and characters a colprec (column precision, i.e., size).
+   A description is also required.
+</p>
+
+<pre><span class="syntax0"><span class="syntax10">uifilter</span><span class="syntax10"> </span><span class="syntax10">amt1:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">numb</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colprec</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colscale</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Minimum</span><span class="syntax13"> </span><span class="syntax13">Balance</span>
+<span class="syntax10">uifilter</span><span class="syntax10"> </span><span class="syntax10">amt2:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">numb</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colprec</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colscale</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Maximum</span><span class="syntax13"> </span><span class="syntax13">Balance</span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+</span></pre>
+
+<h2>The Tables and Columns</h2>
+
+<p>The heart of each androPage YAML file is a list of tables and 
+   columns.  Here are the basic ideas to keep in mind when you specify
+   tables and columns:
+</p>
+
+<ul><li>You can list multiple tables. 
+    <li>If you list multiple tables, Andromeda will automatically work
+        out the JOIN conditions based on the foreign keys, but all tables
+        must "touch" each other through foreign keys.
+    <li>You can list any number of columns per table, as much as are practical.
+    <li>If you list multiple tables you do not need to put them in any
+        particular order.
+</ul>
+
+<p>All of the options available here apply to columns.  You can specify
+   the following options for a column:
+</p>
+
+<ul><li>uino: Means do not display on the output.  Used when you need
+    to filter on a column that will not actually be displayed.
+    <li>descrpition: By default the column's description is taken from the
+        data dictionary, but you can override that by specifying a description
+        for the column.
+    <li>compare: Enter any valid SQL comparison.  Refer to the filter
+        columns with an "@" sign, so you might have "compare: > @date1".
+    <li>dispsize: by default the display size is taken from the data dictionary.
+        If you supply one here it will override the default.
+    <li>group: sum or group: avg.  If you specify this, then this value 
+        will be summed or averaged.  The GROUP BY clause is automatically
+        generated as <i>every column that has no group: function</i>.
+</ul>
+
+<p>This early version of androPage has a problem with the ORDER BY feature,
+   it is not yet working.
+</p>
+       
+    
+ 

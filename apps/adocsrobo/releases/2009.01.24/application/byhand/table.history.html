@@ -1,0 +1,130 @@
+            <h1>table.history</h1>
+                            
+                            <p><br/><br/>A table.history is a very flexible way to record changes made to
+a table.  A history definition specifies which columns in the history
+table receive which values from the source table.
+</p>
+<p>Best practice is to deny all access to the history table for normal users,
+and grant read-only access to those who must run reports, and delete access
+to those who will purge or roll-up the history tables.
+</p>
+<p>Histories are written on all three actions, insert, update, and delete.
+You can specify that any particular column will receive a constant value,
+a difference between old and new, always the new, always the old, or
+always a value.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>table table_id:
+   # Journal all changes to dollar amounts, record as well
+   # if user changed the date.
+   history track_the_money:
+      # These two properties are required
+      table_id_dest: journal
+      # These are explicit column assingments
+      column column_id:      #
+         retcol:  column_id  # ...gets NEW on insert,
+                             # ...gets OLD on update and delete
+      column column_id:      #
+         retval:  hello!     # ...gets a literal value, "hello!"
+      column column_id:      
+         retnew: column_source  # ...gets NEW value on insert and update
+                                #    gets NULL on delete
+      column column_id:      
+         retold: column_source  # ...gets OLD value on update and delete
+                                #    gets NULL on insert
+      column column_id:      
+         retdiff: column_source  # ...gets  NEW on insert
+                                 #    gets -OLD on delete
+                                 #    gets NEW-OLD on update</pre>
+</div></div>
+<h2>Properties</h2>
+<p> 
+<b>history history_id</b>.  The first line of a table.history definition
+begins with the keyword 'history', a space, and then an upsave name
+that is unique within this table, (history_id) followed by a colon.
+</p>
+<p> 
+<b>table_id_dest</b>.  Names the destination table.  A history definition is
+created inside of the source table, the destination table must be defined
+separately.
+</p>
+<p> 
+<b>column.retcol</b>.  Allows you to explicitly name a column in the destination
+table and have it get the value from a column in the child table.  It gets
+the NEW values on INSERT, and the OLD value on UPDATE and DELETE.
+</p>
+<p> 
+<b>column.retval</b>.  Allows you to explicitly write a literal value
+to a column in the destination table.
+</p>
+<p> 
+<b>column.retold</b>.  Copies the old value to the destination table.  Copies
+a NULL on insert.
+</p>
+<p> 
+<b>column.retnew</b>.  Copies the old value to the destination table.  Copies
+a NULL on delete.
+</p>
+<p> 
+<b>column.retdiff</b>.  Copies the difference of values to the destination
+table.  Copies the NEW value on INSERT, the negative OLD on delete, and
+NEW - OLD on update.
+</p>
+<p>/**
+name:table.chain
+</p>
+<p>A table.chain is used to conditionally allow or prevent updates and
+inserts to tables.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>table table_id:
+   chain chain_id:
+      # a condition check
+      test 00:
+         compare: Chain Comparison Expression
+         return: Chain Return Expression
+      test 01:
+         compare: Chain Comparison Expression
+         return: Chain Return Expression
+      # the unconditional default return value
+      test 02:
+         return: Chain Return Expression </pre><div id='ex2title'>Preventing updates and deletes to closed orders</div>
+<pre id='ex2inner'>table orders:
+   chain update_pre:
+      test 00:
+         compare: @flag_closed = Y
+         return: Order is closed, cannot update
+   chain delete_pre:
+      test 00:
+         compare: @flag_closed = Y
+         return: Order is closed, cannot delete</pre>
+</div></div>
+<h2>Properties</h2>
+<p> 
+''chain chain_id".  A chain can be named 'update_pre' or 'delete_pre',
+all lowercase. No other chains are recognized, any other chain name will
+be ignored.  An update_pre chain fires before update and a delete_pre
+fires before delete.  The table.chain is fired before all other
+business rules are checked.
+</p>
+<p> 
+<b>chain.test test_id</b>.  A chain consists of one or more tests.  Each
+test must be given a unique test_id.  The test_id values can be anything,
+but keep in mind that they will be evaluated in their sort order.  Best
+practice is to name tests '00', '01', and so on.
+</p>
+<p> 
+<b>chain.test.compare</b>.  A [[Chain Comparison Expression]].
+</p>
+<p> 
+<b>chain.test.return</b>.  A [[Chain Return Expression]].
+</p>
+<p> 
+</p>                                                    
+                            

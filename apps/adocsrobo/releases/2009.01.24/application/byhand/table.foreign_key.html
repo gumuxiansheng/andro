@@ -1,0 +1,95 @@
+            <h1>table.foreign_key</h1>
+                            
+                            <p><br/><br/>Andromeda deals with foreign keys differently than most frameworks.  When
+you <b>place</b> a foreign key into an Andromeda table, several things
+happen:
+</p>
+<ul><li> Andromeda identifies the column(s) that make the primary key
+of the parent table.
+<li> Andromeda places these same columns into the child table
+<li> Andromeda puts referential integrity constraints onto both tables
+(explained below)
+</ul>
+<p>When we use the SQL CREATE TABLE command to establish a foreign key,
+we must specify the column type, precision and scale, and then declare
+the reference to the parent.  In Andromeda all you have to do is name
+the parent table, the rest is automatic.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>table table_id:
+   #...various table property assignments go here
+   foreign_key table_id:
+      #...any optional foreign key properties</pre>
+</div></div>
+<p>The default behavior for a foreign key is as follows:
+</p>
+<ul><li> Any value in a child table must have a corresponding value
+in the parent table (modifiable with <b>allow_empty</b>, <b>allow_orphans</b>
+and <b>auto_insert</b>).
+<li> If a parent row has matching rows in the child table, the parent
+row cannot be deleted (modifiable with <b>delete_cascade</b>).
+</ul>
+<h2>Properties</h2>
+<p> 
+<b>foreign_key table_id</b>.  The first line of a foreign key
+definition begins with the keyword 'foreign_key', a space, and
+then the name of a parent table (table_id).  If you are using <b>suffix</b>
+and <b>prefix</b>, then the table_id should be written out including the
+suffix and prefix, as in this example:
+</p>
+<p>!>
+!>noformat
+table orders:
+foreign_key customers:
+foreign_key customers_referring:
+suffix: _referring
+!<
+!<
+</p>
+<p> 
+<b>suffix</b>.  If specified, all of the columns taken from the parent table
+will have the <b>suffix</b> appended to their name.
+</p>
+<p> 
+<b>prefix</b>.   If specified, all of the columns taken from the parent table
+will have the prefix prepended to their name.
+</p>
+<p> 
+<b>primary_key</b>.  A Y/N flag that will cause all of the foreign key columns
+to be in the primary key.
+</p>
+<p> 
+<b>uisearch</b>.  A Y/N flag that causes all of the foreign_key columns to
+be in the normal search results.
+</p>
+<p> 
+<b>auto_insert</b>.  A very powerful Y/N flag.  See [[Automations]].
+</p>
+<p> 
+<b>copysamecols</b>.  Related to auto_insert, see [[Automations]].
+</p>
+<p> 
+<b>nocolumns</b>.  A Y/N flag that stops the normal behavior of adding the
+columns to the table.  Required if more than one foreign key definitions
+would end up placing the same column in the table.
+</p>
+<p> 
+<b>allow_empty</b>.  A Y/N flag that allows the foreign key value to be empty
+(or null).
+</p>
+<p> 
+<b>allow_orphans</b>.  A Y/N flag that completely disables reference checking,
+but still defines the columns.
+</p>
+<p> 
+<b>delete_cascade</b>.  A Y/N flag that causes all child table entries to be
+deleted when a parent table row is deleted.  Overrides the normal behavior
+which is to prevent the deletion of a parent table row if there exists
+matching child entries.
+</p>
+<p> 
+</p>                                                    
+                            

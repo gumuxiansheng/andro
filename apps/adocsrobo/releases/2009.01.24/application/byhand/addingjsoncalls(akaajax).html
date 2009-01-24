@@ -1,0 +1,148 @@
+<h1>Adding JSON Calls (aka AJAX)</h1>
+
+<p>Andromeda allows your pages to make server calls and receive
+   back any combination of HTML, script, and data.  We refer
+   to these calls as "JSON" calls for several reasons:
+</p>
+
+<ul><li>The default mode is actually <i>synchronous</i> 
+    which is usually the Right Thing
+    for database applications.  This means the "A" in AJAX does
+    not apply.  (Asynchronous is also supported). 
+    <li>Your Andromeda program returns JSON instead of XML, 
+    so that knocks the "X" out of AJAX.
+    <li>This would leave our "Synchronous Javascript and
+    JSON" coming out as "SJOJ", which sounds 
+    terrible, so we use "JSON" after the format of the data
+    we are using.
+</ul>
+
+<span class="note">This is the only page in this documentation
+   that will use the term AJAX.  The rest of the documentation
+   will use the term JSON.
+</span>
+
+<h2>First Half: The HTML and Javascript</h2>
+
+<p>Consider a page that displays the
+   server's date and time when it is first loaded.  We would
+   like a button for the user to click that will refresh the
+   date and time without reloading the entire page.
+</p>
+
+<p>This process begins with regular Andromeda HTML, except
+   that this time we code up a JSON call:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6jsonexample</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Conventional</span><span class="syntax4"> </span><span class="syntax4">HTML</span><span class="syntax4"> </span><span class="syntax4">generation...</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Hello</span><span class="syntax13"> </span><span class="syntax13">JSON!</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">p</span><span class="syntax13">'</span> <span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">The</span><span class="syntax13"> </span><span class="syntax13">server</span><span class="syntax13"> </span><span class="syntax13">time</span><span class="syntax13"> </span><span class="syntax13">is:</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">p</span><span class="syntax13">'</span> <span class="syntax18">,</span><span class="syntax9">date</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">r</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax9">time</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax10">$input</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">input</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Refresh</span><span class="syntax13"> </span><span class="syntax13">Time</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$input</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">type</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">button</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        <span class="syntax11">$input</span><span class="syntax11">-&gt;code</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">click</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax17">&lt;&lt;&lt;JS</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax8">function</span><span class="syntax18">(</span><span class="syntax17">e</span><span class="syntax18">)</span><span class="syntax17"> </span><span class="syntax18">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">ua</span><span class="syntax18">.</span><span class="syntax17">json</span><span class="syntax18">.</span><span class="syntax6">init</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">x6page</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">jsonexample</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">ua</span><span class="syntax18">.</span><span class="syntax17">json</span><span class="syntax18">.</span><span class="syntax6">addParm</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">x6action</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">refreshtime</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax8">if</span><span class="syntax18">(</span><span class="syntax17">ua</span><span class="syntax18">.</span><span class="syntax17">json</span><span class="syntax18">.</span><span class="syntax6">execute</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax17"> </span><span class="syntax18">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">ua</span><span class="syntax18">.</span><span class="syntax17">json</span><span class="syntax18">.</span><span class="syntax6">process</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax18">}</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax18">}</span>
+<span class="syntax17">JS</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<p>All of the action here is in the "JS" block of text. When
+   the user clicks on the INPUT, the function described there
+   will be called.  
+</p>
+
+<p>The first line of the click function tells the ua.json 
+   object that we are going to make a JSON call, and that our
+   first parameter is named 'x6page' and the value of that
+   parameter is 'jsonexample'.  This means that when the
+   JSON call is actually executed, it will send back a
+   parameter x6page=jsonexample, just like when a regular
+   page call is made.
+</p>
+
+<p>The second specificies another parameter and is extremely
+   important because <b>x6action tells Andromeda what method
+   to call in your 'jsonexample' class.</b></p>
+
+<p>The third line tells Andromeda to execute the call, and
+   the call returns true (no errors), to process the results.
+</p>
+
+<p>So in short, this bit of Javascript is asking Andromeda to
+   make a JSON call to the page 'jsonexample' and invoke the
+   method 'refreshtime'.  Now we must see how to code up that
+   method and what to put into it.
+</p>
+
+<h2>Second Half: Handling The Call</h2>
+
+<p>Now that we have the browser trying to call back to the server,
+   we have to add the "refreshtime" method to our class.  This
+   is very simple:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6jsonexample</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Conventional</span><span class="syntax4"> </span><span class="syntax4">HTML</span><span class="syntax4"> </span><span class="syntax4">generation...</span>
+        <span class="syntax10">$top</span> <span class="syntax18">=</span> <span class="syntax17">html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">div</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">h1</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Hello</span><span class="syntax13"> </span><span class="syntax13">JSON!</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">p</span><span class="syntax13">'</span> <span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">The</span><span class="syntax13"> </span><span class="syntax13">server</span><span class="syntax13"> </span><span class="syntax13">time</span><span class="syntax13"> </span><span class="syntax13">is:</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Give</span><span class="syntax4"> </span><span class="syntax4">this</span><span class="syntax4"> </span><span class="syntax4">element</span><span class="syntax4"> </span><span class="syntax4">an</span><span class="syntax4"> </span><span class="syntax4">ID,</span><span class="syntax4"> </span><span class="syntax4">so</span><span class="syntax4"> </span><span class="syntax4">it</span><span class="syntax4"> </span><span class="syntax4">can</span><span class="syntax4"> </span><span class="syntax4">be</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">refreshed.</span>
+        <span class="syntax10">$p</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">p</span><span class="syntax13">'</span> <span class="syntax18">,</span><span class="syntax9">date</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">r</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax9">time</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$p</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">id</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">the_time_paragraph</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        
+        <span class="syntax10">$input</span> <span class="syntax18">=</span> <span class="syntax11">$top</span><span class="syntax6">-&gt;h</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">input</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">Refresh</span><span class="syntax13"> </span><span class="syntax13">Time</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax11">$input</span><span class="syntax11">-&gt;hp</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">type</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax13">'</span><span class="syntax13">button</span><span class="syntax13">'</span><span class="syntax18">;</span>
+        <span class="syntax11">$input</span><span class="syntax11">-&gt;code</span><span class="syntax18">[</span><span class="syntax13">'</span><span class="syntax13">click</span><span class="syntax13">'</span><span class="syntax18">]</span> <span class="syntax18">=</span> <span class="syntax17">&lt;&lt;&lt;JS</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax8">function</span><span class="syntax18">(</span><span class="syntax17">e</span><span class="syntax18">)</span><span class="syntax17"> </span><span class="syntax18">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">ua</span><span class="syntax18">.</span><span class="syntax17">json</span><span class="syntax18">.</span><span class="syntax6">init</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">x6page</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">jsonexample</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">ua</span><span class="syntax18">.</span><span class="syntax17">json</span><span class="syntax18">.</span><span class="syntax6">addParm</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">x6action</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax13">'</span><span class="syntax13">refreshtime</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax8">if</span><span class="syntax18">(</span><span class="syntax17">ua</span><span class="syntax18">.</span><span class="syntax17">json</span><span class="syntax18">.</span><span class="syntax6">execute</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax17"> </span><span class="syntax18">{</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">ua</span><span class="syntax18">.</span><span class="syntax17">json</span><span class="syntax18">.</span><span class="syntax6">process</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax18">}</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax18">}</span>
+<span class="syntax17">JS</span><span class="syntax18">;</span>
+        <span class="syntax11">$top</span><span class="syntax6">-&gt;render</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+    
+    <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">This</span><span class="syntax4"> </span><span class="syntax4">routine</span><span class="syntax4"> </span><span class="syntax4">handles</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">call</span>
+    <span class="syntax8">function</span> <span class="syntax6">refreshtime</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax6">x6html</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">the_time_paragraph</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax9">date</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">r</span><span class="syntax13">'</span><span class="syntax18">,</span><span class="syntax9">time</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<p>The x6html() call says to replace the innerHTML of node
+   "the_time_paragraph" with the text string returned by
+   date('r',time()).
+</p>
+
+<p>The x6html() call is not limited small snippets.  You can
+   send back as large a chunk of HTML as your bandwidth
+   can comfortably handle.
+</p>
+
+<p>You can call x6html() as often as you like in any single call,
+   replacing any number of HTML elements in a single server call.
+</p>
+
+
+
