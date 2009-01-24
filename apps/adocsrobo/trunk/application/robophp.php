@@ -866,6 +866,9 @@ class robophp extends x_table2 {
         foreach($entries as $entry) {
             if(!in_array($this->extension($entry),$extensions)) continue;
             if(substr($entry,0,6)=='js-min') continue;
+            # KFD 1/24/09, hardoded removal of androLib.js
+            if($entry=='androLib.js') continue;
+            if($entry=='x6.original.js') continue;
             
             if(is_dir($dir.$entry)) {
                 #recurseDir($dir.$entry.'/',$stem,$level+1);
