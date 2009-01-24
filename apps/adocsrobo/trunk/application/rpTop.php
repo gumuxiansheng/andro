@@ -1,10 +1,11 @@
 <?php
 $this->rpTop = array(
     'Short Description of Andromeda'
-    ,'Introduction'
-    ,'Countdown To Release 1'
-    ,'Application Configuration'
-    ,'Getting Started'
+    ,'General Information'
+    ,'Installation'
+    ,'Creating An Application'
+  #  ,'Getting Started'
+    ,'Database Programming'
     ,'Web Programming'
     ,'androPage'
     ,'Database-Definitions'
@@ -15,6 +16,7 @@ $this->rpTop = array(
     ,'System Architecture'
     ,'Essays'
     ,'Andromeda Hackers Guide'
+    ,'Unsorted Pages'
 );
 ?>
     

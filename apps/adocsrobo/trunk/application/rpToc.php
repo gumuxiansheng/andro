@@ -1,22 +1,25 @@
-<?Php
-$this->rpToc['Introduction'] = array(
-    'Installation'
-    ,'Quick Tour'
-    ,'Tutorials'
-    ,'Demo'
+<?php
+$this->rpToc['General Information'] = array(
+    'The Demo'
+    ,'Licensing'    
     ,'Contact'
     ,'Credits'
+    
 );
+
 $this->rpToc['Installation'] = array(
-    "Downloads"
-    ,"Installing Andromeda on Ubuntu 6.06"
-    ,"Installing Andromeda on Ubuntu 6.10"
-    ,"Installing Andromeda on Ubuntu 7.10"
-    ,"Installing Andromeda on Ubuntu 8.04"
-    ,"Running On Windows"
-    ,"Running on Linux"
-    ,"Requirements Reference"
-    ,"Licensing"
+    'Downloads'
+    ,'Linux'
+    ,'Windows'     
+    ,'Notes on Linux'
+    ,'Requirements Reference'
+);
+
+$this->rpToc['Linux'] = array(
+    'Installing Andromeda on Ubuntu 6.06'
+    ,'Installing Andromeda on Ubuntu 6.10'
+    ,'Installing Andromeda on Ubuntu 7.10'
+    ,'Installing Andromeda on Ubuntu 8.04'
 );
 $this->rpToc['Quick Tour'] = array(
     "Introduction To Andromeda"
@@ -47,6 +50,11 @@ $this->rpToc['Create An Application'] = array(
     ,'Syntax Coloring'
     ,'Defining a Database'
     ,'Upgrade Scripts'
+);
+
+$this->rpToc['Database Programming'] = array(
+    'A Starter Database Specification'   
+    
 );
 
 $this->rpToc['Web Programming'] = array(
@@ -130,6 +138,10 @@ $this->rpToc['Essays']=array(
 
 $this->rpToc['Andromeda Hackers Guide'] = array(
      'Andromeda Documentation'
-    
+);
+
+$this->rpToc['Unsorted Pages'] = array(
+    'Quick Tour'
+    ,'Tutorials'
 );
 ?>

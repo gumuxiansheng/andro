@@ -5,40 +5,7 @@ Andromeda is available under the terms of the
 <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a>
 </p>
 
-<h1>Operating System Requirements</h1>
-
-<p>
-<b>Linux</b>:  Andromeda has been installed cleanly on Ubuntu Edgy and Gentoo.  
-We have a separate page for [[Running on Linux]].
-</p>
-
-<p>
-<b>Mac</b>: Andromeda can be installed and run on Mac OS X provided you follow 
-particular instructions.  Our user reported using instructions  for Postgres 
-<a href="http://developer.apple.com/internet/opensource/postgres.html">here</a>
-and for PHP <a href="http://developer.apple.com/internet/opensource/php.html">here</a>.
-He also reported that <i>"I had to edit the httpd.conf file and comment
-out the Apple PHP module lines and allow the Entrophy package
-install lines to be the only active php module."</i>  This is apparently
-because the default Mac PHP module is not configured for Postgres or
-Mysql.
-</p>
-
-<p>
-<b>Windows</b>: See our [[Running On Windows]] page for special information.
-</p>
-
-<h1>Required Packages</h1>
-
-<p>
-In short, Andromeda requires Apache, PHP, and Postgres, all of which are pretty easy to get going.
-</p>
-
-<p>
-The pages [[Running on Windows]] and [[Running on Linux]] contain the detailed requirements.
-</p>
-
-<h1>Get Files From SourceForge</h1>
+<h2>Get Files From SourceForge</h2>
 
 <p>
 The latest Andromeda download files are always available on Sourceforge:
@@ -51,34 +18,4 @@ The latest Andromeda download files are always available on Sourceforge:
 
 <p>
 ...then return here to continue the instructions.
-</p>
-
-<h1>Using the Browser-based Install</h1>
-
-<p>
-Here is what you do:
-<ul>
-<li>Follow the instructions in [[Running on Windows]] or [[Running on Linux]] to get your machine ready.
-<li>Make a subdirectory of your web root named "andro_root"
-<ul>
-<li>On gentoo, the web root is /var/www/localhost/htdocs
-<li>On Unbuntu, the web root is /var/www
-<li>On a Windows machine with Xamp, the web root is X:\Program Files\xampp\htdocs.
-</ul>
-<li>Download the tarball to that directory and un-tarball it.
-<li>Point your browser to <a href="http://localhost/andro_root/andro/">http://localhost/andro_root/andro/</a>
-<li>Follow the instructions on-screen.
-</ul>
-</p>
-
-<h1>Reported Problems</h1>
-
-<p>
-<b>Install Reverts to Step 1 after I complete Step 3</b>
-</p>
-
-<p>
-This is caused by an error with sessions, so that Andromeda is
-"forgetting" what step you are on.  Make sure that php.ini has
-the setting "session.use_cookies = 1".
 </p>
