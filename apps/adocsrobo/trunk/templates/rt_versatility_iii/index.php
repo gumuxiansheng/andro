@@ -140,7 +140,7 @@ endif; ?>
 					<?php mosLoadModules('banner', -1); ?>
 				</div>
                 <div style="float: right; margin-top: -10px">
-                <h3><i>The Fastest Easiest Way <u>to get it Right</u></i></h3>
+                <h3 style="padding-right: 5px"><i>The Fastest Easiest Way <u>to get it Right</u></i></h3>
                 </div>
 			</div>
 		</div>
