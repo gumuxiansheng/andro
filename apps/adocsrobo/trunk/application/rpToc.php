@@ -4,7 +4,7 @@ $this->rpToc['General Information'] = array(
     ,'Licensing'    
     ,'Contact'
     ,'Credits'
-    
+    ,'Countdown To Release 1'
 );
 
 $this->rpToc['Installation'] = array(

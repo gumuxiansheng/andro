@@ -1,139 +1,55 @@
 <h1>Countdown to Release One</h1>
                             
+<p><b>Updated: January 26, 2009</b></p>
 
 <h2>The RoadMap</h2>
 
-<p>As of April 2008 there is only one major feature of
-   Andromeda that is still under development, which is
-   the "Extended Desktop" user interface, which we called
-   "x4" in earlier documents.  When this interface is
-   is finished we will have completed all major elements
-   of Andromeda and it will be time to finish off the
-   documentation, clean up the code, and start to 
-   consider making a public Release one. 
+<p>In late December of 2008 we finished off all major work on the
+   "x6" desktop-in-browser system, completing the original Andromeda
+   vision.  Since that time we have been making the code IE compatible
+   and working out bugs and adding any secondary features required
+   by employers and clients of the core team.  
 </p>
 
-<p>The list below details the items we have been
-   tracking in our countdown to release one.
+<p>Here is what remains before we can do Release 1:
 </p>
 
-<ul>
-<li><b>New Website (Complete Fall 2007).</b>  The new website makes
-    it easier to keep the docs up-to-date, 
-    especially pages like this one.
-<li><b>Adopt SVN Source Control (Complete Jan 2008)</b>.  We are now
-    using SVN for Andromeda itself, and will no longer use
-    Andromeda's built in source control.
-<li><b>Adopt SVN for publishing and upgrades (Complete Feb 2008).</b>
-    We need 
-    to modify Andromeda's application updating process to
-    pull from SVN instead of its own deprecated source
-    control system.
-<li><b>Documentation: All Guides and Walk-throughs.</b>  There should
-    be simple and concise guides to all of Andromeda's features.
-<li><b>Documentation: Reference</b>.  All reference docs need to be
-    updated and completed.  Any omissions need to be filled in.
-<li><b>Documentation: Purge</b>  The documentation contains many 
-    pages, notably in the API reference, documenting functions that
-    are going to be tossed out.
-<li><b>Code Cleanup</b>.  Any lingering inconsistencies in file
-    naming, function naming, and so on should be cleaned up.
-<li><b>Code Purge</b>.  A very large portion of androLib.php will
-    be moved over to androLibDeprecated.php.  This library will be
-    available for backward compatibility, but will not be loaded by
-    default by the framework.  
-<li><b>Explicit Install Instructions For All Major Platforms. (Partially
-    Complete)</b>.  There should be very explicit instructions on 
-    installing on all major platforms including separate details for
-    servers and workstations, Linux and Windows.
+<ol><li>Get our Debian package tested one more time and up onto  
+    Sourceforge.
+    <li>One more hack-a-thon (hopefully) to get the Windows installer
+    finished up.
+    <li>Continue purging old docs and make sure all features
+        are documented.
+    <li>Bug fixes.
+    <li>"un-bork" the generated documentation.
+</ol>
+
+<p>Ken will be completing all secondary features for his customers in
+   the next few days, and then it will be time for the feature freeze.
+   <b><i>During the feature freeze, the only serious coding besides
+         bug fixes will be performance issues that represent show-stoppers.
+         Everything else must wait.</i></b>
+
+<h2>After Release 1</h2>
+
+<p>These are some of the major ideas that have been tossed around
+   for the next release, in no particular order.
+</p>
+
+<ul><li>An x6 version of the Node Manager.  I wanted to get this into
+        Release 1, but the Node Manager works fine as-is and we don't
+        need to slow down the release by trying to stuff it in.
+    <li>Support for mySQL or MS SQL Server
+    <li>The ability to distribute free-standing apps that do not need
+        a node manager.
+    <li>A rewrite of the builder for speed and features.  The androBuild.php
+        file is Ken's first serious program in PHP, the first code was 
+        written 4 years ago.  On the plus side it is battle-proven and
+        reliable, but on the down side it will be increasingly difficult
+        to improve it w/o some significant refactoring.
+    <li>More improvements to the demo and (maybe) additional demos.
+    <li>Run the builder in "analzye" mode to show what changes would be
+        done w/o actually doing them.
+    <li>Major overhaul of the look and feel of the docs, they still look
+        awful to Ken.
 </ul>
-
-<h2>After Release One</h2>
-
-<p>The items below were under consideration for Release one
-   originally, but all of them represent modifications of
-   existing functionality.  Release one will be the
-   reference implementation of Andromeda concepts, and the
-   items listed below will be enhancements to that
-   reference implementation.
-</p>
-
-<ul>
-<li><b>MYSQL Hackathon</b>.  This is the big one, we want
-    Andromeda to use MySQL.  There is a special entry on
-    this below.
-<li><b>Go To Components Model</b>.  Right now Andromeda is
-    monolithic.  We want to break it up into components,
-    like the builder, the x4 interface, one or more
-    various security packages, and so on.
-<li><b>Eliminate Node Manager</b>.  The Node Manager is a
-    relic of the environment Ken was in when he dreamed
-    up Andromeda.  Experience has shown it gets in the way
-    more than it helps.  
-<li><b>Installation Packages</b>.  Now that the installer has
-    been debugged and is known to be pretty strong, we want
-    to have a debian package and a windows installer.
-</ul>
-
-<h2>The MySQL Hackathon</h2>
-
-<p>After Release One, we want to do a Hackathon 
-   to get MySQL Support built into Andromeda.  After that it
-   will support both Postgres and MySQL.  For more information
-   join our <a href="https://lists.sourceforge.net/lists/listinfo/andro-general">mailing list</a>
-   and join in the discussion.
-
-<h2>Major Components</h2>
-
-<p>Once we have broken Andromeda up into components, the
-   conversation about Release 1 is really about which
-   components will go into it and how to make them
-   ready.  The draft list of components is here:
-</p>
-   
-<table class="chart">
-<thead>
-  <th>Component
-  <th>Status
-  <th>Description
-</thead>
-
-<tbody>
-<tr><td>Builder</td>
-    <td>n/a
-    <td>This component would fetch code from published
-        sources and build/upgrade databases.  Not interactive.
-<tr><td>Users</td>
-    <td>n/a
-    <td>A component that maintains users.
-<tr><td>Passwords</td>
-    <td>n/a
-    <td>Contains special code for secure retrieval and
-        setting of passwords.
-<tr><td>Classic API</td>
-    <td>n/a
-    <td>This will be a catch-all component that will have all
-        of the original Andromeda API available so that old
-        applications do not break.
-<tr><td>x4 User Interface</td>
-    <td>n/a
-    <td>A desktop-in-a-browser interface that uses javascript
-        to give a super-fast keyboard-driven experience
-        to people who actually have to type all day.
-<tr><td>x2 "Classic" Interface</td>
-    <td>n/a
-    <td>The current HTML/PHP based user interface for
-        Andromeda, centered around the class x_table2.
-<tr><td>androPage</td>
-    <td>n/a
-    <td>A really nifty new component that we started in January 2008
-        that lets you make YAML files that describe queries, which
-        can then be output to PDF or using Smarty to the screen.
-        Cool!
-<tr><td>Plugins</td>
-    <td>n/a
-    <td>A facility for easily plugging in UI components like
-        RSS feeds, Google maps and so forth.
-</table>        
-        
-                                        
