@@ -1,0 +1,20 @@
+            <h1>hImg</h1>
+                            
+                            <p>string Table<br/>string Value<br/>string Column (optional)<br/>string HTML_Fragment<br/><br/><br/>This routine will return the first image that it can find in the [[apppub]]
+directory for the given table and (optionally) column.
+</p>
+<p>If no third parameter is passed in, the routine assumes the second parameter,
+"Value", is a value for the given table's primary key.  It looks for any
+file in "apppub/$Table" named after $Value and having an extension .jpg,
+.png, or .gif.  The routine returns an IMG tag pointing to the first
+such image it finds.
+</p>
+<p>If a third parameter is passed,the routine assumes the second parameter,
+"Value", is a value of that named column.  It looks for any file in
+"apppub/$Table/$Column" named after $Value and having an extension .jpg,
+.png, or .gif.  The routine returns an IMG tag pointing to the first
+such image it finds.
+</p>
+<p> 
+</p>                                                    
+                            

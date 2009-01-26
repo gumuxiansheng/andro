@@ -1,0 +1,76 @@
+<h1>Creating an Application</h1>
+
+<p>You create an application by first logging into the
+   Node Manager, clicking on "applications", clicking on [New],
+   and filling out the form.  After you save, you build the
+   application for the first time to create your folders and
+   skeleton files.
+</p>
+
+<p>Once your application is built, you can examine the skeleton
+   files and begin describing your database and then go on to
+   custom pages.
+</p>
+
+<h2>Logging Into The Node Manager</h2>
+
+<p>During your installation, you provided a "root" or "superuser"
+   password for your Andromeda system.  Provide that username and
+   password to log in.
+</p>
+
+<h2>Create an Application</h2>
+
+<p>On the menu system, select "Applications: Applications":</p>
+
+<img src="../../appclib/create-app1.png">
+
+<p>Then click on [New] to get the new application details:</p>
+
+<img src="../../appclib/create-app2.png">
+
+<h2>Fill in the Details</h2>
+
+<p>You must fill in these details:</p>
+
+<ul><li><b>Application</b>: A short code that you will use to refer
+    to the application, such as "example", "medbill", "magdist" or
+    something like that.
+    <li><b>Description</b>: Anything you like.
+    <li><b>Bootstrap spec</b>: Do not change the default.
+    <li><b>Library spec</b>: Do not change the default.
+    <li><b>Spec File</b>: Make this your app code + ".dd.yaml", as in
+        "example.dd.yaml".
+    <li><b>Overwrite From Subversion</b>: Should be "Y" for production
+        servers, "N" for development stations.
+    <li><b>Subversion URL</b>: location of your repository (production
+        servers only).
+    <li><b>Subversion Username</b>: Subversion username.
+    <li><b>Subversion Password</b>: The password.  <i>These are stored
+        in plaintext, you have been warned!</i>
+    <li><b>Nickname</b>: Select "DEFAULT"
+    <li><b>Allow Group Roles To Login</b>: Select "Y" if this is a low-
+        security site that will not have financial or personal data.
+        This makes some coding tasks easier but if vulnerabilities are
+        found in Andromeda it could make your application less secure.
+    <li><b>Hardened Password Security</b>: If you select "N" then user
+        passwords are stored in plaintext and can be mailed to them.
+        If you select "N" then users can reset their passwords, but they
+        cannot recover them.
+    <li><b>Extra Dirs</b>: do not use.
+</ul>
+
+<h2>Save and Build</h2>
+
+<p>After you fill in the info, click on [Save].  You will see a
+   new link, "Build This Application".  Click on it and watch while
+   your database is built and the skeleton files are created.
+</p>
+
+<h2>What Next</h2>
+
+<p>The next two major sections of this documentation cover the two
+   things you need to know: Database Programming and Web Programming.
+</p>
+   
+    

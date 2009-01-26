@@ -1,0 +1,60 @@
+            <h1>Wizards and Multi-Stage Processing</h1>
+                            
+                            <p><br/><br/>In many systems, the word "page" is likely to refer to a single PHP or
+even HTML file on a web server.  In Andromeda when we say "page" we
+actually mean class, specifically a class that extends [[x_table2]].
+</p>
+<p>In the systems written by SDS that use Andromeda, we tend to put
+more than one "page" into a single class.  In particular this is done for
+one-off HTML forms and for wizards.
+</p>
+<p>Consider the case of user registration.  We need some code that will send
+out a form for the user to fill out.  Then when they POST the form it must
+be handled.  We always develop these with both sets of code in one class.
+</p>
+<p>Here is an example file that shows how to do this complete cycle:
+</p>
+<div class="box-php">class register extends x_table2 {
+   function main() {
+      // Pull the GET-POST variable gp_posted to see if they posted
+      $continue=true;
+      if(gp('gp_posted')==1) {
+         $continue=$this->Process();
+      }
+      
+      if(!$continue) return;
+      
+      // This will cause processing the next time around
+      hidden('gp_posted',1);
+      hidden('gp_page','register'); // must know the page to come back to!
+      
+      // Now display the HTML.  Begin with any errors
+      // thrown by the post attempt.  This will come out
+      // empty if irrelevant
+      echo hErrors();  
+      
+      //
+      <input name="txt_example" value="<=gp('txt_example')>" >
+      <a href="javascript:formSubmit()">Run Now</a>
+      //
+      
+   }
+   
+   function Process() {
+      // Processing is handled here.  If there is an error
+      // then register it and tell them to continue
+      if (something_bad) {
+         ErrorAdd("Something bad happened, please fill out form again");
+         return true;
+      }
+      else {
+         echo "Thanks! IT worked!";
+         return false;
+         // returning false says *don't continue*
+      }
+   }
+}   
+</div>
+<p> 
+</p>                                                    
+                            

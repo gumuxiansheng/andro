@@ -1,0 +1,97 @@
+<h1>Database Automation Introduction</h1>
+                            
+<p>
+In the world of business applications, any framework or toolset that cannot handle calculated values is a non-starter.  Almost every table will have associated derivations, from the simplest calculation of price * qty up to complex compound conditional expressions.
+</p>
+
+<p>
+Andromeda in particular must provide all manner of automations, otherwise the 'zero-code' promise for business rules would rapidly fall apart.
+</p>
+
+<h2>Simple FETCH and EXTEND</h2>
+
+<p>
+All automations in Andromeda consist in one way or another of specifying a formula for the columns in tables.  Here is a very simple example of an ordering system, where the price is obtained from the products file, a setup charge is added to it, and the result is extend out:
+</p>
+
+<div class="box-add"><pre>
+<span class="syntax0"><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">products:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">FETCH</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">auto_formula:</span><span class="syntax13"> </span><span class="syntax13">products</span><span class="syntax13">.</span><span class="syntax13">price</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">qty:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_ext:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_ext</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Extended</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">chain</span><span class="syntax9"> </span><span class="syntax9">calc:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">test</span><span class="syntax9"> </span><span class="syntax9">00:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">return:</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price</span><span class="syntax13"> </span><span class="syntax13">*</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">qty</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_setup:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_setup</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Setup</span><span class="syntax13"> </span><span class="syntax13">Charge</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_final:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_final</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">chain</span><span class="syntax9"> </span><span class="syntax9">calc:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">test</span><span class="syntax9"> </span><span class="syntax9">00:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">return:</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price_ext</span><span class="syntax13"> </span><span class="syntax13">+</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price_setup</span>
+</span>
+</pre>
+</div>
+
+<p>
+...and this results in a UI screen in which the calculations are performed automatically:
+</p>
+
+[[image:dbai_ui1.png]]
+
+<h2>Summary Automations</h2>
+
+<p>
+While a FETCH operation pulls a value from a parent table to a child, you might also SUM the rows of a child table up to the parent.  Here is the quotes header table from the example above, showing the total of detail lines plus further calculations:
+</p>
+
+<div class="box-add"><pre><span class="syntax0"><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_lines</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Detail</span><span class="syntax13"> </span><span class="syntax13">Total</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">SUM</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">auto_formula:</span><span class="syntax13"> </span><span class="syntax13">quotelines</span><span class="syntax13">.</span><span class="syntax13">price_final</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">pct_manual:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_manual</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Discount</span><span class="syntax13"> </span><span class="syntax13">Pct</span><span class="syntax13">;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_disc:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_disc</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Discount</span><span class="syntax13"> </span><span class="syntax13">Amount</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">chain</span><span class="syntax9"> </span><span class="syntax9">calc:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">test</span><span class="syntax9"> </span><span class="syntax9">00:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">compare:</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">pct_manual</span><span class="syntax13"> </span><span class="syntax13">=</span><span class="syntax13"> </span><span class="syntax13">0</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">return:</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price_lines</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">test</span><span class="syntax9"> </span><span class="syntax9">01:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">return:</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price_lines</span><span class="syntax13"> </span><span class="syntax13">*</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">pct_manual</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_final:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_final</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Final</span><span class="syntax13"> </span><span class="syntax13">Price</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">chain</span><span class="syntax9"> </span><span class="syntax9">calc:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">test</span><span class="syntax9"> </span><span class="syntax9">00:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">return:</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price_lines</span><span class="syntax13"> </span><span class="syntax13">-</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price_disc</span>
+</span>
+</pre>
+</div>
+
+<p>
+...and the screen appears as:
+</p>
+
+[[image:dbai_ui2.png]]
+
+<h2>Conclusion</h2>
+
+<p>
+There are a considerable number of other automations possible with Andromeda.  Taken together, their purpose is to allow any type of derivation within a normalized database.
+</p>
+
+<p>
+Andromeda's approach to complexity is to build up complicated rules by composition, so that one calculated value can be used in the result of another, which is then used in the result of another, and so forth.  More information on this is provided in the [[Tutorials]].
+</p>                                                    
+                            

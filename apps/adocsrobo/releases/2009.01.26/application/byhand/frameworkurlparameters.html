@@ -1,0 +1,17 @@
+            <h1>Framework URL Parameters</h1>
+                            
+                            <p>The framework uses a handful of common parameters for sending requests from the browser to the server.
+</p>
+<p>There are three significant parameters that tell the universal dispatcher to branch away from a normal page:
+</p>
+<ul><li> <b>gp_dropdown</b> tells the universal dispatcher to return results specially formatted for the Dynamic Dropdown control.
+<li> <b>gp_sql</b>  tells the dispatcher to execute a query and return a [[Rows Array]] as a serialized string.  Expects to be called with a function like <a href="http://www.php.net/manual/en/function.file_get_contents.php" target="_blank">PHP file_get_contents</a> <a href="http://www.php.net/manual/en/function.file_get_contents.php" target="_blank"><img style="border:0px" src="/apppub/external.png" border=0></a>.  Note our section on [[SQL Injections]].
+<li> <b>gp_ajaxsql</b> tells the dispatcher to execute a particular update of a column and row based on other parameters and to return no results unless there is an error.
+<li> all other requests are assumed to be normal page requests and will look a value of <b>gp_page</b>.
+</ul>
+<p>The parameters that affect a normal page request are:
+</p>
+<ul><li> <b>gp_page</b>  The page or table to access.  (See <span class="nolink">Pages, Classes and Tables</span>.
+<li> <b>gp_xajax</b>.  A flag that tells the x_table2 class to return AJAX results instead of a complete page.
+</ul>                                        
+                            

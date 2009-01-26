@@ -1,0 +1,29 @@
+<h1>ddColumnsFromProjection</h1>
+                            
+<p><i>
+String table<br/>
+Special projection<br/>
+<br/></i>
+</p>
+
+<p>
+Returns a numerically indexed array of columns that the current
+user is allowed to see within a certain projection.
+</p>
+
+<p>
+The first parameter names a table.
+</p>
+
+<p>
+The second parameter can be blank, or it can be the name of a
+projection, or it can be an array that
+holds a list of desired columns.
+</p>
+
+<p>
+There are various errors that can occur that do not have defined
+results, such as having a projection and column by the same name,
+requesting non-existent columns, naming a non-existent projection,
+and so forth.
+</p>

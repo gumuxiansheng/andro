@@ -1,0 +1,96 @@
+<h1>Session Variables and Public Variables</h1>
+
+<p>Andromeda follows very strictly the policy <i>never provide
+   replacements to native functions unless there is a tangible
+   improvement.</i>  In the case of Session variables and
+   public (global) variables, Andromeda provides a few routines
+   that prevent collisions between your own application and
+   the Andromeda framework.
+</p>
+
+<h2>Session Variables</h2>
+
+<p>Andromeda allows a single person to connect to multiple 
+   applications on the same server without mixing up their
+   session variables.  This is usually only important to programmers
+   who are running multiple Andromeda programs on their own
+   machine, but for those of us who do this it is a very
+   nice feature that our session variables do not get all mixed
+   up between the applications.
+</p>
+
+<p>You can keep your own session variables automatically
+   segregrated, so that you can use the same session variable in
+   two different applications and connect to them both simultaneously.
+   To do this, use SessionSet() to set Session variables, and
+   SessionGet() to get them.
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6example</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Begin</span><span class="syntax4"> </span><span class="syntax4">by</span><span class="syntax4"> </span><span class="syntax4">assigning</span><span class="syntax4"> </span><span class="syntax4">two</span><span class="syntax4"> </span><span class="syntax4">session</span><span class="syntax4"> </span><span class="syntax4">variables</span>
+        <span class="syntax6">SessionSet</span><span class="syntax18">(</span><span class="syntax14">&quot;</span><span class="syntax14">VAR1</span><span class="syntax14">&quot;</span><span class="syntax18">,</span><span class="syntax9">time</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax6">SessionSet</span><span class="syntax18">(</span><span class="syntax14">&quot;</span><span class="syntax14">VAR2</span><span class="syntax14">&quot;</span><span class="syntax18">,</span><span class="syntax9">rand</span><span class="syntax18">(</span><span class="syntax5">1000</span><span class="syntax18">,</span><span class="syntax5">9999</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Now</span><span class="syntax4"> </span><span class="syntax4">retrieve</span><span class="syntax4"> </span><span class="syntax4">these</span><span class="syntax4"> </span><span class="syntax4">two:</span>
+        <span class="syntax8">echo</span> <span class="syntax14">&quot;</span><span class="syntax14">&lt;</span><span class="syntax14">br</span><span class="syntax14">/</span><span class="syntax14">&gt;</span><span class="syntax14">Session</span><span class="syntax14"> </span><span class="syntax14">var1</span><span class="syntax14"> </span><span class="syntax14">is</span><span class="syntax14"> </span><span class="syntax14">&quot;</span><span class="syntax18">.</span><span class="syntax6">SessionGet</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">VAR1</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax8">echo</span> <span class="syntax14">&quot;</span><span class="syntax14">&lt;</span><span class="syntax14">br</span><span class="syntax14">/</span><span class="syntax14">&gt;</span><span class="syntax14">Session</span><span class="syntax14"> </span><span class="syntax14">var2</span><span class="syntax14"> </span><span class="syntax14">is</span><span class="syntax14"> </span><span class="syntax14">&quot;</span><span class="syntax18">.</span><span class="syntax6">SessionGet</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">VAR2</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">This</span><span class="syntax4"> </span><span class="syntax4">is</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">nifty</span><span class="syntax4"> </span><span class="syntax4">trick,</span><span class="syntax4"> </span><span class="syntax4">if</span><span class="syntax4"> </span><span class="syntax4">you</span><span class="syntax4"> </span><span class="syntax4">are</span><span class="syntax4"> </span><span class="syntax4">not</span><span class="syntax4"> </span><span class="syntax4">sure</span><span class="syntax4"> </span><span class="syntax4">if</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">session</span><span class="syntax4"> </span><span class="syntax4">variable</span><span class="syntax4"> </span><span class="syntax4">has</span><span class="syntax4"> </span><span class="syntax4">been</span><span class="syntax4"> </span><span class="syntax4">set,</span><span class="syntax4"> </span><span class="syntax4">you</span><span class="syntax4"> </span><span class="syntax4">can</span><span class="syntax4"> </span><span class="syntax4">provide</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span><span class="syntax4">default</span><span class="syntax4"> </span><span class="syntax4">value</span><span class="syntax4"> </span><span class="syntax4">to</span><span class="syntax4"> </span><span class="syntax4">return:</span>
+        <span class="syntax8">echo</span> <span class="syntax14">&quot;</span><span class="syntax14">&lt;</span><span class="syntax14">br</span><span class="syntax14">/</span><span class="syntax14">&gt;</span><span class="syntax14">You</span><span class="syntax14"> </span><span class="syntax14">are</span><span class="syntax14"> </span><span class="syntax14">a</span><span class="syntax14"> </span><span class="syntax14">superuser</span><span class="syntax14">:</span><span class="syntax14"> </span><span class="syntax14">&quot;</span><span class="syntax18">.</span><span class="syntax6">SessionGet</span><span class="syntax18">(</span><span class="syntax14">&quot;</span><span class="syntax14">SUPER</span><span class="syntax14">&quot;</span><span class="syntax18">,</span><span class="syntax14">&quot;</span><span class="syntax14">N</span><span class="syntax14">&quot;</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+
+<span class="notice">Many Andromeda function allow you to specify
+   a value to return if the requested value does not exist.  This
+   can greatly simplify your code.
+</span>
+
+<p>The two advantages of using Andromeda's session variables are
+   that they prevent naming collissions when users accesss 
+   multiple apps on the same domain, and they allow you to specify
+   default values for non-existent Session variables.
+</p>
+
+<h2>Global Variables</h2>
+
+<p>Whenever you use a framework like Andromeda, and you wish to
+   use global variables, there is always the chance, no matter
+   how small, that there will be a naming collission between your
+   globals and the framework's.  Strategies such as namespaces
+   can mitigate this in the case of code, but the fundamental
+   problem always remains.
+</p>
+
+<p>Andromeda provides the functions vgaSet() and vgaGet() for
+   setting the values of public variables that are guaranteed
+   not to collide with framework variables, or the variables of
+   any PEAR packages or any other library that you choose to
+   use.
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax8">class</span><span class="syntax8"> </span><span class="syntax11">x6example</span><span class="syntax11"> </span><span class="syntax8">extends</span><span class="syntax11"> </span><span class="syntax11">androX6</span><span class="syntax11"> </span><span class="syntax18">{</span>
+    <span class="syntax8">function</span> <span class="syntax6">x6main</span><span class="syntax18">(</span><span class="syntax18">)</span> <span class="syntax18">{</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Set</span><span class="syntax4"> </span><span class="syntax4">two</span><span class="syntax4"> </span><span class="syntax4">public</span><span class="syntax4"> </span><span class="syntax4">variables</span><span class="syntax4"> </span><span class="syntax4">to</span><span class="syntax4"> </span><span class="syntax4">be</span><span class="syntax4"> </span><span class="syntax4">retrieved</span><span class="syntax4"> </span><span class="syntax4">later</span>
+        <span class="syntax6">vgaSet</span><span class="syntax18">(</span><span class="syntax14">&quot;</span><span class="syntax14">VAR1</span><span class="syntax14">&quot;</span><span class="syntax18">,</span><span class="syntax9">time</span><span class="syntax18">(</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax6">vgaSet</span><span class="syntax18">(</span><span class="syntax14">&quot;</span><span class="syntax14">VAR2</span><span class="syntax14">&quot;</span><span class="syntax18">,</span><span class="syntax9">rand</span><span class="syntax18">(</span><span class="syntax5">1000</span><span class="syntax18">,</span><span class="syntax5">9999</span><span class="syntax18">)</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">Now</span><span class="syntax4"> </span><span class="syntax4">retrieve</span><span class="syntax4"> </span><span class="syntax4">these</span><span class="syntax4"> </span><span class="syntax4">two:</span>
+        <span class="syntax8">echo</span> <span class="syntax14">&quot;</span><span class="syntax14">&lt;</span><span class="syntax14">br</span><span class="syntax14">/</span><span class="syntax14">&gt;</span><span class="syntax14">Global</span><span class="syntax14"> </span><span class="syntax14">var1</span><span class="syntax14"> </span><span class="syntax14">is</span><span class="syntax14"> </span><span class="syntax14">&quot;</span><span class="syntax18">.</span><span class="syntax6">vgaGet</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">VAR1</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+        <span class="syntax8">echo</span> <span class="syntax14">&quot;</span><span class="syntax14">&lt;</span><span class="syntax14">br</span><span class="syntax14">/</span><span class="syntax14">&gt;</span><span class="syntax14">Global</span><span class="syntax14"> </span><span class="syntax14">var2</span><span class="syntax14"> </span><span class="syntax14">is</span><span class="syntax14"> </span><span class="syntax14">&quot;</span><span class="syntax18">.</span><span class="syntax6">vgaGet</span><span class="syntax18">(</span><span class="syntax13">'</span><span class="syntax13">VAR2</span><span class="syntax13">'</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">This</span><span class="syntax4"> </span><span class="syntax4">is</span><span class="syntax4"> </span><span class="syntax4">another</span><span class="syntax4"> </span><span class="syntax4">spot</span><span class="syntax4"> </span><span class="syntax4">where</span><span class="syntax4"> </span><span class="syntax4">you</span><span class="syntax4"> </span><span class="syntax4">can</span><span class="syntax4"> </span><span class="syntax4">specify</span><span class="syntax4"> </span><span class="syntax4">a</span><span class="syntax4"> </span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">default</span><span class="syntax4"> </span><span class="syntax4">value</span><span class="syntax4"> </span><span class="syntax4">if</span><span class="syntax4"> </span><span class="syntax4">upstream</span><span class="syntax4"> </span><span class="syntax4">code</span><span class="syntax4"> </span><span class="syntax4">has</span><span class="syntax4"> </span><span class="syntax4">failed</span><span class="syntax4"> </span><span class="syntax4">to</span>
+        <span class="syntax4">#</span><span class="syntax4"> </span><span class="syntax4">create</span><span class="syntax4"> </span><span class="syntax4">the</span><span class="syntax4"> </span><span class="syntax4">variable.</span>
+        <span class="syntax8">echo</span> <span class="syntax14">&quot;</span><span class="syntax14">&lt;</span><span class="syntax14">br</span><span class="syntax14">/</span><span class="syntax14">&gt;</span><span class="syntax14">You</span><span class="syntax14"> </span><span class="syntax14">are</span><span class="syntax14"> </span><span class="syntax14">a</span><span class="syntax14"> </span><span class="syntax14">subscribed</span><span class="syntax14">:</span><span class="syntax14"> </span><span class="syntax14">&quot;</span><span class="syntax18">.</span><span class="syntax6">vgaGet</span><span class="syntax18">(</span><span class="syntax14">&quot;</span><span class="syntax14">subscribed</span><span class="syntax14">&quot;</span><span class="syntax18">,</span><span class="syntax14">&quot;</span><span class="syntax14">N</span><span class="syntax14">&quot;</span><span class="syntax18">)</span><span class="syntax18">;</span>
+    <span class="syntax18">}</span>
+<span class="syntax18">}</span>
+<span class="syntax17">?&gt;</span>
+</span></pre>
+

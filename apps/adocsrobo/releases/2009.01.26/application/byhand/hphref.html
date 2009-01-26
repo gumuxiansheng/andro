@@ -1,0 +1,24 @@
+            <h1>hpHREF</h1>
+                            
+                            <p>mixed HREF_info<br/> string HTML_property_fragment<br/><br/><br/>Use this routine when putting links that are internal to your site
+directly into literal HTML.  This routine is not necessary for links
+to outside pages.
+</p>
+<p>The hpHREF routine does two things.  First, it processes your href
+string through urlencode.  Second, it prepends the <span class="nolink">Site Prefix</span> to
+the URL so that your link will work in any run-time situation, such
+as a development machine, a development server, or a live server.
+</p>
+<p>If the first parameter is an array, it is converted into a URL string.
+</p>
+
+
+<div id='example'><div id='extitle'>Using hpHREF</div>
+<div id='exampleinner'><div id='ex2title'>Literal HTML should wrap HREFs</div>
+<code><span style="color: #000000">
+&lt;div&nbsp;id="someid"&gt;<br />Please&nbsp;proceed&nbsp;to&nbsp;the<br />&lt;a&nbsp;href="<span style="color: #0000BB">&lt;?=hpHREF</span><span style="color: #007700">(</span><span style="color: #DD0000">'?gp_page=somepage'</span><span style="color: #007700">)</span><span style="color: #0000BB">?&gt;</span>"&gt;Ordering&nbsp;Page&lt;/a&gt;<br />so&nbsp;that&nbsp;we&nbsp;can&nbsp;process&nbsp;your&nbsp;order.<br />&lt;/div&gt;</span>
+</code>
+</div></div>
+<p> 
+</p>                                                    
+                            

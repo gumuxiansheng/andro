@@ -1,0 +1,20 @@
+            <h1>rowsForSelect</h1>
+                            
+                            <p>string Table_id<br/>string First_Letters<br/>array rows<br/><br/><br/>Returns an array of rows that can be put into a drop-down select box.
+The first column is always "_value" and the second is always "_display".
+</p>
+<p>The second parameter, if provided, filters to the results so that
+only values of _display that start with "First_Letters" are returned.
+</p>
+<p>For a multiple-column primary key, this routine will filter for any pk
+column that exists in the session array "ajaxvars".  This feature is
+controlled by an (as-yet undocumented) feature in [[ahInputsComprehensive]]
+that can make inputs use Ajax when their value changes to store their
+value in the session on the server.
+</p>
+<p>This was created 1/15/07 to work with Ajax-dynamic-list from
+dhtmlgoodies.com.
+</p>
+<p> 
+</p>                                                    
+                            

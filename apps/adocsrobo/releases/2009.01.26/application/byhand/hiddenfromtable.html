@@ -1,0 +1,24 @@
+            <h1>HiddenFromTable</h1>
+                            
+                            <p>string Table_id<br/>array row (optional)<br/> April 18, 2007<br/><br/><br/>Generates one hidden variable for each column in Table_id.  The name
+of the variables is formed as $table_id."_".$column_id.
+</p>
+<p>If the second parameter, a [[Row Array]], is passed, the hidden
+variables will be populated with values from that array, otherwise
+they will be blank.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'>PHP Code:</div>
+<code><span style="color: #000000">
+hiddenFromTable('nodes');</span>
+</code><div id='ex2title'>Will produce this in the HTML</div>
+<pre id='ex2inner'>Array
+(
+    [<input type="hidden" name="nodes_node" value=""><input type="hidden" name="nodes_node_url" value="">...and forth...] => 
+)</pre>
+</div></div>
+<p> 
+</p>                                                    
+                            

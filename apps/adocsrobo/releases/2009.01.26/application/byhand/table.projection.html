@@ -1,0 +1,46 @@
+            <h1>table.projection</h1>
+                            
+                            <p><br/><br/>A projection is nothing but a named list of columns, which you can
+make use of in your application.  Projections have no impact on business
+rules, they are purely for the use of the user interface.
+</p>
+<p>If you create a projection named "dropdown", then the framework will
+display that list of columns whenever this table is used as a lookup
+list with an HTML SELECT or our Ajax Dynamic List.
+</p>
+<p>The framework will also support in the future the use of a projection
+named "new", which specifies which columns a user should see when they
+are entering a new row.  Right now this feature does not exist yet, so a
+user always sees the same detail in insert mode, lookup mode, and update
+mode.
+</p>
+<p>A projection is an ordered.  When you access the
+columns they will always be in the order they were defined.
+</p>
+
+
+<div id='example'><div id='extitle'>Example</div>
+<div id='exampleinner'><div id='ex2title'></div>
+<pre id='ex2inner'>table employees:An employees table with some projections
+   column employee_id:
+      primary_key: "Y"
+      uisearch: "Y"
+   column first_name:
+      uisearch: "Y"
+   column last_name:
+      uisearch: "Y"
+   
+   # Here is an example of using the dropdown projection
+   projection dropdown:
+      column employee_id:
+      column first_name:
+      column last_name:</pre><div id='ex2title'>Pull the projection at run-time</div>
+<code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br /></span><span style="color: #007700">class&nbsp;</span><span style="color: #0000BB">employees&nbsp;</span><span style="color: #007700">extends&nbsp;</span><span style="color: #0000BB">x_table2&nbsp;</span><span style="color: #007700">{<br />&nbsp;&nbsp;&nbsp;function&nbsp;</span><span style="color: #0000BB">main</span><span style="color: #007700">()&nbsp;{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$dd</span><span style="color: #007700">=</span><span style="color: #0000BB">dd_tableref</span><span style="color: #007700">(</span><span style="color: #DD0000">'employees'</span><span style="color: #007700">);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">$dropdown</span><span style="color: #007700">=</span><span style="color: #0000BB">$dd</span><span style="color: #007700">[</span><span style="color: #DD0000">'projections'</span><span style="color: #007700">][</span><span style="color: #DD0000">'dropdown'</span><span style="color: #007700">];<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;</span><span style="color: #0000BB">$dropdown</span><span style="color: #007700">;<br />&nbsp;&nbsp;&nbsp;}<br />}<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code><div id='ex2title'>will give a comma-separated list</div>
+<pre id='ex2inner'>employee_id,first_name,last_name</pre>
+</div></div>
+<p> 
+</p>                                                    
+                            
