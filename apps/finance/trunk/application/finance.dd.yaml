@@ -139,6 +139,7 @@ table orderlines:
     module: ordering
     uisort: 110
     nomenu: "Y"
+    x6childwrites: detail
     
     column recnum_ol:
         suffix: _ol
@@ -148,7 +149,6 @@ table orderlines:
     
     foreign_key items:
         uisearch: "Y"
-        x6childwrites: detail
     column price:
         auto: fetch,items.price
         uisearch: "Y"
