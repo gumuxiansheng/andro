@@ -1,0 +1,421 @@
+# =================================================================
+#   (C) Copyright 2005 by Secure Data Software, Inc.
+#
+#   Purpose: This the Data Dictionary for the FINANCE application
+#            FINANCE is an Andromeda application
+#
+#   FINANCE is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   FINANCE is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with Andromeda; if not, write to the Free Software
+#   Foundation, Inc., 51 Franklin St, Fifth Floor,
+#   Boston, MA  02110-1301  USA
+#   or visit http://www.gnu.org/licenses/gpl.html
+# ================================================================== 
+
+# ==================================================================
+#
+# MODULES AND GROUPS
+#
+# ==================================================================
+group ordersadmin:
+    description: Orders Power Users
+    module ordering:
+        permsel: "Y"
+        permins: "Y"
+        permupd: "Y"
+        permdel: "Y"
+
+module ordering:
+    description: Orders
+    uisort: 100
+        
+group gladmin:
+    description: GL Power Users
+    module gl:
+        permsel: "Y"
+        permins: "Y"
+        permupd: "Y"
+        permdel: "Y"
+
+module gl:
+    description: Ledger
+    uisort: 500
+
+# ==================================================================
+#
+# ORDERS MODULE
+#
+# ==================================================================
+table orders:
+    module: ordering
+    description: Orders
+    uisort: 100
+    
+    column recnum_ord:
+        suffix: _ord
+        description: Order
+        uisearch: "Y"
+        primary_key: "Y"
+    foreign_key customers:
+        uisearch: "Y"
+    column date:
+        uisearch: "Y"
+    
+    column description:
+        description: Company Name
+        uisearch: "Y"
+        auto: fetch,customers.description
+    column first_name:
+        auto: fetch,customers.first_name
+    column last_name:
+        auto: fetch,customers.last_name
+    column add1:
+        auto: fetch,customers.add1
+    column add2:
+        auto: fetch,customers.add2
+    column city:
+        auto: fetch,customers.city
+    column state:
+        auto: fetch,customers.state
+    column zip9:
+        auto: fetch,customers.zip9
+    foreign_key custtypes:
+    column custtype:
+        auto: fetch,customers.custtype
+    column pct99_discount:
+        suffix: _discount
+        auto: fetch,custtypes.pct99_discount
+
+    column amt_retail:
+        suffix: _retail
+        description: Order Retail
+        auto: sum,orderlines.amt_retail
+    column amt_discount:
+        suffix: _discount
+        description:  Total Discount
+        auto: sum,orderlines.amt_discount
+    column amt_net:
+        suffix: _net
+        description: Order Net
+        auto: sum,orderlines.amt_net
+    foreign_key taxauths:
+    column taxauth:
+        auto: fetchdef,customers.taxauth
+    column taxpct:
+        prefix: tax
+        description: Tax Percent
+    column amt_tax:
+        suffix: _tax
+        description: Tax Amount
+        auto: sum,orderlines.amt_tax
+    column amt_due:
+        suffix: _due
+        description: Amount Due
+        chain calc:
+            test 00:
+                return: @amt_net + @amt_tax
+    #column amt_payments:
+    #    suffix: _payments
+    #    description: Lifetime Payments
+    #    auto: sum,payments.amt_paid
+    #column amt_balance:
+    #    suffix: _balance
+    #    description: Current Balance
+    #    chain calc:
+    #        test 00:
+    #            return: @amt_due - @amt_payments
+    
+
+table orderlines:
+    module: ordering
+    uisort: 110
+    nomenu: "Y"
+    
+    column recnum_ol:
+        suffix: _ol
+        description: Order Line
+        primary_key: "Y"
+    foreign_key orders:
+    
+    foreign_key items:
+        uisearch: "Y"
+        x6childwrites: detail
+    column price:
+        auto: fetch,items.price
+        uisearch: "Y"
+    column flag_taxable:
+        description: Taxable
+        suffix: _taxable
+        auto: fetch,items.flag_taxable
+    column qty:
+        uisearch: "Y"
+    column amt_retail:
+        suffix: _retail
+        description: Retail
+        chain calc:
+            test 00:
+                return: @price * @qty
+    column pct99_discount:
+        suffix: _discount
+        auto: distribute,orders.pct99_discount
+    column amt_discount:
+        suffix: _discount
+        description:  Discount
+        chain calc:
+            test 00:
+                return: @amt_retail * @pct99_discount .01
+    column amt_net:
+        suffix: _net
+        description: Order Net
+        chain calc:
+            test 00:
+                return: @amt_retail - @amt_discount
+    column taxauth:
+        auto: distribute,orders.taxauth
+    column taxpct:
+        prefix: tax
+        description: Tax Percent
+        auto: distribute,orders.taxpct
+    column amt_tax:
+        suffix: _tax
+        description: Tax Amount
+        chain calc:
+            test 00:
+                compare: @flag_taxable = Y
+                return: @amt_net * @taxpct .01
+            test 01:
+                return: 0
+    column amt_due:
+        suffix: _due
+        description: Line Final
+        chain calc:
+            test 00:
+                return: @amt_net + @amt_tax
+    
+
+                
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#                
+
+column customer:
+    type_id: int
+    automation_id: sequence
+    description: Customer
+table customers:
+    module: ordering
+    description: Customers
+    uisort: 200
+    spaceafter: "Y"
+    
+    column customer:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        description: Company Name
+        uisearch: "Y"
+    column first_name:
+        uisearch: "Y"
+    column last_name:
+        uisearch: "Y"
+    column add1:
+    column add2:
+    column city:
+    foreign_key states:
+        allow_empty: "Y"
+    column zip9:
+    foreign_key custtypes:
+        allow_empty: "Y"
+    foreign_key taxauths:
+    
+    column amt_retail:
+        suffix: _retail
+        description: Lifetime Retail
+        auto: sum,orders.amt_retail
+    column amt_discount:
+        suffix: _discount
+        description: Lifetime Discount
+        auto: sum,orders.amt_discount
+    column amt_net:
+        suffix: _net
+        description: Lifetime Net Sales
+        auto: sum,orders.amt_net
+    column amt_payments:
+        suffix: _payments
+        description: Lifetime Payments
+        #auto: sum,orders.amt_paid
+    column amt_balance:
+        suffix: _balance
+        description: Current Balance
+        chain calc:
+            test 00:
+                return: @amt_net - @amt_payments
+
+                
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#                
+column sku:
+    type_id: vchar
+    colprec: 15
+    description: SKU
+table items:
+    module: ordering
+    uisort: 300
+    description: Items
+    spaceafter: "Y"
+    x6profile: twosides
+    
+    
+    column sku:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    column flag_taxable:
+        suffix: _taxable
+        description: Taxable
+        uisearch: "Y"
+    column price:
+        description: Price
+        uisearch: "Y"
+                
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#                
+                
+column custtype:
+    type_id: vchar  
+    colprec: 8
+    description: Customer Type
+
+table custtypes:
+    module: ordering
+    uisort: 900
+    x6profile: grid
+    description: Customer Types
+    
+    column custtype:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    column pct99_discount:
+        suffix: _discount
+        description: Standard Discount
+        uisearch: "Y"
+    column cnt_customers:
+        suffix: _customers
+        auto: count,customers.skey
+        uisearch: "Y"
+        
+column taxauth:
+    type_id: vchar
+    colprec: 11
+    description: Tax Authority
+table taxauths:
+    module: ordering
+    uisort: 910
+    x6profile: grid
+    description: Tax Authorities
+    
+    column taxauth:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    column taxpct:
+        prefix: tax
+        description: Tax Percent
+        uisearch: "Y"
+    column cnt_customers:
+        suffix: _customers
+        uisearch: "Y"
+        description: Customers
+        auto: count,customers.skey
+    column cnt_orders:
+        suffix: _orders
+        uisearch: "Y"
+        description: Orders
+        auto: count,orders.skey
+                
+    
+                
+    
+# ==================================================================
+#
+# GL MODULE
+#
+# ==================================================================
+column glaccount:
+    type_id: vchar
+    colprec: 10
+    description: GL Account
+    
+table glaccounts:
+    description: Chart of Accounts
+    module: gl
+    uisort: 100
+    x6profile: grid
+    
+    column glaccount:
+        primary_key: "Y"
+        uisearch: "Y"
+    foreign_key glactypes:
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    
+content glaccounts:
+    columns: [ glaccount, glactype, description ]
+    values:
+        - [ 10000, A, Cash ]
+        - [ 20000, A, Accounts Receivable ]
+        - [ 30000, L, Accounts Payable    ]
+        - [ 40000, Q, Shareholder Equity  ]
+        - [ 40010, Q, Accumulated Profit  ]
+        - [ 50000, I, Trade Income        ]
+        - [ 60000, E, Unspecified Expense ]
+    
+column glactype:
+    type_id: char
+    colprec: 1
+    description: A/C Type Code
+table glactypes:
+    description: Account Types
+    module: gl
+    uisort: 900
+    x6profile: grid
+    x6all: "Y"
+    
+    group gladmin:
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    column glactype:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    column sequence:
+        uisearch: "Y"
+        
+content glactypes:
+    columns: [ glactype, description, sequence ]
+    value: 
+        - [ A, Asset    , 1 ]
+        - [ L, Liability, 2 ]
+        - [ Q, Equity   , 3 ]
+        - [ I, Income   , 4 ]
+        - [ E, Expense  , 5 ]
+
