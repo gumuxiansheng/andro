@@ -148,6 +148,7 @@ table orderlines:
     
     foreign_key items:
         uisearch: "Y"
+        x6childwrites: detail
     column price:
         auto: fetch,items.price
         uisearch: "Y"
