@@ -1,0 +1,79 @@
+#!/bin/sh
+
+usermod -a -G www-data $SUDO_USER
+
+#get apache modules
+# Don't need, not using home dir
+#a2enmod userdir
+
+#ln -s -f /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/
+#ln -s -f /etc/apache2/mods-available/userdir.load /etc/apache2/mods-enabled/
+#ln -s -f /etc/apache2/mods-available/userdir.conf /etc/apache2/mods-enabled/
+
+#add umask 007 to both /etc/profile and /etc/envvars
+if cat /etc/profile | grep umask; then
+	cat /etc/profile > /etc/profile-backup_$(date +%Y%m%d)
+	sed -i 's/umask .../umask 007/' /etc/profile
+else
+	cat /etc/profile > /etc/profile-backup_$(date +%Y%m%d)
+	echo "umask 007" >> /etc/profile
+fi
+
+if cat /etc/apache2/envvars | grep umask; then
+	cat /etc/apache2/envvars > /etc/apache2/envvars-backup_$(date +%Y%m%d)
+	sed -i 's/umask .../umask 007/' /etc/apache2/envvars
+else
+	cat /etc/apache2/envvars > /etc/apache2/envvars-backup_$(date +%Y%m%d)
+	echo "umask 007" >> /etc/apache2/envvars
+fi
+
+#add andromeda customized configuration information into pg_hba.conf
+cat /etc/postgresql/8.3/main/pg_hba.conf > /etc/postgresql/8.3/main/pg_hba-backup_$(date +%Y%m%d).conf	#backup
+
+#uncomment if the statements are commented.  On uninstallation, instead of being removed the statements are just commented
+if cat /etc/postgresql/8.3/main/pg_hba.conf | grep "#local       all       postgres                 ident andromeda"; then
+	sed -i "s/#local       all       postgres                 ident andromeda/local       all       postgres                 ident andromeda/" /etc/postgresql/8.3/main/pg_hba.conf
+	sed -i "s/#host        all       +root     127.0.0.1\/32   password/host        all       +root     127.0.0.1\/32   password/" /etc/postgresql/8.3/main/pg_hba.conf
+	sed -i "s/#local       all       +root                    password/local       all       +root                    password/" /etc/postgresql/8.3/main/pg_hba.conf
+	sed -i "s/#local       samename  all                      password/local       samename  all                      password/" /etc/postgresql/8.3/main/pg_hba.conf
+	sed -i "s/#local       samegroup all                      password/local       samegroup all                      password/" /etc/postgresql/8.3/main/pg_hba.conf
+#if there are no commented andromeda configurations, then append to the beginning of the file
+else
+	echo "local       all       postgres                 ident andromeda" > /tmp/andro_temp
+	echo "host        all       +root     127.0.0.1/32   password" >> /tmp/andro_temp
+	echo "local       all       +root                    password" >> /tmp/andro_temp
+	echo "local       samename  all                      password" >> /tmp/andro_temp
+	echo "local       samegroup all                      password" >> /tmp/andro_temp
+	cat /etc/postgresql/8.3/main/pg_hba.conf >> /tmp/andro_temp
+	cat /tmp/andro_temp > /etc/postgresql/8.3/main/pg_hba.conf
+	rm /tmp/andro_temp
+fi
+
+#add andromeda customized configuration information into pg_ident.conf
+cat /etc/postgresql/8.3/main/pg_ident.conf > /etc/postgresql/8.3/main/pg_ident-backup_$(date +%Y%m%d).conf	#backup
+if cat /etc/postgresql/8.3/main/pg_ident.conf | grep "#andromeda     postgres          postgres"; then
+	sed -i "s/#andromeda     postgres          postgres/andromeda     postgres          postgres/" /etc/postgresql/8.3/main/pg_ident.conf
+	sed -i "s/#andromeda     root              postgres/andromeda     root              postgres/" /etc/postgresql/8.3/main/pg_ident.conf
+else
+	echo "andromeda     postgres          postgres" >> /etc/postgresql/8.3/main/pg_ident.conf
+	echo "andromeda     root              postgres" >> /etc/postgresql/8.3/main/pg_ident.conf
+fi
+
+#uncomment line in /etc/postgresql/8.3/main/postgresql.conf
+cat /etc/postgresql/8.3/main/postgresql.conf > /etc/postgresql/8.3/main/postgresql-backup_$(date +%Y%m%d).conf
+sed -i "s/#listen_addresses = 'localhost'/listen_addresses = 'localhost'/" /etc/postgresql/8.3/main/postgresql.conf
+
+#allow anything to be overridden by .htaccess
+cat /etc/apache2/mods-enabled/userdir.conf > /etc/apache2/mods-enabled/userdir-backup_$(date +%Y%m%d).conf
+sed -i 's/AllowOverride.*/AllowOverride All/' /etc/apache2/mods-enabled/userdir.conf
+
+#edit php.ini
+cat /etc/php5/apache2/php.ini > /etc/php5/apache2/php-backup_$(date +%Y%m%d).conf
+sed -i 's/max_execution_time = .*/max_execution_time = 300/' /etc/php5/apache2/php.ini
+sed -i 's/magic_quotes_gpc = .*/magic_quotes_gpc = Off/' /etc/php5/apache2/php.ini
+sed -i 's/magic_quotes_runtime = .*/magic_quotes_runtime = Off/' /etc/php5/apache2/php.ini
+sed -i 's/memory_limit = .*/memory_limit = 128M/' /etc/php5/apache2/php.ini
+		
+
+
+

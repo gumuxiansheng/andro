@@ -1,0 +1,38 @@
+#!/bin/sh
+
+#edit permissions
+chown -R $SUDO_USER:www-data /var/www/andro_root
+chmod -R 6770 /var/www/andro_root
+
+#restart servers
+/etc/init.d/apache2 restart
+/etc/init.d/postgresql-8.3 restart
+
+#install andromeda database
+psql -U postgres < /var/www/andro_root/andro/andro_preinst.sql
+
+#run contrib sql scripts
+psql -U postgres < /usr/share/postgresql/8.3/contrib/fuzzystrmatch.sql
+psql -U postgres < /usr/share/postgresql/8.3/contrib/pg_trgm.sql
+
+
+#build andromeda application
+php /var/www/andro_root/andro/application/builder.php
+chown -R $SUDO_USER:www-data /var/www/andro_root
+chmod -R g+w /var/www/andro_root
+
+#rename install.php file
+#mv /var/www/andro_root/andro/application/install.php /var/www/andro_root/andro/application/install.done.php
+mv /var/www/andro_root/andro/application/x_login_form.inc.html.done /var/www/andro_root/andro/application/x_login_form.inc.html
+#psql -U postgres andro < /var/www/andro_root/andro/andro_postinst.sql
+
+# 
+echo ""
+echo ""
+echo " ----LOGOUT/LOGIN Necessary --- "
+echo ""
+echo "  -> The user $SUDO_USER has been added to the www-data group."
+echo "  -> Before you can edit program files, you must log out "
+echo "  -> and then log back in."
+echo ""
+echo ""
