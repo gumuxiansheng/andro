@@ -1,0 +1,58 @@
+DEBIAN PACKAGE README
+
+HOW TO EDIT/REMAKE THIS PACKAGE
+
+ALL OF THE FOLLOWING FILES GOES INTO A FOLDER NAMED "debian" IN THE SOURCE FOLDER.  EVERY FILE LISTED IS NECESSARY TO THE BUILD PROCESS.
+
+FILES:
+
+control
+	- The control file is where you control the package dependencies.  There are two sets of configurations in this file: Source and Package.  You first specify the Source block by typing "Source: <package name>".  Under this, you put the configurations for the Source block.  Notably, you have to specify the build depends, which are the dependencies for compiling the project.  Andromeda does not need anything other than debhelper.  For Package, you type "Package: <package name>".  This is where you list the package configurations.  Notably, you must specify the package dependencies, which are the programs this package requires to run.
+
+	http://www.debian.org/doc/debian-policy/ch-controlfields.html
+
+copyright
+	- The copyright file holds all of the copyright information, and is required to build the package.
+
+	http://www.debian.org/doc/maint-guide/ch-dreq.en.html#s-copyright
+
+install
+	- The install file is where you list which directories in the package get stored, and where to store them on the computer.  Also in this file you must specify which filetypes go where.  If you don't do this, only the folders will get stored into the filesystem without their contents.
+
+rules
+	- The rules file is the most complicated and most important file in the debian folder.  This file describes how to build/unpackage the package (unpackaging and building follow the same rules).  Because this file can get very complicated, I used debhelper to help in the creation of this file.  Debhelper basically is a series of perl scripts that automate much of the building process of applications.
+	*** NOTE ***
+	This file should remain largely untouched if you want to modify the debian package.  The files you should modify are the post inst/rm, pre inst/rm, control, install, changelog, and copyright.
+	These files are the scripts which actually handle the majority of the installation.
+
+	http://www.debian.org/doc/maint-guide/ch-dreq.en.html#s-rules
+
+changelog
+	- The changelog file is where you list anything that changed in this package from the previous package.
+
+	http://www.debian.org/doc/maint-guide/ch-dreq.en.html#s-changelog
+
+Installation and Removal scripts
+
+The installation and removal scripts execute at different stages of the installation and removal of the application.  These are bash scripts that you write yourself.  The four scripts are postinst, preinst, postrm, prerm.
+
+preinst
+	- preinst is the script that runs before the installation.  In the debian package that I created, the preinst basically prepares the computer for the andromeda installation.  It modifies the configuration files for php, apache, postgres, /etc/profiles and /etc/envvars.  
+
+postinst
+	- postinst is the script that runs after the installation.  In the debian package that I created, the postinst is where the application permissions are built, the apache and postgres servers are restarted, the necessary database queries are executed, and the andro node manager is built.
+
+prerm
+	- prerm is the script that runs right before removal of the package.
+
+postrm
+	- postrm is the script that runs right after the removal of the package.  In the debian package that I created, here I return the configuration files for postgres back to normal by commenting out the andromeda configurations.
+
+
+In order to build the debian package, you must run the command while in the source directory:
+	sudo dpkg-buildpackage -us -uc -rfakeroot -b
+This builds the package without a md5 key.  After doing this, the debian package should be shown one directory down "./..".
+
+Package Specific Information:
+
+	All the database installation sql is stored in the file andro_install.sql in the root of the source tree.
