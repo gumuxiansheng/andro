@@ -1,0 +1,17 @@
+Source: andromeda
+Section: unknown
+Priority: extra
+Maintainer: Josh Belanich <jbelani1@gmail.com>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: andromeda
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, php5, php5-pgsql, php-pear, postgresql-8.3, perl, postgresql-plperl-8.3, libnet-smtp-server-perl, postgresql-contrib, debconf
+Recommends: pgadmin3, subversion
+Description: Web-enabled Database Application Framework
+ Complete tool for building database-centric websites,
+ desktop-in-browser business applications, and integrated
+ combinations of the the two. Includes powerful database 
+ description language, database builder, zero-code 
+ generated forms, and docs generator.

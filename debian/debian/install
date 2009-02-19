@@ -1,0 +1,15 @@
+*.php		/var/www/andro_root/andro
+*.sql		/var/www/andro_root/andro
+
+appclib		/var/www/andro_root/andro
+application	/var/www/andro_root/andro
+apppub		/var/www/andro_root/andro
+clib		/var/www/andro_root/andro
+docsapp		/var/www/andro_root/andro
+docslib		/var/www/andro_root/andro
+dynamic		/var/www/andro_root/andro
+generated	/var/www/andro_root/andro
+lib		/var/www/andro_root/andro
+root		/var/www/andro_root/andro
+templates	/var/www/andro_root/andro
+tmp		/var/www/andro_root/andro
