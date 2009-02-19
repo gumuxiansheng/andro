@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#remove previous andromeda configurations in pg_hba.conf, pg_ident.conf, and postgres.conf by commenting them
+sed -i 's/local       all       postgres                 ident andromeda/#local       all       postgres                 ident andromeda/g' /etc/postgresql/8.3/main/pg_hba.conf
+sed -i 's/host        all       +root     127.0.0.1\/32   password/#host        all       +root     127.0.0.1\/32   password/g' /etc/postgresql/8.3/main/pg_hba.conf
+sed -i 's/local       all       +root                    password/#local       all       +root                    password/g' /etc/postgresql/8.3/main/pg_hba.conf
+sed -i 's/local       samename  all                      password/#local       samename  all                      password/g' /etc/postgresql/8.3/main/pg_hba.conf
+sed -i 's/local       samegroup all                      password/#local       samegroup all                      password/g' /etc/postgresql/8.3/main/pg_hba.conf
+sed -i 's/andromeda     postgres          postgres/#andromeda     postgres          postgres/g' /etc/postgresql/8.3/main/pg_ident.conf
+sed -i 's/andromeda     root              postgres/#andromeda     root              postgres/g' /etc/postgresql/8.3/main/pg_ident.conf
+
+#remove andromeda database entries
+#echo "drop user start;" | psql -U postgres	REMED FOR NOW
+
+
