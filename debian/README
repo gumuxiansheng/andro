@@ -1,0 +1,9 @@
+The basics:
+
+1. pull down the latest Andromeda release from sourceforge
+2. Overlay these files onto it at the andro level:
+	-> top level files are in the top directory
+	-> debian folder should go alongside application, lib, etc.
+	-> application/* files should go into application
+
+3. Follow instructions on website for building a deb package.
