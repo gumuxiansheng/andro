@@ -24,4 +24,7 @@
 function app_template() {
     return 'x6';
 }
+function app_nopage() {
+    if(LoggedIn()) gpSet('x6page',gp('x6page','menu'));
+}
 ?>
