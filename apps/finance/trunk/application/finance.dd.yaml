@@ -136,7 +136,7 @@ table orders:
     
 
 table orderlines:
-    description: lines
+    description: Order Lines
     module: ordering
     uisort: 110
     nomenu: "Y"
