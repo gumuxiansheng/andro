@@ -22,7 +22,7 @@ Go to the command line and add yourself to the www-data group:
 <p><b>Step 1.1 Install Packages</b>.  Enter the following command to
 install all required packages from Ubuntu:</p>
 
-<pre class="cli">sudo apt-get install php5 php5-pgsql php-pear postgresql-9.1 perl postgresql-plperl-9.1 subversion libnet-smtp-server-perl libapache2-mod-suphp php5-cgi
+<pre class="cli">sudo apt-get install apache2 php5 php5-pgsql php-pear postgresql-9.1 perl postgresql-plperl-9.1 subversion libnet-smtp-server-perl libapache2-mod-suphp php5-cgi
 </pre>
 
 <p><b>Step 1.2 Install Pear Packages</b>.  This command installs a 
@@ -44,10 +44,7 @@ with a trailing backslash.
 the directory ready for Andromeda:</p>
 
 <pre class="cli">cd ~
-mkdir public_html
-cd public_html
-mkdir andro_root
-mkdir sessions
+mkdir -p public_html/andro_root/sessions
 </pre>
 
 <h2>Step 2 Configurations</h2>
@@ -58,21 +55,21 @@ up to 5 minutes on very complex databases, so we need to expand the time
 allowed.
 </p>
 
-<pre class="cli">sudo nanp ~/public_html/andro_root/php.ini
+<pre class="cli">sudo nano ~/public_html/andro_root/php.ini
 </pre>
 
 <p>Add the following to the newly created file</p>
 
 <pre class="cli">
     max_execution_time=0
-    session.save_path=/home/[user]/public_html/andro_root/sessions
+    session.save_path=/home/[user]/public_html/andro_root/sessions/
 </pre>
 
 
 <p><b>Step 2.2 Change Postgres Configuration file pg_hba.conf</b>.  Open the
 file /etc/postgresql/9.1/main/pg_hba.conf:</p>
 
-<pre class="cli">sudo gedit /etc/postgresql/9.1/main/pg_hba.conf
+<pre class="cli">sudo nano /etc/postgresql/9.1/main/pg_hba.conf
 </pre>
 
 <p>...and replace it with this:</p>
@@ -85,7 +82,7 @@ local       samegroup all                      password
 </pre>
 
 <p><b>Step 2.3 Change Postgres Configuraton file pg_ident.conf</b>.  Open
-the file /etc/postgresql/8.3/main/pg_ident.conf:</p>
+the file /etc/postgresql/9.1/main/pg_ident.conf:</p>
 
 <pre class="cli">sudo gedit /etc/postgresql/9.1/main/pg_ident.conf
 </pre>
@@ -132,14 +129,18 @@ the file /etc/postgresql/9.1/main/postgresql.conf:</p>
             allow from all
         &lt;/Directory&gt;
 
-         ErrorLog ${APACHE_LOG_DIR}/andro-node.log
+         ErrorLog ${APACHE_LOG_DIR}/andro-node-error.log
 
          LogLevel warn
-         CustomLog ${APACHE_LOG_DIR}/andro-node.log combined
+         CustomLog ${APACHE_LOG_DIR}/andro-node-access.log combined
     &lt;/VirtualHost&gt;
 </pre>
 <p>**Note:  you will need to do this for each Andromeda application**</p>
 
+<p>Now you will need to enable that virtual host using the following command</p>
+
+<pre class="cli">sudo a2ensite andro-node</pre>
+<p>**Note:  you will need to do this for each Andromeda application**</p>
 
 <p><b>Edit Hosts file</b></p>
 
@@ -158,17 +159,26 @@ the file /etc/postgresql/9.1/main/postgresql.conf:</p>
 </pre>
 
 <p>Find the line for check_vhost_docroot and change it to the following</p>
+<pre class="cli">check_vhost_docroot=false
+</pre>
 
-<pre class="cli">
-    check_vhost_docroot=false
+<p>Find the line for allow_file_group_writable and change it to the following:</p>
+<pre class="cli">allow_file_group_writable=true
+</pre>
+
+<p>Find the line for allow_directory_group_writable and change it to the following:</p>
+<pre class="cli">allow_directory_group_writable=true
+</pre>
+
+<pre class="cli">http://andro.googlecode.com/svn/releases/2013.05.27/
 </pre>
 
 <h2>Step 3: Restarts and Final Commands</h2>
 
-<p><b>Step 3.1 Restart Postgres and Apache</b>.  Type in the following
-two commands to restart Apache and Postgres:</p>
+<p><b>Step 3.1 Restart Postgres</b>.  Type in the following
+command to restart Postgres:</p>
 
-<pre class="cli">sudo /etc/init.d/apache2 restart
+<pre class="cli">
 sudo /etc/init.d/postgresql restart
 </pre>
 
@@ -177,7 +187,8 @@ the Postgres command line utility and create your superuser account
 and create an empty database for Andromeda.  Remember the username and
 password you pick here, you will need it for many Andromeda activities.</p>
 
-<pre class="cli">sudo psql -U postgres
+<pre class="cli">sudo su - postgres
+psql
 
 # create role root nologin;
 # create user USER_NAME superuser password 'PASSWORD';
@@ -186,6 +197,8 @@ password you pick here, you will need it for many Andromeda activities.</p>
 # create language plperlu;
 # create language plperl;
 # \q
+
+exit
 </pre>
 
 <h2>Step 4: Install Andromeda</h2>
@@ -205,6 +218,10 @@ svn export https://andro.googlecode.com/svn/releases/[latest_release] andro
 <pre class="cli">cd andro/application
 mv install.php.done install.php
 </pre>
+
+<p><b>Restart Apache</b></p>
+
+<pre class="cli">sudo /etc/init.d/apache2 restart</pre>
 
 <p>Point your browser to:</p>
 
