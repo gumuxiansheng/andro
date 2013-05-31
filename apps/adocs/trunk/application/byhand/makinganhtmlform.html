@@ -1,0 +1,102 @@
+title:Making An HTML Form
+parent:Web Programming
+sequence:400
+aliases:
+
+
+<p>HTML Forms can be made by the same process that we use to
+   generate all other HTML elements.  We start out with a top-level
+   HTML node and then at some point at the FORM node in.
+</p>
+
+<p>The example below creates a very basic form:</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->h('h1','Please Fill Out the Form');
+
+        # The form() method hands you back a form that is
+        # is named "Form1", has method "POST" and action
+        # "index.php".
+        $form = $top->form();
+        
+        # This is very important! Without this the form will
+        # not post back to this page!
+        $form->hidden('x6page','example');
+        
+        $input = $form->h('input');
+        $input->hp['name'] = 'anyvalue';
+        
+        $input = $form->h('input');
+        $input->hp['type'] = 'Submit';
+        $input->hp['value'] = 'Submit Now';
+        
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<p>The first two lines should be very familiar by now, they 
+   simply create a top-level node and add a title H1 to it.
+</p>
+
+<p>The third line is a shortcut for creating a FORM element and setting
+   its three required properties.  Because we passed in no parameters,
+   the form will be named "Form1", it will have method of "POST", and
+   it will submit to the page "index.php".
+</p>
+
+<p>Line four completes the picture.  It creates a hidden variable that
+   names the x6page that Andromeda's index.php should hand execution
+   to.  When an x6page value is not provided, execution always falls
+   back to the x_welcome.php or x_login.php page.
+</p>
+
+<h2>Setting Different Parameters</h2>
+
+<p>We can of course choose different value for any of the parameters.
+   The parameters of the form() method are:
+</p>
+<ul><li class="arrows"><b>Name</b> - the name of the form (default Form1).
+    <li class="arrows"><b>Method</b> - HTTP method, default POST.
+    <li class="arrows"><b>Action</b> - PHP page, this should almost always
+       be left null so the default index.php will be called.
+    <li class="arrows"><b>x6page</b> - the x6page to call, defaults to none.
+</ul>
+
+<p>If you supply the fourth parameter, then you do not need a hidden
+   variable to specify the value of x6page.  This code:
+</p>
+
+<pre class="prettyprint">
+<?php
+$div = html('div');
+
+#  This creates a form named "myForm", using HTTP method GET,
+#  and specifying x6page of "example"
+$form = $top->form('myForm','GET',null,'example');
+
+$div->render();
+?>
+</pre>
+
+<p>Will render the following HTML:
+</p>
+
+<pre class="prettyprint">
+<div >
+<form           
+  id="myForm"
+  name="myForm"
+  method="GET"
+  action="?x6page=example">
+</form>
+</div>
+</pre>
+
+
+

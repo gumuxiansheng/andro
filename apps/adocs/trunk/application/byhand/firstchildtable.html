@@ -1,0 +1,62 @@
+title:            First Child Table
+parent:Tutorials
+sequence:700
+aliases:
+
+                            
+                            <p>Now it is time to add the "customer" column to our orders table.
+</p>
+<h2>The Foreign Key Syntax</h2>
+<p>The "customer" column may only have a value that is the customers table.  There are a variety of ways to say this in tech-jargon, depending on what kind of shop you come from it may be simply a [[foreign_key]], or we say that orders is a child table to customers, or we say that orders.customer has referential integrity to customers.customer.  They all mean the same thing for our purposes.
+</p>
+<p>We could simply do a [[column placement]] of customers into the orders table, like so:
+</p>
+<pre class="box-add-bad"><pre><span class="syntax0"><span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">orders_h:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">order_num:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">SEQUENCE</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">customers:</span><span class="syntax9"> </span><span class="syntax9"> </span><span class="syntax9"> </span><span class="syntax9"> </span><span class="syntax9"> </span><span class="syntax9"> </span><span class="syntax9"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+</span></pre></pre>
+
+but this is wrong because it does not enforce the [[foreign_key]].  The Andromeda way to do this is as follows, using the [[foreign_key]] declaration:
+
+<pre class="box-add">
+<pre><span class="syntax0"><span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">orders_h:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">order_num:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">SEQUENCE</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+</span></pre>
+</pre>
+<p>which has the following effects:
+</p>
+<p><ul>
+<li>The column 'customer' appears magically in the orders table.  What is actually happening is that all of the primary key column of the named table appear in the child table.  In this case that means the customer column.
+<li>The resulting customer column is indexed for faster lookups.
+<li>Referential Integrity is automatically applied, you can only enter valid customers in the customer column of the orders table.
+<li>The user interface "knows" about the foreign key and reflects it in various ways.
+</ul>
+</p>
+<h2>The Database Table</h2>
+<p>If we look at the database structure, we see that the customer table is there, safe and sound:
+</p>
+[[image:fct_db1.png]]
+<h2>The User Interface</h2>
+<p>There are two basic effects of the foreign key on the user interface.  The first is that an HTML SELECT appears on the orders screen when entering a customer:
+</p>
+[[image:fct_ui2.png]]
+<p>There is also a drilldown-like link that appears on the customers screen, which will automatically display all orders for one customer:
+</p>
+[[image:fct_ui3.png]]
+                                                    
+                            

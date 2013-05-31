@@ -1,0 +1,43 @@
+title:tableController
+parent:x6plugins
+sequence:4394
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6plugins.tableController<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6plugins.tableController is
+   a constructor function.  It accepts as a parameter the
+   ID of a DOM element.  It adds functions to that DOM
+   element so that it will fully implement all browser-side
+   features of our tableController object.<br/></p>
+<p>A tableController subscribes to all events in which a
+   user requests to do something like add a row or delete
+   a row.  The tableController executes whatever server-side
+   requests are required, and then fires various events to
+   notify other UI elements that they should display the
+   results.<br/></p>
+<p>Normally you do not invoke this method directly.  All
+   x6 plugins are detected and implmented automatically on
+   page load.<br/></p>
+<p>To turn any DOM element into a table controller, just set
+   the properties x6plugIn and x6table, as in either
+   of these:<br/></p>
+<pre>      &lt;?php
+      # here is one way to do it:
+      echo "<div x6plugIn='tableController' x6table='users'>";
+
+      # another way to do it:
+      $div = html('div');
+      $div->hp['x6plugIn'] = 'tableController';
+      $div->hp['x6table'] = 'users';
+      $div->render();
+      ?&gt;
+</pre>
+<p>You should not have more than one table controller per
+   table on a page -- Andromeda will not trap for this!<br/></p>
+<h2>INPUTS</h2>
+<p>id - the ID of the object to be 'activated'.<br/></p>
+<h2>RESULTS</h2>
+<p>no return value.<br/></p>

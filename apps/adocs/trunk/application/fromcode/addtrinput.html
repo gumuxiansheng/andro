@@ -1,0 +1,39 @@
+title:addTRInput
+parent:androHtml
+sequence:3515
+aliases:
+
+
+<h2>NAME</h2>
+<p>androHtml.addTRInput<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP method androHtml.addInput adds a TR and two TD elements
+   to a TABLE.  The left side has class "x6Caption" and contains the
+   caption/label for the field.  The right side contains an input
+   for the field and as class 'x6Input'.<br/></p>
+<h2>INPUTS</h2>
+<p>array $dd - the table's complete data dictionary
+   string $column - name of the database column (field)<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function addTrInput(&$dd,$column,$options=array()) {
+    # something we need for b/w compatibility that is
+    # easier to declare and ignore than it is to
+    # try to get rid of. (Also, getting rid of it will
+    # break some of my older apps).
+    $tabLoop=array();
+    
+    $tr = $this->inputsTable->h('tr');
+    $td = $tr->h('td',$dd['flat'][$column]['description']);
+    $td->addClass('x6Caption');
+    
+    $input=input($dd['flat'][$column],$tabLoop,$options);
+    if(!$this->firstFocus) {
+        $input->hp['x6firstFocus'] = 'Y';
+        $this->firstFocus = true;
+    }
+    $td = $tr->h('td');
+    $td->setHtml($input->bufferedRender());
+    $td->addClass('x6Input');
+    
+}</pre>

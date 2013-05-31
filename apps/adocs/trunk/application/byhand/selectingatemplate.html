@@ -1,0 +1,55 @@
+title:Selecting A Template
+parent:Building A Site
+sequence:200
+aliases:
+
+<p>Once you have added a template to your site, we now have the obvious
+   problem that Anromeda must know which one to present to your user.
+   How does it know who sees the public template and who sees the
+   admin x6 template?
+</p>
+
+<p>You can tell Andromeda which template to use by putting a routine   
+   app_template() into your application/applib.php file.  This
+   routine returns the template name to Andromeda.  Here is the
+   routine used by the Andromeda documentation program:
+</p>
+
+<pre class="prettyprint">
+<?php
+function app_template() {
+    if(LoggedIn()) return 'x6';
+    return 'adocs6';
+}
+?>
+</pre>
+
+<p>This is a simple selection.  If a user is logged in, they go to
+   the x6 admin template.  If not, they go to the public template.
+</p>
+
+<h2>Handling Public Users</h2>
+
+<p>In many cases you will have site employees logging in to the site
+   who will use the x6 admin template, but you also have public 
+   members who can login, but who should stay on the public template.
+   You can use the inGroup() function to modify your app_template()
+   function:
+</p>
+
+<pre class="prettyprint">
+<?php
+function app_template() {
+    if(!LoggedIn() or inGroup('customers')) {
+        return 'name-of-my-public-template';
+    }
+    else {
+        return 'x6';
+    }
+}
+?>
+</pre>
+
+<p>For admin users, we also return 'x6' as the template, that puts
+   them into the x6 admin screens.
+</p>

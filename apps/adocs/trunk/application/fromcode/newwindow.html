@@ -1,0 +1,27 @@
+title:newWindow
+parent:json
+sequence:2850
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json.newWindow<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6.json.newWindow takes a
+   JSON request and executes it as a page request, popping
+   the result up in a new tab or window.<br/></p>
+<p>When the user exits the resulting tab or window, it
+   will close.<br/></p>
+<h2>EXAMPLE</h2>
+<p>The following example loads a new page<br/></p>
+<pre>      &lt;script&gt;
+      x6.json.init('x4Page','calendar');
+      x6.json.newWindow();
+      &lt;/script&gt;
+</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+this.newWindow = function() {
+    var entireGet = 'index.php?'+this.makeString()+'&x4Return=exit';
+    $a.openWindow(entireGet);
+}</pre>

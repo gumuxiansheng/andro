@@ -1,0 +1,255 @@
+title:Predefined Columns
+parent:Database Structure
+sequence:300
+aliases:predefined
+
+                            
+<p>Andromeda provides predefined columns for common storage
+needs. The predefined columns become very handy when the Andromeda prefix
+and suffix system is used, which is explained in the next section.</p>
+
+<p>The predefined columns are:</p>
+                            
+                            
+<table class="chart" >
+<colgroup><col width="157"><col width="165"><col width="391"></colgroup>
+<thead>
+
+<tr><th>Column</th>
+           <th>Type</th>
+          <th>Description</th>
+</thead>
+
+<tbody>
+
+
+<tr>
+<td>
+user_id</td>
+<td>char(40)</td>
+<td class="Table3C2">All users on all databases are assigned a user_id. Each application has a table called USERS and user_id is its primary key.</td></tr>
+
+
+<tr>
+<td>date</td>
+<td>date</td>
+<td class="Table3C2">A generic date column</td></tr>
+
+<tr>
+<td>time</td>
+<td>time</td>
+<td class="Table3C2">A generic time column (not datetime)</td></tr>
+
+<tr>
+<td>disabled</td>
+<td>cbool</td>
+<td class="Table3C2">A generic negative flag</td></tr>
+
+<tr>
+<td>active</td>
+<td>cbool</td>
+<td class="Table3C2">A generic positive flag</td></tr>
+
+<tr>
+<td>flag</td>
+<td>cbool</td>
+<td class="Table3C2">A generic flag</td></tr>
+
+<tr>
+<td>phone</td>
+<td>ph12</td>
+<td class="Table3C2">A Generic ph12 column</td></tr>
+
+<tr>
+<td>phonex</td>
+<td>char(15)</td>
+<td class="Table3C2">Free form field for any kind of phone</td></tr>
+
+<tr>
+<td>notes</td>
+<td>text</td>
+<td class="Table3C2">Generic text column</td></tr>
+
+<tr>
+<td>ts</td>
+<td>datetime</td>
+<td class="Table3C2">Generic datetime column. </td></tr>
+
+<tr>
+<td>desclong</td>
+<td>vchar(200)</td>
+<td class="Table3C2">Long description</td></tr>
+
+<tr>
+<td>queuepos</td>
+<td>int</td>
+<td class="Table3C2">Has automation_id QUEUEPOS</td></tr>
+
+<tr>
+<td>ssn</td>
+<td>ssn</td>
+<td class="Table3C2">Social Security Number</td></tr>
+
+<tr>
+<td>flag_noselect</td>
+<td>cbool</td>
+<td class="Table3C2">The UI uses this to suppress rows in dropdowns and other searches.</td></tr>
+
+<tr>
+<td>recnum</td>
+<td>int</td>
+<td class="Table3C2">A SEQUENCE column that can be used for transaction tables as primary key when you don't want to use a natural key.</td></tr>
+
+<tr>
+<td>md5</td>
+<td>char(32)</td>
+<td class="Table3C2">Ready-made 32-character column.</td></tr>
+
+<tr>
+<td>ts_ins</td>
+<td>timestamp</td>
+<td class="Table3C2">Automated column, gets INSERT timestamp</td></tr>
+
+<tr>
+<td>ts_upd</td>
+<td>timestamp</td>
+<td class="Table3C2">Automated column, gets UPDATE timestamp</td></tr>
+
+<tr>
+<td>uid_ins</td>
+<td>user_id</td>
+<td class="Table3C2">Automated column, gets the user who inserted the row.</td></tr>
+
+<tr>
+<td>uid_upd</td>
+<td>user_id</td>
+<td>Automated column, last user to update a row</td>
+
+</tr>
+</tbody>
+</table>
+
+<p class="P6">We also have special predefined columns related to people:</p>
+<p class="Textbody"></p>
+
+<table class="chart">
+<colgroup><col width="157"><col width="165"><col width="391"></colgroup>
+
+<thead>
+
+<tr>
+<th>Column</td>
+<th>Type</td>
+<th>Description</td>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td>email</td>
+<td>char(50)</td>
+<td>Ready-made 50 character column</td></tr>
+
+<tr>
+<td>name</td>
+<td>vchar(40)</td>
+<td>Long enough for any name</td></tr>
+
+<tr>
+<td>first_name</td>
+<td>char(25)</td>
+<td>For names</td></tr>
+
+<tr>
+<td>last_name</td>
+<td>char(25)</td>
+<td>For names</td></tr>
+
+<tr>
+<td>add</td>
+<td>vchar(40)</td>
+<td>Address</td></tr>
+
+<tr>
+<td>add1</td>
+<td>vchar(40)</td>
+<td>Address Line 1</td></tr>
+
+<tr>
+<td>add2</td>
+<td>vchar(40)</td>
+<td>Address Line 2</td></tr>
+
+<tr>
+<td>city</td>
+<td>vchar(22)</td>
+<td>City</td></tr>
+
+<tr>
+<td>state</td>
+<td>vchar(5)</td>
+<td>State/Province</td></tr>
+
+<tr>
+<td>zip9</td>
+<td>char(9)</td>
+<td>Zip + 4</td></tr>
+
+<tr>
+<td>dob</td>
+<td>date</td>
+<td>Date of Birth</td></tr>
+
+<tr>
+<td>dod</td>
+<td>date</td>
+<td>Date of Death</td></tr></tbody></table>
+<p class="Textbody"></p>
+<p class="Textbody">There are also columns useful for finance and counting:</p>
+<p class="Textbody"></p>
+
+<table class="chart">
+<colgroup><col width="157"><col width="165"><col width="391"></colgroup>
+
+<thead>
+<tr>
+<th>Column</td>
+<th>Type</td>
+<th>Description</p></td></tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>qty</td>
+<td>int</td>
+<td>Any Quantity</td></tr>
+
+<tr>
+<td>cnt</td>
+<td>int</td>
+<td>Any count of something</td></tr>
+
+<tr>
+<td>price</td>
+<td>money</td>
+<td>Any price</td></tr>
+
+<tr>
+<td>amt</td>
+<td>money</td>
+<td>A non-price dollar amount</td></tr>
+
+<tr>
+<td>pct</td>
+<td>numb(5,2)</td>
+<td>A numeric column that will accept values from 0 to 100.</td>
+</tr>
+</tbody>
+</table>
+
+<p class="Textbody"></p>
+<p class="Textbody"></p>            
+
+
+

@@ -1,0 +1,31 @@
+title:x6Script
+parent:JSON Returns
+sequence:584
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6Script<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function x6Script stores a script fragment to be returned
+   to the browser.  If this is called during normal page processing,
+   it is equivalant to a call to jqDocReady.  If it is called on a
+   JSON call, the script is returned to the browser and executed if
+   there are no errors.<br/></p>
+<p>This function strips the &lt;script&gt; and &lt;/script&gt; tags from $parm1 and
+    so that you can include the script tags if you like.<br/></p>
+<h2>INPUTS</h2>
+<p>string - the javascript to execute.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function x6script($parm1) { return x4script($parm1); }
+function x4SCRIPT($parm1,$insert = false) {
+    $parm1 = preg_replace("/&lt;script&gt;/i",'',$parm1);
+    $parm1 = preg_replace("/<\/script>/i",'',$parm1);
+    if($insert) {
+        array_unshift($GLOBALS['AG']['x4']['script'],$parm1);
+    }
+    else {
+        $GLOBALS['AG']['x4']['script'][] = $parm1;
+    }
+}</pre>
