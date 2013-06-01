@@ -1,0 +1,118 @@
+title:Short Description of Andromeda
+parent:
+sequence:10000
+aliases:
+
+
+<p>Andromeda is a completely new way to do database application programming.
+   Andromeda is <i>radically data oriented</i>, allow you to specify 
+   all of your business logic in a single text file, which Andromeda uses
+   to build many of the stock requirements for your application or
+   web site:
+</p>
+
+[[image:bigpic.jpg]]
+
+<p>Andromeda uses your database specification to do these tasks (among others):
+</p>
+
+<ul><li>All tables are built (or modified) as needed
+    <li>HTML database docs are generated
+    <li>Code is generated to handle all calculations
+    <li>Menu is built
+    <li>Search screens for all tables are built
+    <li>Detail editing screens are built.
+</ul>
+
+<h2>Calculations</h2>
+
+<p>If this were all we had, we could not claim Andromeda was doing anything new.
+   The real power starts to come into play with Andromeda's ability
+   to handle the calculated values that are so vital to any useful
+   application.  With Andromeda, every calculation depicted below happens
+   automatically when you make inserts into the database, there is 
+   <i>absolutely no application code to write</i>:
+</p>
+
+[[image:automations.png]]
+
+<p>Andromeda builds the code to handle these calculations when it
+   builds the database, and it puts the code directly into the database
+   itself.  This is very important because it makes your database
+   calculations <i>non-subvertible</i>.  Any application code that
+   attempts to write bad values get kicked back with an error.
+</p>
+
+<p>Andromeda's brand new approach is to specify calculations that
+   make sense in terms of primary keys and foreign keys.  You can specify
+   that a price be "FETCHED" from a parent table (items) to a child
+   table (cart line items), and then specify that the SUM a child
+   table (cart line items) be put onto the parent table (cart).
+</p>
+
+<h2>Security</h2>
+
+<p>The Andromeda approach to calculations lets you build databases
+   of dozens (or hundreds) of tables in which there is <i>zero 
+   application code</i> for calculated values.  However, if security
+   were not part of the picture, you would still have a lot of
+   code to write.  Andromeda can also eliminate application code
+   to handle security because of the simple fact that all security
+   rules in the end come down to <i>who can read or write what
+   values in tables</i>.  Andromeda supports this concept at the
+   table level, at the row level, and at the column level:
+</p>
+
+[[image:colsecurity.png]]
+
+<h2>Custom Pages</h2>
+
+<p>After you have written out an Andromeda Database Specification,
+   Andromeda will build you a database and application that 
+   automatically builds tables, handles calculations, handles
+   security, and gives you a default admin interface for the
+   entire database.
+</p>
+
+<p>However, this still leaves the need for special pages, especially
+   if you are doing a public website.  The Andromeda philosophy here
+   is to let you do anything you want and stay out of your way.
+   Of course there are lots of helpful library routines, but our
+   main goal is to not force you into any "One True Framework" when
+   you want to do your own custom pages.  An Andromeda website 
+   can have multiple templates, for public and admin use:
+</p>
+
+[[image:faces.png]]
+
+<p>Moreover, Andromeda, <i>never clobbers your custom code</i>
+   when it regenerates its own code.  We have a nifty way of keeping
+   custom and stock separate so your custom code always overrides
+   stock code but your own files are never clobbered.
+</p>
+
+<p>You can replace any admin page with your own, in whole or 
+   in part.  You can have multiple domains all going to the
+   same application with different templates, and you can 
+   add or change any page you want.
+
+<h2>Take a Try</h2>
+
+<p>This site contains the complete documentation for Andromeda.
+   As of this writing, near the end of the leap year, 11:00pm
+   on February 29, 2008, the Andromeda documentation is under
+   heavy development.  If you find anything amiss in the
+   docs,
+   join the <a href=
+"http://sourceforge.net/mail/?group_id=188856">mailing lists</a
+   > and ask!
+</p>
+
+
+<!--
+
+                            
+                            <P CLASS="Textbody">Andromeda is a collection of tools for writing database web applications.  Most people would call Andromeda a "framework", because it provides utilities, libraries, and conventions for the entire development process.</P><P CLASS="Textbody">Andromeda is suitable for any web site that needs a database. </P><P CLASS="Textbody">Andromeda is very much at home creating business applications like accounting, ERP, inventory, manufacturing, and other traditional desktop/database applications. In fact, this is what Andromeda was originally written for, and I believe that Andromeda has the most advanced technology available for putting that kind of application into the browser.</P><H2 CLASS="Heading2"><A NAME="How_to_Use_Andromeda"></A>How to Use Andromeda</H2><P CLASS="Textbody">Every Andromeda application begins when the programmer creates a text file that describes the database.  This file can start out small and grow over time, it does not have to be perfect and complete right at the beginning. The text file uses the "YAML" format, which is easy to read and write. Our documentation contains a complete guide to <span class="nolink">Defining A Database</span> and a complete [[Database Reference]].</P><P CLASS="Textbody">Once the programmer has created the database definition, he runs the "builder" program that creates the database. The programmer can change the description and rebuild the database whenever needed.</P><P CLASS="Textbody">Once the "builder" program has been run at least once, the programmer can begin coding custom screens in PHP. See our <span class="nolink">Web Programing</span> section for more information.</P><P CLASS="Textbody">Finally, Andromeda allows complete flexibility in the appearance of the site, and contains tools for collaborative development and promoting code through a dev/qa/production sequence. (These tools are not documented as of this writing).</P><H2 CLASS="Heading2"><A NAME="System_Requirements"></A>System Requirements</H2><P CLASS="Textbody">Andromeda is written in PHP and uses a PostgreSQL database back-end. The server can be Linux, Windows or Mac. Our default pages can run in Firefox or IE (Opera is untested).</P><P CLASS="Textbody">Andromeda is not aimed at low-cost shared servers running MySQL. Our heavy use of database features disqualifies the still immature MySQL and requires the more powerful PostgreSQL. However, it should be noted that you don't actually need to know much if anything about PostgreSQL to use Andromeda, because Andromeda does all of the database stuff for you.</P><H2 CLASS="Heading2"><A NAME="Benefits_of_Andromeda"></A>Benefits of Andromeda</H2><P CLASS="Textbody">Like all frameworks, Andromeda aims to eliminate labor and provide uniformity to the development process. These are benefits in and of themselves that would make Andromeda worth using.</P><P CLASS="Textbody">However, Andromeda distinguishes itself dramatically from other frameworks in the database area. The benefits here are best understood with an example. Consider the case of an ORDERS table that has a column, LINES_TOTAL, which is the total of the line items, before freight and tax. Andromeda allows you to code the formula for LINES_TOTAL directly in the column definition (in the YAML file). The builder program then writes server-side SQL code that performs the calculation for you, you do not have to write any additional "business logic" in PHP.  The result is a DRY (don't repeat yourself) philosophy on steroids, as that one formula in the YAML file is used in the database, on the user's screen, and can be used to generate technical specifications of the system. </P><P CLASS="Textbody">Andromeda's unique ability to put formulas into the database also leads to another benefit, the ability to handle very complex business cases with great confidence.  When database applications become complex they become extremely expensive to maintain, because the real guts of the apps are buried in countless thousands (or millions) of lines of code. When this happens, the original framework with all of its promise is flat-out irrelevant, only the code matters, and the dangers of unknown consequences from changing it. By contrast, a complex Andromeda application still has all of the formulas in the YAML file, and though it may be large, it is never opaque. Calculations involving dozens of steps can be traced with complete transparency and clarity. Complex programs always require care, but with Andromeda the fear of unknown consequences is gone completely.</P><H2 CLASS="Heading2"><A NAME="Finding_Out_More"></A>Finding Out More</H2><P CLASS="Textbody">Our [[Quick Tour]] has screenshots that illustrate the ideas expressed here, and our [[Tutorials]] explain the basics in very small steps. Both of these are introductory sections. They assume you have no familiarity with Andromeda, and they are not meant to be exhaustive or complete.</P><P CLASS="Textbody">Our complete guide to [[Programming With Andromeda]] is your authoritative source for all programming and system management tasks in Andromeda.</P><P CLASS="Textbody">I hope you enjoy Andromeda and that you and your users profit from its use!</P>            
+ 
+                                        
+                            -->

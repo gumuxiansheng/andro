@@ -1,0 +1,99 @@
+title:The DOMINANT Automation
+parent:Automations
+sequence:600
+aliases:dominant
+
+<p>The DOMINANT automation is usually applied to cbool columns,
+   and it allows only one row in a set to have a value of "Y".
+   If one row gets a value of "Y", any other row that might have
+   it already is set to "N".
+</p>
+
+<p>Consider the following list:
+</p>
+
+<table class="chart">
+  <thead>
+     <tr><th>Song
+         <th>Best Ever
+  </thead>
+  <tbody>
+     <tr><td>Sultans of Swing
+         <td>N
+     <tr><td>The Desert is On Fire
+         <td>Y
+     <tr><td>Neireka
+         <td>N
+     <tr><td>Roddy McCorley
+         <td>N
+     <tr><td>Lucifer Sam
+         <td>N
+</table>
+
+<p>Now along comes somebody who disagrees with this choice of
+   the "best ever" song and wants to set "Lucifer Sam" as 
+   the best ever.  In the Andromeda philosophy, the application should
+   only have to issue a single update, and not go hunting
+   around for any other rows to reset.  We want this command:
+</p>
+
+<pre class="prettyprint lang-sql">
+UPDATE SONGS SET bestever='Y' Where songname='Lucifer Sam'
+</pre>
+
+<p>To result in this:</p>
+
+<table class="chart">
+  <thead>
+     <tr><th>Song
+         <th>Best Ever
+  </thead>
+  <tbody>
+     <tr><td>Sultans of Swing
+         <td>N
+     <tr><td>The Desert is On Fire
+         <td>N
+     <tr><td>Neireka
+         <td>N
+     <tr><td>Roddy McCorley
+         <td>N
+     <tr><td>Lucifer Sam
+         <td>Y
+</table>
+
+<p>If the "Best Ever" column has "automation_id: dominant", then
+   only one row can have a value of "Y", and when one row is set
+   to "Y" to current row is reset to "N".
+
+<h2>Restricting By Foreign Key</h2>
+
+<p>In most situations the DOMINANT flag should not apply to an
+   entire table.  Switching examples, consider a list of parts,
+   and a list of vendors that supply the various parts.  At any
+   given time, only one vendor per part is the preferred or
+   primary vendor.  To do this we set the "automation_id" to
+   the name of the parent table.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table partsxvendors:
+    module: inventory
+    description: Vendor Item XRef
+    
+    
+    foreign_key items:
+    foreign_key vendors:
+    
+    columnn flag_dominant:
+        suffix: _dominant
+        auto:dominant,items
+        
+    # Or, in expanded syntax:
+    column flag_dominant:
+        suffix: _dominant
+        automation_id: dominant
+        auto_formula: items
+</pre>
+
+
+

@@ -1,0 +1,37 @@
+title:Calling a Page With Pre-Populated Values
+parent:The Admin Interface
+sequence:600
+aliases:
+
+<p>Sometimes you want to provide a link on one page that jumps
+   directly to an admin screen that already has a row loaded.
+</p>
+
+<p>The way to do this is with "pre_" variables in your link.
+</p>
+
+<pre class="prettyprint">
+<!-- This link goes to a normal admin screen -->
+<a href="?x6page=customers">Customers</a>
+
+
+<!-- this link goes to a specific customer -->
+<a href="?x6page=customers&pre_customer=1234">Customer 1234</a>
+
+<!-- While this link will find maybe more than one -->
+<a href="?x6page=customers&pre_description=A"
+   >Customers Starting With 'A'</a>
+</pre>
+
+<span class="info">This feature only works with the 
+   conventional profile.</span>
+   
+<p>When a page is loaded with "pre_" values, Andromeda executes
+   a search before the page displays, and either:
+</p>
+
+<ul><li>If there is exactly one match, the display appears 
+    already set on the detail screen for that match.
+    <li>If there are no matches or more than one, the display
+    appears on the lookup screen.
+</ul>

@@ -1,0 +1,141 @@
+title:Loading CSS and Javascript
+parent:Web Programming
+sequence:900
+aliases:
+
+
+<p>Andromeda supports a variety methods for loading styles
+   and script to the browser for your pages.  Both styles and
+   script can be embedded in the page or put into external
+   libraries and loaded without having to dig around in the
+   main HTML of the site.
+</p>
+
+<span class="warn">This page explains how to load CSS or JS
+   that may be required on one or more pages of an site or
+   application.  For CSS and JS that are required on all pages,
+   you may wish to consult the section on HTML Templates.
+</span>
+
+<h2>Script to Run on Document.ready</h2>
+                     
+<p>Andromeda makes extensive use of jQuery, and comes with jQuery
+   built in and automatically loaded on all pages.
+</p>
+
+<p>jQuery contains a facility for executing code after the document
+   is fully loaded and ready for action.  You can Javascript code to
+   run in the browser for this event by making a call to
+   jqDocReady().  You
+   can use this command more than once, repeated calls will just
+   add more code.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        echo "Hello World!";
+        jqDocReady('alert("The document has loaded!")');
+        jqDocReady('alert("Two calls to jqDocReady()!")');
+    }
+}
+?>
+</pre>
+
+<h2>Loading CSS and JS Files</h2>
+
+<p>You can put any CSS rules or Javascript into files and load
+   them to any page.  The conventional location for the files
+   is the "appclib" directory.  The functions cssInclude() and
+   jsInclude() are used to do this.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # We need this special CSS file
+        cssInclude("appclib/super-glitzy.css");
+        
+        # And we also need this javascript library
+        jsInclude("appclib/lots-of-effects.js");
+        
+        #... regular coding continues
+        $top = html('div');
+        $top->setHTML("hello world!");
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<h2>Using the x6script Method</h2>
+
+<p>Any page class can have a method "x6script()" that contains
+   Javascript.  The framework captures all of the script in this
+   method and adds to a jqDocReady() call.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        echo "Hello World!";
+    }
+    
+    function x6script() {
+        # Most editors will recognize script blocks and
+        # highlight them, so by convention you want to 
+        # drop out of PHP and put in some script tags
+        ?>
+        <script>
+        alert("The page has loaded!");
+        </script>
+        <?php
+    }
+}
+?>
+</pre>
+
+<h2>Putting CSS and JSS Inline</h2>
+
+<p>You may want to embed CSS rules directly onto a page.  While
+   this is not usually the best practice in production, it is
+   very useful for testing and development.  Both CSS and Javascript
+   can be put onto your page at any point the same way that you
+   put any other HTML onto a page:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # The top-level HTML container
+        $top = html('div');
+        $top->h('h1',"Hello World");
+        $top->h('p','This is text on the hello world program.');
+        
+        # Using HTML generation for CSS or script
+        $top->h('style','div { background-color: blue }');
+        $top->h('script','alert("You will see me as the page loads")');
+        $top->render();
+        
+        # Or just put it out manually
+        ?>
+        <style>
+        div.experimental {
+            color: black;
+            background-color: black;
+        }
+        </style>
+        <script>
+        function buriedOnPage() {
+            alert(2 * 2);   
+        }
+        </script>
+        <?php
+    }
+}
+?>
+</pre>

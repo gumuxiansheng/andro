@@ -1,0 +1,25 @@
+title:Unenforced Foreign Keys
+parent:Extensions
+sequence:200
+aliases:allow_orphan,allow_empty
+
+<p>It is possible in Andromeda to define a foreign key and then
+   allow inserts that do not match in the parent table.  This
+   may seem strange or unnecessary, but there are benefits.
+   Andromeda has many user interface features that are driven
+   by foreign keys.  If you want to use these features between
+   two tables that <i>sometimes</i> match, then you can use the
+   unenforced foreign key.
+</p>
+
+<p>Use this feature by putting the "allow_orphan" property into
+   a foreign key defintion:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table example_child:
+    module: example
+    
+    foreign_key customers:
+        allow_orphan: Y
+</pre>

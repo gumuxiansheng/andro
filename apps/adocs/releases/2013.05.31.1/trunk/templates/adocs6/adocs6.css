@@ -1,0 +1,299 @@
+/*  ------------------------------------ *\
+ *
+ *  Top-level stuff
+ *
+\*  ------------------------------------ */  
+body,html {
+    padding: 5px 20px;
+    margin: 0;
+    background-color: #F0F0F0;
+    font-family: verdana, arial, sans-serif;
+    font-size: 13px;
+    line-height: 19px;
+    color: #202020;
+}
+
+a, a:hover { color: blue; text-decoration: none; }
+
+a img {
+    border: 0;
+}
+
+/*  ------------------------------------ *\
+ *
+ *  Compatibility with old-style syntax
+ *  coloring using jEdit
+ *
+\*  ------------------------------------ */
+
+pre {
+    background-color: #F7F7F7;
+    border: 1px dashed #777;
+    padding: 5px;
+    overflow-x: auto;
+}
+
+.syntax0 {
+color: #666666;
+}
+.syntax1 {
+color: #cc0000;
+}
+.syntax2 {
+color: #ff9900;
+}
+.syntax3 {
+color: #6600cc;
+}
+.syntax4 {
+color: #cc6600;
+}
+.syntax5 {
+color: #ff0000;
+}
+.syntax6 {
+color: #009933;
+}
+.syntax7 {
+background: #ffffcc;
+color: #ff0066;
+}
+.syntax8 {
+color: #006699;
+font-weight: bold;
+}
+.syntax9 {
+color: #009966;
+font-weight: bold;
+}
+.syntax10 {
+color: #0099ff;
+font-weight: bold;
+}
+.syntax11 {
+color: #66ccff;
+font-weight: bold;
+}
+.syntax12 {
+color: #02b902;
+}
+.syntax13 {
+color: #ff00cc;
+}
+.syntax14 {
+color: #cc00cc;
+}
+.syntax15 {
+color: #9900cc;
+}
+.syntax16 {
+color: #6600cc;
+}
+.syntax17 {
+color: #0000ff;
+}
+.syntax18 {
+color: #000000;
+font-weight: bold;
+}
+
+/*  ------------------------------------ *\
+ *
+ *  Only for table of contents
+ *
+\*  ------------------------------------ */  
+h1.toc {
+    margin-left: 50px;
+}
+a.toctop {
+    margin-left: 50px;
+    font-size: 14px;
+    font-weight: bolder;
+    color: #08288C;
+}
+a.tocsub {
+    margin-left: 60px;
+}
+
+/*  ------------------------------------ *\
+ *
+ *  Basic left/right structure of a page
+ *
+\*  ------------------------------------ */  
+#a6body-left {
+    float: left;
+    width: 220px;
+    font-size: 13px;
+    border: 1px dashed #707070;
+    background-color: #F7F7F7;
+    padding: 5px;
+    margin-top: 5px;
+    height: 100%;
+}
+#a6body-left h3 {
+    background-color: #DDD;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    margin: 8px -5px 5px -5px;
+    padding-bottom: 3px;
+}
+
+#a6body-right {
+    margin-left: 245px;
+}
+
+#a6body-left h3 a {
+    color: #08288C;
+}
+
+#a6body-left h4 a {
+    color: #08288C;
+    margin: 6px 0px;
+}
+
+
+#a6body-left a.toc {
+    color: #08288C;
+    display: list-item;
+    margin-left: 15px;
+    margin-bottom: 3px;
+}
+
+#a6body-left a.current {
+    color: #08288C;
+    display: list-item;
+    margin-left: 15px;
+    margin-bottom: 4px;
+    margin-top: 1px;
+    font-weight: bold;
+}
+
+
+/*  ------------------------------------ *\
+ *
+ *  User Comments and prev/next links
+ *
+\*  ------------------------------------ */
+.comments {
+    border: 2px dashed #a0a0a0;
+    background-color: #f0f0f0;
+    padding: 8px;
+    margin-top: 40px;
+}
+
+div.prevnext {
+    border-top: 1px dotted #707070;
+    border-bottom: 1px dotted #707070;
+    padding: 3px 0px;
+    margin: 15px 0px;
+    height: 20px;
+}
+
+div.prevnext a.left {
+    float: left;
+}
+div.prevnext a.right {
+    float: right;
+}
+
+
+/*  ------------------------------------ *\
+ *
+ *  Site wrapper and major elements
+ *
+\*  ------------------------------------ */  
+#a6wrapper {
+    background-color: white;
+    padding: 5px;
+}
+
+#a6banner {
+}
+
+#a6bannertext {
+    float: right;
+    font-size: 105%;
+    font-weight: bolder;
+    margin-top: 25px;
+    
+}
+
+#a6links {
+    font-size: 15px;
+    line-height: 20px;
+    margin-right: -5px;
+    margin-left: -5px;
+    padding: 0px 5px;
+    clear: both;
+    border-top: 2px solid #08288C;
+    border-bottom: 2px solid #08288C;
+    text-align: left;
+    outline: 0;
+}
+
+#a6links a {
+    text-decoration: none;
+    padding: 0px 5px;
+    color: #08288C;    
+}
+#a6links a:hover {
+    background-color: #D69600;
+}
+
+
+
+#a6foot {
+    margin: 5px -5px -5px -5px;
+    padding: 5px 0px;
+    border-top: 1px solid #707070;
+    background-color: #E0E0E0;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    color: #404040;
+}
+
+#a6foot a, #a6foot a:hover, #a6foot a:visited {
+    color: blue;
+}
+
+/*  ------------------------------------ *\
+ *
+ *  Classes for special notices etc
+ *
+\*  ------------------------------------ */
+span.notice {
+    
+}
+
+span.warning {
+    
+}
+
+span.note {
+    
+}
+
+/*  ------------------------------------ *\
+ *
+ *  Chart like tables
+ *
+\*  ------------------------------------ */
+table.chart {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #08288C;
+    
+}
+table.chart thead th {
+    font-weight: bolder;
+    background-color: #08288C;
+    color: white;
+}
+table.chart td {
+    vertical-align: top;
+    border: 1px dotted #D69600;
+    padding: 0px 2px;
+}
+

@@ -1,0 +1,93 @@
+title:Column Security
+parent:Security
+sequence:400
+aliases:
+
+<p>Column security allows you to limit which columns in a table
+   that particular groups can see.  You can allow any particular
+   group read-only access to a column, or read-write access.
+</p>
+
+<p>The syntax is described here:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+# Assume a group of super-users
+group admins:
+    description: Super users
+    permsel: Y
+    permins: Y
+    permupd: Y
+    permdel: Y 
+
+table example:
+    module: whatever
+    uisequence: 500
+    description: Example Table
+
+    
+    column mysalary:
+        group admins:
+            permsel: Y
+            permupd: Y
+</pre>
+
+<p>The two permissions 'permsel' and 'permupd' determine whether
+   the user can see the column and update the column.
+</p>
+
+<h2>Understanding Column Security</h2>
+
+<p>Column security works a little differently than module
+   and table security.  In particular:
+</p>
+
+<ul><li>All tables by default have <i>no column security</i>, 
+    all users can see all columns (assuming they can see the
+    table).
+    <li><b>If even one column security assignment is made,
+    all groups are denied access to the column (except for the
+    group being given access).</b>
+    <li>Therefore, column security assignments are usually made
+    by saying who can see the column.  There is no reason to 
+    specify which groups cannot see the column.
+</ul>
+
+<h2>Implications For Web Programming</h2>
+
+<p>Because PostgreSQL does not directly support column security,
+   Andromeda accomplishes it by denying all access to the base
+   table and creating different views that reflect the various
+   combinations of permissions that might exist for different
+   groups.
+</p>
+
+<p>Because of this, if you code manual queries like "Select mysalary
+   from example" the queries will break because all access to the
+   table is denied.
+</p>
+
+<p>But Andromeda can tell you at run-time which view is appropriate
+   for the currently logged in user.  When coding manual
+   queries, it is a good idea to always use the ddView() function
+   to obtain the name of the view:
+</p>
+
+<pre class="prettyprint">
+$view    = ddView('example');
+$sql     = "Select * from $view";
+$allrows = Sql_allRows($sql);
+</pre>
+
+<h2>Andromeda Admin Screens</h2>
+
+<p>The Andromeda admin screens automatically adjust to column
+   security.  If a user is not allowed to see a column, it does
+   not appear at all on the admin screen.
+</p>
+
+<p>As with all user interface features, this feature is not 
+   meant to <i>enforce</i> the security measure, that is done
+   in the server.  This feature simply follows the rule of only
+   showing the user what is relevant to them.  
+</p>

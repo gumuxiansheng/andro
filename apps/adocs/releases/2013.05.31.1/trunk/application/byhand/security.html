@@ -1,0 +1,38 @@
+title:Security
+parent:Database Programming
+sequence:300
+aliases:security
+
+<p>Andromeda security is based on groups, tables, rows, and columns.
+   The programmer defines groups in the database definition, and then
+   assigns those groups permissions at various levels to access 
+   tables.  The user interface knows about these permissions and
+   respects them, so that a user who can read table X but cannot 
+   insert into it will see the [NEW] button grayed out.  However,
+   the user interface does not actually enforce these permissions,
+   enforcement is done within the database server.
+</p>
+
+<p>Actual users are given permissions by being put into the
+   groups defined by the programmer.  Administrators who have the
+   correct permissions can add and delete users and assign them
+   to groups.
+</p>
+
+<p>Security is <i>cumulative</i>.  A user gains all of the 
+   permissions of all of the groups she is in.
+</p>
+
+<p>In addition, there are functions available to the programmer in
+   PHP to find out what groups a user is in and allow or disallow
+   certain programs or routines.
+</p>
+
+<p>All security begins by assigning default permissions to a group.
+   These permissions can be overwritten at the module level, so that
+   a group can be given default permissions in a particular module
+   that cascade to all of the tables in that module.  A group can
+   then be given specific permissions on a table that override the
+   module defaults.  Finally, a group can be given specific row and
+   column permissions to filter what they can see and write.
+</p>

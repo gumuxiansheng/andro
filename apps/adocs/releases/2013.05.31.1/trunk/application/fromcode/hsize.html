@@ -1,0 +1,23 @@
+title:hSize
+parent:HTML Generation
+sequence:828
+aliases:
+
+
+<h2>NAME</h2>
+<p>hSize<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function hSizepx computes a width by examining the size cookie.
+    It assumes that the baseline is 1024, and returns number that is
+   scaled up or down based on what skin the user is
+   actually using.<br/></p>
+<h2>INPUTS</h2>
+<p>number - Size in 1024x768 mode<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function hSize($x1024) {
+    $app  = $GLOBALS['AG']['application'];
+    $size = a($_REQUEST,$app."_size",'1024');
+    $final = intval(($x1024 * $size)/1024);
+    return $final.'px';
+}</pre>

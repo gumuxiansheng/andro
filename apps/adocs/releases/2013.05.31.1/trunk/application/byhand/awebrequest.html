@@ -1,0 +1,123 @@
+title:A Web Request
+parent:System Architecture
+sequence:100
+aliases:
+
+
+<p>Andromeda makes use of a single dispatcher program to
+   handle all browser requests.  All page requests come to a single
+   file, index.php, which eventually dispatches the request
+   to code that will handle it in detail.
+</p>
+
+<p>To allow for pretty urls, there is also a PHP program
+   named "pages", which can be called with urls like
+   ".../pages/page_name/parm/value/parm/value".  This program
+   converts the request string into a normal GET request
+   and passes control to index.php.
+</p>
+
+<p>The only real job of index.php is to note the current
+   directory, set the PHP path, and pass control to
+   index_hidden.php.
+</p>
+
+<h2>Dispatching A Web Request</h2>
+
+<p>Because Andromeda applications generally lack business
+   logic in the web layer, our web request handling is
+   not engineered to meet the needs of complex object-oriented
+   code.  Rather, our code is engineered to to provide the
+   fastest and simplest possible completion of a minimum
+   of database requests and HTML generation tasks.  In 
+   other words, we want to get in, get the job done and
+   get out, with no fancy footwork.
+</p>
+
+<p>The basic anatomy of a web request and the core Andromeda
+   files is here:
+</p>
+
+[[image:request.png]]
+
+<h2>Combining GET and POST</h2>
+
+<p>When a user clicks on a conventional hyperlink, the browser
+   makes a GET request to the server.  By convention, when
+   the user fills out a form and clicks [SUBMIT] then the 
+   browser sends a POST request to the server.  These two
+   different methods were created to serve different purposes,
+   but once your PHP program is running the distinction is
+   meaningless and even gets in the way.  Therefore, Andromeda
+   combines the two into a single array that you can access
+   with the [[gp]] function.  More information is available
+   on our page on [[GET-POST Variables]].  
+</p>
+
+<h2>Library Loads</h2>
+
+<p>Almost the entire Andromeda server-side library is contained
+   in the file androLib.php.  It is a procedural library, not
+   an object-oriented library.
+</p>
+
+<p>There are three big advantages to having a single lean 
+   procedural library: speed, speed, and speed.  A procedural
+   library avoids the overhead of objects.  A single file
+   loads faster than multiple files because, even though it
+   is larger in memory, the overhead of opening a disk file
+   is greater than the time it takes to actually read and
+   compile it, so keeping the file count down is a big plus.
+</p>
+
+<p>In addition to the androLib.php file, your application
+   can have a file "applib.php".  If this file is present it
+   is included at global scope right after the androLib.php
+   file is loaded.
+</p>
+
+<h2>Logout and Login</h2>
+
+<p>After the libraries are loaded, index_hidden.php checks
+   for the get/post variables st2logout and st2login, which
+   are the commands to log out and log in respectively.
+   Logout can always be processed, but login depends of course
+   on the credentials provided by the user.
+</p>
+
+<h2>User Determination and Database Connection</h2>
+
+<p>Once the above steps have been completed, the only
+   step before processing is to take the currently supplied user
+   credentials and connect to the database.  If nobody
+   is logged in, the system connects with a username that is
+   the same as the database name.  This is called variously
+   the "anonymous user" or the "public user."  
+</p>
+
+<p>Andromeda assumes that the user would not be making
+   a page request unless they needed to connect to the
+   database.  This is why the connection is unconditional.
+   This has the convenience of not requiring programs
+   to make database connections.
+</p>
+
+<h2>Dispatching</h2>
+
+<p>Andromeda accepts a variety of request types.  These
+   will be explained individually in future additions
+   to this documentation.
+</p>
+
+<p>Until that time, here is a short summary of how they
+   break down.  First, there is the conventional 
+   page request, which returns a complete page to the
+   browser.  In addition, there are various SQL Pass-through
+   commands (made possible because of Andromeda's powerful
+   security model), and other commands that return HTML
+   fragments for various on-screen widgets.  New additions
+   will be some JSON commands that have been prototyped
+   through the fall of 2007 and are going ready for final
+   production form.
+</p>
+   

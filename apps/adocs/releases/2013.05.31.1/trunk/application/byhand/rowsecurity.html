@@ -1,0 +1,173 @@
+title:Row Security
+parent:Security
+sequence:500
+aliases:
+
+<p>Row security allows you to limit which rows in a table 
+   a particular group can see.
+</p>
+
+<p>All row security is based one way or another on a column in
+   a table that holds a user_id.  Andromeda supports two 
+   different methods for enforcing row security, but both of them
+   depend on saving user_id values somewhere.
+</p>
+
+<p>The syntax is described here:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+# Assume a group of super-users
+group admins:
+    description: Super users
+    permsel: Y
+    permins: Y
+    permupd: Y
+    permdel: Y 
+
+table example:
+    module: whatever
+    uisequence: 500
+    description: Example Table
+
+    
+    column user_id:
+        group admins:
+            permrow: N
+</pre>
+
+<p>The table "example" above contains a user_id column, which 
+   we assume is being populated by the application.  This column
+   is used to filter who can see which rows in the table.  A user
+   can only see the rows that match her user_id.
+</p>
+
+<p>The permission "permrow: N" says this group is <i>not</i> restricted by
+   row-level security.  The presence of this assignment means all
+   other groups are restricted by row-level security that filters
+   on the "user_id" column.
+</p>
+
+<h2>Understanding Row Security</h2>
+
+<p>Row security works a little differently than module
+   and table security.  It behaves more like column security
+   in that:
+</p>
+
+<ul><li>All tables by default have <i>no row security</i>, 
+    all users can see all rows (assuming they can see the
+    table).
+    <li><b>If even one row security assignment is made,
+    it is activated for all groups, all groups can see only
+    those rows that match the user's user_id.</b>
+    <li>Therefore, row security assignments are usually made
+    by saying who <i>is not restricted</i>.  You specify which
+    admin groups are not restricted, and all other groups are.
+</ul>
+
+<h2>Using A Lookup Table</h2>
+
+<p>Sometimes basic row security can be too restrictive, because
+   it works by letting a user see his own rows, but nobody can
+   see anybody else's rows.  Sometimes you want groups of users
+   to share rows.
+</p>
+
+<p>This can be done by using a second table that lists users 
+   and any other value that might be used to group them 
+   together.
+</p>
+
+<p>Consider for example a website that hosts data for different
+   companies.  Each company might have more than one user 
+   on the system, and all of these users should see all of
+   the company's data, but they should not see data from any
+   other company.  We can make this work by setting up a 
+   cross-referene of users to tables, and using that table
+   to establish row-level security on other tables.
+</p>
+
+<pre class='prettyprint lang-ddyaml'>
+# Assume a table of companies
+table companies:
+    # ....details....
+    
+    column company:
+        primary_key:
+        
+        
+# Now create a cross-reference of companies
+# to Andromeda's built-in table of users:
+table usersxcompanies:
+    module: system
+    
+    foreign_key companies:
+        primary_key: Y
+    foreign_key users:
+    
+    # Even though the "foreign_key" creates the
+    # user_id column for us, we need to specify it
+    # so we can override some properties
+    column user_id:
+        primary_key: Y
+        
+        # Activate row security by giving a super-user
+        # group free reign on the table, everybody else
+        # will get filtered
+        group admins:
+            permrow: N
+</pre>
+
+<p>So far so good, now we create a table of documents that
+   can only be seen by users who are listed for the company
+   that owns the document:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+table documents:
+    module: docstorage
+    
+    # Define a foreign key into companies
+    foreign_key companies:
+    
+    # The "foreign_key" creates the company column
+    # for us for free, but we will specify it so
+    # we can override some properties:
+    column company:
+        group customers:
+            table_id_row: usersxcompanies
+</pre>
+
+<p>This example says that for members of the 'customers' group,
+   they will be able to see any row whose value of 'company' matches
+   a row they can see in the usersxcompanies cross-reference.
+</p>
+
+<h2>Implications For Web Programming</h2>
+
+<p>Because PostgreSQL does not directly support row security,
+   Andromeda accomplishes it by denying all access to the base
+   table and creating different views that reflect the various
+   combinations of permissions that might exist for different
+   groups.
+</p>
+
+<p>Because of this, if you code manual queries like "Select mysalary
+   from example" the queries will break because all access to the
+   table is denied.
+</p>
+
+<p>But Andromeda can tell you at run-time which view is appropriate
+   for the currently logged in user.  When coding manual
+   queries, it is a good idea to always use the ddView() function
+   to obtain the name of the view:
+</p>
+
+<pre class="prettyprint">
+$view    = ddView('example');
+$sql     = "Select * from $view";
+$allrows = Sql_allRows($sql);
+</pre>
+
+
