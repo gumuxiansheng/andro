@@ -1,0 +1,54 @@
+title:Modules
+parent:Database Structure
+sequence:100
+aliases:module
+
+<p>A module is first of all a logical container which holds
+   tables.  Security assignments can be made to modules which
+   cascade down to the tables within it.
+</p>
+
+<p>Secondly, modules are used
+   to build the administrative menu system.
+</p>
+
+<p>A module is not the same as a database schema.  Andromeda
+   puts all of its tables into the 'public' schema.  The module
+   exists only as a container for tables for organizing menus
+   and security.
+</p>
+
+<h2>Required</h2>
+
+<p>Every database must have at least one module.</p>
+
+<h2>Module Example</h2>
+
+<p>A module definition can occur anywhere in your .dd.yaml 
+   file, although by convention we put them at the top.
+</p>
+
+<p>Modules are defined as top-level elements.  That means
+   that module definitions have an indent level of zero.
+   Here is an example module definition:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+module ordering:
+    description: Ordering System
+    uisort: 100
+</pre>
+
+<p>There are only three elements to a module definition:
+</p>
+
+<ul><li>The name is always "module -name-:", the keyword
+    <b>module</b>, a space, the name of the module, and a colon.
+    <li>The property <b>description</b> is used on the menu
+    system.
+    <li>The property <b>uisort</b> is used by the menu system
+    to order the modules.  If you leave this out, they will
+    appear on the menu in the order they are defined.
+</ul>
+
+

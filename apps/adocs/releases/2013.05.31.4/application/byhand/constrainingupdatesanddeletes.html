@@ -1,0 +1,55 @@
+title:Constraining Updates and Deletes
+parent:Constraints
+sequence:300
+aliases:update_pre,delete_pre
+
+<p>Sometimes you need to 'close' a record, such as an order
+   or a general ledger batch, and allow now further changes to it.
+   This can be done by attaching constraint chains directly
+   to the table.
+</p>
+
+<p>For a complete description of chain syntax, see the prior
+   page on general constraints, and the page on calculated
+   values.  This page shows only the specifics of preventing
+   deletions or updates.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table ledgerbatches:
+    module: ledger
+    uisort: 200
+    description: Ledger Batches
+    
+    chain delete_pre:
+        test 00:
+            compare: @flag_closed = Y
+            return: Batch is closed, cannot delete
+    chain update_pre:
+        test 00:
+            compare: @flag_closed = Y
+            return: Batch is closed, cannot delete
+</pre>
+
+<p>In the example above we have put two constraint chains onto 
+   the table of general ledger batches.  These chains work 
+   exactly like general constraints, except for these two details:
+</p>
+
+<ul><li>The specially-named chain "delete_pre" is used to prevent
+   deletions.  
+   <li>The specially-named chain "update_pre" is used
+   to prevent updates.
+</ul>
+
+<h2>Future Required Feature</h2>
+
+<p>The constraints shown above actually lack a feature required
+   to be totally complete.  Although it is natural to constrain
+   updates and deletes on closed records by regular users, sooner
+   or later somebody has to come along and purge out the rows.
+   In a future release of Andromeda we will support the "INGROUP"
+   comparison operator to allow a constraint to function based
+   on the user's group membership.  This would allow a "purge"
+   group to delete the rows, where normal users could not.
+</p>

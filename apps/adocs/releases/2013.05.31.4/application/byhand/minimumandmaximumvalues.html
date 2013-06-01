@@ -1,0 +1,40 @@
+title:Minimum and Maximum Values
+parent:Constraints
+sequence:100
+aliases:valuemin,valuemax
+
+<p>Andromeda allows you to specify a minimum and maximum
+   value for a column.  These can be defined when the column
+   is defined (outside of a table), or they can be defined
+   when the column is placed into a table.  Use the 
+   properties "valuemin" and "valuemax" to establish this
+   constraint.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+# Define a percent as a numeric from
+# 1 to 100
+column percent:
+    type_id: numb
+    colprec: 3
+    colscale: 0
+    valuemin: 0
+    valuemax: 100
+
+# Define another percent as a decimal
+# from zero to .999
+column decimalpercent:
+    type_id: numb
+    colprec: 3
+    colscale: 3
+    valuemin: 0
+    valuemax: .999
+    
+# Put a column into a table
+table example:
+    
+    column percent_sportseffort:
+        description: Sports figures often give 110%
+        suffix: _sportseffort
+        valuemax: 110
+</pre>

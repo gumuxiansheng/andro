@@ -1,0 +1,76 @@
+title:            Order Lines Part Two
+parent:Tutorials
+sequence:900
+aliases:
+
+                            
+                            <p>Now that we have defined an orders table that contains the price that was FETCHed from another table, we must multiply that price by the quantity to get the extended price.
+</p>
+<h2>Adding Qty and Price_extended</h2>
+<p>To begin with, we will take our definition of order lines from the previous tutorial and add the qty column.
+</p>
+<p>We also need to add a column for extended price.  Now most database designers at this point will give this column a name like 'extended_price' and make it the same type and precision and scale as the 'price' column.  This is very easy to do in Andromeda, we can simply tell it that we want to use the 'price' column again, but this time we want to rename it slightly:
+</p>
+<pre class="box-add"><span class="syntax0"><span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">orders_d:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Order</span><span class="syntax13"> </span><span class="syntax13">Lines</span>
+<span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">orders_h:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">items:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price:</span><span class="syntax9"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">FETCH</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">auto_formula:</span><span class="syntax13"> </span><span class="syntax13">items</span><span class="syntax13">.</span><span class="syntax13">price</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">qty:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_extended:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_extended</span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+</span>
+</pre>
+<p>By convention, all Andromeda applications use <span class="nolink">Latin Notation</span> when forming column names, which causes similar columns to appear coherently in lists.  This means we don't make columns like 'price' and 'discount' and 'extended', but rather 'price' and 'price_discounted' and 'price_extended'.  The adjective always <i>follows</i> the noun in <span class="nolink">Latin Notation</span>.
+</p>
+<p>We should note that the column qty is is defined in <span class="nolink">andro_universal.add</span>, that is why we did not need to declare it anywhere.
+</p>
+<h2>The Formula For price_extended</h2>
+<p>Now we will use a [[chain]] to declare the calculation of price_extended.  A chain is slightly more complicated than a FETCH, because it has the ability to consider many cases and possibly return different values, like a CASE WHEN in SQL or an switch in other languages.  In this case we want an unconditional calculation, so there is only one <i>test</i> in the chain:
+</p>
+<pre class="box-add"><span class="syntax0"><span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">orders_d:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Order</span><span class="syntax13"> </span><span class="syntax13">Lines</span>
+<span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">orders_h:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">items:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price:</span><span class="syntax9"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">automation_id:</span><span class="syntax13"> </span><span class="syntax13">FETCH</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">auto_formula:</span><span class="syntax13"> </span><span class="syntax13">items</span><span class="syntax13">.</span><span class="syntax13">price</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">qty:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price_extended:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">suffix:</span><span class="syntax13"> </span><span class="syntax13">_extended</span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">chain</span><span class="syntax9"> </span><span class="syntax9">calc:</span><span class="syntax9"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">test</span><span class="syntax9"> </span><span class="syntax9">00:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">return:</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">qty</span><span class="syntax13"> </span><span class="syntax13">*</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">price</span>
+</span>
+</pre>
+<p>This syntax declares a 'calc' chain.  (There are also <span class="nolink">constraint chain</span>s that we will see in later tutorials).  Inside the chain is a test, which has an unconditional return value.  When a column is named in a chain, it must be preceeded by an @ sign, to distinguish columns from literal values.
+</p>
+<p>Again we have to stress that the big advantage we have here is that Andromeda will build a database that performs these calculations automatically and will not allow user input to replace them with bad values.  So no programming code is required, as of now we have written to only a single file, the [[Database Specification File]],  and everything has flowed automatically from that.
+</p>
+<p>On a final note, if you are following these tutorials and cutting-and-pasting, the <span class="nolink">ADD File Format</span> absolutely requires only one space between the arguments in the chain.  This is considered a known weakness and will be relaxed in the future.
+</p>
+<p>In the next tutorial we will see how to sum the lines to the order total.
+</p>                                                    
+                            

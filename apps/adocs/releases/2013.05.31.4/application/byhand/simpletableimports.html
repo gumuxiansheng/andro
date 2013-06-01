@@ -1,0 +1,58 @@
+title:            Simple Table Imports
+parent:Tutorials
+sequence:500
+aliases:
+
+                            
+                            <p>Any user who has the 'permins' privelege on a table, that is, who is allowed to insert new rows into the table, will see an [Import] button on that table's screen.  We will use this feature now to load up some customers and items, which will make the tutorial more interesting without requiring a lot of typing.
+</p>
+<p>The imports are simple.  They expect a CSV file, with no quotes around strings.  They expect the first row to name columns.  Any recognized column will be used, any unrecognized column will be ignored.  Duplicate primary key rows will not be inserted, making it safe to run an import twice w/o corrupting data.
+</p>
+<h2>Related Reference Materials</h2>
+<p>Additional information is available in reference topic [[Table Imports]].
+</p>
+<h2>Customer Imports</h2>
+<p>Before we go to the application, copy and paste this CSV data into a text file:
+</p>
+<div class="box-add"><pre>customer,description
+JONES,Jones Industrial
+JMEYERS,J Meyers Services
+DUNDER,Dunder-Mifflin Paper
+DUPONT,Dupont Corporation
+VERIZON,Verizon
+EVEREST,We Climb Everest
+WESTERN,Electric Western Bull Rides
+LOOPHOLE,Loophole Lariat Company
+ACER,Acer Electronics
+MWAVE,Mwave Electronics
+FRY,Fry Superstores
+APPLE,Apple Inc.
+SDS,Secure Data Software Inc.</pre>
+</div>
+<p>Now log into the finance application as the regular user you created in the last tutorial, go to the customers screen:
+</p>
+[[image:fti_ui1.png]]
+<p>and click on the [Import] button to get the table import screen:
+</p>
+[[image:fti_ui2.png]]
+<p>After processing, you will now have a populated customers table:
+</p>
+[[image:fti_ui3.png]]
+<h2>Items Import</h2>
+<p>For the items import, you can make up your own import data, or use this:
+</p>
+<div class="box-add"><pre>item,description,price
+AA-123,Infundibulum,20
+AA-123-A,Chronosynclastic Infundibulum,25
+TT-100,Time Machine,1000
+TT-102,Time Machine - Forward Only,850
+TT-103,Time Machine - Reverse Only,950
+TFM-500,Tralfamador Transport Vehicle,2000
+FW-100,Firewood Log,1
+FW-844,Fireword cord,100
+FF-10,Invisibility Belt,500
+FF-15,Forcefield Belt,500
+FF-20,Super-strength Pill,50</pre>
+</div>
+                                                    
+                            

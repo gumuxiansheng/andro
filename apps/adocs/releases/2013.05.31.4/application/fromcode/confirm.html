@@ -1,0 +1,46 @@
+title:confirm
+parent:x6dialogs
+sequence:2004
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6dialogs.confirm<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6dialogs.confirm replaces the native
+   Javascript confirm() function with one that is stylistically
+   consistent with the rest of the application.<br/></p>
+<p>Like Javascript's native confirm() function, execution<br/></p>
+<ul><br/><li>stops* until the user answers the question.  This makes   coding far easier because you do not have to code   anonymous callback functions.<br/></ul>
+<p>When this alert is active, all keyboard events are
+   suppressed except 'Y' and 'N'.<br/></ul><br/></ul>
+<h2>EXAMPLE</h2>
+<p>Here is a usage example:<br/></ul>
+<pre>       if(x6dialogs.confirm("Do you really want to delete?")) {
+           // code to delete
+       }
+       else {
+           u.events.debug("user chose not to delete");
+       }
+<br/></ul>
+<h2>PORTABILITY</h2>
+<p>Javascript does not natively support an elegant way to
+    pause execution.  For instance, it does not have a
+    "sleep" function that would allow a low-CPU idefinite
+    loop to be executing while waiting for user input.<br/></ul>
+<p>We could solve this by throwing caution to the wind and
+    doing an indefinite loop anyway, which checks over and over
+    to see if the user has responded, but this spikes CPU usage
+    and is very bad form.<br/></ul>
+<p>The technique used by x6dialogs.confirm is unusual, but it
+    has the benefit of being extremely low on CPU power and
+    extremely low on network bandwidth.  The approach contains
+    an indefinite loop that makes a call to the program
+    phpWait.php, which does a sleep for 1/4 second and returns.
+    Even at four calls per second, the overall CPU and network
+    bandwidth is practically zero.<br/></ul>
+<p>Therefore, x6dialogs.confirm has a dependency that the
+    php file phpWait.php be present in the web server's public
+    root.  This is handled automatically by Andromeda, but you
+    must provide such a file if you use this object in
+    a non-Andromeda application.<br/></ul><br/></ul>
