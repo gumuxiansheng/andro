@@ -107,7 +107,7 @@ class home extends x_table2 {
             <?php echo date('l F d, Y',dEnsureTs($art['date']))?>
             </div>
             <br/>
-            <?php echo $art['notes']?>
+            <?php echo $art['article_html']?>
             </div>
             <?php
         }
