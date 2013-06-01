@@ -6,7 +6,9 @@
      href='templates/adocs6/adocs6.css' />
 <link rel='stylesheet'
      href='appclib/src/prettify.css'/>
-<script type='text/javascript' src='clib/jquery-1.2.3.js'></script>
+<?php
+    jsInclude('clib/jquery-1.8.3.min.js');
+?>
 <script type='text/javascript' src='appclib/src/prettify.js'></script>
 <script type='text/javascript' src='appclib/src/lang-ddyaml.js'></script>
 </head>
@@ -23,12 +25,12 @@
     <div id='a6links'>
         <div style="float: left">
         <a href="index.php">Home</a>
-        <a href="thedemo.html">Demos</a>
+        <!--<a href="thedemo.html">Demos</a>-->
         <a href="tableofcontents.html">Documentation</a>
         <a href="downloads.html">Download</a>
         <a href="credits.html">Credits</a>
         <a href="contact.html">Contact</a>
-        <a href="index.php?gp_page=x_login">Login</a>
+        <!--<a href="index.php?gp_page=x_login">Login</a>-->
         </div>
         <div style="float: right; font-size: 80%">
         <form style='display: inline' action="index.php">
