@@ -31,6 +31,11 @@ column headline:
     type_id: vchar
     colprec: 100
     description: Headline
+
+column article_html:
+    type_id: mime-h-f
+    description: Text
+
 table articles:
     module: main
     uisort: 100
@@ -44,8 +49,7 @@ table articles:
         uisearch: "Y"
     column desclong:
         uisearch: "Y"
-    column notes:
-        description: Text
+    column article_html:
     column ts_ins:
     column uid_ins:
     
