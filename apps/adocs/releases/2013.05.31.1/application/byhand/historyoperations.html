@@ -1,0 +1,124 @@
+title:History Operations
+parent:Automations
+sequence:700
+aliases:history,history tables
+
+<p>History operations save a permanent record of changes from
+   one table into another.  The operations can save old values,
+   new values, and changes to values.
+</p>
+
+<p>A history operations requires you to define both the source
+   table and the destination table.  You then define the
+   history operation on the parent table.
+</p>
+
+<p>The following example shows all options:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table orders:
+    module: ordering
+    description: Orders
+
+    column order_id:
+        primary_key: Y
+        uisearch: Y
+    column amt_lines:
+        suffix: _lines
+        auto:sum,orderlines.amt_line
+
+    history orderhistory:
+        table_id_dest: orders_hist
+        column order_id:
+            retcol: order_id
+        column amt_lines_old:
+            retold: amt_lines
+        column amt_lines_new:
+            retnew: amt_lines
+        column amt_lines_diff:
+            retdiff: amt_lines
+            require_dif: Y
+
+table orderhistory:
+    module: ordering
+    description: Orders History
+
+    # All tables need a primary key, but the pk is
+    # not very meaningful on a history table, so 
+    # just use Andromeda's pre-defined recnum column.
+    column recnum:
+        primary_key: Y
+    
+    column order:
+    column amt_lines_old:
+        suffix: _lines_old
+    column amt_lines_new:
+        suffix: _lines_new
+    column amt_lines_diff:
+        suffix: _lines_diff
+</pre>
+
+<p>Now let us examine the HISTORY definition:
+</p>
+
+<ul><li>The definition begins with the keyword "history" and must
+        have a name that is unique within the table.
+    <li>A table can have any number of history definitions.
+    <li>The <b>table_id_dest</b> property names the table that
+        the history rows will be written to.
+    <li>Each value to be written to the history table begins
+        with they keyword "column" and then names the destination
+        column.
+    <li>The property "retcol" names the source column whose value
+        should be sent to the history table.
+    <li>The property "retold" saves the old value of the named
+        column to the history table.
+    <li>The property "retnew" saves the new value of the named
+        column to the history table.
+    <li>The property "retdiff" saves the difference between old and
+        new values to the history table.
+</ul>
+
+<p>The precise behavior of retcol, retnew, retold and retdiff is:
+</p>
+
+<table class="chart">
+  <thead>
+    <tr>
+        <th>Property
+        <th>Returns on Insert
+        <th>Returns on Update
+        <th>Returns on Delete
+  </thead>
+  <tbody>
+    <tr>
+        <td>retcol
+        <td>New Value
+        <td>New Value
+        <td>Old Value
+    <tr>
+        <td>retold
+        <td>&nbsp;
+        <td>Old Value
+        <td>Old Value
+    <tr>
+        <td>retnew
+        <td>New Value
+        <td>New Value
+        <td>&nbsp;
+    <tr>
+        <td>retdiff
+        <td>New Value
+        <td>New Value - Old Value
+        <td>0 - Old Value
+      
+
+</table>
+
+<h2>Stamping History Rows</h2>
+
+<p>It is often very useful to add the pre-defined columns ts_ins
+   and uid_ins to history tables.  These record a timestamp of the
+   change and ther user who made the change.  
+</p>

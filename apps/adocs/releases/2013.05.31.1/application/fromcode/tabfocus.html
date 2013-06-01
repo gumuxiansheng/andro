@@ -1,0 +1,36 @@
+title:tabFocus
+parent:androHtml
+sequence:1928
+aliases:
+
+
+<h2>NAME</h2>
+<p>tabFocus<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP method tabFocus does exactly the same thing
+   as tabIndex, with one additional action.  When the page
+   loads, this object will start out with focus.<br/></p>
+<p>Calling this method more than once while building a page
+   causes focus to begin on the last object that made
+   the call.<br/></p>
+<p>The first time you call tabIndex, it acts like a call
+   to tabFocus, so there is no reason to ever call tabFocus
+   unless you want focus to begin somewhere other than the
+   first tabbable object.<br/></p>
+<h2>INPUTS</h2>
+<p>int (optional) starting value.  If this value is supplied,
+   the object will get this value for its tabIndex, and
+   subsequent calls will increment from there.<br/></p>
+<h2>EXAMPLE</h2>
+<p>Here is an example:
+</p>
+<pre>     &lt;?php
+     $div = html('div');
+     $input = $div->h('input');
+     $input->tabFocus();   // first input should get focus
+     // more poperty settings...
+     $input = $div->h('input'); // reuse var, make another input
+     $input->tabIndex();
+     ?&gt;
+
+</pre>

@@ -1,0 +1,54 @@
+title:Database Reads with SQL_OneRow
+parent:Database Access
+sequence:300
+aliases:sql_onerow
+
+<p>Your application code can hand a query to the server and
+   retrieve a single row with the
+   SQL_OneRow() function.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6helloworld extends androX6 {
+    function x6main() {
+        # Write out a query to get latest 
+        # news article out of a table of
+        # news articles.
+        $view = ddView('articles')
+        $sq="select headline,dateline,summary
+               from $view
+              order by dateline desc
+              limit 1";
+        $rows=SQL_OneRow($sq);
+        hprint_r($rows);
+    }
+}
+?>
+</pre>
+
+<p>Assuming your database contains the ARTICLES table,
+   you might get this output:
+</p>
+
+<pre class='prettyprint'>
+<?php
+Array(
+     [headline] => The SQL_Allrows Function!
+     [dateline] => 02/09/2009
+     [summary] => The SQL_AllRows function was unveiled today....
+)
+?>
+</pre>
+
+<h2>Literal SQL</h2>
+
+<p>The SQL_AllRows() function accepts as input a SQL literal
+   command.  As output it returns an associative array.
+</p>
+
+<p>If there is no row returned from the database SQL_OneRow
+   returns false.
+</p>
+
+

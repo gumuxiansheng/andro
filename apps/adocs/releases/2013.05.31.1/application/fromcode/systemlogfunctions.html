@@ -1,0 +1,21 @@
+title:System Log Functions
+parent:PHP API
+sequence:7204
+aliases:
+
+
+<h2>NAME</h2>
+<p>System Log Functions<br/></p>
+<h2>FUNCTION</h2>
+<p>System Log functions are used when you must be certain that a log
+    entry will be written, even if the current transaction rolls back.
+    These kinds of logs are intended for use in debugging or tracking
+    invisible processes, such as a Paypal IPN transaction.<br/></p>
+<p>A log can be opened with SysLogOpen, which returns a handle to
+    the log.  Log entries are made with SysLogEntry and the log is
+    eventually closed with SysLogClose.<br/></p>
+<p>The logs are stored in tables syslogs and syslogs_e.<br/></p>
+<p>The guarantee that the log entry will always be written comes at the
+    price of a separate connection to the database for each log.  In a
+    debugging situation you can open as many of them as you need, but in
+    a production system they should only be used in highest need.<br/></p>

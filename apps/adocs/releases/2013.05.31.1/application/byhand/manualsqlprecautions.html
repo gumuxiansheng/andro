@@ -1,0 +1,79 @@
+title:Manual SQL Precautions
+parent:Database Access
+sequence:150
+aliases:
+
+<p>Andromeda has a few simple functions that can eliminate 
+   hand-coding of SQL in most situations.  However, it is often
+   simpler and easier to just type in a few manual SQL commands
+   -- especially when doing SELECTS.
+</p>
+
+<p>In the modern world we must take precautions against a 
+   variety of threats when coding SQL, though most of them
+   come down to preventing SQL Injection.
+</p>
+
+<h2>Andromeda is (Mostly) Immune to SQL Injection</h2>
+
+<p>Andromeda is structurally immune to the most common
+   types of SQL Injection and Andromeda is immune to the worst
+   consequences of SQL Injection.  If a public surfer manages
+   to slip a ";delete from customers" snippet past both your
+   application and the framework code, nothing will happen if 
+   that user is not allowed to delete from the customers table.
+   And if they are allowed to delete from the customers table
+   (not likely for a public user, but possible for an admin)
+   then they have gone to some work to do by stealth what they
+   are perfectly welcome to do through the admin screens 
+   anyway.
+</p>
+
+<p>So we say that Andromeda is structurally immune to 
+   SQL Injection because:
+   
+<ul><li>Just because a hacker might get an injection past our
+    code, does not mean the database server will allow it.
+    <li>Any injection that does get past will only be doing
+    what the user is allowed to do anyway.
+</ul>
+
+<h2>Formatting Variables</h2>
+
+<p>There is never any reason to be cavalier when programming,
+   especially where security is concerned.  Even if the 
+   Andromeda authors <i>claim</i> the framework is immune, 
+   it pays to be paranoid.  
+</p>
+
+<p>When coding a SQL command from variables that come from the
+   browser, the variables should always be escaped.  Andromeda
+   provides three simple functions for this:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # The SQLFD() formats a value as a date, suitable
+        # for interpolation into a SQL command
+        $date = SQLFD(gp('date'));
+
+        # The SQLFC() and SQLFN() functions respectively
+        # format values as characters and numbers, all
+        # properly escaped and quoted and ready for
+        # PHP string interpolation
+        $name = SQLFC(gp('name'));
+        $age  = SQLFN(gp('age'));
+        
+        # With our escaped variables, we are ready
+        # to safely make up a SQL string
+        $sql = "SELECT * 
+                  FROM example
+                 WHERE name = $name
+                   AND date >= $date
+                   AND age >= $age";
+    }
+}
+?>
+</pre>

@@ -1,0 +1,22 @@
+title:html
+parent:androHtml
+sequence:1336
+aliases:
+
+
+<h2>NAME</h2>
+<p>html<br/></p>
+<h2>FUNCTION</h2>
+<p>The method html acts a lot like the library function html, however it adds the created html element
+    directly to this androHtml element, specifying that this androHtml element is the parent element.<br/></p>
+<h2>INPUTS</h2>
+<p>string $tag - Name of html tag.
+    mixed $innerHml - Innerhtml for the created html element.
+    string $class - Css class for the html element.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function html($tag,$innerHTML='',$class='') {
+    $x = html($tag,$this,$innerHTML);
+    if($class<>'') $x->addClass($class);
+    return $x;
+}</pre>

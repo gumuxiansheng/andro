@@ -1,0 +1,22 @@
+title:x6bb
+parent:Javascript API
+sequence:2116
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6bb<br/></p>
+<h2>FUNCTION</h2>
+<p>"Bulletin Board" object that lets you "stick" values on it
+   and "grab" them from elsewhere.<br/></p>
+<p>x6bb methods should be used instead of global variables
+   because they allow you to avoid collisions with framework
+   globals.  The framework uses the methods x6bb.fwGet
+   and x6bb.fwSet, and your application should use x6bb.appGet
+   and x6bb.appSet.<br/></p>
+<p>EXAMPLE:
+   Example usage:
+</p>
+<pre>      x6bb.appSet('myvar','value');
+      var myvar = x6bb.appGet('myvar','acceptableDefault');
+</pre>

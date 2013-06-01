@@ -1,0 +1,43 @@
+title:Cross References
+parent:Defining a Database
+sequence:1100
+aliases:
+
+                            
+<P>
+A cross reference is a table that contains two foreign keys to other tables. Every Andromeda application has at least one cross reference in it, the table USERSXGROUPS which is built into every application by the builder.
+</P>
+
+<P>
+A cross reference links one entity to more than one value of another entity.  For example, if an item can be ordered in a choice of colors, you need a cross reference of the item to the colors table to establish the list of allowed values.
+</P>
+
+<P>
+As another example, consider users and groups. Each user can be in more than one group, and each group can have more than one user. We need a table that lists values of USER_ID on one side and values of GROUP_ID on the other.
+</P>
+
+<P>
+The syntax is pretty straightforward. If we assume there is a table of GROUPS and a table of USERS (which actually there is in Andromeda), then the cross-reference looks like this:
+</P>
+
+<P>
+<pre class="ddyaml"><span class="syntax0"><span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">usersxgroups:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">security</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">User</span><span class="syntax13">-</span><span class="syntax13">Group</span><span class="syntax13"> </span><span class="syntax13">Cross</span><span class="syntax13"> </span><span class="syntax13">Reference</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">users:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&ldquo;</span><span class="syntax13">Y</span><span class="syntax13">&rdquo;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&ldquo;</span><span class="syntax13">Y</span><span class="syntax13">&rdquo;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">foreign_key</span><span class="syntax9"> </span><span class="syntax9">groups:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&ldquo;</span><span class="syntax13">Y</span><span class="syntax13">&rdquo;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&ldquo;</span><span class="syntax13">Y</span><span class="syntax13">&rdquo;</span>
+</span></pre>
+</P>
+
+<P>
+The table will end up with two columns. One column is USER_ID, the primary key of the USERS table. The other column is GROUP_ID, the primary key of the GROUPS table.
+</P>
+
+<P>
+Also we see that the foreign keys themselves are declared to be the primary key of this table. The primary key of this table comes from the two foreign keys, it is USER_ID + GROUP_ID.
+</P>

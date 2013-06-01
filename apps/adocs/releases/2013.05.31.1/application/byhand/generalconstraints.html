@@ -1,0 +1,88 @@
+title:General Constraints
+parent:Constraints
+sequence:200
+aliases:chain cons,chain
+
+<p>Sometimes you need to put a general constraint onto a 
+   column's value that requires conditional processing
+   and specialized error messages.  This can be done
+   with a chain, using almost the same syntax as calculated
+   values.
+</p>
+
+<p>Consider the example of a shopping cart that offers some
+   customers a steep discount.  Others may qualify for free
+   shipping.  However, no customer can get both.  Here is
+   how to code this in Andromeda:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+table orderlines:
+    module: ordering
+    description: Cart Items
+    
+    column discount:
+        auto: fetch,customers.discount
+    column flag_freeship:
+        suffix: _freeship
+        chain cons:
+            test 00:
+                compare: @flag_freeship = N
+                return:
+            test 01:
+                compare: @discount &lt;= 20
+                return:
+            test 02:
+                return: Discount exceeds 20%, free shipping not allowed
+</pre>
+
+<p>Now let us review the basic syntax of the 'chain'</p>
+
+<ul><li>A chain is a property of a column in a table.
+    <li>To make a constraint, begin with 'chain cons', this is
+        to distinguish a constraint chain from a calculation
+        chain.
+    <li>The constraint functions by evaluating a sequence of
+        tests.  You may number the tests however you like, but
+        by convention we use 01, 02, etc.
+    <li>Each test begins with a 'compare' operation.  If the compare
+        returns true, the chain ends, returning the 'return' value.
+    <li>Execution continues until the chain reaches a true condition
+        or runs out of tests.  If it runs out of tests the constraint
+        passes - the value is allowed.
+    <li>An empty return value means the constraint passed - the value
+        is allowed.
+    <li>A non-empty value means the constraint failed, and the text is
+        taken to be the error message.
+</ul>
+
+<p>Only one constraint chain is allowed per column.  However, constraint
+   chains have a peculiar property, they do not actually need to be
+   defined on the column whose value you are testing -- they are really
+   table-level definitions that we define for convenience on columns.
+   Therefore, if required, you can put other constraints on other
+   columns.
+</p>
+
+<h2>Compare and Return Syntax is Not Nice</h2>
+
+<p>The syntax for the compare expressions is not very
+   flexible, by the standards of most languages and by the rest
+   of Andromeda.  We hope to rectify this in a future release, but
+   at least through Release 1 the following restrictions apply:
+</p>
+
+<ul><li>There is only one comparison allowed per expression.
+        Expressions like '@a = @b OR @c = @d' are not allowed.
+    <li>Column names are preceeded by an @ sign, everything else
+    is considered a string or numeric literal.
+    <li><b><i>Only one space is allowed between each argument.
+    Andromeda does not trap for this and does not correct mistakes
+    in this rule</i></b>.
+</ul>
+
+<h2>More Information on Comparison Operators</h2>
+
+<p>A list of supported comparison operators is available on the
+   page on Calculated Values.
+</p>

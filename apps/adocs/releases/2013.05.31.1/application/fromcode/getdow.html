@@ -1,0 +1,29 @@
+title:getDow
+parent:Date-Extensions
+sequence:161
+aliases:
+
+
+<h2>NAME</h2>
+<p>Date.getDow<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method Date.getDow returns the day of
+   the week as a string.<br/></p>
+<p>If logical true is passed for the first parameter,
+   a 3-digit abbreviation is returned, using 'Thu' for
+   Thursday.<br/></p>
+<h2>INPUTS</h2>
+<p>boolean - If true, returns a 3-digit abbreviation<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+*
+Date.prototype.getDow = function(makeItShort) {
+    var days = ['Sunday','Monday','Tuesday','Wednesday'
+        ,'Thursday','Friday','Saturday'
+    ];
+    var retval = days[this.getDay()];
+    if(makeItShort) {
+        return retval.slice(0,3);
+    }
+    return retval;
+}</pre>
