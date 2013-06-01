@@ -1,0 +1,40 @@
+title:Posting Inputs with JSON
+parent:Web Programming
+sequence:1100
+aliases:
+
+
+<p>One of the most basic operations in a web database application
+   is to send a bunch of inputs back to the server.  Andromeda
+   provides a simple command to use for sending INPUT values
+   back on a JSON call.
+</p>
+
+<p>The Javascript method x6.json.inputs() adds a collection of
+   inputs to a previously initialized JSON call.  The method
+   takes a single argument, which can be either a DOM object
+   or a jQuery selector.  All of the HTML INPUT elements inside
+   of that object (or that match the selector) are added
+   to the JSON call.
+</p>
+
+<pre class="prettyprint">
+<script>
+// Initialize a JSON call
+x6.json.init('x6page','example');
+x6.json.addParm('x6action','doSomething');
+
+// Method 1, Given an input with ID 'first_name',
+// send it back manually
+x6.json.addParm('first_name',u.byId('first_name').value);
+
+// Method 2, Given some form "Form1", send all inputs
+// by passing Form1 in as an object
+x6.json.inputs( u.byId('Form1') );
+
+// Method 3, Given the same form, pass in a jQuery 
+// selector
+x6.json.input( '#Form1' );
+
+</script>
+</pre>

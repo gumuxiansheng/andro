@@ -1,0 +1,42 @@
+title:process
+parent:json
+sequence:3002
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json.process<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6.json.execute is the final
+   step in sending and receiving JSON requests.  This
+   routine does the following:<br/></p>
+<ul><br/><li> Any HTML sent back via PHP x4HTML replaces the     innerHTML of the named items (actually item Ids are used).
+<li> Any script sent back via PHP x4Script is executed.
+<li> Any data sent back via PHP x4Data is placed into     x6.data.<br/></ul><br/></ul>
+<h2>EXAMPLE</h2>
+<p>This example shows how you can retrieve table data and
+   then process it:<br/></ul>
+<pre>      &lt;script&gt;
+      x6.json.init('x4Page','myCustomPage');
+      x6.json.addParm('x4Action','getStates');
+      // x6.json.execute will return false on errors
+      if(x6.json.execute()) {
+         // x6.json.process puts everything in its place...
+         x6.json.process();
+         // ...so that we can handle the returned data
+         for (var idx in x6.data.states) {
+            // do something
+         }
+      }
+      &lt;script&gt;
+</pre>
+<p>This code requires the following PHP code on the server:<br/></ul>
+<pre>      &lt;?php
+      # this is file application/x4myCustomPage.php
+      class x4myCustomPage extends androX4 {
+          function getStates() {
+              $states = SQL("Select * from states");
+              x4Data('states',$states);
+          }
+      }
+<br/></ul>

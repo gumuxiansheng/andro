@@ -1,0 +1,17 @@
+title:SysLogOpen
+parent:System Log Functions
+sequence:7229
+aliases:
+
+
+<h2>NAME</h2>
+<p>SysLogOpen<br/></p>
+<h2>FUNCTION</h2>
+<p>Use this function to open a system log.  Returns a LogNumber, which
+    is used for subsequent calls to SysLogEntry.  When the log is
+    finished, close it with SysLogClose.<br/></p>
+<p>Any number of system logs can be open at a time.<br/></p>
+<h2>INPUTS</h2>
+<p>string $name - name of log<br/></p>
+<h2>RETURN</h2>
+<p>int - log number<br/></p>

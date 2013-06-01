@@ -1,0 +1,162 @@
+title:Create a First Table
+parent:Tutorials
+sequence:200
+aliases:
+
+                            
+<p>
+In this tutorial, we will begin creating our database.  We will start the finance package with a basic order system.  This tutorial shows how to create the first table in that system.  The first table will be the customers table.
+</p>
+
+<h2>Related Reference Material</h2>
+
+<p>
+The topics covered in this tutorial are also covered in reference sections
+[[Application Directories]], [[Database Specification File]], [[module]], [[column]],
+[[table.column]], and [[table]].
+</p>
+
+<h2>About the YAML Syntax</h2>
+
+<p>
+Andromeda uses files in the "YAML" format (<a href="http://www.yaml.org">http://www.yaml.org</a>) for its data definition files.  The basic things you need to know for now about the YAML format is that it depends upon indentation, and <i>cannot use TABs for indentation</i>.  If you use TABs for indentation <i>your file will not work</i>.   The indents do not have to be any particular size, like 2 chars or 6 (we use 3), but they must be consistent.
+</p>
+
+<p>
+The YAML format should be mostly self-explanatory, but one thing bears mentioning.  You do not have to quote strings in a DD.YAML file, but you do have to put double-quotes around a "Y" for something like 'permsel: "Y"', otherwise the YAML processor will turn it into a number 1.
+</p>
+
+<h2>The DD.YAML File</h2>
+
+<p>
+When you built the finance application for the first time in the previous tutorial, a collection of directories was automatically built.  The top level directory was named "finance" and it contains several subdirectories:
+</p>
+
+[[image:ft_fs0.png]]
+
+<p>
+We will be putting all of our files into the "application" subdirectory.  The framework never modifies files that are put into that directory.
+</p>
+
+<p>
+Using your favorite text editor or IDE, create a new empty file in the application directory named "finance.dd.yaml".
+</p>
+
+<h2>The Orders Module</h2>
+
+<p>
+Andromeda groups all tables into modules, for convenience both in assigning security and creating menus.
+</p>
+
+<p>
+The first thing we are going to add to our DD.YAML file is a module definition:
+</p>
+
+<div class='box-add'><pre><span class="syntax0"><span class="syntax1">#</span><span class="syntax1"> </span><span class="syntax1">Remember!</span><span class="syntax1"> </span><span class="syntax1">Indent</span><span class="syntax1"> </span><span class="syntax1">with</span><span class="syntax1"> </span><span class="syntax1">spaces,</span><span class="syntax1"> </span><span class="syntax1">not</span><span class="syntax1"> </span><span class="syntax1">tabs!</span>
+<span class="syntax10">module</span><span class="syntax10"> </span><span class="syntax10">orders:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisort:</span><span class="syntax13"> </span><span class="syntax13">100</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span>
+</span></pre>
+</div>
+
+<p>
+The definition begins with the keyword "module", followed by the name and then a colon.  There are two properties of the module.  For now we will ignore "uisort", that will be explained in a later tutorial.  The "description" property will appear on menus and any other place where the module is referenced.
+</p>
+
+<p>
+We will be putting all of the first tables of this system into the "gl" module.
+</p>
+
+<h2>Define A Column</h2>
+
+<p>
+Our first table will be the table of customers.  We will use user-assigned customer codes, and make them 10-digit alphanumerics.
+</p>
+
+<p>
+Before we can create the table, we need to define the customer code column.  Andromeda makes column definitions <i>outside of tables</i>, the column itself is defined before it is put into a table.  This is very important, because it reinforces the idea that whenever a column of a certain name appears, it will always be exactly the same kind of column.
+</p>
+
+<p>
+The column definition can come right after the module:
+</p>
+
+<div class="box-add"><pre><span class="syntax0"><span class="syntax10">column</span><span class="syntax10"> </span><span class="syntax10">customer:</span><span class="syntax10"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">char</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">colprec:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Customer</span><span class="syntax13"> </span><span class="syntax13">Code</span>
+</span></pre>
+</div>
+
+<p>
+Like the module, the definition begins with a keyword, in this case "column", followed by the name of the item to be defined, in this case "customer" and then a colon.  The definition itself contains property:value assignments.
+</p>
+
+<p>
+The "type_id" corresponds to SQL data types.  The "colprec" is the SQL concept of "column precision", which just means how many characters in the column.  The
+"description" is used wherever the column is referred to, for captions on screen, column headings and so forth.
+</p>
+
+<h2>Defining The Table</h2>
+
+<p>
+Now we are ready to define the table itself.  We will start with a very simple customers table:
+</p>
+
+<div class="box-add"><pre><span class="syntax0"><span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Customers</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">customer:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">description:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+</span></pre>
+</div>
+
+<p>
+Once again we see a keyword, "table", followed by a name "customers", terminated with a colon.
+</p>
+
+<p>
+Notice that we have assigned the table to module "orders", which we defined earlier, and have also given the table a description, which will appear on menus and other places in the UI.
+</p>
+
+<p>
+A table contains <i>nested definitions</i>.  Within the table are two column definitions, each follows the same rules as other definitions, having a keyword, a name, a colon, and then their properties (if any) indented below them.  There are many places in Andromeda where one definition will contain other definitions.
+</p>
+
+<p>
+The table contains two columns.  One of the columns is the primary key.  We will see in a moment what effect the 'uisearch' assignment has.
+</p>
+
+<p>
+When a column definition occurs inside of a table, we call that a <i>column placement</i>.  Strictly speaking, the column is not being defined, it is only being placed into the table.
+</p>
+
+<p>
+You may ask, why did we need to define the "customer" column, but it does not look like we needed to define "description", did it just come out of nowhere?  This is because this  column is already defined for us, it is one of the commonly-used columns that is defined in a system ADD file named <span class="nolink">andro_universal.add</span>.
+</p>
+
+<h2>Security</h2>
+
+<p>
+For the beginning of this tutorial series we will assume you are logging in with a superuser account and can do anything.  Security will be introduced in later tutorials.  Therefore we will not explain the security assignments right now.
+</p>
+
+<h2>Run A Build</h2>
+
+<p>
+We now build the application again, just as we did in the previous tutorial.  The builder will examine the DD.YAML file,  detect all of the changes, and upgrade the database to its new form.
+</p>
+
+<p>
+Once the build is complete, you will be able to login to the application and see our new menu module, the new menu entry, and the data in the table:
+</p>
+
+<p>
+At this point you will be unable to edit the data, even as a superuser.  This is because we have not yet created any security, and Andromeda is a <i>deny by default</i> system.  After we have created two more tables we will go back and create some security definitions.
+</p>
+
+[[image:ft_ui5.png]]

@@ -1,0 +1,20 @@
+title:x6Debug
+parent:JSON Returns
+sequence:470
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6Debug<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function x6Debug saves a debug datum to be returned to
+   the browser.  The browser takes no action with these items, they
+   are meant to be inspected using Firebug or a similar tool.<br/></p>
+<h2>INPUTS</h2>
+<p>string $parm1 - the debug info to save<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function x6Debug($parm1) { return x4Debug($parm1); }
+function x4Debug($parm1) {
+    $GLOBALS['AG']['x4']['debug'][] = $parm1;
+}</pre>

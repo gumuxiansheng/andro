@@ -1,0 +1,69 @@
+title:Table Security
+parent:Security
+sequence:300
+aliases:
+
+<p>A group's permissions on a particular table
+   are inherited first from the group
+   definition itself, and then from any module-level overrides.
+   However, the programmer can also specify specific permissions
+   table-by-table.  The syntax is fairly simple.
+</p>
+
+<p>For completeness, we begin with a definition of a module
+   and a group:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+# Define the inventory module
+module inventory:
+    description: Inventory Tables
+    uisort: 300
+
+# Now define a group with minimal default permissions,
+# and override those permissions for the inventory
+# module
+group minimal:
+    description: Minimal Permissions
+    permsel: N
+    permins: N
+    permupd: N
+    permdel: N
+
+    module inventory:
+        permsel: Y
+        permins: N
+        permupd: N
+        permdel: N
+</pre>
+
+<p>Now we want to create two tables in the inventory module
+   and override the "minimal" group's permissions:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table supersecret:
+    module: inventory
+    description: Secret Details
+    
+    # Revoke this group's permissions on this table
+    group minimal:
+        permsel: N
+        permins: N
+        permupd: N
+        permdel: N
+   
+    #... column definitions follow
+        
+
+table anybodycanwrite:
+    module: inventory
+    description: Anybody Can Write
+    
+    # Give the group extra permissions on this table
+    group minimal:
+        permsel: Y
+        permins: Y
+        permupd: Y
+        permdel: Y
+</pre>

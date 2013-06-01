@@ -1,0 +1,54 @@
+title:Database Inserts
+parent:Database Access
+sequence:600
+aliases:
+
+<p>Database inserts can be made manually with the SQL()
+   function, but this can be tedious and error-prone.
+   The SQL function SQLX_Insert() is a much easier way
+   to do inserts.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $row = array(
+            'headline'=>'Using SQLX_Insert'
+            ,'dateline'=>'02/11/2009'
+            ,'summary'=>'Today we see how to use SQLX_insert'
+        );
+        $skey = SQLX_insert('articles',$row);
+    }    
+}
+</pre>
+
+<p>The SQLX_Insert function automatically escapes all values,
+   so you do not need to worry about protecting against
+   SQL Injection.
+</p>
+
+<p>The SQLX_Insert function knows about row security and 
+   column security.  You can name the base table in the function
+   and not worry about which view needs to be used.
+</p>
+
+<p>The SQLX_Insert function quietly discards elements from the
+   array that cannot be directly assigned by the user, such as
+   FETCH values or values calculated with a CHAIN.
+</p>
+
+<p>The SQLX_Insert function quietly discards elements from the
+   array that do not match an actual column in the destination
+   table.
+</p>
+
+<p>The SQLX_Insert function does <i>not</i> trim values, if you
+   provide a value that is too long for a column, it will throw
+   out an error.
+</p>
+
+<p>The SQLX_Insert function returns the skey value of the newly
+   inserted row.  There is more information available in the
+   page on [[The SKEY Column]].
+</p>

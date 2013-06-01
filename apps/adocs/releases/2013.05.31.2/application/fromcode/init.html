@@ -1,0 +1,47 @@
+title:init
+parent:json
+sequence:1211
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json.init<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6.json.init initiates a new
+   JSON request.<br/></p>
+<p>Optionally you can pass two inputs and eliminate one
+   call to x6.json.addParm.<br/></p>
+<h2>INPUTS</h2>
+<p>string - if provided, a parameter name
+   mixed - if provided, the value for the parameter<br/></p>
+<h2>EXAMPLE</h2>
+<p>Here are two examples for initiating a JSON request<br/></p>
+<pre>      &lt;script&gt;
+      // The short way
+      x6.json.init('x4Page','myCustomPage');
+
+      // Passing w/o parameters requires at least one
+      // call to x6.json.addParm.
+      x6.json.init();
+      x6.json.addParm('x4Page','myCustomPage');
+      &lt;/script&gt;
+</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+init: function(name,value) {
+    this.x4Page     = '';
+    this.x4Action   = '';
+    this.callString = '';
+    this.parms      = { };
+    this.reportErrors=true;
+    this.explicitParms= '';
+    if(name!=null) {
+        this.addParm(name,value);
+    }
+    var self = this;
+    // KFD 3/20/09 Sourceforge 2697962
+    //             Make sure hold variables always go through
+    $('[id^=hld]').each(function() {
+        self.addParm( $(this).attr('id'), $(this).val() );
+    });
+},</pre>
