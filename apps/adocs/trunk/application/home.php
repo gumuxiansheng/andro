@@ -54,7 +54,7 @@ class home extends x_table2 {
 		<ul>
 			<li>PHP Developers</li>
       			<li>Postgres Gurus</li>
-    			<li>Graphical Designers</li:>
+    			<li>Graphical Designers</li>
  		</ul>
         </div>
         <div id = "a6body-right">
