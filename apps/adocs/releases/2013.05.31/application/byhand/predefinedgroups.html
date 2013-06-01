@@ -1,0 +1,53 @@
+title:Pre-Defined Groups
+parent:Security
+sequence:800
+aliases:$LOGIN,usermaint,predefined group,public user
+
+<p>Andromeda contains two pre-defined groups.  In the YAML file
+   we refer to one as the "$LOGIN" group, and another as the
+   "usermaint" group.
+</p>
+
+<h2>The $LOGIN Group</h2>
+
+<p>Andromeda is a deny-by-default system, meaning that by default
+   all groups are denied access to all tables.  However, on a 
+   public website you always need to grant read-only access at least
+   to public users who are on the site but have not logged in.
+   The most obvious example would be an eCommerce site where the
+   users must be able to read the ITEMS table.
+</p>
+
+<p>The Andromeda programmer can grant permissions to these public
+   users by making assignments to the "$LOGIN" group:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+module inventory:
+    group $LOGIN:
+        permsel: Y
+        permins: N
+        permupd: N
+        permdel: N
+        
+# Or, on a specific table:
+table items:
+    group $LOGIN:
+        permsel: Y
+        permins: N
+        permupd: N
+        permdel: N
+</pre>
+
+<h2>The USERMAINT Group</h2>
+
+<p>All Andromeda applications contain a group called "usermaint".
+   Members of this group are allowed to create and delete users and
+   give them group permissions.  Any user in this group has 
+   effective control of the entire application, because they can
+   create users with any privilege level.
+</p>
+
+<p>You do not normally assign any permissions to members of this
+   group.
+</p>

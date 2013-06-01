@@ -1,0 +1,68 @@
+title:serialize
+parent:json
+sequence:2751
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json.serialize<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6.json.serialize takes a
+   Javascript Object or Array and serializes it and
+   adds the values to a JSON request previously
+   initialized with x6.json.init.<br/></p>
+<p>This method accepts an object as its parameter.<br/></p>
+<p>When you call this function, the parameters sent
+   back take the form of an associative array.<br/></p>
+<h2>INPUTS</h2>
+<p>prefix - The base name of the parameter<br/></p>
+<p>object - the object to serialize.<br/></p>
+<h2>EXAMPLE</h2>
+<p>Consider the following object that is serialized<br/></p>
+<pre>      &lt;script&gt;
+      var x = {
+         parm1: [ 1, 2, 3],
+         parm2: 'hello',
+         parm3: {
+             x: 5,
+             y: 10,
+         }
+      x6.json.init('x4Page','myCustomPage');
+      x6.json.addParm('x4Action','serialHandler');
+      x6.json.serialize('example',x);
+      &lt;script&gt;
+</pre>
+<p>Then on the server, you can grab the "example" parameter
+   and you will get the following associative array:<br/></p>
+<pre>      &lt;?php
+      # this is file x4myCustomPage.php
+      class x4myCustomPage extends androX4 {
+
+          # this handles the 'x4Action' specified above
+          function serialHandler() {
+              $example = gp('example');
+
+              # ...the following code shows how
+              #    the values that are in x4
+              $example['parm1'][0] = 1;
+              $example['parm1'][1] = 2;
+              $example['parm1'][2] = 3;
+              $example['parm2'] = 'hello';
+              $example['parm3']['x'] = 5;
+              $example['parm3']['y'] = 10;
+          }
+      }
+      ?&gt;
+</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+this.serialize = function(prefix,obj) {
+    for(var x in obj) {
+        if(typeof(obj[x])=='object') {
+            this.serialize(prefix+'['+x+']',obj[x]);
+        }
+        else {
+            this.addParm(prefix+'['+x+']',obj[x]);
+        }
+    }
+}</pre>

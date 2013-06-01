@@ -1,0 +1,23 @@
+title:execute
+parent:json
+sequence:2902
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json.execute<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6.json.execute sends a request to
+   the server that has been initialized with x6.json.init
+   and has received parameters with any of x6.json.addParm,
+   x6.json.inputs and x6.json.serialize.<br/></p>
+<p>In normal usage, you call this routine and check for
+   a return value of true.  If the routine returns true
+   you call x6.json.process to process the returned
+   results.<br/></p>
+<h2>RESULTS</h2>
+<p>This routine returns true if the server reports no
+   errors.<br/></p>
+<p>If the server reports errors, they are displayed to the
+   user using u.dialogs.alert, and this routine returns
+   false.<br/></p>

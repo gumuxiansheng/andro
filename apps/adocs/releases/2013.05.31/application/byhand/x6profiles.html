@@ -1,0 +1,111 @@
+title:x6 Profiles
+parent:The Admin Interface
+sequence:100
+aliases: x6profile
+
+<p>The Andromeda admin interface makes use of three distinct
+   "profiles" for letting users maintain tables.  The profiles
+   are called "grid", "twosides" and "conventional".  Each of
+   these is shown below, and the "conventional" profile has 
+   several pages showing how to extend or modify it.
+</p>
+
+<h2>Setting a Table's Profile</h2>
+
+<p>By default all tables have profile "conventional", which is
+   the most powerful but also the most complex.  You can change
+   a table's profile in your database specification, or in
+   your application code.  Application code settings override
+   database specifications.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table example:
+    module: testing
+    description: An Example Table
+    x6profile: grid
+</pre>
+
+<p>You can also override this setting in your application code
+   by making a dictionary override function for the table and
+   setting the x6profile in that:
+</p>
+
+<pre class="prettyprint">
+<?php
+#  This function should go into application/applib.php
+#
+#  It is important that the parameter be passed in by
+#  reference, otherwise the function will have no effect.
+#
+#  Name the function "ddtable_"+ the table name.
+#
+function ddtable_example(&$dd) {
+    $dd['x6profile'] = 'grid';
+}
+?>
+</pre>
+
+<h2>The Grid Profile</h2>
+
+<p>The Grid profile is suitable for small tables that do not have
+   many rows or columns.  When the user goes to edit the table,
+   the entire table is sent to the browser in a grid form, and the
+   user can directly edit the table in the grid.
+</p>
+
+<p>Only columns with the "uisearch: Y" flag set will be displayed
+   in the grid.
+</p>
+
+<p>The grid profile does a little trick if you have a QUEUEPOS
+   column in the table.  The grid automatically sorts on that column
+   and hides it so users cannot see it.  It then automatically sends
+   back inserts that work out the correct value of
+   QUEUEPOS for new rows.
+</p>
+   
+<p>Here is an example grid from the demo application:</p>
+
+[[image:grid.png]]
+
+
+<h2>The Twosides Profile</h2>
+
+<p>The twosides profile is suitable for small tables that have less
+   than a few hundred rows but have too many columns to work well on
+   a grid.  This profile shows a grid on the left and a detail pane
+   on the right.  When a user clicks on a row on the left, it is brought
+   up for editing on the right.
+</p>
+
+<p>Here is an example twosides page from the demo application:</p>
+
+[[image:twosides.png]]
+
+<h2>The Conventional Profile</h2>
+
+<p>The conventional profile is the default profile for any table 
+   that does not have an explicit profile set.  The conventional 
+   profile is far and away the most powerful and flexible way for
+   users to work with tables.
+</p>
+
+<p>The conventional profile always opens with a lookup screen.  
+   Users can directly enter values in any input, and JSON searches
+   are performed that retrieve matching values.  Any column that
+   has UISEARCH: Y will appear in the lookup grid.
+</p>
+
+[[image:conventional1.png]]
+
+<p>The user can pick any row and go over to the detail pane, where
+   they can also work with child tables, which are populated
+   automatically:
+</p>
+
+[[image:conventional2.png]]
+
+<p>The following pages contain more detail on the conventional
+   profile.
+</p>

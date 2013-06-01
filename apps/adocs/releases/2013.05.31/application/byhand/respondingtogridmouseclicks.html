@@ -1,0 +1,116 @@
+title:Responding to Grid Mouseclicks
+parent:Using x6 Plugins
+sequence:500
+aliases:
+
+<p>You may want to have a grid displayed with data in it, and then
+   perform some action when the user clicks on a row.  This can
+   be done with Javascript and by using Andromeda's event 
+   dispatcher system.
+</p>
+
+<p>It works like this.  When a user clicks on a row in a grid, an
+   event is sent to the Andromeda event dispatcher.  If you have an
+   object that responds to that event then you can do anything you
+   want when the user clicks on a row.
+</p>
+
+<p>We will start out with our example of a song playlist:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # Always begin with this:
+        $top = html('div');
+        $top->addClass('fadein');
+        
+        #  ...other html is added here...
+        #
+    
+        # Now for the grid create command.  The parameters are:
+        # 1) Height
+        # 2) Table we are editing
+        # 3) Flag for lookup textboxes, no in this case
+        # 4) Flag for sortable.  No
+        # 5) Flag for buttonbar, No, not editable
+        # 6) Flag for editable, no
+        $grid = $top->addGrid(hSize(300),'states','N','N','N','N');
+        
+        # Now add a single column, take it from the
+        # data dictinoary, that is always easiest
+        $dd = ddTable('songs');
+        $grid->addColumn($dd['flat']['songname']);
+        $grid->lastColumn();
+        
+        # Now pull the data and add it.  Note that we
+        # pull the 'skey' column so the grid has a
+        # unique ID for each row.
+        $view = ddtable('songs');
+        $sq="select skey,songname from $view";
+        $rows = SQL_AllRows($sq);
+        $grid->addData($rows);
+        
+        # Create an invisible div object, we will see 
+        # what to do with this below
+        $listener = $top->h('div');
+        $listener->hp['id'] = 'song_listener';
+        $listener->hp['style'] = 'display: none';
+        
+        
+        # ...and this is always at the end
+        $top->render();
+    }
+}
+</pre>
+
+<h2>The Event</h2>
+
+<p>When the user clicks on a row, the grid will fire an event 
+   with the name "reqEditRow_songs".  This event is named "reqEditRow_"
+   plus the name of the table that the grid is displaying.  The
+   event fires with a parameter, which is the skey value of the row.
+</p>
+
+<p>To respond to this event, we will send up an object to the page
+   that is listening for it.  To do this, we put a method into our
+   "x6example" class called x6script().  Anything we put into the
+   x6script() routine will be executed when the document has loaded.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        #
+        # This code skipped for brevity, paste in the
+        # code from the above example.
+        #
+    }
+    
+    function x6script() {
+        ?>
+        <script>
+        // Our page has an invisible DIV called 'song_listener',
+        // we will attach functions to that object to handle
+        // events from the x6 system.
+        var id = 'song_listener';
+        var obj= document.getElementById(id);
+        
+        // Have the song listener subscribe to the reqEditRow event
+        x6events.subscribeToEvent('reqEditRow_songs',id);
+        
+        // Now create the event handler.  An event handler takes
+        // the name 'receiveEvent_' + event name + '_' + table name
+        // The "reqEditRow" event receives one parameter: the skey
+        obj.receiveEvent_reqEditRow_songs = function(skey) {
+            alert("you want to do something with song: "+skey);
+        }
+        </script>
+        <?php
+    }
+}
+?>
+    
+

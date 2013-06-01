@@ -1,0 +1,108 @@
+title:Summary Tables
+parent:Automations
+sequence:800
+aliases:materialized view,materializing,summary,auto_insert,auto-insert
+
+<p>A summary table is any table that contains aggregrations from
+   other tables, such as sales by customer by year, or sales by
+   customer by item category, or anything else along those lines.
+</p>
+
+<p>In many systems this information is tracked in views.  The downside
+   of views is that they may perform slowly at read time if there are
+   many rows in the respective database tables.  Therefore, some systems
+   such as Oracle allow "Materialized Views" that, as the name implies,
+   materialize the results of the query so that performance is faster.
+</p>
+
+<p>Andromeda has a simpler feature that works in an interesting way.
+   We begin by defining the summary table, using automations, just
+   like we would any other table.  The example below summarizes
+   sales by customer type and item category by day.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table summary:
+    module: example
+    description: Summary Example
+    
+    column customer_type:
+        primary_key: Y
+    column item_category:
+        primary_key: Y
+    column date:
+        primary_key: Y
+
+    column amt:
+        description: Total Sales
+        auto: sum,orderlines.amt
+</pre>
+
+<p>From here we need to put a foreign key onto the orderlines
+   table so it will match to the summary table:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+table orderlines:
+    module: sales
+    
+    # set the foreign key so that the sum will
+    # work.
+    foreign_key summary:
+    
+    # and pull down two columns that are actually
+    # up in the orders table
+    column date:
+        auto: fetch,orders.date
+    column customer_type:
+        auto: fetch,orders.customer_type
+        
+    # finally, when we pull in the price from the
+    # items table, pull the item category as well
+    foreign_key items:
+    column price:
+        auto: fetch,items.price
+    column item_category:
+        auto: fetch,items.item_category
+</pre>
+
+<p>So far this looks fine except for one major problem.  Because the
+   summary table, like all tables, starts out empty, the foreign key
+   from orderlines to the summary table will actually <i>prevent any
+   orderlines from being saved.</i>  Do we need to pre-populate the
+   summary table with every possible customer_type/item_category
+   combination for every day?  No way, that would be a major violation
+   of the Anromeda philosophy because it way too much work and would
+   break the entire system if for some reason the pre-population system
+   did not run.  In short, a pre-population task <i>creates a burden
+   for system admins and makes the system brittle.</i>  The Andromeda
+   philsophy is instead to make things easier.
+   So, we put a magic little flag
+   on the foreign key definition:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+table orderlines:
+    module: sales
+    
+    # set the foreign key so that the sum will
+    # work.
+    foreign_key summary:
+        auto_insert: Y
+    
+    # ....rest of example goes here
+</pre>
+
+<p>This flag says <i>insert a row into the parent table if one does
+   not exist to satisfy the foreign key</i>.  This way the summary table
+   will always have rows for any relevant combination of customer_type - 
+   item_category - date.
+</p>
+
+<p>This may sound very counter-intuitive, to have a foreign key switch
+   that actually generates matching rows, but the nice thing about it 
+   is that it allows the Andromeda programmer to use the exact same
+   tools for a summary table as for anything else.  Using just a table
+   definition and some automations, a summary table becomes no different
+   from any other table.  
+</p>

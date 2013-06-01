@@ -1,0 +1,18 @@
+title:bufferedRender
+parent:androHtml
+sequence:2323
+aliases:
+
+
+<h2>NAME</h2>
+<p>bufferedRender<br/></p>
+<h2>FUNCTION</h2>
+<p>The method bufferedRender rendered this androHtml object in a buffer, instead of directly outputing
+    it to the browser.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function bufferedRender($parentId='',$singleQuotes=false) {
+    ob_start();
+    $this->render($parentId,$singleQuotes);
+    return ob_get_clean();
+}</pre>
