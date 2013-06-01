@@ -1,6 +1,6 @@
 title:Installing Andromeda on Ubuntu 13.04
 parent:Linux
-sequence:300
+sequence:400
 aliases:
 
 
@@ -135,12 +135,12 @@ the file /etc/postgresql/9.1/main/postgresql.conf:</p>
          CustomLog ${APACHE_LOG_DIR}/andro-node-access.log combined
     &lt;/VirtualHost&gt;
 </pre>
-<p>**Note:  you will need to do this for each Andromeda application**</p>
+<p><i>**Note:  you will need to do this for each Andromeda application**</i></p>
 
 <p>Now you will need to enable that virtual host using the following command</p>
 
 <pre class="cli">sudo a2ensite andro-node</pre>
-<p>**Note:  you will need to do this for each Andromeda application**</p>
+<p><i>**Note:  you will need to do this for each Andromeda application**</i></p>
 
 <p><b>Edit Hosts file</b></p>
 
@@ -170,7 +170,7 @@ the file /etc/postgresql/9.1/main/postgresql.conf:</p>
 <pre class="cli">allow_directory_group_writable=true
 </pre>
 
-<pre class="cli">http://andro.googlecode.com/svn/releases/2013.05.27/
+<pre class="cli">http://andro.googlecode.com/svn/releases/[latest_release]/
 </pre>
 
 <h2>Step 3: Restarts and Final Commands</h2>
@@ -225,7 +225,7 @@ mv install.php.done install.php
 
 <p>Point your browser to:</p>
 
-<p><a href="http://andro.local">http://localhost/~UBUNTU_LOGIN/andro_root/andro</a>
+<p><a href="http://andro.local">http://andro.local/</a>
 </p>
 
 <p>...and follow the instructions on-screen to initialize and begin using

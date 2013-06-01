@@ -42,7 +42,6 @@
 #
 $MPPages['home']   = 1;
 $MPPages['search'] = 1;
-$MPPages['x6commentspost'] = 1;
 $MPPages['commentspost'] = 1;
 $MPPages['cms'] = 1;
 #$MPPages['example_page_2'] = 1;
