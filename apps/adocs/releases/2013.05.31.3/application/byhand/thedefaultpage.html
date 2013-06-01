@@ -1,0 +1,52 @@
+title:The Default Page
+parent:Building A Site
+sequence:300
+aliases:
+
+<p>Andromeda decides what page to show a user based on the
+   parameter x6page, as in http://www.example.com?x6page=cart.
+   However, when the user first lands on a site they have not
+   specified a page yet, so there must be a way to send them
+   to a meaningful page.
+</p>
+
+<h2>The x6home Page Method</h2>
+
+<p>Create a file in your application directory called 'x6home.php'
+   and have it contain your home page content.
+</p>
+
+<pre class='prettyprint'>
+<?php
+class x6home extends androX6 {
+    function x6main() {
+        echo "Welcome to the home page!"
+    }
+}
+?>
+</pre>
+
+<h2>Choosing a Page in Code</h2>
+
+<p>You can also code up a routine app_nopage() in your
+   application/applib.php file.  This function does not actually
+   return a value, it sets a parameter:
+</p>
+
+<pre class="prettyprint">
+<?php
+# This file is application/applib.php
+#
+function app_nopage() {
+    if(LoggedIn && !inGroup('customers')) {
+        # this is an admin user, send them to the menu
+        gpSet('x6page','menu');
+    }
+    else {
+        # this is a public user, send them to the latest
+        # news page
+        gpSet('x6page','news');
+    }
+}
+</pre>
+   

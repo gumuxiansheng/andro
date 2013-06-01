@@ -1,0 +1,25 @@
+title:ddUserPerm
+parent:Data Dictinary Routines
+sequence:6609
+aliases:
+
+
+<h2>NAME</h2>
+<p>ddUserPerm<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function ddUserPerm will tell you if the user is granted a particular permission on a particular
+    table.<br/></p>
+<p>The permissions you can request are:
+</p>
+<pre>        sel: May the user select?
+        ins: May the user insert?
+        upd: May the user update?
+        del: May the user delete?
+        menu: Does this person see this on the menu?  To return a true for this permission, the user
+                  must have menu permission and SELECT permission.
+</pre>
+<h2>INPUTS</h2>
+<p>string $table_id - Id for the data dictionary table
+    string $perm_id - Id for the permission (sel, ins, upd, del, menu)<br/></p>
+<p>RETURN VALUE
+    boolean - if the user has the permission<br/></p>

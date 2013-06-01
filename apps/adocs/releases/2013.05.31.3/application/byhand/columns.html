@@ -1,0 +1,135 @@
+title:Columns
+parent:Database Structure
+sequence:200
+aliases:column,column definition,type_id,column type,colprec,colscale,precision,scale,char,vchar,varchar,numeric,numb,int,text
+
+<p>Andromeda defines columns differently than you might expect
+   if you are used to hand-coding CREATE TABLE commands.  
+   This section explains how this works.
+</p>
+
+<h2>Columns Are Defined Outside of Tables</h2>
+
+<p>In regular SQL, a CREATE TABLE command contains the   
+   complete description of each column, including the type
+   and, if required, the precision and scale.  The major
+   conceptual drawback to regular SQL is that a programmer
+   can deliberately use the same column 
+   name in different tables for columns with different
+   types, precisions and scales.  This is in itself 
+   confusing and can only lead to confusion in code.
+</p>
+
+<p>In Andromeda a column name is used only once to define a
+   column, and that column is then <i>placed</i> into one or
+   more tables.  This ensures that the columns of the same
+   name are always exactly the same in all tables.</p>
+   
+<h2>Defining a Column</h2>
+
+<p>Columns are defined as top-level elements.  That means
+   that column definitions have an indent level of zero.
+   Here is an example column definition:
+</p>
+
+<pre class='prettyprint lang-ddyaml'>
+column example:
+    description: A Numeric Value
+    type_id: numb
+    colprec: 10
+    colscale: 5
+</pre>
+
+<p>The basic column definition has these properties:
+</p>
+
+<ul><li>The name is always "column -name-:", the keyword
+    <b>column</b>, a space, the name of the column, and a colon.
+    <li>The property <b>description</b> becomes the caption for
+    the column whenever it appears on a form.
+    <li>The property <b>type_id</b> can be any of char, vchar,
+    numb, int, money, or text.
+    <li>The property colprec is the same as SQL's "precision", it
+    means the total number of characters in the value.  It applies
+    to char, vchar, and numb.
+    <li>The property colscale is the same as SQL's "scale", it
+    applies only to type "numb" and counts the digits to the
+    right of the decimal.  A column that is numb(5,2) will have
+    5 total digits, 3 to the left of the decimal, and 2 to the
+    right.
+</ul>
+    
+    
+<h2>Allowed Types</h2>
+
+<p>The table be
+
+<table class="chart">
+  <thead>
+    <tr>
+        <th>Type
+        <th>colprec
+        <th>colscale
+        <th>Notes
+  </thead>
+  <tbody>
+    <tr>
+        <td>char
+        <td>Required
+        <td>ignored
+        <td>Equivalent to SQL type 'char'
+    <tr>
+        <td>vchar
+        <td>Required
+        <td>ignored
+        <td>Equivalent to SQL type 'varchar'
+    <tr>
+        <td>int
+        <td>ignored
+        <td>ignored
+        <td>Equivalent to SQL type 'int'
+    <tr>
+        <td>numb
+        <td>Required
+        <td>Required
+        <td>Equivalent to SQL type 'numeric'
+    <tr>
+        <td>text
+        <td>ignored
+        <td>ignored
+        <td>Equivalent to SQL type 'text' or 'clob'
+    <tr>
+        <td>cbool
+        <td>ignored
+        <td>ignored
+        <td>"Character Boolean", accepts Y or N
+    <tr>
+        <td>gender
+        <td>ignored
+        <td>ignored
+        <td>Accepts M, F, or U
+    <tr>
+        <td>date
+        <td>ignored
+        <td>ignored
+        <td>A date-only field (no time)
+    <tr>
+        <td>time
+        <td>ignored
+        <td>ignored
+        <td>A number from 0-1440, minutes since midnight.
+    <tr>
+        <td>datetime
+        <td>ignored
+        <td>ignored
+        <td>Called either 'timestamp' or 'datetime' on
+            various platforms.
+    <tr>
+        <td>money
+        <td>ignored
+        <td>ignored
+        <td>Shortcut for numb(14,2)
+  </tbody>
+</table>
+        
+

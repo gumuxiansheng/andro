@@ -1,0 +1,22 @@
+title:htmlEdit
+parent:String-Extensions
+sequence:436
+aliases:
+
+
+<h2>NAME</h2>
+<p>String.htmlEdit<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript function htmlEdit removes HTML entities
+   from a string and replaces them with literal characters,
+   suitable for editing in an input.  The characters replaced
+   are ampersand '&amp;', less-than '&lt;', greater-than '&gt;'
+   and non-breaking space '&amp;nbsp;'.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+String.prototype.htmlEdit = function() {
+    return this.replace(/&amp;/g,'&')
+        .replace(/&lt;/g,'<')
+        .replace(/&gt;/g,'>')
+        .replace(/&nbsp;/g,' ');
+}</pre>

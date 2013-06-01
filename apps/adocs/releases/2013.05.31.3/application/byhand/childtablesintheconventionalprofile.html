@@ -1,0 +1,127 @@
+title:Child Tables In The Conventional Profile
+parent:The Admin Interface
+sequence:500
+aliases:x6childwrites
+
+<p>The real power of the conventional profile is its handling
+   of child tables.  The conventional profile displays all
+   child tables in a tab list at the bottom of the detail
+   area:
+</p>
+
+[[image:conventional2.png]]
+
+<p>Clicking on one of the tabs causes the browser to make a JSON
+   call to the server to retrieve the matching rows in the
+   child table:
+</p>
+
+[[image:conventional3.png]]
+
+<h2>Removing a Child Table</h2>
+
+<p>If you do not wish to have a child table displayed this way,
+   set the 'x6display' property of a foreign key to 'none',
+   as in this example:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table childexample:
+    module: testing
+    description: Example Child Table
+    
+    foreign_key parent:
+        x6display: none
+</pre>
+
+<p>This can be overridden in program code by making a 
+   dictionary override function for the <i>parent</i> table
+   that modifies properties of its children:
+</p>
+
+<pre class="prettyprint">
+<?php
+# This is file application/applib.php
+#
+function ddTable_parent(&$dd) {
+    # To remove a table:
+    $dd['fk_children']['childexample']['x6display'] = 'none';
+    
+    # Or to put a table back in:
+    $dd['fk_children']['childexample']['x6display'] = '';
+}
+?>
+</pre>
+
+<h2>Choosing the Columns to Display</h2>
+
+<p>By default, Andromeda looks at the uisearch columns when 
+   deciding which columns to display.  This can be overridden
+   by defining a projection on the child table named
+   "child_" + parent table.  Here is a YAML example:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table orderlines:
+    module: ordering
+    nomenu: Y
+    
+    projection child_orders:
+        column item:
+        column qty:
+        column price:
+        column price_extended:
+</pre>
+
+<p>Or we can do the same thing in program code.  Program code
+   always overrides YAML settings:
+</p>
+
+<pre class="prettyprint">
+<?php
+# This is file application/applib.php
+#
+function ddTable_orderlines(&$dd) {
+    $dd['projections']['child_orders'] = 'item,qty,price,price_extended';
+}
+?>
+</pre>
+
+<h2>Making a Child Table Editable</h2>
+
+<p>If a child table is simple, having only a few columns, you
+   can make the grid itself directly editable, with this
+   YAML definition:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table orderlines:
+    module: ordering
+    x6childwrites: Y
+</pre>
+
+<p>Or this program code:
+</p>
+
+<pre class="prettyprint">
+<?php
+# This is file application/applib.php
+#
+function ddTable_orderlines(&$dd) {
+    $dd['x6childwrites'] = 'Y';
+}
+?>
+</pre>
+
+<h2>Making More Complex Child Tables Editable</h2>
+
+<p>It may be that a child table should be editable, but it has
+   more columns than will fit onto the grid.  In these cases
+   you can set x6childwrites to "detail", and when the user clicks
+   on a row or clicks on [NEW] a detail pane pops up for
+   editing.
+</p>
+
+<p>The syntax is exactly the same as the above example, simply
+   use the value 'detail' instead of 'Y'.
+</p>

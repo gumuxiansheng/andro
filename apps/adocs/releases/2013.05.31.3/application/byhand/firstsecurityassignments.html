@@ -1,0 +1,93 @@
+title:            First Security Assignments
+parent:Tutorials
+sequence:300
+aliases:
+
+                            
+                            <p>After the last tutuorial our Orders system now has a table of customers.  It is time to add a second table, a table of items, and then see how to add some security.
+</p>
+<h2>Related Reference Material</h2>
+<p>The topics discussed in this tutorial are also discussed in the reference sections on
+[[Superusers]], [[table security]] and [[module security]].
+</p>
+<h2>The Items Table</h2>
+<p>The items table will have two new columns.  One of them we must define, the column "item" which is a ten-character alphanumeric.  The column "price", like "description", is defined in <span class="nolink">andro_universal.add</span>, and is of type "money".  The definition of item looks like this:
+</p>
+<div class="box-add"><pre><span class="syntax0"><span class="syntax10">column</span><span class="syntax10"> </span><span class="syntax10">item:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">char</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">colprec:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Item</span><span class="syntax13"> </span><span class="syntax13">Code</span>
+</span></pre>
+</div>
+<p>Naturally our tables will acquire more columns in later tutorials, but this is enough for now.  Here is the table definition:
+</p>
+<div class="box-add"><pre><span class="syntax0"><span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">items:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Items</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">item:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">description:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">price:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+</span></pre>
+</div>
+<h2>Two Security Groups</h2>
+<p>Andromeda is a "deny by default" system, so that all access to all tables is denied by default.  It is important to realize that this applies even to superusers.  A superuser's power is expressed in this way:
+</p>
+<p><ul><li>A superuser gains all of the priveleges of all groups, so if no groups have been defined the user will have no priveleges in the database.
+<li>A superuser can log into the node manager and run builds, so the user has the ultimate ability to modify any business rule.
+<li>A superuser can disable triggers and therefore turn off business rules, and therefore can corrupt data, but this is always in the power of any administrator, so it is not special to an Andromeda superuser.
+</ul>
+</p>
+<p>We are going to create two security groups.  The first is going to be regular staff.  Our basic idea is that they will be able to create and work with orders, and they will at least be able to read any table.  The second is going to be an administrative group that has complete control over all tables in the orders system.
+</p>
+<p>The two definitions are here:
+</p>
+<div class="box-add"><pre><span class="syntax0"><span class="syntax10">group</span><span class="syntax10"> </span><span class="syntax10">orders_staff:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span><span class="syntax13"> </span><span class="syntax13">-</span><span class="syntax13"> </span><span class="syntax13">Regular</span><span class="syntax13"> </span><span class="syntax13">Staff</span><span class="syntax13">;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">module</span><span class="syntax9"> </span><span class="syntax9">orders:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permsel:</span><span class="syntax13"> </span><span class="syntax13">Y</span>
+
+<span class="syntax10">group</span><span class="syntax10"> </span><span class="syntax10">orders_admin:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Orders</span><span class="syntax13"> </span><span class="syntax13">-</span><span class="syntax13"> </span><span class="syntax13">Administrator</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">module</span><span class="syntax9"> </span><span class="syntax9">orders:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permsel:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permins:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permupd:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permdel:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+</span></pre>
+</div>
+<p>A group has one property, the description.  This is required, as the description will be used on the user maintenance screen, which we will see in the next tutorial.
+</p>
+<p>Inside each group definition is an assignment of default properties to the orders module.  The "orders_staff" group is given the 'permsel' permission, that is, they are given permission to SELECT from any table in the module.  The "orders_admin" group is given all four fundamental permissions, to Select (permsel), to Insert (permins), to Update (permupd), and delete (permdel).
+</p>
+<h2>Let Staff Control Orders</h2>
+<p>As it stands, our general group "orders_staff" can read the customers table but cannot change it, which does not give them much to do.  We will now apply some settings directly at the table level for the orders_staff group, by adding an assignment to our table of customers.  We will not give them ability to change items because that requires a higher security clearance.
+</p>
+<div class="box-add"><pre><span class="syntax0"><span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">orders</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Customers</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">group</span><span class="syntax9"> </span><span class="syntax9">orders_staff:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permsel:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permins:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permupd:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">permdel:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">customer:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">primary_key:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">description:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisearch:</span><span class="syntax13"> </span><span class="syntax13">&quot;</span><span class="syntax13">Y</span><span class="syntax13">&quot;</span>
+</span></pre>
+</div>
+<h2>Run the Build</h2>
+<p>With these additional security assignments, we can then rebuild the application and we will see that our superuser now has the ability to add new information to our tables.
+</p>
+<p>Note that if you are running these tutorials one after another, you will have to log out of the finance application and then log back in to reload the menu and security definitions.
+</p>
+[[image:fsa_ui1.png]]
+                                                    
+                            

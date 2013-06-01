@@ -1,0 +1,33 @@
+title:gp
+parent:GET and POST Variables
+sequence:48
+aliases:
+
+
+<h2>NAME</h2>
+<p>gp<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function gp retrieves the Get/Post value associated with the variable
+    name provided.  A user can provide a default value that should be returned
+    in case the requested variable does not exist.<br/></p>
+<h2>INPUTS</h2>
+<ul><br/><li> string - Requested variable name
+<li> string - value to return if the variable does not exist<br/></ul><br/></ul>
+<h2>RETURNS</h2>
+<p>mixed - either the value of the variable if it was passed
+    to the browser, or the default value if provided, or
+    an empty string.<br/></ul><br/></ul>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function gp($key,$vardefault='') {
+    #echo "<br/>Gp called with -$key- -$vardefault-";
+    $post=$GLOBALS["AG"]["clean"];
+    if (!isset($post[$key])) {
+        #echo "<br/> -> not set, returning $vardefault";
+        return $vardefault;
+    }
+    else {
+        #echo "<br/> -> key exists, returning {$post[$key]}";
+        return $post[$key];
+    }
+}<br/></ul>
