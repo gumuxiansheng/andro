@@ -96,7 +96,7 @@ class home extends x_table2 {
     }
     
     function bodyNews() {
-        $sq="Select * from articles order by date desc limit 5";
+        $sq="Select * from articles order by ts_ins desc limit 5";
         $arts = SQL_AllRows($sq);
         
         foreach($arts as $art) {
