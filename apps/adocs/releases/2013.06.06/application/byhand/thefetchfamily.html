@@ -1,0 +1,170 @@
+title:The FETCH Family
+parent:Automations
+sequence:200
+aliases:fetch,fetchdef,distribute
+
+<p>One of the most common and natural operations in all database
+   applications is copying a value from one table to another.
+   The textbook example is an CART_ITEMS table, which contains
+   a PRICE value.  At some point somewhere the programmer has written
+   a bit of code that looks up the price in the ITEMS table and
+   writes it to the CART_ITEMS table.
+</p>
+
+<p>Using Andromeda you never have to code these operations.  You
+   define these operations, which we call FETCH operations, 
+   directly into the database definition, and after you build your
+   database the value will be calculated automatically whenever 
+   anybody inserts or update the CART_ITEMS table.
+</p>
+
+<p>By defining FETCH operations in your code, you gain the advantage
+   that is does not matter what the privelege level of the user is
+   or how they are connecting to the database.  Even an admin user
+   connecting directly to the database cannot override the value with
+   a corrupt one.  
+</p>
+
+<h2>The Basic FETCH</h2>
+
+<p>We will start with an ITEMS table, with a primary key SKU that       
+   contains a description and price for each item:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+column sku:
+    type_id: vchar
+    colprec: 15
+    description: SKU
+    
+table items:
+    # assume we defined this module above somewhere
+    module: inventory
+    uisort: 100
+    description: Items File
+    
+    column sku:
+        primary_key: Y
+        uisearch: Y
+    column description:
+        uisearch: Y
+    column price:
+        uisearch: Y
+        description: Item Price
+</pre>
+
+<p>Now we want an CART_ITEMS table 
+   that also has a price column, and we want to FETCH the price
+   into the cart.  Here is how we do that:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table cart_items:
+    # ...skip some details...
+    
+    # We begin with a foreign key to the items table.
+    # This will put the column SKU into the cart
+    foreign_key items:
+    
+    # Now we add the price and give it an automation
+    column price:
+        automation_id: fetch
+        auto_formula: items.price
+</pre>
+
+<p>The FETCH will fire whenever a valid value of SKU is entered
+   or changed on either an INSERT or UPDATE to CART_ITEMS.
+</p>
+
+<p>There are two properties that work together here:
+</p>
+
+<ul><li>The automation_id value of fetch defines the operation to perform
+    <li>The auto_formula tells us what table and column to go fetch.
+</ul>
+
+<h2>Alternative Minimum Syntax</h2>
+
+<p>All automations support a shortcut syntax where you can specify
+   the automation in one line.  It looks like this:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table cart_items:
+    # ...skip some details...
+    
+    column price:
+        auto: fetch,items.price
+</pre>
+
+
+<h2>The FETCHDEF Variation</h2>
+
+<p>The automation FETCHDEF is similar to FETCH, but it only operates
+   if the user does not supply a value.  So if the user provides a value,
+   that value wins, and if the user does not supply a value, one is
+   fetched.
+</p>
+
+<p>Unlike the FETCH automation, the FETCHDEF operates only at insert,
+   and only once.  After that the user can override the value at any
+   time.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table cart:
+    module: ordering
+    description: Cart Orders
+    uisort: 100
+    
+    # An order requires a foreign key to customers
+    foreign_key customers:
+    
+    # These are conventional fetches, the user cannot
+    # override the values.
+    column discount:
+        auto: fetch,customers.discount
+    column description:
+        auto: fetch,customers.description
+        
+    # These values the user can override
+    column add1:
+        auto: fetchdef,customers.add1
+    column add2:
+        auto: fetchdef,customers.add2
+    column city:
+        auto: fetchdef,customers.city
+    column state:
+        auto: fetchdef,customers.state
+    column zip9:
+        auto: fetchdef,customers.zip9
+        
+</pre>
+
+<h2>The DISTRIBUTE Variation</h2>
+
+<p>The automation DISTRIBUTE variation works exactly like a FETCH
+   but with a very important extra operation.  If you change the
+   value in the <i>parent table</i>, it will be <i>distributed</i>
+   down to all matching rows in the child table.
+</p>
+
+<p>The syntax for DISTRIBUTE is exactly the same as FETCH and
+   FETCHDEF.
+</p>
+
+<span class="alert">The DISTRIBUTE automation is very rarely 
+   required by most business rules.  Always consider carefully if
+   it is truly the correct operation, as mis-using DISTRIBUTE can
+   have devastating effects if your program overwrites data on a
+   child table that should not have been overwritten.
+</span>
+
+<span class="alert">The DISTRIBUTE automation can be very costly
+   when it comes to performance.  If a parent table is updated and
+   the row has 5000 matching child rows, all 5000 will be updated
+   within the transaction.  This can lead customers to believe their
+   system is "frozen" as the minutes tick by.
+</span>
+
+

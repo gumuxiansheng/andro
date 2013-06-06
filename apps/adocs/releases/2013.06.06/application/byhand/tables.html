@@ -1,0 +1,33 @@
+title:Tables
+parent:Database Structure
+sequence:400
+aliases:table
+
+<p>A table is a top-level definition, meaning that is
+   indent level is always zero.  Here is a basic example
+   of a table:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table orders:
+    module: ordering
+    description: Orders
+    uisort: 100
+</pre>
+
+<p>The above definition is composed of the following:</p>
+
+<ul><li>The table definition itself, composed of the keyword
+    "table" followed by the table name, and a colon.
+    <li>The property module is required.  Every table must
+    be placed into a module.
+    <li>The description is used by the user interface whenever
+    the table is referenced.
+    <li>The optional uisort property determines where the table
+    appears on the menu.  If you leave this out, the tables will
+    appear in the order they are defined.
+</ul>
+
+<p>A table is not much without some columns in it, the next 
+   page will show how to place columns into tables.
+</p>

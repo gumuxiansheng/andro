@@ -1,0 +1,17 @@
+title:Manual SQL
+parent:Database Access
+sequence:145
+aliases:
+
+<p>You can always execute one-off SQL commands using the
+   SQL() function.  This function accepts a SQL command
+   and does not have a return value.
+</p>
+
+<pre class="prettyprint">
+class x6example extends androX6 {
+    function x6main() {
+        SQL("update articles set headline='X' where skey = 5");
+    }
+}
+</pre>

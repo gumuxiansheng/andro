@@ -1,0 +1,26 @@
+title:vgfSet
+parent:Global Variables
+sequence:5988
+aliases:
+
+
+<h2>NAME</h2>
+<p>vgfSet<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function vgfSet sets the value of a global variable.
+    The variable will exist during the current request and can be
+    accessed from any scope with the vgfGet function.<br/></p>
+<p>The framework uses vgfGet and vgfSet to store and retrieve global
+    variables without worrying about naming collisions with the framework.<br/></p>
+<h2>INPUTS</h2>
+<p>string $key - key to set into globals
+    mixed $value - value for the key<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function vgfSet($key,$value='') {
+    //echo $key." - ".$value;
+    //$a=xdebug_get_function_stack();
+    //hprint_r($a);
+    //echo $key." - ".$value."<br/><br/>";
+   $GLOBALS['fwdata'][$key]=$value;
+}</pre>

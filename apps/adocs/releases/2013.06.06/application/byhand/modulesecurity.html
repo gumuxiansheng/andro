@@ -1,0 +1,68 @@
+title:Module Security
+parent:Security
+sequence: 200
+aliases:module security,module permissions
+
+<p>A group can be given permissions at the module level that override
+   the group's default permissions.  There are two allowed methods
+   for doing this.
+</p>
+
+<h2>Method 1: Assignments in Module Definition</h2>
+
+<p>In this method we define the group first and make the
+   assignments in the module definition.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+# Create a group that cannot do anything
+# by default
+group minimal:
+    description: Minimal Permissions
+    permsel: N
+    permins: N
+    permupd: N
+    permdel: N
+
+# Now define the inventory module and 
+# give the group limited permissions 
+# within this module
+module inventory:
+    description: Inventory Tables
+    uisort: 300
+    
+    group minimal:
+        permsel: Y
+        permins: N
+        permupd: N
+        permdel: N
+</pre>
+
+<h2>Method 2: Assignments in Group Definition</h2>
+
+<p>It is also allowed to assign permissions for a group inside
+   the group's definition.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+# Define the inventory module
+module inventory:
+    description: Inventory Tables
+    uisort: 300
+
+# Now define a group with minimal default permissions,
+# and override those permissions for the inventory
+# module
+group minimal:
+    description: Minimal Permissions
+    permsel: N
+    permins: N
+    permupd: N
+    permdel: N
+
+    module inventory:
+        permsel: Y
+        permins: N
+        permupd: N
+        permdel: N
+</pre>
