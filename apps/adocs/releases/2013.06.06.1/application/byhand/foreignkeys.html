@@ -1,0 +1,234 @@
+title:Foreign Keys
+parent:Database Structure
+sequence:600
+aliases:foreign key,foreign_key
+
+<p>Now we have tables, columns, and primary keys, we just about
+   have a complete system for laying out a database, but we are
+   still missing the foreign key.
+</p>
+
+<h2>The Basic Foreign Key</h2>
+
+<p>Consider the following case of an orders table and customers
+   table:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+column customer:
+    type_id: int
+    description: Customer
+    auto: sequence
+
+table customers:
+    module: ordering
+    uisort: 100
+    description: Customers
+    
+    column customer:
+        primary_key: Y
+        uisearch: Y
+    column description:
+        description: Company Name
+        uisearch: Y
+    column add1:
+    column add2:
+    column city:
+        uisearch: Y
+    column state:
+    column zip9:
+    
+column order_id:
+    type_id: int
+    description: Order Number
+    auto: sequence
+    
+table orders:
+    module: ordering
+    uisort: 200
+    description: Orders
+    
+    column order_id:
+        primary_key: Y
+        uisearch: Y
+    column date:
+        uisearch: Y
+</pre>
+
+<p>The example above is straightforward so far.  We have defined two
+   columns, "customer" and "order_id" as auto-incrementing int columns
+   (the auto: sequence makes them auto-increment).  We have then
+   created two tables, both in the orders module, with the required
+   primary keys and with a bunch of columns set "uisearch: Y".
+</p>
+
+<p>But now it is time to put a foreign key into the orders table that
+   links back to the customers.  Andromeda has an extremely simple
+   way to do this:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table orders:
+    module: ordering
+    uisort: 200
+    description: Orders
+    
+    column order_id:
+        primary_key: Y
+        uisearch: Y
+    column date:
+        uisearch: Y
+    foreign_key customers:
+</pre>
+
+<p>The single last line of the example does everything that is 
+   required for a foreign key.  All you have to do is use the
+   foreign_key keyword and name the parent table.  When Andromeda
+   builds your database, it looks to the definition of the CUSTOMERS
+   table, fetches the definitions of the primary key of that table,
+   and copies those columns into the ORDERS table.
+</p>
+
+<p>This is a very powerful feature.  The first benefit is that you
+   do not have to retype the column(s) that make up the primary
+   key of the CUSTOMERS table, so there is no chance of a typo or mistake
+   when doing so.  But more importantly, if you modify the primary
+   key of the parent table, such as by adding more columns or 
+   expanding one or more columns, these changes cascade down to all
+   child tables without any work on your part.
+</p>
+
+<h2>Multiple Foreign Keys and Self-Referencing Foreign Keys</h2>
+
+<p>Sometimes you need to have more than one foreign key from a child
+   to a parent.  Sometimes you may also need a table to refer to
+   itself (a hierarchy).  Both of these are done the same way, by
+   using the prefix and/or suffix keywords.
+</p>
+
+<pre class="prettyprint">
+column person:
+    type_id: int
+    auto: sequence
+    description: Person ID
+
+table persons:
+    # assume we defined module tree above somewhere
+    module: tree
+    uisort: 100
+    description: People
+    
+    column person:
+        primary_key: Y
+        uisearch: Y
+        
+    # Here is an example of a self-referencing foreign key
+    foreign_key persons_mother:
+        suffix: _mother
+    
+    # and a second foreign key, also self-referencing
+    foreign_key persons_father:
+        suffix: _father
+</pre>
+
+<p>First we will consider the fact that these foreign keys are
+   self-referencing.  The table has a foreign key to itself. 
+   Normally Andromeda will copy the columns from a parent to a
+   child, but this would mean two columns of the same name.
+   So we modify the name of the parent table by adding "_mother"
+   to it, then we provide the "suffix: _mother" property so that
+   Andromeda can figure out that we mean the table "persons".
+</p>
+
+<p>The resulting column will be named "persons_mother".
+</p>
+
+<p>The suffix is also used to allow multiple foreign keys to the
+   same table.  If we have multiple foreign keys from one table
+   to another, then Andromeda will try to make the same column
+   twice in the child table.  We keep them separate by using
+   suffix "_mother" for one and "_father" for the other.
+</p>
+
+<p>To sum up, the resulting table will have the column PERSON
+   which is the primary key, PERSON_MOTHER, a foreign key to itself,
+   and PERSON_FATHER, a second foreign key to itself.
+</p>
+
+<p>The prefix property works the same way, we might have done
+   this instead:
+</p>
+
+<pre class="prettyprint">
+column person:
+    type_id: int
+    auto: sequence
+    description: Person ID
+
+table persons:
+    # assume we defined module tree above somewhere
+    module: tree
+    uisort: 100
+    description: People
+    
+    column person:
+        primary_key: Y
+        uisearch: Y
+        
+    # Here is an example of a self-referencing foreign key
+    foreign_key mother_persons:
+        prefix: mother_
+    
+    # and a second foreign key, also self-referencing
+    foreign_key father_persons:
+        prefix: father_
+</pre>
+
+<p>You can also use both prefix and suffix.
+</p>
+
+<h2>Changing Column Properties</h2>
+
+<p>One problem we will have with the above example is that it will
+   have three columns that all have the description "Person ID".
+   We would rather those descriptions be "Person ID", "Mother ID"
+   and "Father ID".
+</p>
+
+<p>We can do this by adding a definition of the relevant columns
+   and setting properties.  The nice thing about foreign keys is that
+   we do not need to specify the columns in a foreign key, but we
+   can if we have something to gain by it.
+</p>
+
+<pre class="prettyprint">
+column person:
+    type_id: int
+    auto: sequence
+    description: Person ID
+
+table persons:
+    # assume we defined module tree above somewhere
+    module: tree
+    uisort: 100
+    description: People
+    
+    column person:
+        primary_key: Y
+        uisearch: Y
+        
+    # Here is an example of a self-referencing foreign key
+    foreign_key persons_mother:
+        suffix: _mother
+    column person_mother:
+        suffix: _mother
+        description: Mother ID
+    
+    # and a second foreign key, also self-referencing
+    foreign_key persons_father:
+        suffix: _father
+    column person_father:
+        suffix: _father
+        description: Father ID
+</pre>
+

@@ -1,0 +1,52 @@
+title:subscribeToEvent
+parent:x6events
+sequence:2302
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6events.subscribeToEvent<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6events.subscribeToEvent allows an
+   object to subscribe to a named event.  That object will
+   then be notified whenever the event fires.  See the
+   method x6events.notify for more information on how
+   the notification is handled.<br/></p>
+<h2>INPUTS</h2>
+<ul><br/><li> eventName - Any string.  There is no validation of the   eventName, so misspellings will result in your object   not being notified.
+<li> id - the Id of the object<br/></ul><br/></ul>
+<h2>NOTES</h2><br/></ul><br/></ul>
+<h2>RESULT</h2>
+<p>No return value<br/></ul><br/></ul>
+<h2>SEE ALSO</h2>
+<p>x6events.fireEvent<br/></ul><br/></ul>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+subscribeToEvent: function(eventName,id) {
+    if(id=='undefined') {
+        x6.console.error('x6events.subscribeToEvent.  Second parameter '
+            +' undefined.  First parameter: '+eventName
+        );
+    }
+    else if(id==null) {
+        x6.console.error('x6events.subscribeToEvent.  Second parameter '
+            +' null.  First parameter: '+eventName
+        );
+    }
+    else {        
+        // First determine if we have any listeners for this
+        // event at all.  If not, make up the empty object
+        if( typeof(this.subscribers[eventName])=='undefined') {
+            this.subscribers[eventName] = [ ];
+        }
+        if(this.subscribers[eventName].indexOf(id)==-1) {
+            this.subscribers[eventName].push(id);
+        }
+        if( typeof(this.subsById[id])=='undefined') {
+            this.subsById[id] = [ ];
+        }
+        if(this.subsById[id].indexOf(eventName)==-1) {
+            this.subsById[id].push(eventName);
+        }
+    }
+},<br/></ul>

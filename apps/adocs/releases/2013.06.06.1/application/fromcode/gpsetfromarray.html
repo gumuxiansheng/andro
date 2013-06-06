@@ -1,0 +1,26 @@
+title:gpSetFromArray
+parent:GET and POST Variables
+sequence:237
+aliases:
+
+
+<h2>NAME</h2>
+<p>gpSetFromArray<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function gpSetFromArray adds all variables in the provided array
+    into the Get/Post variables.  In the array, the keys are the names of
+    the variables, while the values are the values for the variables.  If
+    a prefix is provided, the prefix will be appended to the beginning of
+    every variable name that is added.<br/></p>
+<h2>INPUTS</h2>
+<p>string $prefix    - Prefix to add at the beginning of each variable name
+    array $array    - Variables and their values to add into the Get/Post
+</p>
+<pre>              parameters.</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function gpSetFromArray($prefix,$array) {
+   foreach($array as $key=>$value) {
+      gpSet($prefix.$key,$value);
+   }
+}</pre>

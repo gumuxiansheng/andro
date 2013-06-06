@@ -1,0 +1,30 @@
+title:Database Reads with SQL_OneValue
+parent:Database Access
+sequence:400
+aliases:sql_oneValue
+
+<p>Your application code can hand a query to the server and
+   retrieve a single value back with the SQL_OneValue()
+   function.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6helloworld extends androX6 {
+    function x6main() {
+        # Write out a query to get just the
+        # latest headline out of a table of
+        # news articles.
+        $view = ddView('articles')
+        $sq="select headline
+               from $view
+              order by dateline desc
+              limit 1";
+        $headline=SQL_OneValue('headline',$sq);
+        echo "The latest headline is: ".$headline;
+    }
+}
+?>
+</pre>
+
+

@@ -1,0 +1,32 @@
+title:Special Permission SOLO
+parent:Security
+sequence:600
+aliases:solo
+
+<p>A group can be flagged as a "SOLO" group.  This means members of
+   this group cannot join any other group.  This flag is useful
+   when customers are given access through a public website to your
+   database.  You can make the customer group "solo", so that 
+   customers cannot be accidentally (or intentionally) given 
+   membership in more privileged groups.
+</p>
+
+<p>The syntax is simple:</p>
+
+<pre class="prettyprint lang-ddyaml">
+group customers:
+    description: Customers
+    
+    # Deny all access by default, they
+    # will be given certain permissions
+    # at module and table level.
+    permsel: N
+    permins: N
+    permupd: N
+    permdel: N
+    
+    # This flag makes the group 'solo', members
+    # of this group cannot join any other group,
+    # and vice-versa.
+    solo: Y
+</pre>

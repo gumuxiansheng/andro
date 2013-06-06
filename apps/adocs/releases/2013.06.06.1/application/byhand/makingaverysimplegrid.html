@@ -1,0 +1,59 @@
+title:Making a Very Simple Grid 
+parent:Using x6 Plugins
+sequence:200
+aliases:
+
+<p>The Andromeda grid is useful for very simple scrollable lists.
+   To make a grid that lists something, you follow these steps:
+</p>
+
+<ol><li>Create the grid.
+    <li>Define the columns
+    <li>Load the Data
+</ol>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # Always begin with this:
+        $top = html('div');
+        $top->addClass('fadein');
+        
+        #  ...other html is added here...
+        #
+    
+        # Now for the grid create command.  The parameters are:
+        # 1) Height
+        # 2) Table we are editing
+        # 3) Flag for lookup textboxes, no in this case
+        # 4) Flag for sortable.  No
+        # 5) Flag for buttonbar, No, not editable
+        # 6) Flag for editable, no
+        $grid = $top->addGrid(hSize(300),'states','N','N','N','N');
+        
+        # Now add a single column, take it from the
+        # data dictinoary, that is always easiest
+        $dd = ddTable('songs');
+        $grid->addColumn($dd['flat']['songname']);
+        $grid->lastColumn();
+        
+        # Now pull the data and add it.  Note that we
+        # pull the 'skey' column so the grid has a
+        # unique ID for each row.
+        $view = ddtable('songs');
+        $sq="select skey,songname from $view";
+        $rows = SQL_AllRows($sq);
+        $grid->addData($rows);
+        
+        
+        # ...and this is always at the end
+        $top->render();
+    }
+}
+</pre>
+
+<p>This code produces a scrollable read-only grid with a list
+   of songs in it.  The grid will be 300px high in 1024x768, and
+   it will be scaled appropriately in other skin sizes.
+</p>

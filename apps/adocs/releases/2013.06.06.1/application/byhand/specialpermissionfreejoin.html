@@ -1,0 +1,45 @@
+title:Special Permission FREEJOIN
+parent:Security
+sequence:700
+aliases:freejoin
+
+<p>Andromeda's security overall provides many safeguards   
+   against unauthorized access.  However, sometimes you have a
+   public website and you want members of the public to be able
+   to come and join without admin intervention to go set them up
+   and put them in their groups.
+</p>
+
+<p>The "freejoin" group flag can be used to specify that anybody
+   can automatically put themselves into a particular group.
+   This flag is, in our experience so far, used exclusively for
+   public groups like "customers".
+</p>
+
+<p>The syntax is simple, you put one flag on a group:</p>
+
+<pre class="prettyprint lang-ddymal">
+group customers:
+    description: Customers
+    freejoin: Y
+</pre>
+
+<h2>FREEJOIN and SOLO</h2>
+
+<p>In most cases, a FREEJOIN group is also a SOLO group, meaning
+   that members of that group cannot be put into any other
+   group.  This is the basic configuration for public ecommerce
+   sites.
+</p>
+
+<p>The reverse is not true, SOLO groups are not always FREEJOIN
+   groups.  For instance, a business may hold sensitive information
+   for its customers that it makes available on the web.  The users
+   will be in a SOLO group, but the business does not just let 
+   anybody come along and sign up on their site -- it is only for
+   their established customers.  Therefore they will have a SOLO
+   group for their customers but there will be no public sign-on
+   process and that group will not be a FREEJOIN group.
+</p>
+
+
