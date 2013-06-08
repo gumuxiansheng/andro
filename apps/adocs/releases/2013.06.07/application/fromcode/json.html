@@ -1,0 +1,99 @@
+title:json
+parent:x6
+sequence:1080
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript object x6.json is used to send any request
+   to the web server, either for a new complete page or for
+   data and HTML fragments.
+   Examples include requesting a single row from a table,
+   requesting search results, fetching HTML fragments, or
+   popping up a new window.<br/></p>
+<p>Andromeda uses the term JSON instead of AJAX because
+   the term AJAX does not describe how Andromeda works.
+   Specifically, Andromeda PHP pages return JSON data
+   instead of XML (hence no "X" in AJA"X"), and many calls
+   are actually synchronous (hence no "A" in "A"JAX).<br/></p>
+<p>The x6.json object is always present on all pages, and
+   you can use it in Javascript code on any custom page.<br/></p>
+<h2>NOTES</h2>
+<p>Andromeda handles all of the values returned in the
+   request automatically.  On custom pages you do not have
+   to code a response handler because Andromeda handles
+   the response for you.<br/></p>
+<p>The PHP code that handles a JSON request sends data back
+   by using the routines x4Debug, x4Data, x4HTML, x4Script,
+   x4Error.  While the complete PHP-API documentation on
+   those functions will give you most of what you need, we
+   must note here how the returned data is handled:<br/></p>
+<ul><br/><li> x4Debug - ignored, but you can examine the results in     firebug.
+<li> x4Error - any errors sent back by this function are reported     to the user and x6.json.execute returns false.
+<li> x4HTML - calls to this function in PHP code provide an     element Id and a fragment of HTML.  The HTML replaces the     innerHTML of the specific item.
+<li> x4Data - calls to this function in PHP code provide a name     and some data value (including arrays and objects).  The     result can be examined when the call completes in x6.data.<name>.
+<li> x4Script - provides script that should execute on the browser     when the call returns.<br/></ul><br/></ul>
+<h2>EXAMPLE</h2><br/></ul>
+<p>The basic usage of x6.json is to initialize a call
+   with x6.json.init, and then to add parameters with
+   x6.json.addParm, and finally to execute and process the
+   call with x6.json.execute and x6.json.process.<br/></ul>
+<p>There are also special-purpose methods like x6.json.inputs
+   that will take all of the inputs inside of an object and
+   add them to the request.<br/></ul>
+<p>You can also use the function x6.json.windowLocation to
+   execute the call as a new page request, and x6.json.newWindow
+   to execute the call as a new page request in a tab.<br/></ul>
+<pre>      &lt;script&gt;
+      // Initialize the call
+      x6.json.init('x4Page','myCustomPage');
+      // Name the server-side PHP method to call
+      x6.json.addParm('x4Action','getSomething');
+      // Add some parms
+      x6.json.addParm('parm1','value');
+      x6.json.addParm('parm2','value');
+      // Execute and process in one step.  Note that this
+      // is synchronous, there is no need for a callback
+      // function.
+      x6.json.execute(true);
+
+      for(var x in x6.data.returnedStuff) {
+        ....
+      }
+      &lt;/script&gt;
+</pre>
+<p>This call requires an Extended-Desktop page to be defined
+  in PHP that will service the request.  A super-simple example
+  is here, more information is provided in the
+  Extended-Desktop documentation.<br/></ul>
+<pre>      &lt;?php
+      # This is file application/x4MyCustomPage.php
+      class x4MyCustomPage extends androX4 {
+          # this function handles the call given above
+          function getSomething() {
+               $parm1 = gp('parm1');
+               $parm2 = gp('parm2');
+               $sql = "Select blah blah blah";
+               $rows = SQL_AllRows($sql);
+               x4Data('returnedStuff',$rows
+          }
+      }
+      ?&gt;
+</pre>
+<p>Sometimes you make a call that returns replacement HTML
+   for a single object.  In this case your PHP code supplies
+   the HTML by calling x4HTML with the value of '*MAIN*' for
+   the first parameter, as in x4HTML('*MAIN*',$html);
+   Such a call is handled this way in script:<br/></ul>
+<pre>      &lt;script&gt;
+      x6.json.init('x4Page','myCustomPage');
+
+      // We need the conditional in case the server returns
+      // an error and we should not replace the html
+      if(x6.json.execute()) {
+         x6.json.process('nameofItemToReplace');
+      }
+      &lt;/script&gt;
+<br/></ul>

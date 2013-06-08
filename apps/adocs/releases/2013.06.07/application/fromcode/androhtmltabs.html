@@ -1,0 +1,21 @@
+title:androHTMLTabs
+parent:androHtml
+sequence:2532
+aliases:
+
+
+<h2>NAME</h2>
+<p>tabs<br/></p>
+<h2>FUNCTION</h2>
+<p>The class property tabs is an associative array that
+   can be used to add HTML to the various tabs in the
+   tab bar.<br/></p>
+<h2>EXAMPLE</h2>
+<p>Normal usage looks like this:
+</p>
+<pre>      &lt;?php
+      $tabBar = new androHtmlTabBar('id');
+      $tabBar->addTab('Users');  // this is the caption *and* the id
+      $tabBar->tabs['Users']->h('h2','Hello! Welcome to users tab');
+      ?&gt;
+</pre>

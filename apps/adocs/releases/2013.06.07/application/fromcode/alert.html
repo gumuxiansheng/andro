@@ -1,0 +1,25 @@
+title:alert
+parent:x6dialogs
+sequence:1971
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6dialogs.alert<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6dialogs.alert replaces the native
+   Javascript alert() function with one that is stylistically
+   consistent with the rest of the application.<br/></p>
+<p>Unlike Javascript's native alert() function, execution
+   continues after you call this function.  The user must
+   clear it by clicking the OK button, hitting Enter, or
+   hitting Esc.<br/></p>
+<p>When this alert is active, all keyboard events are
+   suppressed except Enter and Esc.<br/></p>
+<h2>EXAMPLE</h2>
+<p>Here is a usage example:<br/></p>
+<pre>       x6dialogs.alert("New data has been saved");
+       // maybe do some other stuff while
+       // waiting for the user
+       u.events.notify('myEventName',objParms);
+</pre>
