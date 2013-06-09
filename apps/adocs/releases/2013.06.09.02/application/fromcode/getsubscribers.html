@@ -1,0 +1,21 @@
+title:getSubscribers
+parent:x6events
+sequence:2375
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6events.getSubscribers<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6events.getSubscribers returns
+   an array of subscribers to a particular event.<br/></p>
+<h2>NOTES</h2>
+<p>Use this method to discover which objects are
+   subscribed to a particular event.<br/></p>
+<h2>RETURNS</h2>
+<p>An array of zero or more object id's.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+getSubscribers: function(eventName) {
+    return x6.p(this.subscribers,eventName,[]);
+},</pre>

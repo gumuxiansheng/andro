@@ -1,0 +1,20 @@
+title:x6Error
+parent:JSON Returns
+sequence:407
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6Error<br/></p>
+<h2>FUNCTION</h2>
+<p>Saves an error to be sent to the browser.  Once the complete JSON
+   call is returned to the browser, errors are displayed in an alert
+   and processing is stopped.<br/></p>
+<h2>INPUTS</h2>
+<p>string $parm1 - the error to save<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function x6Error($parm1) { return x4Error($parm1); }
+function x4Error($parm1) {
+    $GLOBALS['AG']['x4']['error'][] = $parm1;
+}</pre>

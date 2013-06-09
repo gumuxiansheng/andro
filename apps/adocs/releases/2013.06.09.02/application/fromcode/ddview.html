@@ -1,0 +1,37 @@
+title:ddView
+parent:Data Dictinary Routines
+sequence:6552
+aliases:
+
+
+<h2>NAME</h2>
+<p>ddView<br/></p>
+<h2>FUNCTION</h2>
+<p>If a table has row-level or column-level security, then direct
+   table access is denied to all users, all access must go through
+   views for that table.  This routine returns the name of the view
+   that can be used by the currently logged in user.<br/></p>
+<p>It is good practice when coding SQL manually to always use
+   this routine and never to manually hardcode table names, unless
+   you can be completely certain your application will never contain
+   row-level and column-level security.<br/></p>
+<p>When you use routines like SQLX_Insert and SQLX_Update you
+   can use the base table name, those routines do not require you
+   to pass in a view name.  Those routines make the call themselves
+   to get the view name.<br/></p>
+<h2>INPUTS</h2>
+<p>array $tabx - Data Dictionary table<br/></p>
+<p>RETURN VALUE
+    string - the view name of the table<br/></p>
+<h2>EXAMPLE</h2>
+<p>Here is an example of a manual query:<br/></p>
+<pre>       &lt;?php
+       # Employees table has row-level security, so we must
+       # find out the name of the view the current user is
+       # able to access.
+       $view = ddView('employees');
+       # Now code the view into an ad-hoc query
+       $sql  = "select * from $view where dept='xyz'";
+       $emps = SQL_AllRows($sql);
+       ?&gt;
+</pre>

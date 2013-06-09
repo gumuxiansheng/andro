@@ -1,0 +1,232 @@
+title:Using The Data Dictionary
+parent:Web Programming
+sequence:700
+aliases:
+
+
+<p>Your Andromeda Web programming will really begin to take
+   off once you begin using the data dictionary.  All Andromeda
+   applications begin with a very thorough and powerful data
+   dictionary.  This dictionary is not just for the
+   database, it is also good for generating HTML.
+</p>
+
+<p>When we are defining a database for an application, we edit
+   a plaintext file in YAML format.  This format would be 
+   of little use while coding PHP, so Andromeda packages it
+   up into associative arrays that you can load and use
+   in your PHP code.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # Andromeda contains a built-in table called
+        # 'configfw'.  We can load the data dictionary
+        # for this table with this command:
+        $dd = ddTable('configfw');
+        
+        # Now lets dump the array out.
+        echo "<div style='width: 500px; height: 500px; overflow:scroll'>";
+        hprint_r($dd);
+        echo "</div>";
+    }
+}
+?>
+
+</pre>
+
+<p>When you need to know about a table, you call the 
+   ddTable({tablename}) function, and it returns an associative
+   array that completely describes the table, including all columns,
+   primary keys, and many other features.
+</p>
+
+<p>Repeated calls to ddTable() for the same table are harmless,
+   except for the negligible performance penalty that is required
+   for Andromeda to reload the dictionary.
+</p>
+
+<h2>Simple Dictionary Uses</h2>
+
+<p>This example shows how to load the dictionary and then run out
+   a list of the columns in the table.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # Another built-in table is the 'groups' table,
+        # which describes the application group definitions.
+        $dd = ddTable('groups');
+        
+        # For the HTML we will now loop through the
+        # "flat" array of the dictionary, which holds 
+        # the column definitions.
+        $top = html('div');
+        
+        # Make the Title from the table description
+        $top->h('h1','All about '.$dd['description']);
+        
+        # Now the loop
+        $ul = $top->h('ul');
+        foreach($dd['flat'] as $colname=>$colinfo) {
+            $ul->h('li',"$colname: {$colinfo['description']}");
+        }
+        
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<span class="info">Why is the list of columns called "flat" instead
+   of "columns"?  It's a long story, it made sense back in August of
+   2004, and that's what it has been ever since...
+</span>
+
+<h2>Basic Table Properties</h2>
+
+<p>Using the data dictionary, you can find out the following
+   facts about a table:
+</p>
+
+<ul><li><b>description</b>: Standard description of table
+    <li><b>singular</b>: the singular form of the description.  If no value
+        is provided in the dd.yaml file, the Andromeda looks for an 's'
+        at the end of the description and removes it.  Usually you
+        assign this value when that does not work, so if you have a table
+        named "STORIES", you would want to specify "STORY" in the
+        data dictionary.
+    <li><b>module</b>: The module the table is in.
+    <li><b>nomenu</b>: If "Y", this table does not usually appear on the menu
+    <li><b>viewname</b>: If there is no row or column level security on the
+        table, this will be the table name.  If there is row or column
+        level security, this will hold the view name that the currently
+        logged in user must go through instead.        
+    <li><b>permrow</b>: Will be "Y" if there is row-level security on
+        this table.
+        <b>permcol</b>: Will be "Y" if there is column-level security
+        on this table.
+    <li><b>pks</b>: A comma-separated list of the primary key columns
+        of the table, in the order they were defined.
+</ul>
+
+
+<h2>Table Projections</h2>
+
+<p>There are three more bits of information you can get about a 
+   table.  You can find out about the table's parents, children,
+   and projections.
+</p>
+
+
+<p>The array $dd['projections'] is an associative array.  The
+   index key names the projection, and the values are comma-separated
+   lists of columns in each projection.  Every table has these 
+   projections:
+</p>
+
+<ul><li class="arrows"><b>_primary_key</b>: The list of primary key
+    columns, holds the same values as $dd['pks'].
+    <li class="arrows"><b>_uisearch</b>: The list of columns for 
+    which uisearch is set to "Y".
+    <li class="arrows"><b>_uino</b>:  Columns the user should not
+    see.  These include some Andromeda-created columns and any columns
+    that have uino equal to "Y" in the dd.yaml file.
+</ul>
+
+<span class="warn">Setting a column's uino to "Y" is not a security
+   measure.  It is only a convenience to prevent Andromeda from 
+   displaying the value.  To find out how to securely protect
+   columns, see more at Column-Level Security.
+</span>
+   
+<h2>Parent And Child Tables</h2>
+
+<p>The data dictionary for a table has two more arrays,
+    named $dd['fk_children'] and $dd['fk_parents'].  Each of these
+    is an associative array where the key is the name of the
+    parent/child table and the value is another associative array.
+    The nested array contains all of the basic properties of the
+    parent/child table listed in the above section such as 
+    description, singular, pks, etc.  The array also has these
+    additional entries:
+</p>
+
+<ul><li class="arrows"><b>cols_chd</b>: Comma-separated list of
+    columns in the child table that make up the foreign key.
+    <li class="arrows"><b>cols_par</b>: Comma-separated list of
+    columns in the parent table that make up the primary key.
+    <li class="arrows"><b>cols_both</b>: Comma-separated list of
+    column pairs that match the parent to child table.  The
+    pairs themselves are colon-separated, and always list the
+    child table column first followed by the parent table column.
+</ul>
+
+<h2>Basic Column Properties</h2>
+
+<p>Column properties are stored in $dd['flat'], where each 
+   entry's key names the column and each entry's value is
+   a child array of column properties.  The properties of
+   a column are listed below.  For more information on these
+   properties, please refer to documentation on the Data 
+   Dictionary.
+</p>
+
+<ul><li>table_id
+    <li>column_id 
+    <li>type_id char
+    <li>colprec
+    <li>colscale
+    <li>description 
+    <li>descshort 
+    <li>tooltip
+    <li>primary_key
+    <li>range_from 
+    <li>range_to 
+    <li>pk_change
+    <li>suffix 
+    <li>prefix  
+    <li>automation_id
+    <li>auto_formula 
+    <li>sqloffset 
+    <li>sqllimit 
+    <li>value_min 
+    <li>value_max 
+    <li>uirows 
+    <li>uicols 
+    <li>uisearch  
+    <li>ins 
+    <li>uiro  
+    <li>uino  
+    <li>dispsize (calculated display size)
+</ul>  
+
+<h2>Modifying The Dictionary At Run Time</h2>
+
+<p>Sometimes you may want to make small changes to the data 
+   dictionary, such as setting a column's description, but you
+   do not want to run a build.  You can create a function that will
+   modify the data dictionary after it is loaded and before it is
+   given to the original requesting program.
+</p>
+
+<pre class="prettyprint">
+<?php
+# This is file application/applib.php
+
+function ddtable_groups(&$dd) {
+    # for some reason we want to pretend this
+    # column does not exist
+    unset($dd['flat']['group_id']);
+}
+
+function ddtable_orders(&$dd) {
+    $dd['singular'] = "Order";
+}
+?>
+
+</pre>

@@ -1,0 +1,71 @@
+title:Aggregations
+parent:Automations
+sequence:400
+aliases:aggregate,aggregrates,aggregation,aggregations,sum,count
+comments: true
+
+<p>Aggregrations are SUM and COUNT, and these allow you to add up
+   values from a child table to the parent table.  The typical
+   example is the total of an order from the lines.
+</p>
+
+<p>Aggregrations require that a foreign key be defined from the
+   child table to the parent.
+</p>
+
+<p>The example below shows two tables that form the skeleton of
+   most ordering systems:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table orders:
+    # ....details....
+    # ....and columns...
+
+    # This column will hold the order_total
+    column amt_lines:
+        suffix: _lines
+        auto:sum,orderlines.price_extended
+    
+    column cnt_lines:
+        suffix: _lines:
+        auto: count,orderlines.skey
+
+    column amt_perline:
+        suffix: _perline
+        chain calc:
+            test 00:
+                compare: @cnt_lines = 0
+                return: 0
+            test 01:
+                return: @amt_lines / @cnt_lines
+        
+table orderlines:
+    # ....details....
+    # ....and columns...
+
+    # These are typical foreign keys for
+    # an orderlines table
+    foreign_key orders:
+    foreign_key items:
+    
+    # The user inputs this value
+    column qty:
+    
+    # This value comes from price
+    column price:
+        auto: fetch,items.price
+        
+    # This is the total for the line
+    column price_extended:
+        suffix: _extended
+        chain calc:
+            test 00:
+                return: @qty * @price
+        
+</pre>
+
+<p>The argument for COUNT is always -childtable-.skey.  Technically it
+   can be any valid column, but skey is used by convention.  
+</p>
+

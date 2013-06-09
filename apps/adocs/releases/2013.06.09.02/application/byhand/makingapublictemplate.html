@@ -1,0 +1,153 @@
+title:Making a Public Template
+parent:Building A Site
+sequence:100
+aliases:
+
+<p>A typical Anromeda system will have a public website and a 
+   private admin interface.
+</p>
+
+<p>The public website must have its own 'template'.  A template
+   is at least one PHP document that lays out the overall look
+   and feel of the site.  A template usually includes as well
+   images, CSS files, and Javascript files.
+</p>
+
+<p>When you create a public website, you must create a directory
+   in your 'templates' directory.  The example below shows the
+   directory structure for the Andromeda documentation system
+   (which is very simple and only has 4 files in it).
+</p>
+
+[[image:templatesdir.png]]
+
+<p>Here is what is going on:
+</p>
+
+<ul><li>The Andromeda documentation is itself an Andromeda application
+    with code 'adocs6'.
+    <li>The tree in the image shows the entire directory tree for the
+    'adocs6' application.
+    <li>The 'templates' directory is created by Andromeda when the
+    application is built for the first time.
+    <li>The 'templates/adocs6' subdirectory has been added by the
+    programmer.
+    <li>The most important file in the 'templates/adocs6' subdirectory
+    is index.php, this file establishes the look of the site.
+</ul>
+
+<h2>A Super Simple Template File</h2>
+
+<p>The simplest possible template file, stripped of all DOCTYPE declarations   
+   and other stuff looks like this:
+</p>
+
+<pre class="prettyprint">
+&lt;?php
+include('androHTMLHead.php');
+echo ehStandardContent();
+include('androHTMLFoot.php');
+?>
+</pre>
+
+<p>Every template must have those three lines in it.  The first line loads
+   whatever stylesheets are required by Andromeda and by any calls you have
+   made to cssInclude.
+</p>
+   
+<p>
+   The second line outputs the content that was created
+   in your page.  
+</p>
+
+<p>The third line tells Andromeda to load up Javascript files and the
+   results of any jqDocReady() and jsInclude() calls you have made.
+</p>
+
+<h2>A Complete Example</h2>
+
+<p>Here is the full text of the index.php file for the Andromeda 
+   documentation site:
+</p>
+
+<pre class="prettyprint" style="height: 500px; overflow: auto">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+&lt;html xmlns="http://www.w3.org/1999/xhtml">
+&lt;head>
+&lt;link rel='stylesheet'
+     href='templates/adocs6/adocs6.css' />
+&lt;link rel='stylesheet'
+     href='appclib/src/prettify.css'/>
+&lt;script type='text/javascript' src='clib/jquery-1.2.3.js'>&lt;/script>
+&lt;script type='text/javascript' src='appclib/src/prettify.js'>&lt;/script>
+&lt;script type='text/javascript' src='appclib/src/lang-ddyaml.js'>&lt;/script>
+&lt;/head>
+&lt;body>
+&lt;div id='a6wrapper'>
+    &lt;div id='a6banner'>
+      &lt;a href="index.php" style="float: left;">
+        &lt;img src='appclib/logo.png'>
+      &lt;/a>
+      &lt;div id='a6bannertext'>
+        The fastest easiest way to &lt;i>get it right&lt;/i>.
+      &lt;/div>
+    &lt;/div>
+    &lt;div id='a6links'>
+        &lt;div style="float: left">
+        &lt;a href="index.php">Home&lt;/a>
+        &lt;a href="tableofcontents.html">Documentation&lt;/a>
+        &lt;a href="downloads.html">Download&lt;/a>
+        &lt;a href="credits.html">Credits&lt;/a>
+        &lt;a href="contact.html">Contact&lt;/a>
+        &lt;a href="index.php?gp_page=x_login">Login&lt;/a>
+        &lt;/div>
+        &lt;div style="float: right; font-size: 80%">
+        &lt;form style='display: inline' action="index.php">
+        &lt;input type="hidden" name="x6page" value="search" />
+        &lt;input type="submit"  value="Search: " 
+               style="border: 0; background-color: white;" />
+        &lt;input style="border: 0; background-color: silver;height: 15px;"
+                       name="search">&lt;/input>
+        &lt;/form>
+        &lt;/div>
+        &lt;div style="clear:both">&lt;/div>
+    &lt;/div>
+    &lt;div id='a6body'>
+        &lt;?php echo ehStandardContent()?>
+    &lt;/div>
+    &lt;div style="clear:both">&lt;/div>
+    &lt;div id='a6foot'>
+        &lt;a href="index.php">Home&lt;/a>&nbsp;|&nbsp;
+        &lt;a href="tableofcontents.html">Documentation&lt;/a>&nbsp;|&nbsp;
+        &lt;a href="downloads.html">Download&lt;/a>&nbsp;|&nbsp;
+        &lt;a href="credits.html">Credits&lt;/a>&nbsp;|&nbsp;
+        &lt;a href="contact.html">Contact&lt;/a>&nbsp;|&nbsp;
+        &lt;a href="index.php?gp_page=x_login">Login&lt;/a>
+        &lt;br/>
+        Andromeda &copy; Copyright 2004-2009 by Kenneth Downs, 
+        Licensed under the 
+        &lt;a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt"
+        >GPL Version 2&lt;/a>
+        &lt;br/>
+        Andromeda written by Kenneth Downs with contributions by &lt;a href=
+        "mailto:donald@donaldorgan.com">Donald J Organ IV&lt;/a>
+        &lt;br/>
+        Several 3rd party pacakges also included, see &lt;a href
+        ="credits.html">credits.
+    &lt;/div>
+&lt;/div>
+&lt;/body>
+&lt;script>
+$('pre.prettyprint').each(
+    function() {
+        var x = $(this).html();
+        $(this).html(x.replace(/\&lt;/g,'&amp;lt;'));
+    }
+);
+prettyPrint();
+&lt;/script>
+&lt;/html>
+</pre>
+   
+   
+   

@@ -1,0 +1,107 @@
+title:Using a Standard Grid
+parent:Using x6 Plugins
+sequence:300
+aliases:grid
+
+<p>A basic x6 grid is an editable table-like display of
+   rows and columns:
+</p>
+
+[[image:grid.png]]
+
+<p>The grid has quite a few advantages, mostly being that 
+   it is scrollable, runs on firefox, IE 6 and IE 7, and
+   and can be used in a variety of default modes or
+   completely customized.
+</p>
+
+<p>The most basic use of a grid is to display some data
+   that the user will edit.
+</p>
+
+<h2>A Complete Basic Example</h2>
+
+<p>Below is a complete example that will display for
+   editing a list of US states that begin with the
+   letter 'N'.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        
+        # Important: if the grid is editable using
+        # built-in functionality, a 'tableController'
+        # plugin must be on the page.  These are
+        # invisible, and they provide access to the
+        # back-end.
+        $top->addTableController('states');
+        
+        # Start off by creating a grid.  The parameters are:
+        # 1) Height
+        # 2) Table we are editing
+        # 3) Flag for lookup textboxes, no in this case
+        # 4) Flag for sortable.  No, cannot do this here
+        #                        because of our custom query
+        # 5) Flag for buttonbar, yes, because it is editable
+        # 6) Flag for editable, yes.
+        $grid = $top->addGrid(hSize(300),'states','N','N','Y','Y');
+        
+        # Now we tell the grid what columns to edit.
+        # We will use the data dictionary for this.
+        $dd = ddTable('states');
+        $grid->addColumn($dd['flat']['state']);
+        $grid->addColumn($dd['flat']['description']);
+        
+        # Tell the grid there are no more columns
+        $grid->lastColumn();
+        
+        # Now pull and display the data
+        $sq = "Select skey,state,description
+                 FROM states
+                WHERE state like 'N%'";
+        $rows = SQL_Allrows($sq);
+        $grid->addData($rows);
+        
+        # here is an alternative way to add each
+        # cell in a loop:
+        foreach($rows as $row) {
+            $grid->addrow($row['skey']);
+            $grid->addCell($row['state']);
+            $grid->addCell($row['description']);
+        }
+        
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<p>The example begins with adding a "TableController".  We will
+   not explain much about that here, except to say that if you
+   put in a grid that uses Andromeda's built-in editing features,
+   you need to have a table controller.
+</p>
+
+<p>Next comes the grid itself.  It needs to know how high it
+   should be, and what table it is editing.  The next four
+   options are a standard arrangment for an editable grid,
+   no search boxes and not sortable, but with a button bar and
+   the editable flag set to true.
+</p>
+
+<p>Each column is added with the addColumn() command.  In
+   simple cases where you are directly editing a table, the
+   easiest thing to do is pass in the column's definition
+   from the data dictionary.  After you have defined the
+   last column, invoke $grid->lastColumn() so the grid can
+   do some housecleaning.
+</p>
+
+<p>Finally we have the database query, and the code shows two 
+   different ways to load the data into the grid.  It can be
+   loaded in one shot with "addData()" or the rows and cells
+   can be created manually with Addrow() and AddCell().
+</p>

@@ -1,0 +1,66 @@
+title:Ranged Primary Keys
+parent:Extensions
+sequence:100
+aliases:range_from,range_to,ranges,interval,intervals
+
+<p>Sometimes it is useful to have a primary key that specifies
+   not just a single value, but a range of values, such as a date
+   interval.  As an example, consider a table of billing rates
+   that goes by date.  To make queries easy we want both 
+   a start and an end date, but we want to make sure that no
+   two ranges can overlap.
+</p>
+
+<p>Andromeda supports this feature with the ranged primary
+   key.  Setting up such a feature is easy:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table rates:
+    module: billing
+    description: Billing Rates by Customer
+    
+    # Assume we have a table of customers
+    foreign_key customers:
+        # the primary key of this table will be customer
+        # code plus a date range.  So we must include the
+        # customer in the primary key.
+        primary_key: Y
+
+    # Now add two date columns, and use the special
+    # "range_from" and "range_to" properties to make
+    # them a range.
+    column date:
+        primary_key: Y
+        range_to: date_end
+    column date_end:
+        suffix: _end
+        primary_key: Y
+        range_from: date
+</pre>
+
+<p>The "range_to" and "range_from" keywords must both be set, and at
+   this time Andromeda does not trap an error if they are not pointing
+   correctly at each other, so be careful when keying this in.
+</p>
+
+<h2>Effect on Foreign Keys</h2>
+
+<p>When you put a foreign key into a table, Andromeda automatically
+   puts the columns that you need into the child table.  When the
+   primary key is ranged, the child table will contain <i>only one
+   column from the range</i>, and it will have the name of the 
+   first column.  So in the example above, any child table of the
+   RATES table will have the columns CUSTOMER, since customer is
+   part of the primary key, and DATE, which is 
+   the first column in the range.
+</p>
+
+<p>The foreign key allows a match if the value in the child table
+   is between the two values in the parent table.
+</p>
+
+<p>Automations such as FETCH, FETCHDEF, DISTRIBUTE, SUM, COUNT and
+   LATEST are all fully supported.
+</p>
+   

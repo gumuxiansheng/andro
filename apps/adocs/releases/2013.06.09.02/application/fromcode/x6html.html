@@ -1,0 +1,25 @@
+title:x6HTML
+parent:JSON Returns
+sequence:522
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6HTML<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function x6HTML is saves the HTML fragment to be sent
+   back to the browser.  The first parameter names the ID of the
+   element whose HTML is to be replaced, and the second parameter
+   contains the HTML.<br/></p>
+<h2>INPUTS</h2>
+<ul><br/><li> string $parm1 - the html id
+<li> string $parm2 - the html value<br/></ul><br/></ul>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function x6HTML($parm1,$parm2) { return x4html($parm1,$parm2); }
+function x4HTML($parm1,$parm2) {
+    if(!isset($GLOBALS['AG']['x4']['html'][$parm1])) {
+        $GLOBALS['AG']['x4']['html'][$parm1] = '';
+    }
+    $GLOBALS['AG']['x4']['html'][$parm1] .= $parm2;
+}<br/></ul>

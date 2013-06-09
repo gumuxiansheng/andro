@@ -1,0 +1,21 @@
+title:Returning Errors with JSON
+parent:Web Programming
+sequence:1400
+aliases:
+
+
+<p>If you wish to raise errors to send back to the browser,
+   use the x6error() function.  The function takes a single
+   argument, a string, which describes the error.
+</p>
+
+<p>You can call this function any number of times.  Calling
+   this function does not effect your PHP execution at all.
+</p>
+
+<p>When you return an error to the browser, all errors
+   together will be shown to the user in a popup.  The
+   x6.json.process() method will also return false.
+</p>
+
+

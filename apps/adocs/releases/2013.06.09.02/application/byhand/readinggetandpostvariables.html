@@ -1,0 +1,206 @@
+title:Reading GET and POST Variables
+parent:Web Programming
+sequence:500
+aliases:
+
+
+<p>On the previous page we saw how to generate an HTML FORM element
+   and direct it to our page.  Now we will see how to process 
+   the posted form.
+</p>
+
+<h2>Web and PHP Basics</h2>
+
+<p>We will begin by taking the example from the last page and 
+   adding some code to see if the user has posted the form.
+   Just to refresh PHP and web basics, when the user clicks on
+   SUBMIT NOW, execution will return to the exact same page
+   and begin again at x6main().  If the user has filled in the
+   textbox, then PHP provides a variable called $_POST from which
+   you can read the value of the input.
+</p>
+
+<p>In normal practice, Andromeda programs never access the $_POST
+   variable directly.  Instead Andromeda programs use the gp()
+   function, which returns the value of a named parameter.  
+   This function two has two nifty features, the first of which
+   is that you can specify a default value to return if the
+   named parameter does not exist or is null.  
+</p>
+
+<p>The example below has exactly one additional line, which sets
+   the value of the input by calling gp() to find out what 
+   value was posted in.  If no value was posted in it returns
+   "...none...".  While this little feature only saves a few lines
+   of code, this basic action is so pervasive in web programming
+   that the humble gp() function is one of the most basic 
+   of Andromeda's timesavers.
+</p>
+ 
+
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->h('h1','Please Fill Out the Form');
+
+        # The form() method hands you back a form that is
+        # is named "Form1", has method "POST" and action
+        # "index.php".
+        $form = $top->form();
+        
+        # This is very important! Without this the form will
+        # not post back to this page!
+        $form->hidden('x6page','example');
+        
+        $input = $form->h('input');
+        $input->hp['name'] = 'anyvalue';
+        $input->hp['value'] = gp('anyvalue','...none...');
+        
+        $input = $form->h('input');
+        $input->hp['type'] = 'Submit';
+        $input->hp['value'] = 'Submit Now';
+        
+        $top->render();
+    }
+}
+?>
+</pre>
+
+   
+<span class="info">Many Andromeda functions contain the "default"
+   behavior that allows the programmer to specify a value to 
+   return in the event that the requested value does not exist
+   or is null.
+</span>
+
+
+<h2>Checking For a Post Variable</h2>
+
+<p>If you pass boolean false as the second parameter of the gp()
+   function, you can use it to check if any given POST variable
+   was passed in.  Try modifying the example above to read like
+   this:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->h('h1','Please Fill Out the Form');
+        
+        # Extra code to detect user has clicked SUBMIT NOW
+        if(gp('anyvalue',false)) {
+            $top->h('p',"Welcome back, it is now".date('r',time()));
+        }
+
+        # The form() method hands you back a form that is
+        # is named "Form1", has method "POST" and action
+        # "index.php".
+        $form = $top->form();
+        
+        # This is very important! Without this the form will
+        # not post back to this page!
+        $form->hidden('x6page','example');
+        
+        $input = $form->h('input');
+        $input->hp['name'] = 'anyvalue';
+        $input->hp['value'] = gp('anyvalue','...none...');
+        
+        $input = $form->h('input');
+        $input->hp['type'] = 'Submit';
+        $input->hp['value'] = 'Submit Now';
+        
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<h2>Also Works for GET Variables</h2>
+
+<p>In a plain vanilla PHP page, if you call "index.php?x6page=example"
+   then PHP provides an array named $_GET and you will find that
+   $_GET['x6page'] = 'example'.
+</p>
+
+<p>We have already seen that Andromeda provides the gp() function to
+   retrieve values from the $_POST array.  To retrieve values from
+   the $_GET array you actually use the exact same function: gp()!
+   Andromeda combines the two arrays and provides access through
+   a single function.
+</p>
+
+<p>Seasoned web programmers may object to this, pointing out correctly
+   that GET and POST are meant for two different operations.  This
+   is true, but by the time your PHP/Andromeda code is executing,
+   <i>it does not matter where they came from, and it is much easier
+   to have to look in only one place to find either one.</i>
+</p>
+
+<span class="info">Andromeda combines the $_GET and $_POST variables
+   by executing an array_merge(), specifying $_POST first and $_GET
+   second.  This means that if a page specifies the same variable
+   as both a GET value and a POST value, the GET value will win
+   and the POST value will be lost.
+</span>
+
+<span class="info">Andromeda never replaces or "wraps" core PHP 
+   functions unless there is some improvement in safety,
+   convenience, or both.  Programmers can always choose to
+   ignore the Andromeda wrappers and directly access PHP
+   superglobals and functions.
+</span>
+
+<p>This example shows how the GET and POST arrays are combined,
+   and how a GET value overrides a POST value of the same name:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # The following form specifies "parm1" twice, the GET will win
+        ?>
+        <form name="Form1" method="POST"
+            action="index.php?x6page=example&parm1=top&parm2=bottom">
+          <input type="hidden" name="parm1"   value="thepostvalue">
+          <input type="hidden" name="parmabc" value="parm abc">
+          <input type="hidden" name="parmxyz" value="parm xyz">
+          <input type="submit"
+                value="Click Here For Some Action"/>
+        </form>
+        <?php
+
+        # The routine "aFromGP" returns an Array from the Get/Post
+        # variables.  The empty string first parameter is important
+        $arr = aFromgp('');
+        echo "Here is what you posted:";
+        hprint_r($arr); 
+
+        # Teaser for a future topic, capturing get/post into
+        # arrays
+        $arr = aFromgp('parm');
+        echo "Here is a subset:";
+        hprint_r($arr); 
+
+    }
+}
+?>
+</pre>
+
+
+<h2>Final Notes: Sanitation</h2>
+
+<p>The Andromeda philosophy is that the programmer should receive
+   GET and POST variables exactly as they were sent to the browser,
+   without any sanitation for either HTML or SQL.  This is because,
+   first of all, allowing PHP to "fix" the value may cause
+   corruption and make work for the programmer, and secondly,
+   because the value may need to go to both HTML and SQL, and 
+   sanitizing for one corrupts for the other, we stick to the
+   "sanitize when sending, not receiving" philosphy.
+</p>
