@@ -1,0 +1,31 @@
+title:addParm
+parent:json
+sequence:2595
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json.addParm<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6.json.addParm adds one parameter
+   to a JSON call previously initiated with x6.json.init.<br/></p>
+<h2>INPUTS</h2>
+<p>string - required, a parameter name
+   mixed - required, the value for the parameter<br/></p>
+<h2>EXAMPLE</h2>
+<p>Here are two examples for initiating a JSON request<br/></p>
+<pre>      &lt;script&gt;
+      x6.json.init();
+      // Name the server-side page to call
+      x6.json.addParm('x4Page','myCustomPage');
+      // Name the server-side method to call
+      x6.json.addParm('x4Action','fetchSomething');
+      &lt;/script&gt;
+</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+this.addParm = function(name,value) {
+    this.parms[name] = value;
+    if(name=='x4Page')   this.x4Page = value;
+    if(name=='x4Action') this.x4Action = value;
+}</pre>

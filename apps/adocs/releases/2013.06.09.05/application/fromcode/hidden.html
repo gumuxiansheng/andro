@@ -1,0 +1,25 @@
+title:hidden
+parent:androHtml
+sequence:1418
+aliases:
+
+
+<h2>NAME</h2>
+<p>hidden<br/></p>
+<h2>FUNCTION</h2>
+<p>The method hidden adds a hidden value to this androHtml object.  A hidden variable is stored in
+    an input html element that has the html property 'type' set to 'hidden'.  This enables the passing
+    of variables back and forth from the server to the client browser after refreshes.<br/></p>
+<h2>INPUTS</h2>
+<p>string $name - Name of the hidden variable
+    string $value - Value for the hidden variable<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function hidden($name,$value = '') {
+    $h = $this->h('input');
+    $h->hp['type'] = 'hidden';
+    $h->hp['id']   = $name;
+    $h->hp['name'] = $name;
+    $h->hp['value']= $value;
+    return $h;
+}</pre>

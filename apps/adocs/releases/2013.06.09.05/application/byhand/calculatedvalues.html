@@ -1,0 +1,309 @@
+title:Calculated Values
+parent:Automations
+sequence:210
+aliases:chain,calculate,calculation,calculated,extend,derived
+
+<p>A very basic operation in most database applications is calculating
+   a value from two or more other values.  Like the FETCH family of
+   operations, this operation is so natural to most programmers that
+   they do not think much about it.
+</p>
+
+<p>Andromeda supports calculated values by using our CHAIN automation.
+   This automation has a different syntax than others, because it
+   supports more possibilities.
+</p>
+
+<p>A very simple example is this snippet from an order_lines table:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+table orderlines:
+    
+    # these foreign keys are standard on any 
+    # orderlines table
+    foreign_key orders:
+    foreign_key items:
+    
+    # We have already seen this in prior examples
+    column price:
+        auto:fetch,items.price
+        
+    # The user enters this value
+    column qty:
+    
+    # Now we perform the calculation
+    colum price_extended:
+        suffix: _extended
+        chain calc:
+            test 00:
+                return: @price * @qty
+</pre>
+
+<h2>Examining The Syntax</h2>
+
+<p>For calculated values, the calculation always begins with the
+   exact definition "chain calc:", which identifies the properties that
+   follow as a calculation chain (Andromeda also supports constraint
+   chains, that's why it is not simply "chain").
+</p>
+
+<p>The next line after "chain calc:" is indented to the next level.
+   This next line begins with the keyword "test" followed by a number.
+   In this example this may seem like extra typing, but we will see in
+   the next examples why that is there.
+</p>
+
+<p>Finally, the third line is indented another level and specifies
+   the return calculation.  Note that field names are preceeded by
+   the "@" sign. 
+</p>
+
+<h2>Chain Syntax is NOT SQL</h2>
+
+<p>The trivial example above might give the impression that you can
+   put any valid SQL expression into the return expression.  
+   <b><i>This is not the case</i></b>.  There are precise rules for
+   building the return expressions, which will be detailed next.
+</p>
+
+
+<h2>Conditionals</h2>
+
+<p>The CHAIN syntax allows for conditional processing, which is its
+   real power.  In fact, this is the only place in Andromeda where
+   you can put conditionals into the automations -- because it is
+   the only place you need it!
+</p>
+
+<p>The example below deals with a case where some items are taxable
+   and some are not.  We can imagine an ITEMS table that has a flag
+   that marks each item as taxable or not.  This means that sales 
+   tax must be considered line by line, it is not a simple calculation
+   based on all lines.  The following example shows how to do this.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table orderlines:
+    # ...details...
+    
+    # standard foreign keys for this
+    # kind of table
+    foreign_key orders:
+    foreign_key items:
+    
+    # These columns are explained above
+    column qty:
+    column price:
+        auto: fetch,items.price
+        
+    # this is a new flag we must fetch
+    # for each item
+    column flag_taxable:
+        suffix: _taxable
+        auto: fetch,items.taxable
+    
+    # Now we multiply out two values,
+    # the first is the taxable amount,
+    # the second is non-taxable.  Some
+    # lines will have one value, others
+    # will have the other.
+    column price_ext_taxable:
+        suffix: _ext_taxable
+        chain calc:
+            test 00:
+                compare: @flag_taxable = Y
+                return: @qty * @price
+            test 01:
+                return: 0
+    column price_ext_notax:
+        suffix: _ext_notax
+        chain calc:
+            test 00:
+                compare: @flag_taxable = N
+                return: @qty * @price
+            test 01:
+                return: 0
+
+# For completeness, here is how the order
+# header would look:
+table orders:
+    # ...details...
+    
+    #  First we sum the values from the orderlines
+    column price_ext_taxable:
+        suffix: _ext_taxable
+        auto: sum,orderlines.price_ext_taxable
+    column price_ext_notax:
+        suffix: _ext_notax
+        auto: sum,orderlines.price_ext_notax
+        
+    # An order always has a foreign key to 
+    # customers of course, so fetch the customer's
+    # tax authority code from there
+    foreign_key orders:
+    column taxauth:
+        auto: fetch,customers.taxauth
+        
+    # Now fetch the tax percentage from a
+    # a table of tax authorities
+    foreign_key taxauths:
+    column pct_tax:
+        suffix: _tax
+        auto: fetch,taxauths.taxrate
+        
+        
+    # Now calculate the tax
+    column amt_tax:
+        suffix: _tax
+        chain calc:
+            test 00:
+                return: @pct_tax * price_ext_taxable
+    
+    # ..and finally the order total
+    column price_final:
+        chain calc:
+            test 00:
+                return: @price_ext_taxable + @price_ext_notax @amt_tax
+        
+</pre>
+
+<p>In this example we see that each column has two "test" lines,
+   instead of just one.  We also see that the first test line
+   contains a new property, the "compare" expression.  These work
+   just how you would think, at runtime the comparisons are made
+   one by one until the first one returns true.  Once a comparison
+   returns true, the return value is calculated.  At the end is
+   the default case calculation, the one that returns if none of
+   the tests matched.
+</p>
+
+<h2>Compare and Return Syntax is Not Nice</h2>
+
+<p>The syntax for the compare and return expressions is not very
+   flexible, by the standards of most languages and by the rest
+   of Andromeda.  We hope to rectify this in a future release, but
+   at least through Release 1 the following restrictions apply:
+</p>
+
+<ul><li>There is only one operation allowed per expression.
+    Expressions like @col1 * @col2 + @col3 are not allowed.
+    <li>You only specify the operator once (this means there is
+    not a typo in the last line of the example above).  If you
+    want to multiply five numbers together you put in
+    "@col1 * @col2 @col3 @col4 @col4"
+    <li>Column names are preceeded by an @ sign, everything else
+    is considered a string or numeric literal.
+    <li><b><i>Only one space is allowed between each argument.
+    Andromeda does not trap for this and does not correct mistakes
+    in this rule</i></b>.
+</ul>
+
+<h2>Comparison Operators</h2>
+
+<p>The supported operators for comparisons are these:
+</p>
+
+<table class="chart">
+  <thead>
+    <tr>
+        <th>Operator
+        <th>Description
+  </thead>
+  <tbody>
+    <tr>
+        <td>EMPTY
+        <td>Returns true if value is empty (empty string or zero numeric
+            or null date)
+    <tr>
+        <td>!EMPTY
+        <td>Opposite of empty
+    <tr>
+        <td>BETWEEN
+        <td>First value is between next two
+    <tr>
+        <td>!BETWEEN
+        <td>Opposite of BETWEEN
+    <tr>
+        <td>NULL
+        <td>Value is null
+    <tr>
+        <td>!NULL
+        <td>Value is not null
+    <tr>
+        <td>IN
+        <td>First value matches any of following values
+    <tr>
+        <td>!IN
+        <td>Opposite of IN
+    <tr>
+        <td>&gt;, &gt;=, &lt; &lt;=<br/>
+            =, &lt;&gt;
+        <td>Standard comparisons, work for all types.
+  </tbody>
+</table>
+
+<h2>Calculation Operators</h2>
+    
+<p>The supportec calculation operators are:
+</p>
+
+<table class="chart">
+  <thead>
+    <tr>
+        <th>Operator
+        <th>Description
+  </thead>
+  <tbody>
+    <tr>
+        <td>+, -, *, /
+        <td>Add, subtract, multiply and divide
+    <tr>
+        <td>CON
+        <td>String concatenation
+    <tr>
+        <td>CONU
+        <td>String concatenation inserting underscores between segments
+    <tr>
+        <td>EXTRACTYEAR
+        <td>Year part of date
+    <tr>
+        <td>EXTRACTEPOCH
+        <td>Epoch part of date
+    <tr>
+        <td>EXTRACTMONTH
+        <td>Month part of date
+    <tr>
+        <td>EXTRACTDAY
+        <td>Day part of date
+    <tr>
+        <td>REPLACE
+        <td>String replace.  First argument is subject, 2nd argument
+            is search string, third argument is replacement value.
+    <tr>
+        <td>LPAD, RPAD
+        <td>Pad out on left or right.  The first argument is the subject,
+            no other arguments are necessary, it pads to the length
+            of the target column.
+    <tr>
+        <td>SUBS
+        <td>Substring.  First argument is subject, 2nd is starting point
+            and third is length.
+    <tr>
+        <td>UPPER, LOWER
+        <td>Convert string to upper or lower case.
+    <tr>
+        <td>BITAND
+        <td>Bitwise AND
+    <tr>
+        <td>BITOR
+        <td>Bitwise OR
+    <tr>
+        <td>BITXOR
+        <td>Bitwise XOR
+    <tr>
+        <td>BITNOT
+        <td>Bitwise negation
+  </tbody>
+</table>
+

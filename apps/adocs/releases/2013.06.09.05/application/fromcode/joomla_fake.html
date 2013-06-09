@@ -1,0 +1,23 @@
+title:joomla_fake
+parent:Joomla-Compatibility
+sequence:5345
+aliases:
+
+
+<h2>NAME</h2>
+<p>joomla_fake<br/></p>
+<h2>FUNCTION</h2>
+<p>Class needed by Joomla templates so they go into
+    normal mode.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+class joomla_fake {
+   var $id=false;
+   var $template_name='';
+   // KFD 2/25/08 added for
+   var $_session = array();
+
+   function getTemplate() {
+      return $this->template_name;
+   }
+}</pre>

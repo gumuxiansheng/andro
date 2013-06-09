@@ -1,0 +1,60 @@
+title:            Requirements Reference
+parent:Installation
+sequence:400
+aliases:
+
+                            
+                            <p>This page is a reference that we use to produce the pages [[Running on Linux]] and [[Running on Windows]].  If you are just starting out you may want to check with those first.
+</p>
+<h1>Firefox's Brain-damaged Hotkey Setting</h1>
+<p>Andromeda is used to create programs for people who use keyboards, often heavily, and are used to doing all of their work in "heads-down" mode, not taking their fingers off the home row.
+</p>
+<p>For this reason, the program uses a lot of hotkeys.  Beginning with version 2, Firefox <b>broke</b> their hotkey system by setting the default to SHIFT+ALT, which might be better termed "clumsy key" setting.
+</p>
+<p>To fix this, you need to type "about:config" into the address bar, and then in the "filter" box type "ui.key".  Look for "ui.key.contentAccess" and change it from 5 to 4, which sets it back to ALT.
+</p>
+<h1>PHP</h1>
+<p>As of April 12, 2007, The particular requirements for PHP are:
+</p>
+<ul><li> Postgres support installed
+<li> Version 5.0+ (5.1 not required)
+<li> PEAR package Net_SMTP (and dependencies)
+</ul>
+
+<p>As of March 2008 requirements for curl and PEAR::Archive_Tar have been removed by our conversion to subversion.</p>
+
+<p>There are a couple of php.ini settings that should be changed:
+</p>
+<ul><li> max_execution_time must be expanded.  Building a database will often exceed 30 seconds, and can run as much as 3-4 minutes.
+<li> memory_limit must be expanded beyond 8M, otherwise a database build will simply stop with a maddening lack of any kind of error or notice.
+<li> variables_order is assumed to be "EGPCS", important so that $_ENV gets loaded automatically on Windows systems and AndroBuild can detect that it is on Windows.
+<li> Option "Short_open_tag" turned on in php.ini
+<li> Options "Magic_Quotes_gpc" and "magic_quotes_runtime" turned off (PHP 5.x and lower)
+</ul>
+<h1>Apache</h1>
+<p>Apache mod_rewrite must be on to make use of friendly URLs.
+</p>
+<h1>Postgres</h1>
+<p>Version 8.1 or better is required.
+</p>
+<p>During installation of Andromeda, a user must manually create the empty 'andro' database and the 'root' group.  The user must also create their own superuser account and assign it to the 'root' group.
+</p>
+<p>As of July 25, 2007, Postgres requires that perl be installed on your system.
+</p>
+<p>These lines must be in pg_hba.conf, in this order:
+</p>
+<pre>#  Allows root and postgres to get in
+local   all         postgres    ident andromeda
+# Users in pg group "root" can connect to anything
+local   all         +root        password
+# Members of the eponymous role can login
+local   samename    all         password
+local   samegroup   all         password
+</pre>
+<p>In order to let linux users root and postgres to get in, we need these lines in pg_ident.confg
+</p>
+<pre>andromeda     postgres          postgres
+andromeda     root              postgres
+</pre>
+                                                    
+                            

@@ -1,0 +1,27 @@
+title:json_encode_safe
+parent:JSON Returns
+sequence:671
+aliases:
+
+
+<h2>NAME</h2>
+<p>json_encode_safe<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function json_encode_safe checks to see if current php version contains JSON functions.
+    If it does, then encodes the data.  Otherwise it outputs an
+    error.  Safe way to use json_encode because not all PHP setups
+    have JSON functions.<br/></p>
+<h2>INPUTS</h2>
+<p>string $data - the data to encode<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function json_encode_safe($data) {
+    // Package up the JSON
+    if(function_exists('json_encode')) {
+        return json_encode($data);
+    }
+    else {
+        return '{ "error": ["No JSON function in this version of PHP!"] }';
+    }
+    return;
+}</pre>

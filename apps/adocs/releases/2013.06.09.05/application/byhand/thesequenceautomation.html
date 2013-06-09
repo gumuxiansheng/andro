@@ -1,0 +1,28 @@
+title:The SEQUENCE Automation
+parent:Automations
+sequence:125
+aliases:sequence,auto-increment,auto-incrementing,id field
+
+<p>The SEQUENCE automation is used to produce auto-incrementing values in 
+   a column.  This is most often used for things like an order_num
+   and others.
+</p>
+
+<p>By convention columns that use SEQUENCE are always int.  The
+   results of using other types are not defined.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+column order_id:
+    type_id: int
+    description: Order ID
+    
+table orders:
+    module: ordering
+    description: Orders
+    
+    column order_id:
+        auto: sequence
+</pre>
+
+
