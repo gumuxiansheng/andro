@@ -1,0 +1,16 @@
+title:SessionReset
+parent:Session Handling
+sequence:5813
+aliases:
+
+
+<h2>NAME</h2>
+<p>SessionReset<br/></p>
+<h2>FUNCTION</h2>
+<p>Destroys all session variables for the current application.  We use this
+    instead of PHP session_destroy because it allows a user to be logged in
+    to several apps at once, because the framework makes effective sessions
+    for each separate application.<br/></p>
+<p>Note that this function destroys both application and framework session
+    variables, there is more information on what these are on the
+    Session Variables page.<br/></p>

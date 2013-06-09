@@ -1,0 +1,126 @@
+title:The Admin Menu
+parent:The Admin Interface
+sequence:50
+aliases:
+
+<p>Andromeda automatically builds a menu out of the modules
+   and tables in your database.  In addition, you can add
+   specific menu entries that go to custom pages.  The
+   rules for building a menu are:
+</p>
+
+<ul><li>The menu pads take their captions from the
+    "description" property of your module definitions.
+    <li>The menu pads appear in the order in which they
+    are defined in the YAML file, unless overridden
+    by the "uisort" property of the modules.
+    <li>Each drop-down menu shows the tables within
+    the module.
+    <li>The tables appear on the menu in the order they
+    are defined in the YAML file, unless overridden
+    by the "uisort" property of the modules.
+    <li>Special menu entries can be defined in the YAML
+    file and will appear in the order they are defined,
+    or in the order determined by their "uisort" properties.
+    <li>Setting the property "spaceafter: Y" on a table or
+    menu entry will cause a spacer to appear after that
+    entry, so that menus entries can be grouped.
+</ul>
+
+<h2>Menu Security and Options</h2>
+
+<p>If a user does not have the "permsel" permission on a table,
+   they will not see it on the menu.
+</p>
+
+<p>For custom menu entries, we set the "permsel" permission to
+   control who can see it on the menu, even though there is no
+   real table to SELECT out of.  We do this so the permissions
+   work the same way as tables.
+</p>
+
+<p>The "nomenu" property can be used to remove a table from
+   the menu for all users.  If this property is applied to 
+   a module for a group, that group will not see that module
+   at all (unless the nomenu property is reset for at least
+   one table entry).
+</p>
+
+<h2>Custom Pages and Programs</h2>
+
+<p>See the page [[Making Hello World a Menu Entry]] for more
+   information on how to put custom programs onto the menu.
+</p>
+
+<h2>The Demo Example</h2>
+
+<p>The YAML example shown below is taken from the Andromeda
+   Demo application, and has been purged of all information 
+   except the module and table definitions, to show how these
+   affect the menu:
+</p>
+
+<pre class="prettyprint lang-ddyaml" 
+     style="max-height: 150px; overflow: auto">
+module ordering:
+    description: Orders
+    uisort: 100
+
+module gl:
+    description: Ledger
+    uisort: 500
+
+table orders:
+    module: ordering
+    description: Orders
+    uisort: 100
+
+table orderlines:
+    module: ordering
+    uisort: 110
+    nomenu: "Y"
+    x6childwrites: detail
+    
+table customers:
+    module: ordering
+    description: Customers
+    uisort: 200
+    spaceafter: "Y"
+
+table items:
+    module: ordering
+    uisort: 300
+    description: Items
+    spaceafter: "Y"
+    x6profile: twosides
+
+table custtypes:
+    module: ordering
+    uisort: 900
+    x6profile: grid
+    description: Customer Types
+
+table taxauths:
+    module: ordering
+    uisort: 910
+    x6profile: grid
+    description: Tax Authorities
+
+table glaccounts:
+    description: Chart of Accounts
+    module: gl
+    uisort: 100
+    x6profile: grid
+    
+table glactypes:
+    description: Account Types
+    module: gl
+    uisort: 900
+    x6profile: grid
+    x6all: "Y"
+</pre>
+
+<p>This definition produces a menu that looks like this:
+</p>
+
+[[image:menu.png]]

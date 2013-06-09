@@ -1,0 +1,73 @@
+title:HTML Inputs and The Data Dictionary
+parent:Web Programming
+sequence:800
+aliases:
+
+
+<p>The Data Dictionary is very useful for producing specialized
+   HTML.  One of the more tiresome tasks of database development
+   is the need to make up specialized inputs for many  
+   different fields, with different rules for different types,
+   different alignment, different sizes, and so on.
+</p>
+
+<p>Andromeda provides the input() function which can be used
+   to generate consistent standardized inputs based on the
+   information in the data dictionary.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # Load the dictionary
+        $dd = ddTable('configfw');
+        
+        # Now dump a simple input for each column
+        # in the table
+        $top = html('div');
+        foreach($dd['flat'] as $colname=>$colinfo) {
+            $top->h('div',$colinfo['description'].':');
+            $input = input($colinfo);
+            $top->addChild($input);
+        }
+        $top->render();
+    }
+}
+?>
+</pre>
+
+<p>Each input has special attributes that can be used by browser-side
+   code for whatever purpose you may need.  These custom attributes
+   always have the letter 'x' as a prefix to their name.  They
+   generally have the same name as data dictionary properties except
+   they lack underscores:
+</p>
+
+<ul><li>xtableid: the table id
+    <li>xcolumnid: the column id
+    <li>xroupd: If "Y", the column should be read-only when updating
+    <li>xroins: If "Y", the column should be read-only for inserts
+    <li>xtypeid: Same as "type_id" in the data dictionary
+    <li>xcolprec: Same as "colprec" in the data dictionary
+    <li>xcolscale: Same as "colscale" in the data dictionary.
+</ul>
+
+<h2>Using jQuery to Find Controls</h2>
+
+<p>You can make use of the special attributes that Andromeda adds
+   to its inputs to easily find controls that correspond to 
+   certain database columns.
+</p>
+
+<p>If you want to find the input that is bound to the column
+   "group_id" in table "groups", the following jQuery selector
+   will do that:
+</p>
+
+<pre class="prettyprint">
+<script>
+// Set focus on a particular control
+$(':input[xcolumnid=group_id][xtableid=groups]').focus();
+</script>
+</pre>

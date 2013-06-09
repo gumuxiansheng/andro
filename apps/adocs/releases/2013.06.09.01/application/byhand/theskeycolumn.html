@@ -1,0 +1,26 @@
+title:The SKEY Column
+parent:Database Access
+sequence:125
+aliases:
+
+<p>Every table in an Andromeda database contains a column
+   called "skey", which contains a unique integer value.
+</p>
+
+<p>The skey value is very handy in user interface programming
+   where you often are working with only one row.  If you make
+   it a practice to always retrieve this value, it is very
+   useful as a unique identifier for HTML elements.  The
+   skey value also makes
+   it very easy to code manual updates and deletes, and
+   it also makes it easier to use the SQLX_Insert, SQLX_Update
+   and SQLX_Delete functions.
+</p>
+   
+
+<span class="info">The SKEY Column is not a primary key
+   and cannot be used as a foreign key in other tables.
+   A row's skey value should never be saved in other tables
+   as a reference to the original row -- always use your
+   own primary key instead.
+</span>

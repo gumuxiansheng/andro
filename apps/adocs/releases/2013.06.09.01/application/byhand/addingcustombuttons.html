@@ -1,0 +1,117 @@
+title:Adding Custom Buttons
+parent:The Admin Interface
+sequence:700
+aliases:
+comments: true
+
+<p>Andromed allows you to add custom buttons to the detail
+   pane of the conventional and twosides profiles.  The actions
+   of these buttons is coded in javascript, and there is more
+   information available at [[Adding JSON Calls (aka AJAX]].
+</p>
+
+<p>Once custom buttons are created for a table, they appear
+   everywhere that a detail pane is displayed, either in the
+   conventional profile, or in a child table detail edit, or
+   on the twosides profile.
+</p>   
+
+<p>Begin by creating a class file that is named after the table
+   that should get the custom buttons.  Add a function 
+   &customButtons() (notice the function returns its value by
+   reference), and follow the pattern shown in the example below,
+   which is from a closed-source Andromeda application that
+   authorizes credit card payments through Authorize.net.
+</p>
+   
+<pre class="prettyprint"
+     style="max-height: 250px; overflow: auto">
+<?php
+class x6customers_cctx extends androX6 {
+    # =================================================================
+    #
+    # CUSTOM BUTTONS
+    #
+    # =================================================================
+    function &customButtons() {
+        # Always begin with a top-level div and put
+        # these exact style assignments on it.
+        $bb = html('div');
+        $bb->hp['style'] = 'margin-left: 10px; float: left';
+
+        # Each button begins with a call to addCustomButton,
+        # the parameters are:
+        #
+        # 1) The relevant table, if any
+        # 2) A unique id for the button
+        # 3) The keyboard shortcut
+        # 4) The button caption
+        # 5) 'Y' if the button is enabled on new rows
+        # 6) 'Y' if the button is enabled while editing
+        #    an existing row
+        $b = $bb->addCustomButton(
+            'customers_cctx','addswap','F3','F3: Address Swap','Y','Y'
+        );
+        #  This is the magic, anything here will be
+        #  executed when the user clicks the button or
+        #  hits the hot key.
+        #  
+        $b->functions['main'] = <<<JS
+        function() {  
+            var add1 = $('#x6inp_customers_cctx_add1_cust').val();
+            $('#x6inp_customers_cctx_add1_cust').val(
+                $('#x6inp_customers_cctx_add2_cust').val()
+            );
+            $('#x6inp_customers_cctx_add2_cust').val(add1);
+        }
+JS;
+
+        $b = $bb->addCustomButton(
+            'customers_cctx','posttrx','F6','F6: Process','Y','Y'
+        );
+        $b->functions['main'] = <<<JS
+        function() {        
+            x6.json.init('x6page','customers_cctx');
+            x6.json.addParm('x6action','authtrx');
+            x6.json.inputs('#ddisp_customers_cctx');
+            if(x6.json.execute()) {
+                x6dialogs.alert("Transaction was approved!");
+                x6.json.process();
+                x6events.fireEvent('uiRowSaved_customers_cctx',x6.data.newrow);
+            }
+        }
+JS;
+
+        $b = $bb->addCustomButton(
+            'customers_cctx','voidtrx','F8','F8: Void','Y','Y'
+        );
+        $b->functions['main'] = <<<JS
+        function() {  
+            var trxnum = $('#x6inp_customers_cctx_cctrxnum').val();            
+            var voidnum = $('#x6inp_customers_cctx_cctrxnum_void').val();
+            if(trxnum.trim()=='') {
+                x6dialogs.alert("Cannot void this transaction because "
+                    +"it has not been posted!"
+                );
+                return;
+            }
+            if(voidnum.trim()!='') {
+                x6dialogs.alert("This transaction has already been voided!");
+                return;
+            }
+            x6.json.init('x6page','customers_cctx');
+            x6.json.addParm('x6action','voidtrx');
+            x6.json.addParm('skey',x6bb.fwGet('skey_customers_cctx'));
+            x6.json.inputs('#ddisp_customers_cctx');
+            if(x6.json.execute()) {
+                x6dialogs.alert("Transaction was voided!");
+                x6.json.process();
+                x6events.fireEvent('uiRowSaved_customers_cctx',x6.data.newrow);
+            }
+        }
+JS;
+
+        return $bb;
+    }
+}
+</pre>

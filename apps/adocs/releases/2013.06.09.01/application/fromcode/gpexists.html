@@ -1,0 +1,20 @@
+title:gpExists
+parent:GET and POST Variables
+sequence:83
+aliases:
+
+
+<h2>NAME</h2>
+<p>gpExists<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function gpExists checks to see if the requested variable is inside
+    the Get/Post parameters.<br/></p>
+<h2>INPUTS</h2>
+<p>string $key    - Requested variable name<br/></p>
+<h2>RETURNS</h2>
+<p>boolean    - returns true if the variable exists, false if it does not.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function gpExists($key) {
+    return isset($GLOBALS["AG"]["clean"][$key]);
+}</pre>

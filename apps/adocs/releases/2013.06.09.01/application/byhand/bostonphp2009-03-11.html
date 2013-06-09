@@ -1,0 +1,356 @@
+title:Boston PHP 2009-03-11
+parent:Presentations
+sequence:100
+aliases:last mile,mile
+
+<p>This is the complete text of the presentation titled
+   "jQuery and The Last Mile" given by Ken Downs to
+   Boston PHP on March 11, 2009.
+</p>
+
+<h2>Overview</h2>
+
+<p>Tonight we will see how jQuery alowed us to complete the
+   "Last Mile" of the x6 desktop-in-browser interface for
+   the <a href="http://www.andromeda-project.org">
+   Andromeda Project</a>, giving us workable auto-generated 
+   database maintenance screens
+   and tools for custom screens.
+</p>
+
+<p>jQuery allows for vastly improved productivity in 
+   browser programming.  It touches nearly every subroutine
+   in our Javascript library.
+</p>
+
+<h2>Links And Files</h2>
+
+<p>This page: <a href="http://www.andromeda-project.org/bostonphp2009-03-11.html"
+   >http://www.andromeda-project.org/bostonphp2009-03-11.html</a>
+</p>
+
+<p>The demo we will see: <a href="http://dhost1.secdat.com/time_003"
+   >http://dhost1.secdat.com/time_003</a>.
+
+<p>The Javascript Library: <a href="http://dhost1.secdat.com/time_003/clib/x6.js"
+   >http://dhost1.secdat.com/time_003/clib/x6.js</a>.
+
+<p>PHP source code is available with these links:
+</p>
+
+<ul><li><a href="readfile.php?x=androLib.php">androLib.php</a>
+    <li><a href="readfile.php?x=x6menu.php">x6menu.php</a>
+    <li><a href="readfile.php?x=androHTMLFoot.php">androHTMLFoot.php</a>
+</ul>
+
+<h2>What We Will See</h2>
+
+<ul><li>jQuery's DOM manipulation is so powerful it is as if
+        you could not do it at all before.
+    <li>Cross-browser compatibility
+    <li>Using effects consistently
+    <li>Integration with a framework
+    <li>Division of labor between jQuery and PHP
+    <li>Division of labor between jQuery and vanilla javascript
+    <li>Where jQuery does not or cannot solve a problem
+</ul>
+
+<h2>About Andromeda and The Demo</h2>
+
+<p>The Demo program is an Andromeda application, this project
+   exemplifies what Andromeda is all about.
+</p>
+
+<ul><li><b>Development Speed: </b>The program as you see it took
+    75 minutes to develop, one 45 minute session and two 
+    additional 15 minute sessions.
+    <li><b>Development Accuracy: </b>Every tier of the application
+    reflects the
+    security and business rules of the application.
+    <li><b>D-R-Y: </b>The entire business rules, database structure,
+    security, and <i>default</i> user interface parameters are
+    in the database definition.
+    <li><b>Automation: </b>There are no program files in this
+    application.  The default "free" Andromeda admin interface
+    never requires program files.
+    <li><b>Customization: </b>Even though this demo has no custom
+    files yet, such things are part of all applications, and
+    Andromeda expects them and fully supports them.
+    <li><b>Keyboard Access:</b> The application can be used in
+    its entirety without ever touching the mouse (exceptions are
+    considered bugs, please report them!)
+</ul>
+
+<p>The original version of Andromeda had no Ajax and no more than 
+   50 lines of Javascript.  When we wanted to go Ajax for a full
+   desktop-in-browser experience, it was an <i>absolute requirement</i>
+   that DOM manipulation be painless, that we be able to program
+   at the speed of thought, which is nigh-on impossible with
+   straight Javascript.  P.S.: jQuery's effects were simply a 
+   bonus.
+</p>
+
+<h2>The Basics: Firebug</h2>
+
+<p>Tonight's presentation will make heavy use of Firebug, which
+   fits hand-in-glove with jQuery.
+</p>
+
+<h2>Introduction To jQuery</h2>
+
+<p>Using Firebug and a demo screen, we will see all get on the same
+   page on how to use jQuery commands.
+</p>
+
+<p>Bring up the demo and go to customers screen.</p>
+
+<ul><li><b>Elements:</b> $("div").css('backgroundColor','blue');
+    <li><b>Elements by Class:</b> $(".x6main").css('backgrounColor','red');
+    <li><b>Elements by ID:</b> $("#tc_customers").css('backgroundColor','green');
+    <li><b>Elements by Type:</b>  $(":input").css('backgroundColor','yellow'); 
+    <li><b>Getting Picky:</b> $(":input:first").css('backgroundColor','cyan'); 
+    <li><b>Isolating Searches:</b> $("#grid_customers :input:first").css('backgroundColor','cyan'); 
+    <li><b>Again:</b> $("#ddisp_customers_inner :input:first").css('backgroundColor','purple'); 
+    <li><b>Use your own attributes: </b>$(":input[xcolumnid=description]").css('backgroundColor','purple'); 
+    <li><b>Loops:</b> $(":input").each( function() { console.log(this.id) } );
+</ul>
+
+<p>Some simple ideas that flow from jQuery's core function:</p>
+
+<ul><li>Idea 1:</b> The basic ability to <i>find</i>
+    items transforms horrifying javascript into elegant code that is
+    easy to write, maintain, and improve.
+    <li>Idea 2:</b> jQuery's set-oriented approach 
+    reduces loop structures in favor of simple
+    statements.
+    <li>Idea 3:</b>The ability to <i>change</i> items 
+    closes the loop on the basic 
+    reason why we code Javascript in the first place:
+    DOM Manipulation.
+</ul>
+
+<h2>Some Examples of DOM Manipulation</h2>
+
+<p>All of the examples of Javascript we will see are in the
+   x6.js file referenced at the top of the page.  To start out,
+   we want to see some isolated examples of how jQuery is
+   sprinkled throughout the program:
+</p>
+
+<ul><li><b>.val()</b>  Example: Go to Customers, type '*', hit Enter. Change Customer Name, then hit ESC.
+        See line 5564, the value is replaced.
+    <li><b>.html()</b> Example, go to customer, type *, search results are returned.  See line 5928, the
+        prior search results are cleared before the search begins.
+    <li><b>.replaceWith()</b> Same example, see line 5946, the entire body is replaced when the HTML
+        returns from the server.
+    <li><b>Sidebar: events</b> Same example as above, see next line, 5947, highlights first row by triggering
+        mouseover event.
+    <li><b>.attr</b> Go to timeslips, detail, New line.  Go to date and type in '031109'.  See Line 3099, use of "attr()" to
+        find value and reformat date.
+    <li><b>.prepend()</b> Log in as adminstrator user ad_003, go to project types.  Hit the up arrow, a new row appears.
+        See line 5211, the .prepend() function.
+    <li><b>.append()</b> Same example, hit down arrow until you scroll past bottom, a new row appears.
+        See line 5215, the .append() function.
+</ul>
+
+<h2>Comprehensive Example 1: Scrolling List</h2>
+
+<p>For this example, you must navigate to a page that is
+   not on the menu.  After logging in, go to this page:
+   <a href="http://www.andromeda-project.org/?x6page=states"
+   >http://www.andromeda-project.org/?x6page=states</a>
+   When the search grid comes up, hit '*', then hit PageDown
+   a few times.
+</p>
+
+<p>The code that supports this behavior begins at line 3987 of
+   x6.js and is almost pure jQuery.  Among the features we
+   use are:
+
+<ul><li><b>Find Highlighted Row</b> using a class selector at 
+    line 4001.
+    <li><b>Get the height of the line</b> using .height() at
+    line 4004.
+    <li><b>Get the next row</b> using .next() at line 4019.
+    <li><b>Find out how many rows are above</b> using .prevAll
+    and .length at line 4021.
+    <li><b>Scroll the body</b> using .scrollTop as both
+    <i>getter</i> and <i>setter</i> at lines 4023 and 4024.
+</ul>
+
+<h2>Comprehensive Example 2: Auto-complete Fields</h2>
+
+<p>For this example, go to projects, detail, NEW.  On the
+   Project type field type '*'.
+</p>
+
+<p>The entire behavior of the auto-complete field is 
+   controlled by an object x6inputs.x6select which
+   is riddled through with jQuery.  Some
+   relevant lines when you hit '*' are:
+</p>
+
+<ul><li><b>We display the box</b> using .css()
+    setting at line 3752.
+    <li><b>The titles are displayed</b> with .html()
+    at line 3808.
+    <li><b>The first row is highlighed</b> with
+    .mouseover() at line 3855.
+    <li>When you hit TAB, <b>the correct value is
+    found</b> using a selector at line 3738.
+</ul>
+
+<h2>Comprehensive Example 3: Modal Editing of Child Tables</h2>
+
+<p>For this exaple, go to Customers, type '*' and pick the
+   first customer.  Then click on the tab at the bottom
+   "4: Projects", and click [NEW] inside the tab.  A modal
+   pops up that lets you create a project.
+</p>
+
+<p>The sizing and placement of this modal are controlled by
+   a routine of almost pure jQuery beginning at line
+   6569.  
+</p>
+
+<p>Note from Ken: This is the most recent feature I added to
+   Andromeda as of this writing, and it is the most purely
+   jQuery.  I find the longer I use it, the more I use it
+   for everything, it tends to crowd out all other 
+   techniques.
+</p>
+
+<h2>Some Consequences of jQuery's Power</h2>
+
+<p>Basic HTML habits become more important: id's for unique
+   items, classes for non-unique.
+</p>
+
+<p>Using your own custom attributes can give you lots of
+   power in your Javascript code.
+</p>
+
+<p>Debugging strategy, reduce your core logic to finding the
+   jQuery selector, which you can manually tweak in Firebug
+   before putting it into the code.  See the example at line
+   3738 and line 3740.
+</p>
+
+<p>When you've gone all the way, you end up with all DOM access
+   through jQuery, all other logic in native Javascript.
+</p>
+
+<h2>The Obvious: Cross-Browser Compatibility</h2>
+
+<p>At this point it is worth bringing up cross-browser
+   compatibility.  The demo we are looking at works well
+   in IE6, IE7, and Firefox.  
+</p>
+
+<p>jQuery could not do much for us in the way of CSS
+   incompatibilities, that was our own nightmare we
+   had to solve.  
+</p>
+
+<p>In very late drafts of x6.js Ken was still using 
+   code that treated the "value" attribute of inputs as
+   if it were a property.  This works fine in Firefox,
+   but broke completely in IE.  Switching over to
+  .val() solved that entire problem nicely.
+</p>
+
+<h2>Comprehensive Example 4: Fade and the Menu</h2>
+
+<p>The menu page (not the top menu) makes use of the
+   fade effect and custom attributes.  Most of the code
+   is in x6menu.php.
+</p>
+
+<p>When a user clicks on a module on the left side, the
+   code at line 128 turns off keyboard responses to the
+   right side just before beginning the fade.
+</p>
+
+<p>At line 136 the fadeOut() of the old module begins,
+   an then simultaneously at line 142 the new module begins
+   fading in.  Only when the new module is faded in do
+   we activate keystroke responses again at line 144.
+</p>
+
+<p>This example also illustrates the use of <b>Custom
+   Attributes</b> to control behavior.  We respond to
+   letter keystrokes by finding a menu entry with the
+   attribute 'xkey' that equals the letter.  But how do
+   we keep straight the sub-menus for all of the modules?
+   We add another attribute 'xActive', which is only set
+   to 'Y' for the active submenu.  Line 210 shows the 
+   code that receives the keystroke and picks the menu
+   entry to select.  The fact that jQuery returns an
+   empty set w/o error is a big help here.
+</p>
+
+
+<h2>PHP and $(document).ready()</h2>
+
+<p>jQuery has a nice feature, the $(document).ready() 
+   function which lets you add code that is executed
+   when the page has loaded.  
+</p>
+
+<p>Since much of our HTML is generated by PHP, it stands
+   to reason that the commands we put in here will
+   vary according to what HTML we have generated.
+</p>
+
+<p>This is our first example of a case where we need PHP
+   to generate jQuery-specific items.  One very flexible
+   way to do this is to make up a function like
+   'jqDocReady()' which accepts a string fragment for
+   later output to the browser.  Our own function
+   is at line 11235 of androLib.php
+</p>
+
+<p>Some type of routine must then spit this all out, 
+   so our own code for this is at the bottom of
+   androHTMLFoot.php, beginning at line 90.
+</p>
+
+<h2>Division of Labor jQuery and PHP</h2>
+
+<p><b>Idea 1:</b> PHP exists to generate HTML, so 
+   keep it that way, just because jQuery (and other
+   libraries) can render HTML easily, does not mean
+   they do it quickly.  
+</p>
+
+<p>As an example, view the source of the customers
+   page, it contains the entire HTML for anything that
+   might be visible at any time.  It is all generated
+   by PHP, jQuery is only used to manipulate it.
+</p>
+
+<p><b>Idea 2:</b> jQuery (and Javascript generally) can
+   be put to best use manipulating the DOM, this is all
+   that is left if the HTML still originates from the
+   server.
+</p>
+
+<h2>Things jQuery Cannot Overcome</h2>
+
+<p>All jQuery plugins are not created equal, and they are
+   not always compatible.  But we've all found this out the
+   hard way, right?
+</p>
+
+<p>All events are not created equal, if you want to capture
+   arrow keys it is the keyDown event in IE, but keyPress
+   in Firefox.  See Line 530 of x6.js.
+</p>
+
+<p>Unless I am completely missing something, jQuery does not
+   provide a uniform way to prevent event propagation/bubbling,
+   so I had to write my own, see line 60 of x6.js.
+</p>
+
+
+
