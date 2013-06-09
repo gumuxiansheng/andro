@@ -62,15 +62,17 @@
     </div>
 </div>
 </body>
-<script>
-$('pre.prettyprint').each(
-    function() {
-        var x = $(this).html();
-        $(this).html(x.replace(/\</g,'&lt;'));
-    }
-);
-prettyPrint();
-</script>
+<?php
+    jqDocReady('
+        $(\'pre.prettyprint\').each(
+            function() {
+                var x = $(this).html();
+                $(this).html(x.replace(/\\</g,\'&lt;\'));
+            }
+        );
+        prettyPrint();
+    ');
+?>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
