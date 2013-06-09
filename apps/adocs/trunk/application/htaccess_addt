@@ -1,5 +1,5 @@
 
 
 RewriteEngine on
-RewriteCond %{HTTP_HOST} ^andromeda-project.org\.org
+RewriteCond %{HTTP_HOST} ^andromeda-project\.org
 RewriteRule ^(.*)$ http://www.andromeda-project.org/$1 [R=permanent,L]
