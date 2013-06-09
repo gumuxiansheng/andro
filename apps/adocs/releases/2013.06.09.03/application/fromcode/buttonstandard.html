@@ -1,0 +1,51 @@
+title:buttonStandard
+parent:x6plugins
+sequence:4284
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6plugins.buttonStandard<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method buttonStandard gives a button
+   object the standard behavior of responding to
+   a single keystroke and responding to enable/disable
+   commands.<br/></p>
+<p>Use this function when you create a custom button to
+   put onto the screen.<br/></p>
+<p>A custom button requires a uniquely named 'action' and
+   a hotkey.  Actions reserved by andromeda are:<br/></p>
+<ul><br/><li>  duplicate
+<li>  new
+<li>  remove
+<li>  save<br/></ul><br/></ul>
+<h2>EXAMPLE</h2>
+<p>A custom button is created in PHP code like so:<br/></ul>
+<pre>    &lt;?php
+    # option 1, straight html
+    <input type='button' x6plugIn='buttonMine' x6table='example'>
+
+    # option 2, or a link
+    $div = html('div');
+    $a = $div->h('a-void','My Action');
+    $a->hp['x6plugIn'] = 'buttonMine';
+    $a->hp['x6table'] = 'example';  // only if relevant
+    ?&gt;
+</pre>
+<p>Then you define a javascript x6plugIn that includes a
+   single function, main(), which is called when the button
+   is enabled and is clicked or the hotkey is pressed.<br/></ul>
+<pre>     &lt;script&gt;
+     x6plugins.buttonMine = function(self,id,table) {
+         // the first line activates normal behavior,
+         // replace the values in this line with those
+         // appropriate to your button.
+         x6plugins.buttonStandard(self,'save','CtrlS');
+
+         // Then create the main function
+         self.main = function() {
+            // fire off some event
+         }
+     }
+     &lt;/script&gt;
+<br/></ul>

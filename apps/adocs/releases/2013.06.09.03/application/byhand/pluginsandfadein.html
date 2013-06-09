@@ -1,0 +1,39 @@
+title:Plugins and FadeIn
+parent:Using x6 Plugins
+sequence:50
+aliases:
+
+<p>When you create custom admin screens using x6 plugins,
+   it is always a good idea to make your page invisible as it
+   loads, because some of the plugins do not appear correctly
+   until browser-side jQuery plugin code has reformatted them.
+   If we did nothing about this, the user would see a page
+   load all jumbled looking, then see the page straighten 
+   itself out.  This is not very professional, so we would
+   prefer them to see the page only after it is all
+   straightened out.
+</p>
+
+<p>The simplest way to do this is to add the class "fadein" to
+   the top-most HTML container on your page.  This will cause
+   the page to load invisibly, then all plugins will be 
+   initialized so the page is formatted correctly, then the
+   page will fade in nicely.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->addClass('fadein');
+        
+        #
+        #  Lots of complex html using fancy jquery
+        #  plugins is put here
+        #
+
+        $top->render();
+    }
+}
+</pre>

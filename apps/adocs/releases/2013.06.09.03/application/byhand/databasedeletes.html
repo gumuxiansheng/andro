@@ -1,0 +1,41 @@
+title:Database Deletes
+parent:Database Access
+sequence:800
+aliases:
+
+<p>Database deletes are best done manually, using an skey
+   value, but Andromeda does provide the SQLX_Delete function
+   as well.
+</p>
+
+<span class="alert">This function is documented for completeness,
+  but Andromeda library code does not use it.  Manually coded
+  delete commands using skey, while perhaps more tedious to
+  write, are much safer.
+</span>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $row = array(
+            skey=>1234
+        );
+        SQLX_Delete('articles',$row);
+    }    
+}
+</pre>
+
+<p>The SQLX_Delete function creates a command that includes
+   all of the fields provided in the $row parameter.  
+</p>
+
+<p>Providing an skey value in the $row is the only way to
+   be certain that exactly one row will be deleted.
+</p>
+
+<p>If your $row array contains values that would result in 
+   deleting half of the rows in a table -- then that is what
+   will happen!
+</p>
+

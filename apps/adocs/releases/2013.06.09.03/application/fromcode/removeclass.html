@@ -1,0 +1,18 @@
+title:removeClass
+parent:androHtml
+sequence:1299
+aliases:
+
+
+<h2>NAME</h2>
+<p>removeClass<br/></p>
+<h2>FUNCTION</h2>
+<p>The method removeClass removes the provided css class from this androHtml object.<br/></p>
+<h2>INPUTS</h2>
+<p>string $value - Css class to remove from this object<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function removeClass($value) {
+    $index = array_search($value,$this->classes);
+    if($index) unset($this->classes[$index]);
+}</pre>

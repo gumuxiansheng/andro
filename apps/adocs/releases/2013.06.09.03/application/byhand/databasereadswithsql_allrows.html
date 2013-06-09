@@ -1,0 +1,112 @@
+title:Database Reads with SQL_AllRows
+parent:Database Access
+sequence:200
+aliases:sql_allrows
+
+<p>Your application code can hand a query to the server and
+   retrieve all of the rows in one shot by using the
+   SQL_AllRows() function.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6helloworld extends androX6 {
+    function x6main() {
+        # Write out a query to get latest 
+        # news articles out of a table of
+        # news articles.
+        $view = ddView('articles')
+        $sq="select headline,dateline,summary
+               from $view
+              order by dateline desc
+              limit 5";
+        $rows=SQL_AllRows($sq);
+        hprint_r($rows);
+        
+    }
+}
+?>
+</pre>
+
+<p>Assuming your database contains the ARTICLES table,
+   you might get this output:
+</p>
+
+<pre class='prettyprint'>
+<?php
+Array(
+    [0] = Array(
+         [headline] => The SQL_Allrows Function!
+         [dateline] => 02/09/2009
+         [summary] => The SQL_AllRows function was unveiled today....
+    )
+    [1] = Array(
+         [headline] => The SQL_OneRow Function!
+         [dateline] => 02/11/2009
+         [summary] => Coming soon, documentation on the SQL_OneRow...
+    )
+    [2] ... etc for up to 5 rows ...
+?>
+</pre>
+
+<h2>Literal SQL</h2>
+
+<p>The SQL_AllRows() function accepts as input a SQL literal
+   command.  As output it returns an array of associative arrays.
+   The outer array is numerically indexed.  Each inner array
+   represents one row from the database, and is indexed on the
+   column names.
+</p>
+
+<h2>Indexing The Return</h2>
+
+<p>You can pass a column name to SQL_AllRows as the second
+   parameter, and it will index the outer array on that column.
+   If the values in that column are not unique, only the last
+   row for each distinct value will be returned, the earlier
+   rows will be overwritten.
+</p>
+
+<p>This code:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6helloworld extends androX6 {
+    function x6main() {
+        # Write out a query to get latest 
+        # news articles out of a table of
+        # news articles.
+        $view = ddView('articles')
+        $sq="select headline,dateline,summary
+               from $view
+              order by dateline desc
+              limit 5";
+        $rows=SQL_AllRows($rows,'headline');
+        hprint_r($rows);
+        
+    }
+}
+?>
+</pre>
+
+<p>Will return this:</p>
+
+<pre class='prettyprint'>
+<?php
+Array(
+    [The SQL_Allrows Function!] = Array(
+         [headline] => The SQL_Allrows Function!
+         [dateline] => 02/09/2009
+         [summary] => The SQL_AllRows function was unveiled today....
+    )
+    [The SQL_OneRow Function!] = Array(
+         [headline] => The SQL_OneRow Function!
+         [dateline] => 02/11/2009
+         [summary] => Coming soon, documentation on the SQL_OneRow...
+    )
+    ... etc for up to 5 rows ...
+?>
+</pre>
+
+

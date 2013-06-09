@@ -1,0 +1,111 @@
+title:Placing Columns Into Tables
+parent:Database Structure
+sequence:500
+aliases:column placement,placing a column,place a column,columns and tables,primary keys,primary key,primary_key,rename a column,renaming a column,rename column,column rename,column renaming
+
+<p>So far we have seen that tables are organized into modules,
+   and that columns are defined outside of tables and then
+   placed into them.  We will now see how to do this.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table orders:
+    module: ordering
+    description: Orders
+    uisort: 100
+    
+    # In this example, we will use all pre-defined columns
+    column recnum:
+        description: Order Num
+        primary_key: Y
+    column first_name:
+        uisearch: Y
+    column last_name:
+    column add1:
+    column add2:
+</pre>
+
+<p>In the above example, we see that the columns are indentented and
+   name one-by-one in the familiar pattern of "column -name-:".  Any
+   additional properties we set for the columns then appear indented
+   another level.
+</p>
+
+<span class="info">
+You cannot modify the type, precision or scale of a column when placing
+it into a table, but you can modify just about anything else.  In fact,
+much of the power of Andromeda comes into play when you enable
+automations on columns.
+</span>
+
+<p>All of the columns we have put into the table so far are 
+   pre-defined columns.  Andromeda has defined them in a separate file
+   and they are available to all of your applications.  
+</p>   
+
+<h2>A Note About the recnum Column</h2>
+
+<p>The recnum column is a pre-defined int column that automatically
+   gets incrementing values with each inserted row.  This is similar
+   to the "order_id" column you see in many systems.
+</p>
+
+<p>If you prefer to have a column named "order_id" that 
+   auto-increments, you may want to jump ahead to the page 
+   on the sequence automation.
+</p>
+
+<h2>Overriding the Description</h2>
+
+<p>The pre-defined column "recnum" has a built-in description of
+   "Generic Record Number".  This is not really something we want plastered
+   on our admin screens, so we have changed the description when placing
+   the column into the table.
+</p>
+
+<h2>The primary_key Flag</h2>
+
+<p>Every table must have a primary key composed of at least one column.
+   In the above example, the "recnum" column is the primary key.  If you
+   have a table with a compound primary key you just set the flag on
+   all appropriate columns.
+
+<h2>The uisearch Flag</h2>
+
+<p>Andromeda builds a very powerful admin interface for you, but it needs
+   to know a few things about how you want to display your table to the
+   users.  The "uisearch" flag means that this column will be used on
+   grids and lookup screens.
+</p>
+
+<p>Every table requires at least one column to have uisearch set to yes.
+</p>
+
+<h2>Renaming Columns</h2>
+
+<p>Andromeda lets you place the same column into a table multiple times
+   with different names.  The new column name <i>always is built from
+   the original column name</i>, either by adding a suffix, a prefix,
+   or both.
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table example:
+    # detail....
+    
+    column add1:
+    column new_add1:
+        prefix: new_
+    column add1_old:
+        suffix: _old
+    column x_add1_y:
+        prefix: x_
+        suffix: _y
+</pre>
+
+<p>In this example we have created four columns that all have the same
+   type, precision, scale, and description as "add1".  For each column,
+   we specify it with its complete name, then we add the prefix and
+   suffix parameters so that Andromeda can figure out what is going on.
+</p>
+

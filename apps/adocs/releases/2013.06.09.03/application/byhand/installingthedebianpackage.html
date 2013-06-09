@@ -1,0 +1,59 @@
+title:Installing The Debian Package
+parent:Linux
+sequence:50
+aliases:debian
+
+<p>Our Debian package install has been tested on Ubuntu 8.04 LTS
+   on a fresh virtual machine.  We welcome all feedback on the use
+   of this package, and we look forward to having it completely
+   replace manual installations on Linux.
+</p>
+
+<p>The package is not yet tested on newer or older versions of
+   Ubuntu or other Debian-based distributions.  However, we 
+   believe it ought to work just fine and we welcome feedback.
+</p>
+
+<p>We also look forward to having an RPM at some date in the
+   future.
+</p>
+
+<h2>Instructions</h2>
+
+<span class="alert">Be sure to be logged in as your regular account
+   and to use "sudo" commands to peform the install.  This is 
+   important so that file ownerships and permissions will be
+   established correctly.
+</span>
+
+
+<p>First download andromeda_0.1.0_all.deb from:
+   <a href="http://sourceforge.net/project/platformdownload.php?group_id=188856&sel_platform=336"
+   >http://sourceforge.net/project/platformdownload.php?group_id=188856&sel_platform=336
+   </a>.
+</p>
+
+<p>Then type in these two commands:
+</p>
+
+
+<pre class="prettyprint">
+$ sudo apt-get update
+$ sudo gdebi andromeda-0.1.0-all.deb
+</pre>
+
+<p>Once the installation is complete, point your browser at
+   <a target="_blank" href="http://localhost/andro_root/andro"
+   >http://localhost/andro_root/andro</a> and log in!  
+   Andromeda will be installed with a default user name and
+   password of 'start' and 'start'.  The first thing it will
+   ask you to do is create a new username and password and then
+   it will remove the defaults.
+</p>
+
+<span class="info">During the install, your regular Linux 
+   user account will be placed into the 'www-data' group.
+   You will have to log out and log back in to register the
+   change before you can edit program files.
+</span>
+

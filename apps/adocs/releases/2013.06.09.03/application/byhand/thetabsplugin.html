@@ -1,0 +1,75 @@
+title:The Tabs Plugin
+parent:Using x6 Plugins
+sequence:100
+aliases:
+
+<p>Tabbed displays are a staple of modern computer programs
+   and web sites.  Thanks to the good folks at the jQuery UI
+   team, we have a nice tab bar ready to go.  The only drawback
+   is that the ui-tabs jQuery plugin wants our HTML assembled
+   in a certain way.  Since this is a repetive task, Andromeda
+   provides a way to do it easily - the tabs plugin.
+</p>
+
+<p>The x6 plugin "tabs" gives you a very easy way to generate
+   and manage the caption and content of your tabs.  Here is 
+   a complete example:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        
+        #  Get us an empty tab bar.  The first parameter
+        #  is a unique id for the tabs bar, the second
+        #  is the height in pixels of the content panes.
+        $tabs = $top->addTabs('uniqueid',hSize(500));
+        
+        #  Make the first tab by calling addTab() and
+        #  giving it the caption for the tab.  It will
+        #  return a DIV element in which you can put the
+        #  content.
+        $tab1 = $tabs->addTab('Caption For First Tab');
+        $tab1->h('h1',"I am content of the first tab");
+
+        #  make the second tab the same way
+        $tab2 = $tabs->addTab('A Second Tab');
+        for($x = 0; $x < 10; $x++) {
+            $tab2->h('div',"This is line $x in the second tabe");
+        }
+    }
+}
+?>
+</pre>
+
+<h2>Keyboard Accessibility</h2>
+
+<p>Tabs are automatically assigned numbers, beginning with zero,
+   so that the actual captions in the above example will be
+   '0: Caption for the First Tab' and '1: A Second Tab'.
+   The user can hit CTRL+Number to jump between tabs without
+   using the mouse.
+</p>
+
+<h2>Using jQuery UI-tabs Functionality</h2>
+
+<p>You may wish to have Javascript that makes use of the 
+   many functions available in the jQuery UI-tabs plugin.
+   You can make use of all of the functionality by making use
+   of the unique ID that was used when the tab bar was
+   created.
+</p>
+
+<pre class="prettyprint">
+<script>
+$('uniqueid').tabs('select',1);
+</script>
+</pre>
+
+<p>More specific information about how to use any jQuery UI
+   plugin is available at <a href="http://jqueryui.com/"
+   >http://jqueryui.com</a>.
+</p>
+

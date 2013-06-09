@@ -1,0 +1,28 @@
+title:repeat
+parent:String-Extensions
+sequence:386
+aliases:
+
+
+<h2>NAME</h2>
+<p>String.repeat<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript function repeat returns the input string
+   repeated any number of times<br/></p>
+<h2>INPUTS</h2>
+<ul><br/><li> int - the number of times to repeat the string.<br/></ul><br/></ul><br/></ul>
+<h2>EXAMPLE</h2>
+<p>Example usage:
+</p>
+<pre>     alert( 'abc'.repeat(3));
+<br/></ul>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+String.prototype.repeat = function(count) {
+    if(count==null) count = 1;
+    retval = '';
+    for(var x = 1; x<= count; x++) {
+        retval+= this;
+    }
+    return retval;
+}<br/></ul>
