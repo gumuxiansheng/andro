@@ -1,0 +1,21 @@
+title:executeAsync
+parent:json
+sequence:2879
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json.executeAsync<br/></p>
+<h2>FUNCTION</h2>
+<p>By default Andromeda sends JSON requests synchronously,
+   which is more appropriate for business database applications
+   than asynchronous requests.<br/></p>
+<p>There are however some times when you do not want the user
+   to wait, and so you can make asynchronous calls.<br/></p>
+<p>Andromeda does not make use of response handlers, see the
+   above section on x6.json for more details.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+this.executeAsync = function() {
+    this.execute(true,true);
+}</pre>

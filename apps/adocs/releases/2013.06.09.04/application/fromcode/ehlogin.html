@@ -1,0 +1,28 @@
+title:ehLogin
+parent:Template-Level-HTML
+sequence:9336
+aliases:
+
+
+<h2>NAME</h2>
+<p>ehLogin<br/></p>
+<h2>FUNCTION</h2>
+<p>Provides a login/logout box on the screen.<br/></p>
+<p>This routine outputs one of two things.  If a user is logged in,
+    it says, "Welcome -Username-!" and gives a logout button.  If nobody
+    is logged in, it presents a login box and a password box.<br/></p>
+<p>The output is inside of a table.  The items are stacked on top of
+    each other, so the first row says "Username:" and the second row has
+    a textbox, the third row says "Password:" and the fourth row has
+</p>
+<pre>     another textbox, and finally the fifth row has a submit button.
+</pre>
+<p>If CSS_Class is provided, the TABLE and TD elements will both get
+    that class asignment.  If the DOM_ID element is provided, the TABLE
+    and TD elements will all get that ID assignment.<br/></p>
+<p>If the third parameter, Username, is provided, that will be the default
+    entry in the UserID box.<br/></p>
+<h2>INPUTS</h2>
+<p>string $class CSS Class
+    string $id DOM ID
+    string $username Username<br/></p>

@@ -1,0 +1,20 @@
+title:print_r
+parent:androHtml
+sequence:2310
+aliases:
+
+
+<h2>NAME</h2>
+<p>print_r<br/></p>
+<h2>FUNCTION</h2>
+<p>The method dumps a variable into the innerHTML of an
+   and Andromeda HTML Object.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function print_r($value) {
+    ob_start();
+    print_r($value);
+    $pre = $this->h('pre',ob_get_clean());
+    $pre->hp['class'] = 'border: 1px solid gray; background-color:white;
+        color: black;';
+}</pre>

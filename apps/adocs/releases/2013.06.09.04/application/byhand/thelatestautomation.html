@@ -1,0 +1,47 @@
+title:The LATEST Automation
+parent:Automations
+sequence:410
+aliases:latest
+
+<p>The LATEST automation saves the most recent value in a
+   child table up to the parent table.  Consider the
+   following YAML definition.  In it we have a table of
+   sporting events, and an automated feed is inserting
+   updated scores into a child table.
+</p>
+
+<pre class='prettyprint lang-ddymal'>
+column score
+
+table games:
+    module: sports
+    description: Games
+    
+    # ....various columns here...
+
+    # these two always have the latest
+    # score from the child table.
+    column score_a:
+        suffix: _a
+        description: Score Team A
+        auto: latest,gamedetails.score_a
+    column score_b:
+        suffix: _b
+        description: Score Team B
+        auto: latest,gamedetails.score_b
+
+# As score updates come in over the feed, we insert
+# into this table, and the scores are saved up 
+# to the game.  This keeps the game updated while
+# also preserving a detailed history.
+table gamedetails:
+    module: sports
+    description: Game Details
+    
+    foreign_key games:
+    column score_a:
+        suffix: _a
+    column score_b:        
+        suffix: _b
+</pre>
+

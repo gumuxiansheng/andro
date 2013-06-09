@@ -1,0 +1,56 @@
+title:You Are Always Connected
+parent:Database Access
+sequence:100
+aliases:loggedin,ingroup
+
+<p>In the section on Web Programming we saw how to create 
+   custom pages.  Andromeda makes a connection to the 
+   database before your page code is called, so that you
+   can always assume a database connection is present,
+   you never have to make one.
+</p>
+
+<p>If somebody is surfing your site and has not yet 
+   logged in, then the database connection is made via
+   the public account.  The privileges
+   of this account are set by whatever assignments you
+   have made to the $LOGIN group in your database
+   specification.  By default this account cannot see any
+   tables and cannot write to any tables, so you must
+   make assignments to that group if you want the general
+   public to actually be able to see anything.
+</p>
+
+<p>Once a user logs in, the database connection is made
+   with that user's credentials, and your code can do anything
+   that that user is allowed to do.  (See [[Security]] for
+   a basic description of how to assign table permissions.)
+</p>
+
+<h2>The LoggedIn() Function</h2>
+
+<p>The PHP function LoggedIn() returns true if a user has
+   logged in.  You can use this function to add conditional
+   logic to your code, showing one display for anonymous
+   users who have not logged in, and a different display for
+   those who have.
+</p>
+
+<h2>The inGroup() Function</h2>
+
+<p>The PHP function inGroup($groupname) returns true if the
+   currently logged in user is in the named group.  This can
+   be used anywhere in your code.
+</p>
+
+<h2>Detecting ROOT Users</h2>
+
+<p>Root users, which are all-powerful, and can connect to any
+   application on a node with maximum privileges, appear as if
+   they are members of all groups in an application.  Sometimes
+   this behavior is not desirable, and you wish to determine
+   if the current user is a Root user.  The session variable
+   "ROOT" (all caps) holds this information.  You can call
+   SessionGet('ROOT') to find out if the current user is a 
+   root user.
+</p>

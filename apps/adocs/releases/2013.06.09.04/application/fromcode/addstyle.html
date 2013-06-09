@@ -1,0 +1,24 @@
+title:addStyle
+parent:androHtml
+sequence:1281
+aliases:
+
+
+<h2>NAME</h2>
+<p>addStyle<br/></p>
+<h2>FUNCTION</h2>
+<p>The method addStyle adds the provided CSS rule to
+   any that are already defined for the node.<br/></p>
+<h2>INPUTS</h2>
+<p>string $value - Css class to add<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function addStyle($value) {
+    if(substr($value,-1)!=';') $value.=';';
+    if(!isset($this->hp['style'])) {
+        $this->hp['style'] = $value;
+    }
+    else {
+        $this->hp['style'].= $value;
+    }
+}</pre>

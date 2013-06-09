@@ -1,0 +1,24 @@
+title:vgaGet
+parent:Global Variables
+sequence:5892
+aliases:
+
+
+<h2>NAME</h2>
+<p>vgaGet<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function vgaGet is a wrapper for getting PHP global variables.  You call vgaGet in order
+    to receive global variables set without conflicting with the framework.  You can also provide
+    a default value to return in the case that the global variable isn't found or isn't set.<br/></p>
+<h2>INPUTS</h2>
+<p>string $key - name of variable
+    mixed $default - default variable for variable<br/></p>
+<p>RETURN VALUE
+    mixed - value for variable<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function vgaGet($key,$default='') {
+   return isset($GLOBALS['appdata'][$key])
+      ? $GLOBALS['appdata'][$key]
+      : $default;
+}</pre>

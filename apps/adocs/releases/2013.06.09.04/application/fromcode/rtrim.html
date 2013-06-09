@@ -1,0 +1,22 @@
+title:rtrim
+parent:String-Extensions
+sequence:250
+aliases:
+
+
+<h2>NAME</h2>
+<p>String.rtrim<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript function rtrim removes trailing spaces
+   from a string (spaces on the right side).<br/></p>
+<h2>EXAMPLE</h2>
+<p>Example usage:
+</p>
+<pre>     var x = '  abc  ';
+     var y = x.ltrim();  // returns '  abc'
+</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+String.prototype.rtrim = function() {
+    return this.replace(/\s+$/,"");
+}</pre>

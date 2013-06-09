@@ -1,0 +1,25 @@
+title:addOptions
+parent:androHtml
+sequence:2211
+aliases:
+
+
+<h2>NAME</h2>
+<p>addOptions<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP Method addOptions takes an array of rows and
+   creates on HTML OPTION object for each row.  These
+   are added to the parent object, which is assumed to be
+   an HTML SELECT object.<br/></p>
+<h2>INPUTS</h2>
+<p>array - an array of rows
+    string - name of column to use as value
+   string - name of column to use as display<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function addOptions($rows,$value,$desc) {
+    foreach($rows as $row) {
+        $opt = $this->h('option',$row[$desc]);
+        $opt->hp['value'] = $row[$value];
+    }
+}</pre>
