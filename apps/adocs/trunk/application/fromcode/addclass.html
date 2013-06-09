@@ -1,6 +1,6 @@
 title:addClass
 parent:androHtml
-sequence:1256
+sequence:1257
 aliases:
 
 
@@ -13,5 +13,11 @@ aliases:
 <h2>SOURCE</h2>
 <pre class='prettyprint'>
 function addClass($value) {
-    $this->classes[] = $value;
+    if (is_array(value)) {
+        foreach( $value as $class ) {
+            $this->classes[] =  $class;
+        }
+    } else {
+        $this->classes[] = $value;
+    }
 }</pre>

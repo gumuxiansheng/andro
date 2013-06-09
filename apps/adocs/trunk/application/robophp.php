@@ -1,6 +1,6 @@
 <?php
-class x6robophp extends androX6 {
-    function x6main() {
+class robophp extends x_table2 {
+    function main() {
         if(gp('process',false) && inGroup('admin')) {
             return $this->process();
         }
@@ -10,7 +10,7 @@ class x6robophp extends androX6 {
            pages out of the rododoc blocks.
         </p>
         <a target="_blank" 
-             href="?x6page=robophp&process=1">Process Now</a>
+             href="?gp_page=robophp&process=1">Process Now</a>
         <?php
     }
     
