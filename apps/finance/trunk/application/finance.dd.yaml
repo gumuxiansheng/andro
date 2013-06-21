@@ -139,8 +139,6 @@ table orderlines:
     description: Order Lines
     module: ordering
     uisort: 110
-    nomenu: "Y"
-    x6childwrites: detail
     
     column recnum_ol:
         suffix: _ol
@@ -273,8 +271,6 @@ table items:
     module: ordering
     uisort: 300
     description: Items
-    spaceafter: "Y"
-    x6profile: twosides
     
     
     column sku:
@@ -302,7 +298,6 @@ column custtype:
 table custtypes:
     module: ordering
     uisort: 900
-    x6profile: grid
     description: Customer Types
     
     column custtype:
@@ -326,7 +321,6 @@ column taxauth:
 table taxauths:
     module: ordering
     uisort: 910
-    x6profile: grid
     description: Tax Authorities
     
     column taxauth:
@@ -366,7 +360,6 @@ table glaccounts:
     description: Chart of Accounts
     module: gl
     uisort: 100
-    x6profile: grid
     
     column glaccount:
         primary_key: "Y"
@@ -395,8 +388,6 @@ table glactypes:
     description: Account Types
     module: gl
     uisort: 900
-    x6profile: grid
-    x6all: "Y"
     
     group gladmin:
         permins: "N"
