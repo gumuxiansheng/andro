@@ -1,0 +1,112 @@
+title:Building Our Debian Package
+parent:Andromeda Hackers Guide
+sequence:200
+aliases:
+
+<h3>dependencies</h3>
+
+<p>The following packages are required when *BUILDING* the debian package.  These are not needed when you are installing andromeda from the debian package.</p>
+<ul>
+	<li>debhelper</li>
+	<li>fakeroot</li>
+</ul>
+
+<p>All of the following files go into the folder named "debian" inside the root source directory.  Every file listed is necessary for the build process.</p>
+
+<h3>control</h3>
+
+<p>The <a href="http://www.debian.org/doc/debian-policy/ch-controlfields.html">control</a> file is where you control the package dependencies.  There are two sets of configurations in this file: Source and Package.  Source sets the dependencies for the build process while Package sets the dependencies for installing the debian package.  Most of the labels in the file are self explanatory.  The following is an example of a control file with the correct syntax: </p>
+
+<pre class="code">
+Source: andromeda
+Section: unknown
+Priority: extra
+Maintainer: Josh Belanich <jbelani1@gmail.com>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: andromeda
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, php5, php5-pgsql, php-pear, postgresql-8.3, perl, postgresql-plperl-8.3, libnet-smtp-server-perl, postgresql-contrib, debconf
+Recommends: pgadmin3, subversion
+Description: "Up to 60 characters description"
+ "Long description indented with spaces."
+</pre>
+
+<h3>copyright</h3>
+
+<p> The <a href="http://www.debian.org/doc/maint-guide/ch-dreq.en.html#s-copyright">copyright</a> file holds all of the copyright information for the package and other information such as authors and the license.  The following is an example of a copyright file with the correct syntax: </p>
+
+<pre class="code">
+This package was debianized by Josh Belanich<jbelani1@gmail.com> on
+Fri, 18 Jul 2008 15:37:26 -0400.
+
+It was downloaded from url://example.com
+
+Upstream Author(s): 
+
+    put author's name and email here
+    likewise for another author
+
+Copyright: 
+
+    Copyright (C) YYYY Name OfAuthor
+    likewise for another author
+
+License:
+
+    "GPL License Here"
+
+The Debian packaging is (C) 2008, Josh Belanich <jbelani1@gmail.com> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+</pre>
+
+<h3>install</h3>
+
+<p>The install file describes the directory structure of the package and where the different folders and file types will be installed.  Here you can use wildcards in the names of files and folders.  It is important to specify where the filetypes in the base folder go, because they aren't part of any other folder and will not be moved along with those folders.  You do not need to specify where the files inside the other folders go however, because they will follow with the folders.  The following is an example install file: </p>
+
+<pre class="code">
+*.php		/var/www/andro_root/andro
+*.sql		/var/www/andro_root/andro
+
+appclib		/var/www/andro_root/andro
+application	/var/www/andro_root/andro
+apppub		/var/www/andro_root/andro
+clib		/var/www/andro_root/andro
+docsapp		/var/www/andro_root/andro
+docslib		/var/www/andro_root/andro
+dynamic		/var/www/andro_root/andro
+generated	/var/www/andro_root/andro
+lib		/var/www/andro_root/andro
+root		/var/www/andro_root/andro
+templates	/var/www/andro_root/andro
+tmp		/var/www/andro_root/andro
+</pre>
+
+<h3>rules</h3>
+
+<p>The <a href="http://www.debian.org/doc/maint-guide/ch-dreq.en.html#s-rules">rules</a> file lists the procedure of the building process.  The rules file is unimportant in our debian package mostly because we do not require any compilations like c or c++.  If you need to change the package, you should not have to change the rules file.  Debhelper was used to build the basic structure of the rules file that was needed.  Debhelper is a dependency for building this debian package.</p>
+
+<h3>changelog</h3>
+
+<p>The <a href="http://www.debian.org/doc/maint-guide/ch-dreq.en.html#s-changelog">changelog</a> file is where you list all of the major changes and bug fixes from one version of andromeda to another.  The following is an example changelog file with the correct syntax: </p>
+
+<pre class="code">
+andromeda (0.1.0) stable; urgency=low
+
+  * Initial release (Closes: #nnnn)  (nnnn is the bug number of your ITP)
+
+ -- Josh <jbelani1@gmail.com>  Fri, 18 Jul 2008 15:37:26 -0400
+</pre>
+
+<h3>installation and removal scripts</h3>
+
+<p>These bash scripts execute at different stages of the installation process of a debian package.  <i>postinst</i> and <i>postrm</i> run after the package install and after the removal, respectively.  <i>preinst</i> and <i>prerm</i> run before the package install and before the removal, respectively.  These are ordinary bash scripts that you build in order to set up the correct environment for the program.</p>
+
+<h3>Running the Package Build</h3>
+
+<p>If all of the above files are inside the debian directory inside your root source directory and have installed all of the build dependencies, then you are ready to build the package.  Run the following command in your root source directory: </p>
+
+<pre class="code">sudo dpkg-buildpackage -us -uc -rfakeroot -b</pre>
+
+<p>This command will build the package and place the .deb file one directory down from the root source directory.  Here you will find a few other files that are generated by the packaging system.</p>

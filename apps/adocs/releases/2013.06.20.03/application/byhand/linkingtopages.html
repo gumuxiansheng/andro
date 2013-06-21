@@ -1,0 +1,91 @@
+title:Linking To Pages
+parent:Web Programming
+sequence:600
+aliases:
+
+
+<h2>Simple URLs</h2>
+
+<p>Now that we have a page, we will probably want to link to it.
+   Links to Andromeda pages are always made by setting the
+   GET parameter "x6page" to the name of the page.  This example
+   shows two simple links:
+</p>
+
+<h1>A Couple of Links</h1>
+
+<pre class="prettyprint">
+<a href="?x6page=helloworld">Link to Hello World</a>
+<br/>
+<a href="?x6page=helloworld&someparameter=value">Another Link</a>
+</pre>
+
+<p>The first link is the bare minimum that you need to get to a 
+   page.  You do not need the complete URL such as "http://...."
+   You also do not need to name the file index.php because
+   Andromeda will go to that file automatically if nothing
+   is specified.
+</p>
+
+<h2>Pretty URLs</h2>
+
+<p>On some public sites it may be judged unsuitable to have
+   long links like "?x6page=xxxxx&amp;parm=5&amp;anotherparm=value...."
+   If you prefer, you can write links in this form:
+</p>
+
+<pre class="prettyprint">
+<h1>A Friendly URL</h1>
+
+<a href="pages/helloworld/parm1/value1/parm2/value"
+  >This is a Pretty URL</a>
+<br/>
+<a href="x6page=helloworld&parm1=value1&parm2=value"
+  >This link goes to exactly the same place</a>
+</pre>
+
+<p>As the example above shows, there are two completely different
+   ways to make either link.  The first form, using "pages/...",
+   follows these rules:
+</p>
+
+<ul><li class="arrows">The first item in the path after "pages"
+    will be assigned to x6page.
+    <li class="arrows">After the first item, each pair of items in
+    the path will be converted to assignments.  In the example above
+    parm1 gets the value "value1" and parm2 gets the value "value2"
+    <li class="arrows">If there is an odd element left over, it
+    is assigned to the parameter "gp0".
+</ul>
+
+<h1>Linking to File Downloads</h1>
+
+<p>You can use the pretty URL system to create links to file
+   downloads without having to provide direct access to your
+   filesystem.  The following URL looks like a simple page
+   access:
+</p>
+
+<pre class="prettyprint">
+<a href="pages/downloads/coolmusic.mp3">My Cool Song, Pretty URL</a>
+<br/>
+<a href="x6page=downloads&gp0=coolmusic.mp3"
+  >Same Link, Different Format</a>
+</pre>
+
+<p>By following the rules listed above, we know that the first link
+   and the second link will go to exactly the same place.  This is
+   because:
+<ul><li class="arrows">The first argument after "pages" will become
+    the value of x6page, as if you had passed in "?x6page=downloads"
+    <li class="arrows">There are no complete pairs after "downloads"
+    <li class="arrows">There is a leftover parameter at the end,
+    so it is assigned to gp0, as if you had put "&gp0=coolmusic.mp3".
+</ul>
+
+<p>You can then code up an Andromeda page "downloads" that would 
+   be in file application/x6downloads.php and contain class 
+   x6downloads.  In the program's x6main() function you can do 
+   whatever processing the program may require to determine if the
+   user can actually obtain they file they are requesting.
+</p>

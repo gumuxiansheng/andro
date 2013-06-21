@@ -1,0 +1,40 @@
+title:pad
+parent:String-Extensions
+sequence:272
+aliases:
+
+
+<h2>NAME</h2>
+<p>String.pad<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript function pad pads out a string to a given
+   length on either left or right with any character.<br/></p>
+<h2>INPUTS</h2>
+<p>int - the size of the resulting string<br/></p>
+<p>string - the string that should be added.  You can provide
+   a string of more than one character.  The resulting string
+   will be clipped to ensure it is returned at the requested
+   size.<br/></p>
+<p>character - either an 'L' or left padding or an 'R' for
+   right padding.<br/></p>
+<h2>EXAMPLE</h2>
+<p>Example usage:
+</p>
+<pre>     var x = 'abc';
+     var y = x.pad(6,'0','L');  // returns '000abc';
+</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+String.prototype.pad = function(size,character,where) {
+    var val = this;
+    while(val.length < size) {
+        if(where == 'L') 
+            val = character + val;
+        else
+            val += character;
+        if(val.length > size) {
+            val = val.slice(0,size);
+        }
+    }
+    return val;
+}</pre>

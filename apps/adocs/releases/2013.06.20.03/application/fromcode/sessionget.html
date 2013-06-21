@@ -1,0 +1,30 @@
+title:SessionGet
+parent:Session Handling
+sequence:5743
+aliases:
+
+
+<h2>NAME</h2>
+<p>SessionGet<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function Session get returns a session variable.  The second parameter
+     is a Standard Default Value and will be returned if the
+     Session variable Var_Name does not exist.<br/></p>
+<p>The framework itself tracks only 2 session variables.  These are UID, which
+     is user_id, and PWD, which is user password.  An application must be
+     careful not to overwrite those values, as the framework will make no
+     provision to prevent such an accident.<br/></p>
+<h2>INPUTS</h2>
+<p>string $key    key for the value to receive from $_SESSION
+    mixed $default    default value for key<br/></p>
+<p>RETURN VALUE
+    mixed        value associated with $key<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function SessionGet($key,$default="",$sfx='app') {
+   $xkey=$GLOBALS["AG"]["application"]."_".$sfx."_".$key;
+    if (isset($_SESSION[$xkey])) {
+        return $_SESSION[$xkey];
+    }
+    else return $default;
+}</pre>

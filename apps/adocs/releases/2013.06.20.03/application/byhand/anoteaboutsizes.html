@@ -1,0 +1,146 @@
+title:A Note About Sizes
+parent:Using x6 Plugins
+sequence:75
+aliases:
+
+<p>Many x6 plugins require you to tell them how high in pixels
+   they should appear.  You can always hardcode heights, but 
+   this will give you trouble due to Andromeda's use of 
+   <i>skins</i> for admin screens.  The feature of skins that
+   will cause trouble is that they are size-adjustable, the user
+   can pick one skin if he is on an 800x600 display, and another
+   skin if he is on a 1650x1050 display.  If you have hardcoded
+   your sizes, they will look good at one size, but not on
+   any of the other sizes.
+</p>
+
+<p>Andromeda contains a variety of functions that can be
+   used to make your sizes automatically adjust.
+</p>
+
+<h2>The hSize() and hSizePx() Functions</h2>
+
+<p>The simplest way to make your sizes scale is to use the
+   hSizePx() function.  You pass in the size that you want
+   if the user is running at 1024x768, and it returns the
+   scaled size for the actual window size the user has 
+   selected.
+</p>
+
+<p>The hSize() function returns a number, and the hSizePx()
+   function returns a string with the 'px' added to it.
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $width  = hSizePx(500);
+        $height = hsizePx(300);
+        
+        $top->hp['style'] = "width: $width; height: $height";
+    }
+?>
+</pre>
+
+<h2>Getting Skin Definitions</h2>
+
+<p>The Andromeda skin system works by defining certain 
+   constants that are used to generate the style sheet.
+   You can access these constants by using the 
+   x6CssDefine() function.  
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        # Get the available height and width
+        # of the content area
+        # between the menu and the footer
+        $inside_height = x6cssDefine('insideheight');
+        $inside_width  = x6cssDefine('insidewidth');
+        
+        # Get the standard padding used by x6 between
+        # objects
+        $pad0 = x6cssDefine('pad0');
+        
+        # Get the standard font name and size
+        $font_name = x6cssDefine('ff0');
+        $font_size = x6cssDefine('fs0');
+        
+        # I want to make my own HTML elements that are
+        # colored the same as the x6 skin, so I need
+        # to know what those colors are:
+        $dark = x6cssDefine('bgcdark');
+        $light= x6cssDefine('bgclight');
+        
+        # The skin also defines four 'flavors' of 
+        # color that can be used for accents
+        $flavor0 = x6cssDefine('flavor0');
+        $flavor1 = x6cssDefine('flavor1');
+        $flavor2 = x6cssDefine('flavor2');
+        $flavor3 = x6cssDefine('flavor3');
+    }
+?>
+</pre>
+
+<span class="info">The Andromeda x6 skin system is not yet 
+  fully tested.  Some features of it may change.  When it 
+  is stabilized a complete listing of defined values will
+  be documented.  The examples listed above <i>are stable</i>
+  and will not change, but the example cannot necessarily
+  be extrapolated to find out things that are not explicitly
+  listed.
+</span>
+
+<h2>Getting Element Heights</h2>
+
+<p>Let's say that you want to have a custom page that has
+   a grid on it.  You need to know how how to make the
+   grid so that it fills the page, but leaves some spacing
+   at the bottom.  You will have an H1 title, a line for
+   a hyperlink, the grid, and some spacing.  Here is how
+   to compute the height:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6example extends androX6 {
+    function x6main() {
+        $top = html('div');
+        $top->addClass('fadein');
+        
+        # To compute height for the grid, begin with
+        # the insideheight
+        $height = x6cssDefine('insideheight');
+        
+        # Now find out the height of the h1, and 
+        # subtract that. 
+        $h1Height = x6cssHeight('h1');
+        $height -= $h1Height;
+        
+        # It might make sense to leave space below the
+        # grid equal to the height of the h1 at the top,
+        # so subtract out the h1 height again.
+        $height -= $h1Height;
+        
+        # Now find out how high a line will be that 
+        # contains our hyperlink, and subtract that
+        $lineheight = x6cssDefine('lh0');
+        $height -= $lineheight;
+        
+        # Now we can add our content and summon the grid
+        $top->h('h1','Example h1 Title');
+        $divForA = $top->h('div');
+        $link = $divForA->h('a','Example Link');
+        $link->hp['href'] = '#';
+        
+        # now the grid, which will be explained 
+        # further on later pages.
+        $grid = $top->addGrid($height);
+    }
+}
+?>
+</pre>

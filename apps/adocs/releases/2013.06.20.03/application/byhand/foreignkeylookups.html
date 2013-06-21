@@ -1,0 +1,128 @@
+title:Foreign Key Lookups
+parent:The Admin Interface
+sequence:400
+aliases:dropdown,x6select
+
+<p>Andromeda admin screens automatically display lookup 
+   boxes for foreign key fields.  The screenshot below 
+   is from the Demo App, and shows the admin screen for
+   the Chart of Accounts.  One field, the "A/C Type Code",
+   or account type code, is a foreign key into the table
+   of account types.  Therefore Andromeda provides a 
+   searchable drop-down box for that.
+</p>
+
+
+[[image:x6select.png]]
+
+<p>The basic behavior of the lookup box is very simple:
+   as the user types keys, JSON calls are made to the server.
+   The server searches for the value in the searchbox in
+   several columns in the table, and returns all rows
+   that have a match to the user input in any of the
+   columns.
+</p>
+
+<h2>Displaying All Rows</h2>
+
+<p>It so happens that there are only 5 rows in the table
+   of account types, so the idea of 'searching' it is a little
+   silly, we'd really like to show the user all of the rows.
+</p>
+
+<p>If you set a table's 'x6all' property to Y, then these
+   search boxes will always display all rows in the table.
+   This is the YAML from the Demo App for the GL Account Types
+   table:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+column glactype:
+    type_id: char
+    colprec: 1
+    description: A/C Type Code
+table glactypes:
+    description: Account Types
+    module: gl
+    uisort: 900
+    x6profile: grid
+    x6all: "Y"
+    
+    group gladmin:
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    column glactype:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    column sequence:
+        uisearch: "Y"
+</pre>
+
+<span class='alert'>If you set the x6all property to Y on a table
+that ends up with 5000 rows, Andromeda will not question this, it
+will dutifully send up 5000 rows.  This will produce an 
+extremely slow page load, to say the least.
+</span>
+
+<h2>Choosing The Columns</h2>
+
+<p>By default, Anromeda uses the uisearch columns to decide which
+   columns to display in the search box.  You can override this
+   either in the YAML or in program code.  If you set it in both
+   places program code always overrides YAML.
+</p>
+
+<p>In YAML we override the column choice by creating a projection
+   named "dropdown", and naming the columns that should be in it.
+   The example below shows a modified version the YAML from the
+   demo app:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+column glactype:
+    type_id: char
+    colprec: 1
+    description: A/C Type Code
+table glactypes:
+    description: Account Types
+    module: gl
+    uisort: 900
+    x6profile: grid
+    x6all: "Y"
+    
+    projection dropdown:
+        column glactype:
+        column description:
+    
+    group gladmin:
+        permins: "N"
+        permupd: "N"
+        permdel: "N"
+    
+    column glactype:
+        primary_key: "Y"
+        uisearch: "Y"
+    column description:
+        uisearch: "Y"
+    column sequence:
+        uisearch: "Y"
+</pre>
+
+<p>We can also override this definition in code, by making
+   a code-level dictionary override function in the applib.php
+   program:
+</p>
+
+<pre class="prettyprint">
+<?php
+# program: application/applib.php
+#
+function ddTable_glactypes(&$dd) {
+    $dd['projections']['dropdown'] = 'glactype,desription';
+}
+?>
+</pre>

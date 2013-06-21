@@ -1,0 +1,58 @@
+title:Stamping
+parent:Automations
+sequence:650
+aliases:timestamp,ts_ins,ts_upd,uid_ins,uid_upd
+
+<p>There are four stamping operations that record the user
+   and date/time of inserts and updates.  Using these automations
+   you can track the user and time of a row's first insert, and
+   the user and time of a row's most recent update.
+</p>
+
+<p>There are also four pre-defined columns that use these
+   automations, so the simplest way to stamp rows is to use
+   the pre-defined column:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+table orders:
+    # ....details....
+    
+    # User ID and date/time of insert
+    column uid_ins:
+    column ts_ins:
+    
+    # User ID and date/time of last update
+    column uid_upd:
+    column ts_upd:
+
+</pre>
+
+<p>You can also make up your own columns, or use the pre-defined
+   column user_id:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+column timestamp:
+    type_id: dtime
+
+table orders:
+    # ....details....
+
+    # Timestamp an insert and update    
+    column timetamp_ins:
+        suffix: _ins
+        auto: ts_ins
+    column timetamp_upd:
+        suffix: _upd
+        auto: ts_upd
+        
+    # Record user on insert and update    
+    column user_id_ins:
+        suffix: _ins
+        auto: uid_ins
+    column user_id_upd:
+        suffix: _upd
+        auto: uid_upd
+</pre>
+

@@ -1,0 +1,73 @@
+title:The Desktop Possibility
+parent:System Architecture
+sequence:300
+aliases:
+
+
+<p>Andromeda does not at this time provide desktop 
+   applications.  However, Andromeda has a unique flexibility
+   that makes it possible to imagine deploying existing
+   admin interfaces on the desktop with little or no 
+   re-coding.
+</p>
+
+<h2>The Admin Screens</h2>
+
+<p>In a working Andromeda application, all of the business
+   rules are implemented inside of the database server.
+   The framework provides 'free' administration screens
+   for entering data, but those screens themselves are
+   generated only by reading the data dictionary and
+   creating tables and inputs that reflect that 
+   data dictionary.  No business rules are actually
+   enforced in these free screens.
+</p>
+
+<p>It is easy to see that desktop admin screens could
+   be generated for gtk or .Net just as easily 
+   as they are generated for web pages, since these
+   screens do not bear the burden of enforcing business
+   rules.
+</p>
+
+<h2>The androPage Factor</h2>
+   
+<p>The powerful [[androPage]] system allows programmers
+   to produce reports, inquiries and general displays 
+   without actually writing any code.  The framework
+   generates the pages and outputs with the same type
+   of methods used for the admin screens.
+</p>
+
+<p>Therefore, in any case where a program is composed
+   entirely of a database and androPages, then it could be
+   redeployed to the desktop with zero coding.
+   
+   
+<h2>Custom Displays</h2>
+
+<p>Different display methods have their various strengths
+   and weaknesses.  Desktop applications have advantages
+   that browsers cannot match and vice-versa.  
+</p>
+
+<p>Therefore it stands to reason that a quality web 
+   application will have custom pages that simply cannot
+   be presented on a desktop without recoding for the
+   desktop format.  If an Andromeda programmer wants
+   to deploy on both desktop and browser, the custom
+   displays will likely consume most of the duplicate
+   efforts.
+</p>
+
+    
+<h2>Other Comments</h2>
+
+<p>Andromeda implements design ideas that make it
+   uniquely suited to deploy applications simultaneously
+   on both desktop and web without duplicating business
+   code.  At this time we have no serious plans to
+   attempt this, but the idea is discussed from time
+   to time.
+</p>
+      

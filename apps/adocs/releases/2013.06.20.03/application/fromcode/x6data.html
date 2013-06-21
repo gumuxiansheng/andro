@@ -1,0 +1,26 @@
+title:x6Data
+parent:JSON Returns
+sequence:626
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6Data<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function x6Data takes a variable and sends it to the
+   browser.  After the page is loaded, or the JSON call is processed,
+   the data will appear as a property of the x6.data object.<br/></p>
+<h2>INPUTS</h2>
+<ul><br/><li> string - name of data element
+<li> mixed - the value or array<br/></ul><br/></ul>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function x6Data($name,$data) { 
+    $script = "\nx6.data.$name = ".json_encode_safe($data).";";
+    x6Script($script);
+}
+function x4Data($name,$data) {
+    if(vgfGet('x6',false)) return x6Data($name,$data);
+    $script = "\n\$a.data.$name = ".json_encode_safe($data).";";
+    x4Script($script);
+}<br/></ul>

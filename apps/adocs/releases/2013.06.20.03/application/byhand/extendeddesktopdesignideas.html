@@ -1,0 +1,104 @@
+title:Extended Desktop Design Ideas
+parent:System Architecture
+sequence:200
+aliases:
+
+
+<p>The Extended Desktop is all about <i>responsiveness</i>.  Users who
+   are comfortable with desktop database applications expect instant response
+   and a keyboard shortcut for everything.  These users will never accept the
+   click-wait-click-wait of the conventional website.  They need to see
+   the same responsiveness as the desktop or they will not use the program.
+</p>
+
+<h2>A Page Should Load Only Once</h2>
+
+<p>The most obvious problem with using a browser for database programs
+   is the 1-3 seconds you wait for page refreshes.  This will not work.
+   We need a page, once loaded, to be able to respond to user events,
+   including record navigation, without a complete page refresh.
+   Luckily, we have AJAX for this, so this can be done.  But deciding
+   to use Ajax is the easy part, the tough part comes after that
+   decision.
+</p>
+
+<h2>Ajax, Javascript and jQuery</h2>
+
+<p>Once we start using Ajax to replace complete trips to the server,
+   it becomes quickly obvious that there is going to be a lot of Javascript
+   in the Extended Desktop system.  Mouse clicks and keyboard events will
+   have to be processed by some Javascript, which may or may not send
+   off to the server for some stuff, which it must then deal with.  It
+   gets complicated fast, and leads to two distinct problems:
+</p>
+
+<ol><li>Javascript is all thumbs when it comes to DOM manipulation
+    <li>Some big decisions need to be made about what to put into Javascript
+        and what to do on the server.
+</ol>
+
+<p>Luckily, the amazing <a href="http://jquery.com">jQuery</a> library
+   more than solves problem number 1, because it provides a wealth of 
+   powerful and elegant ways to find exactly the elements we are looking 
+   for and manipulate them in any meaningful way.  Using jQuery makes it
+   quite easy to do things like send 7 invisible pages to the browser and
+   then provide links that switch between them -- giving the user that
+   instant responsiveness we want.
+</p>
+
+<p>Problem number two requires some decisions.  The Andromeda approach
+   is always to seek the solution that will be efficient and reliable,
+   which usually leads to simplicity as well.
+</p>
+
+<h2>Of PHP, HTML, and Javascript</h2>
+
+<p>With the blessings of Javascript, Ajax and jQuery comes the curse of
+   wondering where to put the code.  Suddenly there are several ways to do
+   anything.  Whereas before we had to do everything in PHP, we can now
+   split up our list of tasks in any number of ways.  This kind of freedom
+   can actually lead to "analysis paralysis" as the choices become
+   bewildering.
+</p>
+
+<p>After considerable trial and error, Ken Downs worked out the following
+   overall system for generating HTML, using CSS, and handling user events
+   in Javascript:
+</p>
+
+<ul><li>PHP is used to generate "inert" HTML.  This HTML has few if any
+        "onkeyup", "onmouseover" or any other such events defined.
+    <li>The delivered HTML contains far more elements than the user will
+        immediately see.  These are divided up into "Displays", which will be
+        switched on and off in response to user actions.  These are nested
+        one inside the other in a tree structure.
+    <li>The delivered HTML is studiously assigned HTML ID and CLASS attributes,
+        which are used extensively by the Javascript library to figure out
+        what is what.
+    <li>When the HTML is delivered, the Javascript library "initializes" it
+        by walking through the DOM tree. 
+    <li>During initialization, elements that have certain CSS Classes 
+        are heavily modified.  These elements get many methods assigned to them,
+        making them fully active objects.  They may also receive new properties,
+        such as special-purpose lists of certain child elements.  
+    <li>Also during initialization, inputs are modified so that certain things
+        happen on focus, blur, and so that they respond to keyboard events.
+    <li>When the entire tree is activated, the Javascript library invokes
+        the "activate()" method of the top of the tree.  This method was 
+        added during initialization.
+    <li>The activate method does different things depending on what kind of
+        object it is running on.  This results in the first Display
+        being made visible, with focus set to the first input.
+</ul>
+   
+<h2>Custom Application Pages</h2>
+
+<p>As of this writing, April 8, 2008, Ken Downs is working with a commercial
+   Andromeda programmer on an inventory package which will use the Extended
+   Desktop exclusively.  They are working together to determine how to make
+   it easiest for the programmer to make custom pages without having to code
+   CSS, HTML, JS, and PHP.  Complete details will be published when they
+   are available.
+</p>
+   
+

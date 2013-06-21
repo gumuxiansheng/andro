@@ -1,0 +1,29 @@
+title:htmlMacroGridWithData
+parent:HTML Generation
+sequence:934
+aliases:
+
+
+<h2>NAME</h2>
+<p>htmlMacroGridWithData<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP function htmlMacroGridWithData is a shortcut
+   that creates a grid for editing existing data.
+   The grid does not contain any buttons for [New], [Save], etc.,
+   it contains inputs that save immediately when the user changes
+   a value.<br/></p>
+<p>In standard usage, you execute a query using SQL_AllRows, then
+   call this macro to set up a grid allowing the user to edit
+   the data.<br/></p>
+<p>This macro assumes the grid is the only element on the page.
+   It will be high enough to leave space for an H1 above it and
+   and blank space below it.  It will be shifted about 1/3 across
+   the screen horizontally.<br/></p>
+<h2>INPUTS</h2>
+<p>array $dd - The data dictionary of the table being edited
+   mixed $cols - comma-separated list of columns, or array of columns
+   array $rows - an array of row arrays.  The skey column must be included.<br/></p>
+<h2>RETURNS</h2>
+<p>androHtml GRID object with inputs that save each value as the
+   user changes them.  Returns a free-standing HTML object, use
+   addChild() to add it into an existing HTML object.<br/></p>
