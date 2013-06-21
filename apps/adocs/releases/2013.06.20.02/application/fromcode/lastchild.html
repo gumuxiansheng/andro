@@ -1,0 +1,23 @@
+title:lastChild
+parent:androHtml
+sequence:2285
+aliases:
+
+
+<h2>NAME</h2>
+<p>lastChild<br/></p>
+<h2>FUNCTION</h2>
+<p>The method lastChild returns a reference to the last child element in this androHtml object.<br/></p>
+<p>RETURN VALUE
+    reference - reference to last child<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function lastChild() {
+    if(count($this->children)==0) {
+        return null;
+    }
+    else {
+        $retval = &$this->children[count($this->children)-1];
+        return $retval;
+    }
+}</pre>

@@ -1,0 +1,24 @@
+title:windowLocation
+parent:json
+sequence:2825
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.json.windowLocation<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6.json.windowLocation takes a
+   JSON request and executes it as a page request.<br/></p>
+<h2>EXAMPLE</h2>
+<p>The following example loads a new page<br/></p>
+<pre>      &lt;script&gt;
+      x6.json.init('x4Page','calendar');
+      x6.json.windowLocation();
+      &lt;/script&gt;
+</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+this.windowLocation = function() {
+    var entireGet = 'index.php?'+this.makeString()
+    window.location = entireGet;
+}</pre>

@@ -1,0 +1,179 @@
+title:Andromeda Documentation
+parent:Andromeda Hackers Guide
+sequence:0
+aliases:
+comments: true
+
+<b>Updated: Feb 7, 2009</b>
+
+<h2>If You Want To Download The Documentation</h2>
+
+<p>If you wish to download this documentation, including user
+   comments, the simplest way is to use the "wget" command
+   (or some Windows equivalent) and capture the entire
+   contents of http://www.andromeda-project.org.  This
+   command will give you what you want:
+</p>
+
+<pre class="code">
+$ cd /some/directory
+$ wget -nH -r -k http://www.andromeda-project.org/
+</pre>
+
+<p>The switches used will have the following effects:
+</p>
+<ul><li>The "-nH" option will put the docs directly into the
+        directory you are sitting in.  If you leave this out,
+        wget will make a directory called www.andromeda-project.org
+        and put the docs there.
+    <li>The "-r" option makes a recursive download.
+    <li>The "-k" option converts all of the links after download
+        so that they point to the files on your local machine.
+        This gives you complete off-line access to the docs.
+</ul>
+
+<p>You can repeat this command as often as desired to fetch a
+   local copy of the latest documentation.
+</p>
+
+<h2>Features of the Documentation System</h2>
+
+<p>The Andromeda Documentation is managed by an Andromeda application
+   named "adocs6".  It allows us to mix ROBODOC style doc blocks in
+   code with manually created pages.  This program supports news a
+   articles and user comments as well.
+</p>
+
+<ul><li>Reading of ROBODOC style comment blocks from source code.  The
+    program that does this is robophp.php program, which duplicates
+    the features of ROBODOC that we need and incorporates the other
+    features listed here.
+    <li>Integration of manually created pages.
+    <li>Allow for moderated user comments.
+    <li>Automatically create Index and Table of Contents.
+    <li>Track file and line number of each ROBODOC block, produce
+        a list of file.
+</ul>
+
+<h2>Syntax Coloring</h2>
+
+<p>Sytax coloring is provided by Google's "code prettifer", available
+   at <a href="http://code.google.com/p/google-code-prettify/"
+   >http://code.google.com/p/google-code-prettify/</a>.  This is a 
+   javascript program that runs when the page is loaded.  Code
+   blocks are surrounded by PRE tags with classname "prettyprint".
+   The YAML blocks also have the class "lang-ddyaml".
+</p>
+
+<p>The available colors and their designations are:</p>
+
+<ul><li class="str">.str, color: #080, internal token PR_STRING</li>
+    <li class="kwd">.kwd, color: #008, internal token PR_KEYWORD</li>
+    <li class="com">.com, color: #800, internal token PR_COMMENT</li>
+    <li class="typ">.typ, color: #606; internal token PR_TYPE
+    <li class="lit">.lit, color: #066; internal token PR_LITERAL
+    <li class="pun">.pun, color: #660; internal token PR_PUNCTUATION
+    <li class="pln">.pln, color: #000; internal token PR_PLAIN
+    <li class="tag">.tag, color: #008; internal token PR_TAG
+    <li class="atn">.atn, color: #606; internal token PR_ATTRIB_NAME
+    <li class="atv">.atv, color: #080; internal token PR_ATTRIB_VALUE
+    <li class="dec">.dec, color: #606; internal token PR_DECLARATION
+</ul>
+
+<p>For YAML, we match up the styles as follows:</p>
+
+<ul><li class="kwd">.kwd is used for top-level definitions.
+    <li class="atv">.atv is used for entity names and
+        property values.
+    <li class="pun">.pun is used for nested definitions.
+
+<h3>ROBODOC-style Blocks</h3>
+
+<p>The Andromeda documentation allows programmers to document 
+   functions, classes, properties and methods directly in code using
+   specially formatted comment blocks.  These blocks were originally
+   written up for use with ROBODOC, but ROBODOC did not give us enough
+   facility to integrate the results with other features, so the
+   robophp.php program was written.  This program implements the 
+   following ROBODOC features, anything not mentioned is not
+   implemented.
+</p>
+
+<ul><li>The basic begin/end structure.  A block begins with
+    "/****X*  Parent/Child", which is a comment begin "/*", followed
+    by three more asterisks, followed by a type designator (explained
+    below) another asterisk, and then the topic's parent, a slash,
+    and the topic name.  A topic ends with five asterisks on
+    a line.
+    <li>Inclusion of source code if desired.
+    <li>Use of capitalized section names like "FUNCTION", "NAME" etc.
+    <li>Use of indentation to indicate text that should be "PRE"
+        formatted.
+    <li>Use of asterisks to indicate UL lists.
+    <li>Scanning of all topics for references to all other topics,
+        replacing them with hyperlinks to the appropriate pages.
+    <li>Trapping of blocks that have not end-block.
+</ul>
+
+<p>In addition, we implement the following features:
+</p>
+<ul><li>Any PHP, HTML or JavaScript embedded in the block is 
+        escaped out for safe display.
+    <li>Robophp.php allows for spaces in topic names.
+    <li>Disambiguation pages for topics with the same name.
+</ul>
+    
+    
+<p>To learn more about these features, examine the examples, or 
+   visit the <a href="http://www.xs4all.nl/~rfsber/Robo/robodoc.html"
+   >RoOBODOC home page</a>.
+   
+<p>ROBODOC uses a letter in the begin block to indicate what kind
+   of block it is.  We make use of the following values:
+</p>
+<ul><li class="arrows">O - (Uppercase letter 'o') Javascript object
+    <li class="arrows">F - Javascript factory
+    <li class='arrows'>f - functions
+    <li class='arrows'>m - methods
+    <li class='arrows'>P - class or object properties
+    <li class='arrows'>c - class
+    <li class='arrows'>M - module (a top-level entry in the table of 
+                           contents
+    <li class='arrows'>Y - Database definition (table, column etc)
+    <li class='arrows'>Z - Database object property (description, type_id etc)
+</ul>
+
+<p>General practice is to include the source of any routine that
+   is less than 10 or 12 lines.
+</p>
+
+<p>For the NAME, we include the full object path where applicable,
+   which serves to reinforce the object hierarchy.  For example, the
+   method "fireEvent" of the "x6events" object would have a 
+   name of "x6events.fireEvent".
+</p>
+
+<p>Because Andromeda contains both Javascript and PHP libraries, 
+   the first sentence of each topic usually begins by stating the
+   relevant API and language of the topic, such as "The PHP method foo is
+   used to..." or "The Javascript Object foo is used to..." or
+   "The Javascript property foo.bar tracks..."  or even
+   "The database definition column defines a column for later
+   placement in tables..."
+</p>
+
+<h2>Wiki-style Features</h2>
+
+<p>The documentation makes use of two wiki-style functions, which
+   are image links &#91;[image:imagename.png]] and direct page
+   links as in &#91;[A Page name]].  
+</p>
+
+<p>Eventually the documentation will automatically seek strings  
+   which match page names and substitute in links, but until this
+   is available page links will be necessary.  
+</p>
+
+<p>Image links will always be used, there are no plans to replace
+   them with any other format or automated function.
+</p>

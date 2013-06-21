@@ -1,0 +1,23 @@
+title:firstChild
+parent:androHtml
+sequence:2261
+aliases:
+
+
+<h2>NAME</h2>
+<p>firstChild<br/></p>
+<h2>FUNCTION</h2>
+<p>The method firstChild returns a reference to the first child html element in this androHtml object.<br/></p>
+<p>RETURN VALUE
+    reference - reference to first child element<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function firstChild() {
+    if(count($this->children)==0) {
+        return null;
+    }
+    else {
+        $retval = &$this->children[0];
+        return $retval;
+    }
+}</pre>

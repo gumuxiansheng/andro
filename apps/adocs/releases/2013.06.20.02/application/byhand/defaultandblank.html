@@ -1,0 +1,68 @@
+title:Default and Blank
+parent:Automations
+sequence:100
+aliases:default,defaults,blank,blank value,blank values
+
+<p>The most basic kind of automation is supplying a default value
+   for a column.  Andromeda supports two types of defaults, a
+   literal default and a blank, or not-null default.
+</p>
+
+<h2>The BLANK Automation</h2>
+
+<p>Sometimes you want to make sure that a value does not start out
+   null.  For these columns, use the blank automation:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+table example:
+    # ...details....
+    
+    column add1:
+        automation_id: blank
+    column amt:
+        automation_id: blank
+    column date:
+        automation_id: blank
+</pre>
+
+<p>The BLANK automation will provide a type-specific blank value for
+   this column if the user does not supply a value in an INSERT.
+   For all character types this is an empty string.  For numerics this
+   is the number zero.  For dates there is no concept of a blank value,
+   so this actually stays at null.
+</p>
+
+<h2>The DEFAULT Automation</h2>
+
+<p>It is very common to want a column to start out with a literal
+   value.  Use the DEFAULT automation for this:
+</p>
+
+<pre class="prettyprint lang-ddyaml">
+column credi_rating:
+    description: Internal Credit Rating
+    type_id: numb
+    colprec: 4
+    colscale: 0
+    
+table example:
+    # ...details....
+    
+    column flag_active:
+        suffix: _active
+        automation_id: default
+        auto_formula: N
+    column credit_rating:
+        automation_id: default
+        auto_formula: 400
+        
+    # ALTERNATIVE MINIMUM SYNTAX
+    # Most automations can be written this way:
+    column flag_active:
+        suffix: _active
+        auto: default,N
+    column credit_rating:
+        auto: default,400
+</pre>
+

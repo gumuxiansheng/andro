@@ -1,0 +1,74 @@
+title:Definition-Oriented Programming
+parent:Essays
+sequence:0
+aliases:
+
+
+<p>Definition Oriented Programming (DOP) is an approach to programming in which the programmer creates definitions instead of program code. The Definitions are declarative, atomic, and machine-readable. They are processed by generators and libraries to produce a running system. </P>
+
+<p>The motivations are efficiency and correctness, which are further explained below. </P>
+
+<H2 CLASS="Heading2"><A NAME="The_Methodology"></A>The Methodology</H2>
+
+<p>The DOP approach was created for database applications and it is assumed that the Definitions are primarily a database specification. </P>
+<p>For any particular application, the Definitions themselves must completely specify three things: </P>
+
+<UL >
+<LI CLASS="P1"><SPAN CLASS="T1">Security.</SPAN> Who can read or write what information. </li>
+<LI CLASS="P1"><SPAN CLASS="T1">Constraints.</SPAN> Rules about what must always be true, such as a customer's total open orders and invoices may not exceed his credit limit. </li>
+
+<LI CLASS="P2">
+<P CLASS="P2"><SPAN CLASS="T1">Calculations.</SPAN> The formulas for derived values, such as the value of an order as the sum of all line items after discounts and taxes. </li></UL>
+
+<p>All development tasks are determined entirely by the Security, Constraints, and Calculations. Once they have been compiled, the rest of the development process can be automated. The tasks that are eliminated by automation include: </P>
+
+<UL >
+<LI CLASS="P3">Any creation of Data Definition Language (DDL) to create or modify database structures. </li>
+<LI CLASS="P3">Any creation of program code that implements the definitions. Manual coding is replaced by generated code and framework libraries that use the definitions. </li>
+<LI CLASS="P3">Any creation of UI admin code for manual table maintenance. Like the implementation code, this is replaced by generated code and framework libraries that use the definitions. </li>
+<LI CLASS="P4">Presentation-Quality documentation. Definitions lend themselves naturally to documentation-generating systems. </li>
+</UL>
+
+<p>The term "Definition Oriented Programming" points to the fact that the programmer's effort is spent creating the definitions of Security, Constraints, and Calculations. These definitions are the basis of the entire application. </P>
+
+<H2 CLASS="Heading2"><A NAME="Advantages"></A>Advantages</H2>
+
+<p><SPAN CLASS="T1">Synchronization.</SPAN> This is one of the largest advantages of the DOP approach, if the not the single largest advantage. The fundamental problem of reconciling specifications, table stuctures, program code and documentation simply evaporates, since the latter three are all generated directly from the first. </P>
+
+<p><SPAN CLASS="T1">Reduced Labor.</SPAN> When compared to approaches that must first compile specifications and then implement them in an imperative language (along with many other tasks), DOP development requires far less labor, due to the fact that human judgment is required only in the compilation of the Definitions and so many other tasks are automated. </P>
+
+<p><SPAN CLASS="T1">Transparency.</SPAN> This is a restatement of the "Synchronization" benefit when looked at from the point of view of the customer. The documentation that is generated out of the spec can be reviewed with customers directly to suggest changes. </P>
+
+<p><SPAN CLASS="T1">No Unproductive Mandates.</SPAN> Some methodologies attempt to improve quality by mandating certain procedures, such as the gathering of natural language <A HREF="http://en.wikipedia.org/wiki/Business_rules">Business Rules</A>. The problem with those mandates is that it can never be proven that the natural language specs are consistent with the program that gets written. The entire process creates a layer of work as the natural language specs are clarified into the precise specification that had to get written anyway. The DOP approach "admits" as it were that the requirements for a database application should be expressed as database specifications, and that you should not waste time hiding this fact from the customer. Therefore, the brainstorming and design processes are deliberately and explicitly aimed towards gathering DOP-compliant database definitions, avoiding the layered-on work of maintaining un-testable or imprecise Business Rules. </P>
+
+<H2 CLASS="Heading2"><A NAME="Definitions_and_Declarative_Programming"></A>Definitions and Declarative Programming</H2>
+
+<p>A Definition Oriented Programming toolset can make use of any <A HREF="http://en.wikipedia.org/wiki/Declarative_programming">Declarative Programming</A> language, or even CSV files. In practice, however, highly verbose formats such as XML preclude easy editing in a text editor. </P>
+
+<p>Definition Oriented Programming differs from the broader category of <A HREF="http://en.wikipedia.org/wiki/Declarative_programming">Declarative Programming</A> in that it focuses on database design as the foundation of application development. It further differs from other database-centric efforts by including Calculations in the basic description of a database. </P>
+
+<p>As of May 2007 Andromeda supports Definition files in the <A HREF="http://www.yaml.org/">YAML</A> synax. Prior to that Andromeda used a home-grown CSS-like syntax to store Definitions. The home-grown solution is being phased out aggressively and will disappear from public releases at the earliest opportunity. </P>
+
+<H2 CLASS="Heading2"><A NAME="Relation_To_Other_Methodologies"></A>Relation To Other Methodologies</H2>
+
+<H3 CLASS="Heading3"><A NAME="Business_Rules"></A>Business Rules</H3>
+
+<p>Definitions are superficially similar to <A HREF="http://en.wikipedia.org/wiki/Business_rules">Business Rules</A>, especially in that they are declarative, atomic, and distinct. </P>
+
+<p>The first of two main differences is that <A HREF="http://en.wikipedia.org/wiki/Business_rules">Business Rules</A> are expressed in a natural language, where Definitions are expressed in a <A HREF="http://en.wikipedia.org/wiki/Declarative_language">Declarative Language</A>. This is a requirement in order to gain the benefits of automation and synchronization listed above. </P>
+
+<p>The second main difference is that Business Rules are meant to be technology-agnostic, but the DOP approach says that a database application should be specified in database terms. This carries with it the notion that non-programmers are perfectly capable of discussing table design. </P>
+
+<H3 CLASS="Heading3"><A NAME="Relational_Theory"></A>Relational Theory</H3>
+
+<p>The principles of normalization are useful for eliminating a certain category of error, but theorists tend to shun all discussion of calculated values because they denormalize tables. However, as calculated values are a fact of life, any system that hopes to treat the entire matter of application development must find a way to consider calculated values as first-class citizens. </P>
+
+<p>Therefore, Definition Oriented Programming considers a database specification to be incomplete unless it includes calculated columns. This does not mean that the tables themselvs must contain calculated columns, only that the columns themselves must be defined in the context of real tables. For example, a customer's calculated total orders and invoices is a property of the customer, so DOP expects this to be defined as a column in the CUSTOMERS table, with a formulat to express its value. Whether or not the column ends up as part of a table or a view is an implementation decision. </P>
+
+<H2 CLASS="Heading2"><A NAME="Implementations"></A>Implementations</H2>
+
+<p>The term "Definition Oriented Programming" was coined by the author of Andromeda, Kenneth Downs, in order to distinguish it from projects which have the same goals but use very different methods. Downs found that many of the questions he was asked assumed an approach he was not taking, usually the questioner assumed code-centric MVC or some type of database theory that lacked treatment of calculated values. This led to a need to distinguish the approach with a name and formal description so as to avoid a constant rehashing of the same topics. </P>
+
+<p>As of this writing, February 2007, no other effort besides Andromeda is known to take this approach. </P><P CLASS="Standard"></P>            
+
+
