@@ -1,0 +1,213 @@
+# =======================================================
+# ADOCSROBO - Andromeda Documentation - robo style
+#
+# (C) Copyright 2008 by Kenneth Downs
+# Distributed under the GPL Version 2.0 or later
+#
+# =======================================================
+group admin:
+    description: Administrators
+    permsel: "Y"
+    permins: "Y"
+    permupd: "Y"
+    permdel: "Y"
+
+# =======================================================
+# 
+# Module: main
+#
+# =======================================================
+module main:
+    uisort: 0
+    description: Main Module
+
+    group $LOGIN:
+        permsel: "Y"    
+
+# >> ----------------------------------------------------------------
+# >> Articles
+# >>
+column headline:
+    type_id: vchar
+    colprec: 100
+    description: Headline
+
+column article_html:
+    type_id: mime-h-f
+    description: Text
+
+table articles:
+    module: main
+    uisort: 100
+    description: Articles
+    
+    column headline:
+        primary_key: "Y"
+        uisearch: "Y"
+    column date:
+        description: Dateline
+        uisearch: "Y"
+    column desclong:
+        uisearch: "Y"
+    column article_html:
+    column ts_ins:
+    column uid_ins:
+    
+# <<
+# << Articles
+# << ----------------------------------------------------------------
+
+# >> ----------------------------------------------------------------
+# >> Top level table of contents
+# >>
+column page:
+    type_id: vchar
+    colprec: 150
+    description: Page
+table toctop:
+    module: main
+    uisort: 150
+    description: Top Level TOC
+    x6profile: grid
+    
+    column page:
+        uisearch: "Y"
+        primary_key: "Y"
+    column queuepos:
+        uisearch: "Y"
+    column ts_ins:
+        uisearch: "Y"
+    column uid_ins:
+        uisearch: "Y"
+    column ts_upd:
+        uisearch: "Y"
+    column uid_upd:
+        uisearch: "Y"
+        
+content toctop:
+    columns: [ page, queuepos ]
+    values:
+        - [ Short Description of Andromeda, 1 ]
+        - [ General Information, 2 ]
+        - [ Installation, 3 ]
+        - [ Creating an Application, 4 ]
+        - [ Database Programming, 5 ]
+        - [ Web Programming, 6 ]
+        - [ Database Access, 7 ]
+        - [ The Admin Interface, 8]
+        - [ Using x6 Plugins, 9 ]
+        - [ System Architecture, 10 ]
+        - [ Essays, 11 ]
+        - [ Andromeda Hackers Guide, 12 ]
+        - [ Unsorted Pages, 13 ]
+        
+table pages:
+    module: main
+    uisort: 150
+    description: Pages (for RI)
+    x6profile: grid
+    
+    column page:
+        uisearch: "Y"
+        primary_key: "Y"
+    column ts_ins:
+        uisearch: "Y"
+    column uid_ins:
+        uisearch: "Y"
+    column ts_upd:
+        uisearch: "Y"
+    column uid_upd:
+        uisearch: "Y"
+
+table aliases: 
+    module: main
+    uisort: 151
+    description: Aliases for Search
+    x6profile: grid
+    
+    column description:
+        primary_key: Y
+        uisearch: Y
+    column page:
+        uisearch: Y
+
+# >> ----------------------------------------------------------------
+# >> Comments 
+# >>
+column comment:
+    type_id: int
+    description: Comment Number
+table comments:
+    module: main
+    uisort: 200
+    description: Comments
+    group $LOGIN:
+        permins: "Y"
+        permsel: "Y"
+
+    column comment:
+        automation_id: sequence
+        primary_key: "Y"
+        uisearch: "Y"
+    foreign_key pages:
+        uisearch: "Y"
+    column flag_moderated:
+        uisearch: Y
+        suffix: _moderated
+        description: OK To Display
+        auto: default, N
+        group admin:
+            permupd: "Y"
+            permsel: "Y"
+        group $LOGIN:
+            permsel: "Y"
+    column email:
+        uisearch: "Y"
+    column name:
+        uisearch: "Y"
+    column notes:
+    column ts_ins:
+        uisearch: "Y"
+# <<
+# << Comments
+# << ----------------------------------------------------------------
+
+module processes:
+    uisort: 200
+    description: Processes
+
+
+# >> MENU
+menu uimage:
+    module: processes
+    uisort: 100
+    description: Upload an Image
+menu upage:
+    module: processes
+    uisort: 110
+    description: Upload a Page
+    spaceafter: Y
+menu robophp:
+    module: processes
+    uisort: 200
+    description: Get Pages From Code
+menu rebuild:
+    module: processes
+    uisort: 210
+    description: Rebuild Static Pages
+    spaceafter: Y
+menu load1st:
+    module: processes
+    uisort: 300
+    description: Load Pages from adocsrobo
+
+# >> ----------------------------------------------------------------
+# >> 
+# >>
+
+# <<
+# <<
+# << ----------------------------------------------------------------
+
+
+

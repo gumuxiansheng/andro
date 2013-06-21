@@ -1,0 +1,35 @@
+title:x6dialogs
+parent:Javascript API
+sequence:1821
+aliases:
+
+
+<h2>NAME</h2>
+<p>Javascript API/x6dialogs<br/></p>
+<h2>FUNCTION</h2>
+<p>The two Javascript dialogs x6dialogs.alert and
+   x6dialogs.confirm replace the Javascript native functions
+   alert() and confirm().<br/></p>
+<p>The third dialog, x6dialogs.pleaseWait, puts up a
+   suitable notice if your application must do something that
+   will take more than 1-2 seconds.<br/></p>
+<p>They are all fully modal, respond to appropriate keystrokes
+   like 'Y', 'N', 'Enter' and 'Esc', and maintain the same
+   style as the rest of the template.<br/></p>
+<h2>PORTABILITY</h2>
+<p>The x6dialogs object expects your HTML to contain two
+   invisible (display:none) divs.  One is called "dialogoverlay"
+   and the other is called "dialogbox".  These two divs are
+   provided by default on Andromeda templates.  If you make
+   your own template and include androHTMLFoot.php at the bottom
+   then your templates will also have these divs.<br/></p>
+<p>Making a page fully modal is difficult, because if an INPUT
+   has focus it will be possible for the user to use the keyboard
+   to navigate around.  Therefore the code in x4 checks
+   the x6dialogs.currentDialog property, and disallow all activity
+   if that property is not false.  If you make your own
+   custom pages that are not Extended Desktop pages, you must have
+   your input's onkeyPress methods also check this property.<br/></p>
+<p>If this object is used outside of Andromeda, you must have
+   the file phpWait.php in your public web root, otherwise the
+   x6dialogs.confirm function will not work.<br/></p>

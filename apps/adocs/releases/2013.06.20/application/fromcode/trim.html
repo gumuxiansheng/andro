@@ -1,0 +1,22 @@
+title:trim
+parent:String-Extensions
+sequence:208
+aliases:
+
+
+<h2>NAME</h2>
+<p>String.trim<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript function trim removes leading and trailing
+   spaces from a string.<br/></p>
+<h2>EXAMPLE</h2>
+<p>Example usage:
+</p>
+<pre>     var x = '  abc  ';
+     var y = x.trim();  // returns 'abc'
+</pre>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g,"");
+}</pre>

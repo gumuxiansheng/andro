@@ -1,0 +1,32 @@
+title:form
+parent:androHtml
+sequence:1384
+aliases:
+
+
+<h2>NAME</h2>
+<p>androHTML/form<br/></p>
+<h2>FUNCTION</h2>
+<p>The PHP method form creates an HTML FORM node, adds it as a
+   child to the current node, and returns a reference to it.<br/></p>
+<p>All inputs are optional.<br/></p>
+<h2>INPUTS</h2>
+<p>string $name - the name of the form.  Default: "Form1"
+   string $method - the method (GET or POST).  Default: POST
+   string $action - the URI to route to.  Default "index.php"
+    string $x6page - the value of x6page to go to, defaults to none.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function &form($name='Form1',$method='POST',$action="index.php",$x6page=''){
+    $form = $this->h('form');
+    $form->hp['id']     = $name;
+    $form->hp['name']   = $name;
+    $form->hp['method'] = $method;
+    $form->hp['action'] = $action;
+    $form->hp['enctype']="multipart/form-data";
+    if($x6page <> '') {
+        $symbol = strpos($action,'?')===false ? '?' : '&';
+        $form->hp['action'].=$symbol."x6page=".$x6page;
+    }
+    return $form;
+}</pre>

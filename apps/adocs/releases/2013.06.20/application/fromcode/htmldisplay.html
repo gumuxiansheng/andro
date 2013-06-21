@@ -1,0 +1,20 @@
+title:htmlDisplay
+parent:String-Extensions
+sequence:415
+aliases:
+
+
+<h2>NAME</h2>
+<p>String.htmlDisplay<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript function htmlDisplay converts the HTML
+   characters ampersand '&amp;', less than '&lt;' and
+   greater-than '&gt;' to their HTML entities equivalents
+   for safe display.<br/></p>
+<p>The reverse function is htmlEdit.<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+String.prototype.htmlDisplay = function() {
+    if(this==null)  return '';
+    return this.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}</pre>

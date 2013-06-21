@@ -1,0 +1,28 @@
+title:uniqueId
+parent:x6
+sequence:1017
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6.uniqueId<br/></p>
+<h2>FUNCTION</h2>
+<p>Generates a random number between 1 and 1,000,000 that is
+   not being used as the ID for any DOM object.  Useful for
+   generating unique and content-free Id's for DOM objects.<br/></p>
+<h2>EXAMPLE</h2>
+<p>Example usage would be:<br/></p>
+<pre>     var x = document.createElement('div');
+     x.id = x6.uniqueId();
+</pre>
+<h2>RESULT</h2>
+<p>id - returns the id<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+uniqueId: function() {
+    var retval = 0;
+    while( $('#'+retval).length > 1  || retval==0) {
+        var retval=Math.floor(Math.random()*1000000);
+    }
+    return retval;
+},</pre>
