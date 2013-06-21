@@ -25,7 +25,7 @@
     <div id='a6links'>
         <div style="float: left">
         <a href="index.php">Home</a>
-        <!--<a href="thedemo.html">Demos</a>-->
+        <a href="thedemo.html">Demos</a>
         <a href="tableofcontents.html">Documentation</a>
         <a href="downloads.html">Download</a>
         <a href="credits.html">Credits</a>
