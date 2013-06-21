@@ -1,0 +1,162 @@
+title:androPage
+parent:
+sequence:10600
+aliases:
+
+
+<p>Most of the programming that we do for web sites follows
+   a simple pattern.  The user request comes to the web
+   server, we pull some
+   data from a database, and we display it to the user.
+   This pattern holds true even for operations that do not
+   at first glance seem very similar.  A simple export to
+   a CSV file is the same as producing
+   a polished PDF report, you pull it out and give it to the
+   user.  The only difference is the display format.  Even a page of
+   complex HTML is just another way to display data that was
+   taken from the database.
+</p>
+
+<p>The Andromeda "andropage" feature builds on this idea.
+   If you can spell out the data you want, including some 
+   crucial details like filters and ordering, it should be
+   pretty simple to just tell the framework to use some standard
+   output method, like a Smarty template, PDF, CSV, or even
+   a plain vanilla framework-generated dump of the data.
+</p>
+
+<h2>Getting Started</h2>
+
+<p>First, choose a name for your page.  It should not be the same
+   as a table, but otherwise use any convention you want.
+   In this example we will use "ex_customers" because we are going
+   to do an example page out of the CUSTOMERS table of the
+   <a href="http://www.andromeda-project.org/demo">Demonstration
+   Database</a>.
+</p>
+
+<p>Once you have a name, fire up your favorite editor and
+   we will work up "--name--.page.yaml", which should be saved
+   in your applications directory.  Here is the complete example
+   of ex_customers.page.yaml:
+</p>
+
+<pre><span class="syntax0"><span class="syntax10">options:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">title:</span><span class="syntax13"> </span><span class="syntax13">Customer</span><span class="syntax13"> </span><span class="syntax13">Report</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">table</span><span class="syntax10"> </span><span class="syntax10">customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">customer:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">description:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_order:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">compare:</span><span class="syntax13"> </span><span class="syntax13">between</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">amt1</span><span class="syntax13"> </span><span class="syntax13">and</span><span class="syntax13"> </span><span class="syntax13">@</span><span class="syntax13">amt2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_paid:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax9"> </span><span class="syntax9">column</span><span class="syntax9"> </span><span class="syntax9">amt_balance:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">uifilter</span><span class="syntax10"> </span><span class="syntax10">amt1:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">numb</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colprec</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colscale</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Minimum</span><span class="syntax13"> </span><span class="syntax13">Balance</span>
+<span class="syntax10">uifilter</span><span class="syntax10"> </span><span class="syntax10">amt2:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">type_id:</span><span class="syntax13"> </span><span class="syntax13">numb</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colprec</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">10</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13">colscale</span><span class="syntax13">:</span><span class="syntax13"> </span><span class="syntax13">2</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Maximum</span><span class="syntax13"> </span><span class="syntax13">Balance</span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+</span></pre>
+
+<h2>Linking To This Page</h2>
+
+<p>Before we go into too many details, we will see how to link to 
+   this page.
+</p>
+
+<p>You can put this page on your menu in the
+   database YAML file.  Here is an example of two placements from
+   the demo database:
+</p>
+
+<pre><span class="syntax0"><span class="syntax1">#</span><span class="syntax1"> </span><span class="syntax1">======================================================================</span>
+<span class="syntax1">#</span><span class="syntax1"> </span><span class="syntax1">REPORTS</span>
+<span class="syntax1">#</span><span class="syntax1"> </span><span class="syntax1">======================================================================</span>
+<span class="syntax10">module</span><span class="syntax10"> </span><span class="syntax10">appreps:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisort:</span><span class="syntax13"> </span><span class="syntax13">400</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Reports</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax10">menu</span><span class="syntax10"> </span><span class="syntax10">ex_customers:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">appreps</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisort:</span><span class="syntax13"> </span><span class="syntax13">100</span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Customers</span>
+
+<span class="syntax10">menu</span><span class="syntax10"> </span><span class="syntax10">ex_salestax:</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">module:</span><span class="syntax13"> </span><span class="syntax13">appreps</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">uisort:</span><span class="syntax13"> </span><span class="syntax13">200</span>
+<span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax13"> </span><span class="syntax8"> </span><span class="syntax8">description:</span><span class="syntax13"> </span><span class="syntax13">Tax</span><span class="syntax13"> </span><span class="syntax13">Report</span>
+</span></pre>
+
+<p>You can link to this page by specifying the "gp_page"
+   parameter in any hyperlink: 
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;a</span><span class="syntax17"> </span><span class="syntax17">href</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">http</span><span class="syntax14">:</span><span class="syntax14">/</span><span class="syntax14">/</span><span class="syntax14">www</span><span class="syntax14">.</span><span class="syntax14">andromeda</span><span class="syntax14">-</span><span class="syntax14">project</span><span class="syntax14">.</span><span class="syntax14">org</span><span class="syntax14">/</span><span class="syntax14">demo</span><span class="syntax14">/</span><span class="syntax14">?</span><span class="syntax14">gp_page</span><span class="syntax14">=</span><span class="syntax14">ex_customers</span><span class="syntax14">&quot;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">&gt;</span>A hard-coded link to my example!<span class="syntax17">&lt;/a</span><span class="syntax17">&gt;</span>
+</span></pre>
+
+
+<p>You can also supply filter values in the hyperlink.  Filter values
+   are explained in more detail below, but for now it is enough to know
+   that if you want to pre-supply them with a link you name the parameters
+   "txt_" + filter name, as in this example:
+</p>
+
+<pre><span class="syntax0"><span class="syntax17">&lt;?php</span>
+<span class="syntax10">$url</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax14">http</span><span class="syntax14">:</span><span class="syntax14">/</span><span class="syntax14">/</span><span class="syntax14">www</span><span class="syntax14">.</span><span class="syntax14">andromeda</span><span class="syntax14">-</span><span class="syntax14">project</span><span class="syntax14">.</span><span class="syntax14">org</span><span class="syntax14">/</span><span class="syntax14">demo</span><span class="syntax14">/</span><span class="syntax14">&quot;</span><span class="syntax18">;</span>
+<span class="syntax10">$parms</span><span class="syntax18">=</span><span class="syntax13">'</span><span class="syntax13">?gp_page=ex_customers</span><span class="syntax13">'</span>
+    <span class="syntax18">.</span><span class="syntax13">'</span><span class="syntax13">&amp;txt_amt1=10000</span><span class="syntax13">'</span>
+    <span class="syntax18">.</span><span class="syntax13">'</span><span class="syntax13">&amp;txt_amt2=30000</span><span class="syntax13">'</span><span class="syntax18">;</span>
+<span class="syntax17">?&gt;</span>
+<span class="syntax17">&lt;a</span><span class="syntax17"> </span><span class="syntax17">href</span><span class="syntax18">=</span><span class="syntax14">&quot;</span><span class="syntax17">&lt;?</span><span class="syntax18">=</span><span class="syntax10">$url</span><span class="syntax18">.</span><span class="syntax10">$parms</span><span class="syntax17">?&gt;</span><span class="syntax14">&quot;</span>
+<span class="syntax17"> </span><span class="syntax17"> </span><span class="syntax17">&gt;</span>A hard-coded link to my example!<span class="syntax17">&lt;/a</span><span class="syntax17">&gt;</span>
+
+</span></pre>
+
+<h2>What the User Sees</h2>
+
+<p>When you link to an androPage, the first thing the user sees is
+   a page requesting his filter values:
+</p>
+
+[[image:ap1.jpg]]
+
+<p>When the user clicks on the print button, the default action is 
+   to print a PDF report.  Notice that the report makes use of the
+   title and displays the filter values:
+</p>
+   
+
+[[image:ap2.jpg]]
+
+<h2>Controlling The Flow</h2>
+
+<p>Sometimes you do not wish the user to see the first screen asking
+   for filter values.  To prevent this, pass in at least one filter 
+   value as a parameter.
+</p>
+
+<h2>Output Modes</h2>
+
+<p>So far androPage supports two output modes:
+</p>
+
+<ul><li>pdf
+    <li>smarty
+</ul>
+
+<p>We are planning the following output modes:</p>
+
+<ul><li>A plain vanilla HTML display, with various tricks such as
+        having foreign key values appear as hyperlinks.
+    <li>A plain-text report format suitable for high speed
+        line printers.
+    <li>Non-smarty HTML/PHP pages that can contain any code.
+</ul>
+

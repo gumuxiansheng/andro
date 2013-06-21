@@ -1,0 +1,29 @@
+title:pleaseWait
+parent:x6dialogs
+sequence:2063
+aliases:
+
+
+<h2>NAME</h2>
+<p>x6dialogs.pleaseWait<br/></p>
+<h2>FUNCTION</h2>
+<p>The Javascript method x6dialogs.pleaseWait is not,
+   strictly speaking, a dialog, because it does not require
+   any user feedback, and in fact does not even allow it.<br/></p>
+<p>When you call x6dialogs.pleaseWait, a modal box pops up
+   that is stylistically consistent with the overall template
+   and which has an animated gif and the message "Please Wait".<br/></p>
+<p>Use this method when you are executing a long-running
+   (greater than 2-3 seconds) process and you must let the
+   user know the program is working on something.<br/></p>
+<p>The user cannot clear this display.  You must clear it
+   yourself when work has been completed by calling
+   x6dialogs.clear().<br/></p>
+<h2>EXAMPLE</h2>
+<p>Here is a usage example:<br/></p>
+<pre>         x6dialogs.pleaseWait();
+         for(var x in rowsToSave()) {
+            // some actions to save to server
+         }
+         x6dialogs.clear();
+</pre>

@@ -1,0 +1,43 @@
+title:Groups
+parent:Security
+sequence:100
+aliases:group
+
+<p>A database group is defined with a name, a description, and
+   default system-wide permissions:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+# A super-user group that can read-write anything by
+# default, though these permissions can be overwritten
+# for individual tables.
+group supermen:
+    description: sysem super-users
+    permsel: Y
+    permins: Y
+    permupd: Y
+    permdel: Y
+    
+# A group that can read anything:
+group readitall:
+    description: The Auditors
+    permsel: Y
+    permins: N
+    permupd: N
+    permdel: N
+</pre>
+
+<p>The groups defined above will have the permissions assigned
+   to them as listed unless overwritten at the module level or
+   at the table level.
+</p>
+
+<p>Groups can be defined anywhere in your YAML file, though by
+   convention we define them at the top with the modules.  Groups
+   are top-level entities, so their first indent is always zero.
+</p>
+
+<p>The four permissions "permsel", "permins", "permupd" and "permdel"
+   control the four fundamental database operations of SELECT, INSERT,
+   UPDATE, and DELETE.
+</p>

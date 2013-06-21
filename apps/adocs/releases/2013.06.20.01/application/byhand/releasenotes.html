@@ -1,0 +1,85 @@
+title:            Release Notes
+parent:Quick Tour
+sequence:600
+aliases:
+
+                            
+                            <h2>2007-06-13</h2>
+<h3>New UI Features</h3>
+<p>Overall the User Interface has become "snappier", with the following changes:
+</p>
+<ul><li> FETCH'd columns are now updated via AJAX during data entry in real time, instead of requiring a save and complete page refresh.
+</ul>
+<ul><li> The user's currently selected textbox is now highlighted, giving a visual cue as to where the user is.
+</ul>
+<ul><li> When the user changes a value the background color changes to yellow to provide a visual cue that the screen needs to be saved.
+</ul>
+<h3>New Properties: uicols and uirows</h3>
+<p>Columns that are of type "text" are displayed using the HTML TEXTAREA widget.  You can now specify the size of the widget with the properties [[uicols]] and [[uirows]].
+</p>
+<h3>New AJAX Table Maintenance</h3>
+<p>When a user goes into a normal screen, they can browse, lookup, do new entries, or skip between entries with things like Next, Previous, etc.
+</p>
+<p>Andromeda will now do all of these screen changes as AJAX calls if you make the following setting in applib.php:
+</p>
+<p>vgfSet('ajaxTM',1);
+</p>
+<h3>Speedier System Variables</h3>
+<p>There is an undocumented system in place for putting variables into the database.  The system is defined in andro_universal.add.
+</p>
+<p>To make use of it, give a group read/write access to the "system" module. Then look on the menu for the entry "System Variables".  Enter any variable you like, such as "PDF_TOP_MARGIN_OFFSET", which is the name of an option we use in our medical billing program.  After you have entered a batch of variables, click on the link that says "Force Cache Reload", otherwise your users will not see the new values.
+</p>
+<p>In PHP code, obtain the value at any time with this command:
+</p>
+<p>$default=0;
+$x = OptionGet('PDF_TOP_MARGIN_OFFSET',$default);
+</p>
+<p>The system has been sped up by use of the "Force cache reload" system.  This writes the entire table out to an associative array on disk, so that regular calls to [[OptionGet]] do not require database access.
+</p>
+<h3>More Flexible Foreign and Primary Keys</h3>
+<p>Before this change, Andromeda had certain limitations on the ability to define automations for foreign key and primary key columns.  This limitation came from the fact that we checked keys early, before calculations occurred.  We have moved key validation to the end of the validation sequence, making it possible to define primary and foreign key columns as automated columns.
+</p>
+<h3>Bug Fixes</h3>
+<ul><li> Sourceforge bug 1727555, "Timestamp goes unquoted", fixed.
+</ul>
+<ul><li> Sourceforge bug 1727719, "x_welcome missing </p>", fixed.
+</ul>
+<ul><li> Sourceforge bug 1727497, "infinite loop when table name = module name", fixed.  Builder now detects this and stops building, with informative error message.
+</ul>
+<ul><li> Sourceforge bug 1727582, docs inconsistent about "cascade_action" or "cascadeaction".  Fixed.
+</ul>
+<ul><li> Popup calendar would not close when a date was selected, this is now fixed.
+</ul>
+<ul><li> On editing screen, if user attempted save and there were validation errors, the system might lose track of the original row.  This is fixed.
+</ul>
+<h2>2007-05-22</h2>
+<h3>New Feature</h3>
+<p>Support for [[value_min]] and [[value_max]] in a
+database specification.
+</p>
+<h3>Introducing AJAX_X3</h3>
+<p>The beginning of "AJAX_X3", a general term for all new
+UI changes that will make Andromeda more like a desktop application.  You can turn these on in an
+application with the line "vgaSet('AJAX_X3',true);" in
+your application/applib.php file.  <b><i>Note that this was changed in later release 2007-06-14.</i></b>
+</p>
+<p>The first X3 feature is AJAX fetch.  Consider the case
+where you have an orders line, and the price is FETCHed
+from the items table.  Without X3, the user types in
+the item code but they do not see the price until they
+save it and it goes to the server.  With X3, the price
+(and any FETCHed value) is filled in as soon as they
+enter the item code.
+</p>
+<h2>2007-05-18</h2>
+<h3>New Features</h3>
+<ul><li> THIS PAGE!  Having release notes part of the on-line docs is new with this release.
+<li> LOOKUP MODE: The "ENTER" key now activates the lookup.
+<li> LOOKUP MODE: There is now on-screen help that describes the options
+<li> LOOKUP MODE: Use of ranges, lists, and comparisons
+<li> NEW ENTRY MODE: The "ENTER" key now saves
+</ul>
+<h3>Bug Fixes</h3>
+<p>The "More Detail" and "Go Back" links were broken during some experimental UI work.  That was corrected.
+</p>                                                    
+                            

@@ -1,0 +1,105 @@
+title:The QUEUEPOS Automation
+parent:Automations
+sequence:500
+aliases:queuepos,playlist,playlists,ordering
+
+<p>This automation was originally cooked up in response to a question
+   about how to keep playlists automatically sorted.  But it is also
+   very useful in certain business applications.
+</p>
+
+<p>The QUEUEPOS maintains an ordered list.  It is best shown with
+   an example.  Consider this table:
+</p>
+
+<table class="chart">
+  <thead>
+    <tr><th>Song
+        <th>Playlist Spot
+  </thead>
+  <tbody>
+    <tr><td>The Desert Is On Fire
+        <td>1
+    <tr><td>Sultans of Swing
+        <td>2
+    <tr><td>Nancy Whiskey
+        <td>3
+    <tr><td>Prophecies
+        <td>4
+    <tr><td>Battle of Evermoer
+        <td>5
+</table>
+
+<p>Now we wish to insert a new song, "Romeo and Juliet" at spot
+   number one.  The Andromeda philosophy says that the application
+   should have to do only one insert, and the rest of the playlist
+   should be automatically updated.  After a single insert of
+   the new song, we want the playlist to look like this:
+</p>
+
+<pre class="prettyprint lang-sql">
+INSERT INTO SONGS (songname,spot) values ('Romeo and Juliet',1);
+</pre>
+
+<table class="chart">
+  <thead>
+    <tr><th>Song
+        <th>Playlist Spot
+  </thead>
+  <tbody>
+    <tr><td>Romeo and Juliet
+        <td>1
+    <tr><td>The Desert Is On Fire
+        <td>2
+    <tr><td>Sultans of Swing
+        <td>3
+    <tr><td>Nancy Whiskey
+        <td>4
+    <tr><td>Prophecies
+        <td>5
+    <tr><td>Battle of Evermoer
+        <td>6
+</table>
+
+<p>To make the above playlist, we would do the following:
+</p>
+
+<pre class="prettyprint lang-ddymal">
+column songname:
+    type_id: vchar
+    colprec: 100
+    description: Song Name
+column spot:
+    type_id: int
+    description: Position in Playlist
+    
+table songs:
+    module: music
+    description: Songs
+    
+    column songname:
+        primary_key: Y
+        uisearch: Y
+    column spot:
+        uisearch: Y
+        auto: queuepos
+</pre>
+
+<p>Once we have set up this table, every time a user inserts or
+   updates a row with a value of SPOT that matches an existing
+   row, the existing row has its value bumped up by 1.  If this
+   causes it to match an existing row, that row gets bumped up
+   by 1, and so forth.
+</p>
+
+<h2>QUEUEPOS On Child Tables</h2>
+
+<p>In the example above, the order of the list is maintained
+   on the entire table.  But sometimes you want to have sub-lists
+   within a table.  For instance, perhaps we have a variety of
+   playlists and we want to maintain order within them, but we do
+   not want them to interfere with each other.  In this case
+   we add the "auto_formula" property that names a parent table.
+   The QUEUEPOS values will then be maintained only for rows that
+   match on the same value of the foreign key.
+</p>

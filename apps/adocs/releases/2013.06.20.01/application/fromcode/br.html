@@ -1,0 +1,20 @@
+title:br
+parent:androHtml
+sequence:1530
+aliases:
+
+
+<h2>NAME</h2>
+<p>br<br/></p>
+<h2>FUNCTION</h2>
+<p>The method br adds the provided amount of break elements to this androHtml object as children
+    elements.<br/></p>
+<h2>INPUTS</h2>
+<p>number $count - Number of break elements to add<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function br($count=1) {
+    for($x=1;$x<=$count;$x++) {
+        $this->children[] = '<br/>';
+    }
+}</pre>

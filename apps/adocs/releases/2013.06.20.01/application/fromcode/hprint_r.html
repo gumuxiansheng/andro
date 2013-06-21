@@ -1,0 +1,22 @@
+title:hprint_r
+parent:HTML Generation
+sequence:4389
+aliases:
+
+
+<h2>NAME</h2>
+<p>hprint_r<br/></p>
+<h2>FUNCTION</h2>
+<p>Dumps the variable $anyvalue, but wraps it in HTML PRE tags so
+    it is readable in a browser.<br/></p>
+<h2>INPUTS</h2>
+<p>mixed $anyvalue - variable to dump<br/></p>
+<h2>RETURN</h2>
+<p>string    HTML_Fragment<br/></p>
+<h2>SOURCE</h2>
+<pre class='prettyprint'>
+function hprint_r($anyvalue) {
+    echo "<pre>\n";
+   print_r($anyvalue);
+    echo "</pre>";
+}</pre>

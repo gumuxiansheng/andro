@@ -1,0 +1,203 @@
+title:Using Paypal
+parent:eCommerce
+sequence:100
+aliases:
+
+<p>Andromeda's support for Paypal is fairly mature, having been put
+   in at early stages of Andromeda development.  Andromeda supports
+   a variety of test features and configuration parameters, as well
+   as a simple method for coding up methods that Paypal requires.
+</p>
+
+<span class="info">Andromeda is not a shopping cart system.  It does
+   not have pre-built table for items and carts.  Andromeda assumes
+   you will create tables for these.
+</span>
+
+<h2>The Configuration Parameters</h2>
+
+<p>The paypal configuration parametes can be set at run-time by
+   going to System: System Configuration, and clickin on the 
+   paypal tab:
+</p>
+
+[[image:paypalconfig.png]]
+
+<p>The configuration parameters are:
+</p>
+
+<ul><li><b>Paypal callback URL</b>.  Very important.  This is the URL that
+    Paypal will use to call back to your system.  It usually takes the
+    form "http://www.example.com"
+    <li><b>Paypal Image (logo) URL</b>.  If the site you are setting up has
+    a logo image that they want displayed on the Paypal page, put its
+    URL here.  Blank is ok.
+    <li><b>Paypal pay to</b>.  Enter the email address of the Paypal 
+    account that will receive funds.
+    <li><b>Paypal - No Ship-to needed</b>.  Some purchases do not require
+    a ship-to address.  If you set this to Y, Paypal will know you are not
+    providin a ship-to and will not complain.
+    <li><b>Paypal returns to x_paypalfinal.php</b>.  If set to Y, then 
+    after the user pays on the Paypal site and clicks "return to vendor"
+    then they will go to a page called x_paypalfinal.php.  This is usually
+    set to Y, and you have to code up that page.
+    <li><b>Skip paypal, simulate payment made</b>.  This is very useful 
+    in early stages of development and testing.  If set to Y, Paypal is
+    skipped altogether.  Use this to prove out your basic purchase cycle.
+    <i>Some coding is required to use this feature</i>.
+    <li><b>Paypal Sandbox Mode</b>.  Once you have proven out your basic
+    purchase cycle, turn off the simulation and turn this on to go through
+    the Paypal sandbox.
+    <li><b>Force All Amounts to One Dollar</b>.  If you want your site
+    owner to be able to walk through the purchase process repeatedly 
+    in live mode, set this to Y.  All amounts sent to paypal are forced
+    to only $1.00.  This allows you to complete real transactions that can
+    later be refunded, without having large amounts of money change hands.
+</ul>
+
+<h2>The General Approach</h2>
+
+<p>In general, your program will have some combination of tables to 
+   hold orders.  When a user is shopping, you will be creating an order,
+   but the order will not be approved until the user pays at the Paypal
+   site.
+</p>
+
+<p>One difficulty with Paypal is their <i>callback system</i>.  When a
+   user goes to Paypal and makes a payment, Paypal sends a request back
+   to your site with the purchase information.  When that request is
+   received your site has no session information at all, all you have
+   is the order information being handed back to you.  Therefore, most
+   Andromeda programmers use the <i>Paypal Invoice Number</i> to 
+   match back to the transaction they have just started.  We will see
+   how to do this below.
+</p>
+
+<h2>Going To Paypal</h2>
+
+<p>At some point your ordering system will put the user on a page
+   that says something like "click here to pay at Paypal".  When the
+   user clicks on that link, you need a page that does something
+   like this:
+</p>
+
+<pre class="prettyprint">
+<?php
+class x6paypal extends androX6 {
+    function x6main() {
+        # Step 1, make a global $paypal variables
+        global $paypal
+        
+        # Step 2, assign values into the paypal array
+        #         from the GET/POST parameters
+        $paypal['invoice']  = gp('invoice');
+        $paypal['item_name']= gp('item_name');
+        $paypal['amount']   = gp('order_total');
+        $paypal['shipping'] = 0;
+        $paypal['no_shipping'] = 1;
+        $paypal['currency_code'] = 'USD';
+
+        # Step 3, perhaps also ship-to and bill-to info
+        $paypal['firstname']= gp('fname');
+        $paypal['lastname'] = gp('lname');
+        $paypal['email']    = gp('email');
+            
+        $paypal['address1'] = gp('add1');
+        $paypal['address2'] = gp('add2');
+        $paypal['city']     = gp('city');
+        $paypal['state']    = gp('state');
+        $paypal['zip']      = gp('zip9');
+        $paypal['phone_1']  = gp('phonex_1');
+        $paypal['phone_2']  = gp('phonex_2');
+            
+        # Now either go to paypal, or if in "fake"
+        # mode skip directly to post-processing
+        if(configGet('paypal_fake','N') == 'N') {
+            # This is the 'real' path, where the user
+            # goes off to paypal.
+            #
+            # First erase any output that may have been
+            # sent to the browser...
+            while(ob_get_level()>0) ob_end_clean();
+            
+            # ... then load the page that jumps us to 
+            #     paypal and EXIT, very important
+            include('html_main_paypal_process.php');
+            exit;
+        }
+        else {
+            # You can optionally code up the "fake" path
+            # If you do, you need to open a log and pass
+            # it to your "success" program, because that is 
+            # what the framework would do if the transaction
+            # were real
+            #
+            $log = syslogOpen('paypal_fake');
+            gpSet('invoice',$info['filestem']);
+            gpSet('txn_id' ,'fake');
+            gpSet('payment_gross',$paypal['amount']);
+            paypal_ipn_success($log);
+            syslogClose($log);
+            $href=vgfGet('paypal_return_url').'&flag=success';
+            echo "&lt;script>window.location='$href'&lt;/script>";
+            exit;
+        }
+    }
+}
+?>
+</pre>
+
+<h2>Special Return-to Pages</h2>
+
+<p>You may want the user to come back to a special page that
+   is tailored to their account.  You can do this by telling the
+   framework where they should come back to.  Insert the following
+   snippet anywhere in the code example above:
+</p>
+
+<pre class="prettyprint">
+<?php
+# Set the url of where they should come back
+vgfSet('paypal_return_url'
+    ,'?x6page=accounts&account='.urlencode(gp('account'))
+);
+?>
+</pre>
+
+<h2>Processing a Successful Payment</h2>
+
+<p>The code above shows how to send the user off the to Paypal site.
+   Once they have paid on Paypal, a callback will be made to your
+   site and you need to code up the routine that does any required
+   post-processing.
+</p>
+
+<p>This routine is called "paypal_ipn_success", and it goes into
+   your application/applib.php file.  The routine should accept one
+   parameter, which is a handle to a log.  You can make log entries
+   while you process using sysLogEntry('text').
+</p>
+
+<pre class='prettyprint'>
+<?php
+# FILE: application/applib.php
+#
+function paypal_ipn_success($log) {
+    # paypal sends back the invoice number, that is how
+    # we match to our original transaction
+    #
+    $invoice = gp('invoice');
+    
+    # Protect against sql injection
+    $sInvoice = SQLFC($invoice);
+    
+    # update the invoice
+    SQL("update invoices set flag_paid = 'Y' where invoice = $sInvoice");
+}
+</pre>
+
+<p>The user never sees anything while this code is processing.  This
+   is behind-the-scenes code that executes while the user is sitting
+   on Paypal looking at a "payment processing" message.
+</p>
+

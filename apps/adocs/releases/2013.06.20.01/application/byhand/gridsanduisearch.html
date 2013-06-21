@@ -1,0 +1,148 @@
+title:Grids and UISEARCH
+parent:The Admin Interface
+sequence:300
+aliases:
+
+<h1>Grids and UISEARCH</h1>
+
+<p>Andromeda can display tables to users for editing in three
+   ways, which we call "profiles".  The "grid" and "twosides"
+   profiles do not really allow much in the way of 
+   customization, they are meant to be simple.  However, their
+   appearance can still be controlled somewhat.
+</p>
+
+<p>All three profiles are affected the columns that have 
+   "uisearch: Y" set within a particular table.  
+</p>
+
+<ul><li>The grid profile displays for the user only the 
+    columns that have uisearch set to Y.
+    <li>The twosides profile displays on the left only those
+    columns that have uisearch set to Y.
+    <li>The conventional profile always shows a search grid
+    on its first page -- and the columns in that grid are
+    those that have uisearc set to Y.
+</ul>
+
+<p>For example, here is the YAML from the Andromeda Demo app
+   that defines the ORDERS table.  Notice that some of the
+   columns have the "uisearch: Y" setting:
+</p>
+
+<pre class="prettyprint lang-ddymal"
+    style="max-height: 150px; overflow: auto">
+table orders:
+    module: ordering
+    description: Orders
+    uisort: 100
+    
+    column recnum_ord:
+        suffix: _ord
+        description: Order
+        uisearch: "Y"
+        primary_key: "Y"
+    foreign_key customers:
+        uisearch: "Y"
+    column date:
+        uisearch: "Y"
+    
+    column description:
+        description: Company Name
+        uisearch: "Y"
+        auto: fetch,customers.description
+    column first_name:
+        auto: fetch,customers.first_name
+    column last_name:
+        auto: fetch,customers.last_name
+    column add1:
+        auto: fetch,customers.add1
+    column add2:
+        auto: fetch,customers.add2
+    column city:
+        auto: fetch,customers.city
+    column state:
+        auto: fetch,customers.state
+    column zip9:
+        auto: fetch,customers.zip9
+    foreign_key custtypes:
+    column custtype:
+        auto: fetch,customers.custtype
+    column pct99_discount:
+        suffix: _discount
+        auto: fetch,custtypes.pct99_discount
+
+    column amt_retail:
+        suffix: _retail
+        description: Order Retail
+        auto: sum,orderlines.amt_retail
+    column amt_discount:
+        suffix: _discount
+        description:  Total Discount
+        auto: sum,orderlines.amt_discount
+    column amt_net:
+        suffix: _net
+        description: Order Net
+        auto: sum,orderlines.amt_net
+    foreign_key taxauths:
+    column taxauth:
+        auto: fetchdef,customers.taxauth
+    column taxpct:
+        prefix: tax
+        description: Tax Percent
+    column amt_tax:
+        suffix: _tax
+        description: Tax Amount
+        auto: sum,orderlines.amt_tax
+    column amt_due:
+        suffix: _due
+        description: Amount Due
+        chain calc:
+            test 00:
+                return: @amt_net + @amt_tax
+</pre>
+
+<p>The resulting admin screen shows the columns recnum_ord,
+   customer, date, and description as search columns:
+</p>
+
+[[image:conventional1.png]]
+
+<h2>Column Security</h2>
+
+<p>If your database implements column security, and you
+   set the uisearch property for a column that not everybody
+   can see, then it will simply not be there for those 
+   who cannot see it -- no error or warning is displayed.
+</p>
+
+<h2>Overriding In Code</h2>
+
+<p>You can override the list of uisearch columns in code.  This
+   is more convenient because you do not have to run a build if
+   you change just one column, but it puts the responsibility onto
+   the programmer to be certain every column named actually 
+   exists in the table.
+</p>
+
+<p>Like all database overrides, put the changes into your
+   application/applib.php file, in a function named "ddTable_"
+   plus the name of the table, and accept one parameter by
+   reference:
+</p>
+
+<pre class="prettyprint">
+<?php
+# FILE: APPLICATION/APPLIB.PHP
+#
+function ddtable_customers(&$dd) {
+    $dd['projections']['_uisearch'] = 'comma,list,of,columns';
+}
+?>
+</pre>
+
+<p>Notice that we are assigning a comma-delimited list of 
+   columns, into the "projections" array, and the specific
+   key is "_uisearch".
+</p>
+
